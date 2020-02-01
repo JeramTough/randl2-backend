@@ -3,10 +3,14 @@ package com.jeramtough.randl2.service;
 import com.jeramtough.jtcomponent.task.response.ReturnResponse;
 import com.jeramtough.randl2.bean.adminuser.AdminUserCredentials;
 import com.jeramtough.randl2.bean.adminuser.RegisterAdminUserParams;
+import com.jeramtough.randl2.bean.adminuser.UpdateAdminUserParams;
 import com.jeramtough.randl2.dao.entity.AdminUser;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.jeramtough.randl2.dto.AdminUserDto;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -23,4 +27,12 @@ public interface AdminUserService extends IService<AdminUser> {
     String adminLogout();
 
     String addAdminUser(RegisterAdminUserParams registerAdminUserParams);
+
+    String removeAdminUser(Long userId);
+
+    List<AdminUserDto> getAllAdminUser();
+
+    String updateAdminUser(UpdateAdminUserParams params);
+
+    AdminUserDto getOneAdminUser(Long uid);
 }

@@ -55,7 +55,7 @@ public class SuperAdmin {
         systemUser.setPassword(password);
         Role role=new Role();
         role.setDescription("超级管理员");
-        role.setFid(0);
+        role.setFid(0L);
         role.setName(roleName);
         systemUser.setRole(role);
         systemUser.setUserType(UserType.ADMIN);

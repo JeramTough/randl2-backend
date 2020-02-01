@@ -1,9 +1,10 @@
-package com.jeramtough.randl2.dao.entity;
+package com.jeramtough.randl2.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -14,11 +15,10 @@ import io.swagger.annotations.ApiModel;
  * @since 2020-01-26
  */
 @ApiModel(value="Role对象", description="")
-public class Role implements Serializable {
+public class RoleDto implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "fid", type = IdType.AUTO)
     private Long fid;
 
     private String name;

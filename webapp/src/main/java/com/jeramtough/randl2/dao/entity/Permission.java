@@ -5,7 +5,6 @@ import java.io.Serializable;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
@@ -22,34 +21,34 @@ public class Permission implements Serializable {
     private static final long serialVersionUID=1L;
 
     @TableId(value = "fid", type = IdType.AUTO)
-    private Integer fid;
+    private Long fid;
 
-    private Integer apiId;
+    private Long apiId;
 
-    private Integer roleId;
+    private Long roleId;
 
 
-    public Integer getFid() {
+    public Long getFid() {
         return fid;
     }
 
-    public void setFid(Integer fid) {
+    public void setFid(Long fid) {
         this.fid = fid;
     }
 
-    public Integer getApiId() {
+    public Long getApiId() {
         return apiId;
     }
 
-    public void setApiId(Integer apiId) {
+    public void setApiId(Long apiId) {
         this.apiId = apiId;
     }
 
-    public Integer getRoleId() {
+    public Long getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Integer roleId) {
+    public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
 

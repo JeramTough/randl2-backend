@@ -19,18 +19,18 @@ public class Api implements Serializable {
     private static final long serialVersionUID=1L;
 
     @TableId(value = "fid", type = IdType.AUTO)
-    private Integer fid;
+    private Long fid;
 
     private String path;
 
     private String description;
 
 
-    public Integer getFid() {
+    public Long getFid() {
         return fid;
     }
 
-    public void setFid(Integer fid) {
+    public void setFid(Long fid) {
         this.fid = fid;
     }
 
@@ -52,7 +52,7 @@ public class Api implements Serializable {
 
     @Override
     public String toString() {
-        return "Api{" +
+        return "ApiDto{" +
         "fid=" + fid +
         ", path=" + path +
         ", description=" + description +
