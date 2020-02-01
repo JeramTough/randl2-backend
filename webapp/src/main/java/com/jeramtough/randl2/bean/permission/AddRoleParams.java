@@ -10,23 +10,15 @@ import javax.validation.constraints.NotNull;
  * by @author JeramTough
  * </pre>
  */
-public class UpdateRoleParams {
+public class AddRoleParams {
 
-    @ApiModelProperty(value = "角色Id", example = "1", required = true)
-    @NotNull(message = "{'code':5020,'placeholders':['角色Id']}")
-    private Long fid;
-
+    @ApiModelProperty(value = "角色名", example = "TEST", required = true)
+    @NotNull(message = "{'code':5000,'placeholders':['角色名']}")
     private String name;
 
+    @ApiModelProperty(value = "角色描述", example = "who", required = true)
+    @NotNull(message = "{'code':5000,'placeholders':['角色描述']}")
     private String description;
-
-    public Long getFid() {
-        return fid;
-    }
-
-    public void setFid(Long fid) {
-        this.fid = fid;
-    }
 
     public String getName() {
         return name;

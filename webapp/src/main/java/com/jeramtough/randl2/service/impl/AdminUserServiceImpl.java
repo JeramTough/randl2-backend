@@ -52,7 +52,7 @@ public class AdminUserServiceImpl extends BaseServiceImpl<AdminUserMapper, Admin
                                 MapperFacade mapperFacade,
                                 RoleMapper roleMapper,
                                 PasswordEncoder passwordEncoder) {
-        super(wc);
+        super(wc, mapperFacade);
         this.myUserFactory = myUserFactory;
         this.mapperFacade = mapperFacade;
         this.roleMapper = roleMapper;

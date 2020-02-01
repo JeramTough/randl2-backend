@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-01-26
  */
 @RestController
-@Api(tags = {"接口权限的接口"})
+@Api(tags = {"控制接口权限的接口"})
 @RequestMapping("/permission")
 public class PermissionController extends BaseSwaggerController {
 
