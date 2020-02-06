@@ -17,12 +17,17 @@ public class SuperAdmin {
     private String username;
 
     @Value("${spring.security.user.password}")
-    private  String password;
+    private String password;
 
-    public static final String ROLE_NAME="SUPER_ADMIN";
-    public static final String ROLE="ROLE_SUPER_ADMIN";
+    public static final String ROLE_NAME = "SUPER_ADMIN";
 
     private String roleName = ROLE_NAME;
+
+    private Long uid=0L;
+
+    private Long roleId=0L;
+
+    private Long surfaceImageId = 0L;
 
     public String getUsername() {
         return username;
@@ -48,17 +53,18 @@ public class SuperAdmin {
         this.roleName = roleName;
     }
 
-    public SystemUser toSystemUser(){
-        SystemUser systemUser =new SystemUser();
-        systemUser.setUid(0L);
+    public SystemUser toSystemUser() {
+        SystemUser systemUser = new SystemUser();
+        systemUser.setUid(uid);
         systemUser.setUsername(username);
         systemUser.setPassword(password);
-        Role role=new Role();
+        Role role = new Role();
         role.setDescription("超级管理员");
-        role.setFid(0L);
+        role.setFid(roleId);
         role.setName(roleName);
         systemUser.setRole(role);
         systemUser.setUserType(UserType.ADMIN);
+        systemUser.setSurfaceImageId(surfaceImageId);
         return systemUser;
     }
 }

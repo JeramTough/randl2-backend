@@ -7,12 +7,12 @@ import com.jeramtough.randl2.component.userdetail.SystemUser;
 import com.jeramtough.randl2.component.userdetail.UserType;
 import com.jeramtough.randl2.dao.entity.AdminUser;
 import com.jeramtough.randl2.dao.entity.Role;
+import com.jeramtough.randl2.dao.entity.SurfaceImage;
 import com.jeramtough.randl2.dao.mapper.AdminUserMapper;
-import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;
 import com.jeramtough.randl2.dao.mapper.RoleMapper;
+import com.jeramtough.randl2.dao.mapper.SurfaceImageMapper;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -31,17 +31,21 @@ public class AdminUserLoginer implements UserLoginer {
     private final AdminUserMapper adminUserMapper;
     private final RoleMapper roleMapper;
     private final MapperFacade mapperFacade;
+    private final SurfaceImageMapper surfaceImageMapper;
+
 
     public AdminUserLoginer(
             PasswordEncoder passwordEncoder,
             SuperAdmin superAdmin,
             AdminUserMapper adminUserMapper,
-            RoleMapper roleMapper, MapperFacade mapperFacade) {
+            RoleMapper roleMapper, MapperFacade mapperFacade,
+            SurfaceImageMapper surfaceImageMapper) {
         this.passwordEncoder = passwordEncoder;
         this.superAdmin = superAdmin;
         this.adminUserMapper = adminUserMapper;
         this.roleMapper = roleMapper;
         this.mapperFacade = mapperFacade;
+        this.surfaceImageMapper = surfaceImageMapper;
     }
 
     @Override
@@ -65,11 +69,13 @@ public class AdminUserLoginer implements UserLoginer {
                     passwordEncoder.matches(adminUserCredentials.getPassword(),
                             adminUser.getPassword());
             if (passwordIsRight) {
+
                 //所有用户只能拥有一种角色
                 Role role = roleMapper.selectById(adminUser.getRoleId());
                 SystemUser systemUser = mapperFacade.map(adminUser, SystemUser.class);
                 systemUser.setUserType(UserType.ADMIN);
                 systemUser.setRole(role);
+
                 return systemUser;
             }
         }

@@ -40,9 +40,13 @@ public class AdminUserController extends BaseSwaggerController {
                     required = true, dataType = "String", defaultValue = "superadmin"),
             @ApiImplicitParam(name = "password", value = "密码", paramType = "query",
                     required = true, dataType = "String", defaultValue = "superadmin")})
-    @ApiResponses(value = {@ApiResponse(code = 1001, message = "登录失败，请检查账号或密码")})
-    public RestfulApiResponse login(@RequestParam String username,
-                                    @RequestParam String password) {
+    @ApiResponses(value = {
+            @ApiResponse(code = 1001, message = "登录失败，请检查账号或密码"),
+            @ApiResponse(code = 1002, message = "登录失败! [%s]参数不能为空"),
+            @ApiResponse(code = 1004, message = "密码长度范围在8-16位；只允许非空白任意字符"),
+            @ApiResponse(code = 1003, message = "用户名长度范围在5-16位；只能为数字或者字母；不能含有特殊字符"),})
+    public RestfulApiResponse login(@RequestParam(required = false) String username,
+                                    @RequestParam(required = false) String password) {
         AdminUserCredentials adminUserCredentials = new AdminUserCredentials(username,
                 password);
         return getSuccessfulApiResponse(adminUserService.adminLogin(adminUserCredentials));

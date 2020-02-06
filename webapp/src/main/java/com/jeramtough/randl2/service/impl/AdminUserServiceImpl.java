@@ -1,6 +1,7 @@
 package com.jeramtough.randl2.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.bean.adminuser.AdminUserCredentials;
@@ -13,7 +14,9 @@ import com.jeramtough.randl2.component.userdetail.login.UserLoginer;
 import com.jeramtough.randl2.dao.entity.AdminUser;
 import com.jeramtough.randl2.dao.mapper.AdminUserMapper;
 import com.jeramtough.randl2.dao.mapper.RoleMapper;
+import com.jeramtough.randl2.dao.mapper.SurfaceImageMapper;
 import com.jeramtough.randl2.dto.AdminUserDto;
+import com.jeramtough.randl2.dto.SystemUserDto;
 import com.jeramtough.randl2.service.AdminUserService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +42,12 @@ import java.util.List;
  */
 @Service
 public class AdminUserServiceImpl extends BaseServiceImpl<AdminUserMapper, AdminUser>
-        implements AdminUserService {
+        implements AdminUserService, WithLogger {
 
     private final MyUserFactory myUserFactory;
     private final MapperFacade mapperFacade;
     private final RoleMapper roleMapper;
+    private final SurfaceImageMapper surfaceImageMapper;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -51,16 +55,19 @@ public class AdminUserServiceImpl extends BaseServiceImpl<AdminUserMapper, Admin
                                 MyUserFactory myUserFactory,
                                 MapperFacade mapperFacade,
                                 RoleMapper roleMapper,
+                                SurfaceImageMapper surfaceImageMapper,
                                 PasswordEncoder passwordEncoder) {
         super(wc, mapperFacade);
         this.myUserFactory = myUserFactory;
         this.mapperFacade = mapperFacade;
         this.roleMapper = roleMapper;
+        this.surfaceImageMapper = surfaceImageMapper;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public String adminLogin(AdminUserCredentials adminUserCredentials) {
+    public SystemUserDto adminLogin(AdminUserCredentials adminUserCredentials) {
+        BeanValidator.verifyDto(adminUserCredentials);
 
         UserLoginer userLoginer = super.getWC().getBean(AdminUserLoginer.class);
         SystemUser systemUser = userLoginer.login(adminUserCredentials);
@@ -74,10 +81,18 @@ public class AdminUserServiceImpl extends BaseServiceImpl<AdminUserMapper, Admin
         grantedAuthorityList.add(
                 new JaasGrantedAuthority("ROLE_" + systemUser.getRole().getName(),
                         systemUser));
-        securityContext.setAuthentication(
+        UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(systemUser.getUsername(),
-                        systemUser.getPassword(), grantedAuthorityList));
-        return "用户成功登录";
+                        systemUser.getPassword(), grantedAuthorityList);
+        token.setDetails(systemUser);
+        securityContext.setAuthentication(token);
+
+        SystemUserDto systemUserDto = getMapperFacade().map(systemUser, SystemUserDto.class);
+        String surfaceImage = surfaceImageMapper.selectById(
+                systemUser.getSurfaceImageId()).getSurfaceImage();
+        systemUserDto.setSurfaceImage(surfaceImage);
+
+        return systemUserDto;
     }
 
 

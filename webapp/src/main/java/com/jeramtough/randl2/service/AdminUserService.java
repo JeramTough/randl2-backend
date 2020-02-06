@@ -7,6 +7,7 @@ import com.jeramtough.randl2.bean.adminuser.UpdateAdminUserParams;
 import com.jeramtough.randl2.dao.entity.AdminUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jeramtough.randl2.dto.AdminUserDto;
+import com.jeramtough.randl2.dto.SystemUserDto;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -22,7 +23,7 @@ import java.util.List;
  */
 public interface AdminUserService extends IService<AdminUser> {
 
-    String adminLogin(AdminUserCredentials adminUserCredentials);
+    SystemUserDto adminLogin(AdminUserCredentials adminUserCredentials);
 
     String adminLogout();
 

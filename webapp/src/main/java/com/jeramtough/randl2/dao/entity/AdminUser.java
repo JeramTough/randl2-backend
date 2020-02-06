@@ -25,6 +25,8 @@ public class AdminUser implements Serializable {
 
     private Long roleId;
 
+    private Long surfaceImageId;
+
     private String username;
 
     private String phoneNumber;
@@ -38,6 +40,14 @@ public class AdminUser implements Serializable {
     private String registrationIp;
 
     private Integer accountStatus;
+
+    public Long getSurfaceImageId() {
+        return surfaceImageId;
+    }
+
+    public void setSurfaceImageId(Long surfaceImageId) {
+        this.surfaceImageId = surfaceImageId;
+    }
 
     public Long getRoleId() {
         return roleId;

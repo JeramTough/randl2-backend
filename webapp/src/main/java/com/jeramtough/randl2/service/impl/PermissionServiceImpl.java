@@ -1,6 +1,7 @@
 package com.jeramtough.randl2.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.bean.permission.PermissionParams;
@@ -27,7 +28,7 @@ import java.util.List;
  */
 @Service
 public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permission> implements
-        PermissionService {
+        PermissionService , WithLogger {
 
     private final RoleMapper roleMapper;
 
@@ -68,7 +69,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         for (Long apiId : permissionParams.getApiIds()) {
             getBaseMapper().delete(new QueryWrapper<Permission>()
                     .eq("api_id", apiId)
-                    .eq("rrole_id",
+                    .eq("role_id",
                             permissionParams.getRoleId()));
         }
 

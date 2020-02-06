@@ -2,6 +2,7 @@ package com.jeramtough.randl2.component.userdetail;
 
 import com.jeramtough.randl2.component.userdetail.UserType;
 import com.jeramtough.randl2.dao.entity.Role;
+import com.jeramtough.randl2.dao.entity.SurfaceImage;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -33,6 +34,8 @@ public class SystemUser implements Principal {
     private UserType userType;
 
     private Role role;
+
+    private Long surfaceImageId;
 
     public Long getUid() {
         return uid;
@@ -117,5 +120,13 @@ public class SystemUser implements Principal {
     @Override
     public String getName() {
         return getUsername();
+    }
+
+    public Long getSurfaceImageId() {
+        return surfaceImageId;
+    }
+
+    public void setSurfaceImageId(Long surfaceImageId) {
+        this.surfaceImageId = surfaceImageId;
     }
 }

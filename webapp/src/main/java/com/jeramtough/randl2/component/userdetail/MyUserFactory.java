@@ -24,15 +24,12 @@ import java.time.LocalDateTime;
 public class MyUserFactory {
 
     private final PasswordEncoder passwordEncoder;
-    private final SuperAdmin superAdmin;
     private final MapperFacade mapperFacade;
 
     @Autowired
     public MyUserFactory(
-            PasswordEncoder passwordEncoder,
-            SuperAdmin superAdmin, MapperFacade mapperFacade) {
+            PasswordEncoder passwordEncoder, MapperFacade mapperFacade) {
         this.passwordEncoder = passwordEncoder;
-        this.superAdmin = superAdmin;
         this.mapperFacade = mapperFacade;
     }
 
@@ -41,6 +38,7 @@ public class MyUserFactory {
         adminUser.setRegistrationTime(LocalDateTime.now());
         adminUser.setAccountStatus(1);
         adminUser.setRoleId(2L);
+        adminUser.setSurfaceImageId(1L);
         adminUser.setPassword(passwordEncoder.encode(params.getPassword()));
         return adminUser;
     }

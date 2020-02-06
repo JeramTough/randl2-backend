@@ -16,7 +16,7 @@ import org.junit.Test;
  * by @author JeramTough
  * </pre>
  */
-public class DatabaseTest {
+public class CodeTest {
 
     @Test
     public void test1() {

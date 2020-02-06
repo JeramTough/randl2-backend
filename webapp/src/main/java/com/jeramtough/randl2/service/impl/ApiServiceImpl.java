@@ -1,6 +1,7 @@
 package com.jeramtough.randl2.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.bean.permission.AddApiParams;
@@ -25,7 +26,8 @@ import java.util.List;
  * @since 2020-01-26
  */
 @Service
-public class ApiServiceImpl extends ServiceImpl<ApiMapper, Api> implements ApiService {
+public class ApiServiceImpl extends ServiceImpl<ApiMapper, Api> implements ApiService,
+        WithLogger {
 
     private final MapperFacade mapperFacade;
 
