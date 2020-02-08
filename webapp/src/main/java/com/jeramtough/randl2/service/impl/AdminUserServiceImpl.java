@@ -1,12 +1,17 @@
 package com.jeramtough.randl2.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.PageList;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.bean.QueryByPageParams;
 import com.jeramtough.randl2.bean.adminuser.AdminUserCredentials;
 import com.jeramtough.randl2.bean.adminuser.RegisterAdminUserParams;
 import com.jeramtough.randl2.bean.adminuser.UpdateAdminUserParams;
+import com.jeramtough.randl2.component.db.QueryPage;
 import com.jeramtough.randl2.component.userdetail.MyUserFactory;
 import com.jeramtough.randl2.component.userdetail.SystemUser;
 import com.jeramtough.randl2.component.userdetail.login.AdminUserLoginer;
@@ -208,6 +213,13 @@ public class AdminUserServiceImpl extends BaseServiceImpl<AdminUserMapper, Admin
         adminUserDto.setPassword("");
         adminUserDto.setRole(roleMapper.selectById(adminUser.getRoleId()));
         return adminUserDto;
+    }
+
+    @Override
+    public QueryPage<AdminUser> getAdminUserListByPage(QueryByPageParams queryByPageParams) {
+        QueryPage<AdminUser> queryPage = new QueryPage<>(queryByPageParams);
+        queryPage = getBaseMapper().selectPage(queryPage, null);
+        return queryPage;
     }
 
 }

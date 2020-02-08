@@ -1,9 +1,9 @@
 package com.jeramtough.randl2.action.controller;
 
 
-import com.jeramtough.jtlog.facade.L;
 import com.jeramtough.jtweb.action.controller.BaseSwaggerController;
 import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
+import com.jeramtough.randl2.bean.QueryByPageParams;
 import com.jeramtough.randl2.bean.adminuser.AdminUserCredentials;
 import com.jeramtough.randl2.bean.adminuser.RegisterAdminUserParams;
 import com.jeramtough.randl2.bean.adminuser.UpdateAdminUserParams;
@@ -73,6 +73,14 @@ public class AdminUserController extends BaseSwaggerController {
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
     public RestfulApiResponse getAllAdminUser() {
         return getSuccessfulApiResponse(adminUserService.getAllAdminUser());
+    }
+
+    @ApiOperation(value = "分页查询", notes = "分页查询管理员用户信息")
+    @RequestMapping(value = "/page", method = {RequestMethod.GET})
+    public RestfulApiResponse getAdminUserByPage(
+             QueryByPageParams queryByPageParams) {
+        return getSuccessfulApiResponse(
+                adminUserService.getAdminUserListByPage(queryByPageParams));
     }
 
     @ApiOperation(value = "查询一个", notes = "得到一个管理员用户信息")

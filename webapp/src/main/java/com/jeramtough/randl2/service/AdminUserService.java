@@ -1,9 +1,11 @@
 package com.jeramtough.randl2.service;
 
 import com.jeramtough.jtcomponent.task.response.ReturnResponse;
+import com.jeramtough.randl2.bean.QueryByPageParams;
 import com.jeramtough.randl2.bean.adminuser.AdminUserCredentials;
 import com.jeramtough.randl2.bean.adminuser.RegisterAdminUserParams;
 import com.jeramtough.randl2.bean.adminuser.UpdateAdminUserParams;
+import com.jeramtough.randl2.component.db.QueryPage;
 import com.jeramtough.randl2.dao.entity.AdminUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jeramtough.randl2.dto.AdminUserDto;
@@ -36,4 +38,6 @@ public interface AdminUserService extends IService<AdminUser> {
     String updateAdminUser(UpdateAdminUserParams params);
 
     AdminUserDto getOneAdminUser(Long uid);
+
+    QueryPage<AdminUser> getAdminUserListByPage(QueryByPageParams queryByPageParams);
 }

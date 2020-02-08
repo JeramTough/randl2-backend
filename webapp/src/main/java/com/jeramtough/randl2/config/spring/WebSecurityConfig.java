@@ -87,6 +87,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(openedApiUrls).permitAll()
                 .anyRequest().authenticated()
                 .and()
+                .cors()
+                .and()
                 .csrf().disable();
     }
 

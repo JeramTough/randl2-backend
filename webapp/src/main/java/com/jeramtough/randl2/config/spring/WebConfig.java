@@ -1,14 +1,18 @@
 package com.jeramtough.randl2.config.spring;
 
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
 import org.apache.catalina.filters.CorsFilter;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  * <pre>
@@ -17,27 +21,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * </pre>
  */
 @Configuration
-@MapperScan("com.baomidou.mybatisplus.samples.quickstart.mapper")
-@MapperScan("com.jeramtough.randl2.dao.mapper")
 @ComponentScan(basePackages = "com.jeramtough.jtweb.springconfig")
-public class WebConfig {
+@EnableTransactionManagement
+public class WebConfig extends WebMvcConfigurerAdapter {
 
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry
-                        //匹配所有接口
-                        .addMapping("/**")
-                        //匹配到的接口都允许跨域
-                        .allowedOrigins("*")
-                        .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE")
-                        .allowCredentials(true);
-            }
-        };
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowCredentials(true)
+                .allowedHeaders("*")
+                .allowedOrigins("*")
+                .allowedMethods("*");
+
     }
-
-
 }
