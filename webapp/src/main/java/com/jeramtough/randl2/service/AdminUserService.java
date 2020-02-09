@@ -32,7 +32,7 @@ public interface AdminUserService extends IService<AdminUser> {
 
     String addAdminUser(RegisterAdminUserParams registerAdminUserParams);
 
-    String removeAdminUser(Long userId);
+    String removeAdminUser(Long uid);
 
     List<AdminUserDto> getAllAdminUser();
 

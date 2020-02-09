@@ -1,9 +1,6 @@
 package com.jeramtough.randl2.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.metadata.PageList;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
@@ -153,11 +150,11 @@ public class AdminUserServiceImpl
     }
 
     @Override
-    public String removeAdminUser(Long userId) {
-        boolean isOk = removeById(userId);
+    public String removeAdminUser(Long uid) {
+       /* boolean isOk = removeById(uid);
         if (!isOk) {
             throw new ApiResponseException(1020);
-        }
+        }*/
         return "移除管理员用户成功";
     }
 

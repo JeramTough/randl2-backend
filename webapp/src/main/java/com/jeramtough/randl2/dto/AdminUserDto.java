@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.dto;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.jeramtough.randl2.dao.entity.Role;
@@ -22,6 +23,7 @@ public class AdminUserDto {
 
     private String emailAddress;
 
+    @JSONField(format="yyyy-MM-dd HH:mm")
     private LocalDateTime registrationTime;
 
     private String registrationIp;

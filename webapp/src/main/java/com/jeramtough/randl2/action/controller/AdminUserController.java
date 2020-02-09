@@ -1,7 +1,6 @@
 package com.jeramtough.randl2.action.controller;
 
 
-import com.jeramtough.jtweb.action.controller.BaseSwaggerController;
 import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
 import com.jeramtough.randl2.bean.QueryByPageParams;
 import com.jeramtough.randl2.bean.adminuser.AdminUserCredentials;
@@ -96,11 +95,11 @@ public class AdminUserController extends BaseController {
     @ApiOperation(value = "移除", notes = "移除系统管理员账号")
     @RequestMapping(value = "/remove", method = {RequestMethod.POST})
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "userId", value = "管理员用户Id", paramType = "query",
+            @ApiImplicitParam(name = "uid", value = "管理员用户Id", paramType = "query",
                     required = true)})
     @ApiResponses(value = {@ApiResponse(code = 1020, message = "移除管理员用户失败！请检查该用户是否存在")})
-    public RestfulApiResponse removeAdminUser(@RequestParam Long userId) {
-        return getSuccessfulApiResponse(adminUserService.removeAdminUser(userId));
+    public RestfulApiResponse removeAdminUser(@RequestParam Long uid) {
+        return getSuccessfulApiResponse(adminUserService.removeAdminUser(uid));
     }
 
     @ApiOperation(value = "更新", notes = "更新系统管理员账号信息")
