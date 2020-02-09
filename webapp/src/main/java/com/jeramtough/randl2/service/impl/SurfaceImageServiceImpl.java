@@ -10,6 +10,7 @@ import com.jeramtough.randl2.component.userdetail.UserHolder;
 import com.jeramtough.randl2.component.userdetail.UserType;
 import com.jeramtough.randl2.dao.entity.SurfaceImage;
 import com.jeramtough.randl2.dao.mapper.SurfaceImageMapper;
+import com.jeramtough.randl2.dto.SurfaceImageDto;
 import com.jeramtough.randl2.service.SurfaceImageService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.stereotype.Service;
@@ -29,11 +30,16 @@ import java.util.Objects;
  */
 @Service
 public class SurfaceImageServiceImpl extends BaseServiceImpl<SurfaceImageMapper,
-        SurfaceImage> implements SurfaceImageService, WithLogger {
+        SurfaceImage, SurfaceImageDto> implements SurfaceImageService, WithLogger {
 
     public SurfaceImageServiceImpl(WebApplicationContext wc,
                                    MapperFacade mapperFacade) {
         super(wc, mapperFacade);
+    }
+
+    @Override
+    protected SurfaceImageDto toDto(SurfaceImage surfaceImage) {
+        return null;
     }
 
     @Override

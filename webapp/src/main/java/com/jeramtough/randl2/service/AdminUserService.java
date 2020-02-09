@@ -9,6 +9,7 @@ import com.jeramtough.randl2.component.db.QueryPage;
 import com.jeramtough.randl2.dao.entity.AdminUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jeramtough.randl2.dto.AdminUserDto;
+import com.jeramtough.randl2.dto.PageDto;
 import com.jeramtough.randl2.dto.SystemUserDto;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -39,5 +40,5 @@ public interface AdminUserService extends IService<AdminUser> {
 
     AdminUserDto getOneAdminUser(Long uid);
 
-    QueryPage<AdminUser> getAdminUserListByPage(QueryByPageParams queryByPageParams);
+    PageDto<AdminUserDto> getAdminUserListByPage(QueryByPageParams queryByPageParams);
 }

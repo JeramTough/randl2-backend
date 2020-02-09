@@ -21,6 +21,7 @@ import com.jeramtough.randl2.dao.mapper.AdminUserMapper;
 import com.jeramtough.randl2.dao.mapper.RoleMapper;
 import com.jeramtough.randl2.dao.mapper.SurfaceImageMapper;
 import com.jeramtough.randl2.dto.AdminUserDto;
+import com.jeramtough.randl2.dto.PageDto;
 import com.jeramtough.randl2.dto.SystemUserDto;
 import com.jeramtough.randl2.service.AdminUserService;
 import ma.glasnost.orika.MapperFacade;
@@ -46,7 +47,8 @@ import java.util.List;
  * @since 2020-01-26
  */
 @Service
-public class AdminUserServiceImpl extends BaseServiceImpl<AdminUserMapper, AdminUser>
+public class AdminUserServiceImpl
+        extends BaseServiceImpl<AdminUserMapper, AdminUser, AdminUserDto>
         implements AdminUserService, WithLogger {
 
     private final MyUserFactory myUserFactory;
@@ -68,6 +70,13 @@ public class AdminUserServiceImpl extends BaseServiceImpl<AdminUserMapper, Admin
         this.roleMapper = roleMapper;
         this.surfaceImageMapper = surfaceImageMapper;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    @Override
+    protected AdminUserDto toDto(AdminUser adminUser) {
+        AdminUserDto adminUserDto = mapperFacade.map(adminUser, AdminUserDto.class);
+        adminUserDto.setRole(roleMapper.selectById(adminUser.getRoleId()));
+        return adminUserDto;
     }
 
     @Override
@@ -154,15 +163,8 @@ public class AdminUserServiceImpl extends BaseServiceImpl<AdminUserMapper, Admin
 
     @Override
     public List<AdminUserDto> getAllAdminUser() {
-        List<AdminUserDto> adminUserDtoList = new ArrayList<>();
         List<AdminUser> adminUserList = getBaseMapper().selectList(null);
-        for (AdminUser adminUser : adminUserList) {
-            AdminUserDto adminUserDto = mapperFacade.map(adminUser, AdminUserDto.class);
-            adminUserDto.setPassword("");
-            adminUserDto.setRole(roleMapper.selectById(adminUser.getRoleId()));
-            adminUserDtoList.add(adminUserDto);
-        }
-        return adminUserDtoList;
+        return getDtoList(adminUserList);
     }
 
     @Override
@@ -210,16 +212,18 @@ public class AdminUserServiceImpl extends BaseServiceImpl<AdminUserMapper, Admin
             throw new ApiResponseException(1040);
         }
         AdminUserDto adminUserDto = mapperFacade.map(adminUser, AdminUserDto.class);
-        adminUserDto.setPassword("");
         adminUserDto.setRole(roleMapper.selectById(adminUser.getRoleId()));
         return adminUserDto;
     }
 
     @Override
-    public QueryPage<AdminUser> getAdminUserListByPage(QueryByPageParams queryByPageParams) {
-        QueryPage<AdminUser> queryPage = new QueryPage<>(queryByPageParams);
-        queryPage = getBaseMapper().selectPage(queryPage, null);
-        return queryPage;
+    public PageDto<AdminUserDto> getAdminUserListByPage(QueryByPageParams queryByPageParams) {
+        BeanValidator.verifyDto(queryByPageParams);
+        QueryPage<AdminUser> queryPage = getBaseMapper().selectPage(
+                new QueryPage<>(queryByPageParams), null);
+        return getPageDto(queryPage);
     }
 
+
+    //********************
 }

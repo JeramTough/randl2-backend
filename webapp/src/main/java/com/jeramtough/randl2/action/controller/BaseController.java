@@ -11,8 +11,8 @@ import io.swagger.annotations.ApiResponses;
  * </pre>
  */
 @ApiResponses({
-        @ApiResponse(code = 667, message = "[%]失败! [%s]参数不能为空"),
-        @ApiResponse(code = 668, message = "[%]参数格式不正确! 应为[%s]")
+        @ApiResponse(code = 667, message = "[%s]失败! [%s]参数不能为空"),
+        @ApiResponse(code = 668, message = "[%s]参数格式不正确! 应为[%s]")
 })
 public abstract class BaseController extends BaseSwaggerController {
 

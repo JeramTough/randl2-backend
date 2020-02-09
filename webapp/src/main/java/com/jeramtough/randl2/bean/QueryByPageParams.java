@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * <pre>
  * Created on 2020/2/8 16:36
@@ -12,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 public class QueryByPageParams {
 
-    @ApiParam(value = "第几页",required = true,example = "1")
+    @NotNull(message = "{'code':667,'placeholders':['获取数据','第几页']}")
+    @ApiParam(value = "第几页",required = false,example = "1")
     private Long index;
 
+    @NotNull(message = "{'code':667,'placeholders':['获取数据','每页大小']}")
     @ApiParam(value = "每页的大小",required = true,example = "10")
     private Long size;
 

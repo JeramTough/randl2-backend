@@ -27,13 +27,20 @@ import java.util.List;
  * @since 2020-01-26
  */
 @Service
-public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implements RoleService,
+public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role, RoleDto>
+        implements RoleService,
         WithLogger {
 
     @Autowired
     public RoleServiceImpl(WebApplicationContext wc, MapperFacade mapperFacade) {
         super(wc, mapperFacade);
     }
+
+    @Override
+    protected RoleDto toDto(Role role) {
+        return null;
+    }
+
 
     @Override
     public String addRole(AddRoleParams params) {

@@ -2,8 +2,13 @@ package com.jeramtough.randl2.service.impl;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.jeramtough.randl2.component.db.QueryPage;
+import com.jeramtough.randl2.dto.PageDto;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <pre>
@@ -11,7 +16,8 @@ import org.springframework.web.context.WebApplicationContext;
  * by @author JeramTough
  * </pre>
  */
-public abstract class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> {
+public abstract class BaseServiceImpl<M extends BaseMapper<T>, T, D>
+        extends ServiceImpl<M, T> {
 
     private WebApplicationContext wc;
     private MapperFacade mapperFacade;
@@ -29,4 +35,27 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T> extends Servic
     public MapperFacade getMapperFacade() {
         return mapperFacade;
     }
+
+    public D getBaseDto(T t) {
+        return toDto(t);
+    }
+
+    public List<D> getDtoList(List<T> tList) {
+        List<D> dList = new ArrayList<>(tList.size());
+        for (T t : tList) {
+            dList.add(toDto(t));
+        }
+        return dList;
+    }
+
+    public PageDto<D> getPageDto(QueryPage<T> queryPage) {
+        PageDto<D> pageDto = new PageDto<>();
+        pageDto.setIndex(queryPage.getCurrent());
+        pageDto.setSize(queryPage.getSize());
+        pageDto.setTotal(queryPage.getTotal());
+        pageDto.setList(getDtoList(queryPage.getRecords()));
+        return pageDto;
+    }
+
+    protected abstract D toDto(T t);
 }

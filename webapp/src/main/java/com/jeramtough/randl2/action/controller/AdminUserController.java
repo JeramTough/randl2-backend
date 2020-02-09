@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Api(tags = {"系统管理员接口"})
 @RequestMapping("/adminUser")
-public class AdminUserController extends BaseSwaggerController {
+public class AdminUserController extends BaseController {
 
     private AdminUserService adminUserService;
 
