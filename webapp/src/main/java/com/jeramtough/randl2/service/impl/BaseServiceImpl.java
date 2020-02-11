@@ -2,8 +2,13 @@ package com.jeramtough.randl2.service.impl;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
+import com.jeramtough.randl2.bean.QueryByPageParams;
 import com.jeramtough.randl2.component.db.QueryPage;
+import com.jeramtough.randl2.dao.entity.AdminUser;
+import com.jeramtough.randl2.dto.AdminUserDto;
 import com.jeramtough.randl2.dto.PageDto;
+import com.jeramtough.randl2.service.BaseService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -17,7 +22,7 @@ import java.util.List;
  * </pre>
  */
 public abstract class BaseServiceImpl<M extends BaseMapper<T>, T, D>
-        extends ServiceImpl<M, T> {
+        extends ServiceImpl<M, T> implements BaseService<T, D> {
 
     private WebApplicationContext wc;
     private MapperFacade mapperFacade;
@@ -46,6 +51,14 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T, D>
             dList.add(toDto(t));
         }
         return dList;
+    }
+
+    @Override
+    public PageDto<D> getBaseDtoListByPage(QueryByPageParams queryByPageParams) {
+        BeanValidator.verifyDto(queryByPageParams);
+        QueryPage<T> queryPage = getBaseMapper().selectPage(
+                new QueryPage<>(queryByPageParams), null);
+        return getPageDto(queryPage);
     }
 
     public PageDto<D> getPageDto(QueryPage<T> queryPage) {

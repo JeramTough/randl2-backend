@@ -19,8 +19,7 @@ public class AddApiParams {
     @NotNull(message = "{'code':4000,'placeholders':['API路径']}")
     private String path;
 
-    @ApiModelProperty(value = "接口描述", example = "do something", required = true)
-    @NotNull(message = "{'code':4000,'placeholders':['接口描述']}")
+    @ApiModelProperty(value = "接口描述", example = "do something", required = false)
     private String description;
 
 

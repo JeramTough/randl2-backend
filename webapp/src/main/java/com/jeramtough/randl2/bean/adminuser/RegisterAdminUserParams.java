@@ -40,6 +40,9 @@ public class RegisterAdminUserParams {
     @ApiModelProperty(value = "重复密码",example = "password",required = true)
     private String repeatedPassword;
 
+    @ApiModelProperty(value = "角色Id(默认1)",example = "1",required = false)
+    private Long roleId;
+
     public RegisterAdminUserParams() {
     }
 
@@ -88,5 +91,13 @@ public class RegisterAdminUserParams {
 
     public void setRepeatedPassword(String repeatedPassword) {
         this.repeatedPassword = repeatedPassword;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 }

@@ -8,12 +8,11 @@ import com.jeramtough.randl2.bean.permission.AddApiParams;
 import com.jeramtough.randl2.bean.permission.UpdateApiParams;
 import com.jeramtough.randl2.dao.entity.Api;
 import com.jeramtough.randl2.dao.mapper.ApiMapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jeramtough.randl2.dto.ApiDto;
 import com.jeramtough.randl2.service.ApiService;
 import ma.glasnost.orika.MapperFacade;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
@@ -26,14 +25,19 @@ import java.util.List;
  * @since 2020-01-26
  */
 @Service
-public class ApiServiceImpl extends ServiceImpl<ApiMapper, Api> implements ApiService,
+public class ApiServiceImpl extends BaseServiceImpl<ApiMapper, Api, ApiDto>
+        implements ApiService,
         WithLogger {
 
-    private final MapperFacade mapperFacade;
 
-    @Autowired
-    public ApiServiceImpl(MapperFacade mapperFacade) {
-        this.mapperFacade = mapperFacade;
+    public ApiServiceImpl(WebApplicationContext wc,
+                          MapperFacade mapperFacade) {
+        super(wc, mapperFacade);
+    }
+
+    @Override
+    protected ApiDto toDto(Api api) {
+        return getMapperFacade().map(api, ApiDto.class);
     }
 
     @Override
@@ -44,17 +48,18 @@ public class ApiServiceImpl extends ServiceImpl<ApiMapper, Api> implements ApiSe
             throw new ApiResponseException(4001);
         }
 
-        Api api = mapperFacade.map(params, Api.class);
+        Api api = getMapperFacade().map(params, Api.class);
         save(api);
         return "添加API接口信息成功";
     }
 
     @Override
-    public String delete(Long apiId) {
-        Api api = getBaseMapper().selectById(apiId);
+    public String delete(Long fid) {
+        Api api = getBaseMapper().selectById(fid);
         if (api == null) {
             throw new ApiResponseException(4010);
         }
+        getBaseMapper().deleteById(fid);
         return "删除接口【" + api.getPath() + "】成功";
     }
 
@@ -64,24 +69,31 @@ public class ApiServiceImpl extends ServiceImpl<ApiMapper, Api> implements ApiSe
         if (api == null) {
             throw new ApiResponseException(4021);
         }
-        api = mapperFacade.map(params, Api.class);
+        if (!api.getPath().equals(params.getPath())){
+            if (getBaseMapper().selectOne(
+                    new QueryWrapper<Api>().eq("path", params.getPath())) != null) {
+                throw new ApiResponseException(4001);
+            }
+        }
+        api = getMapperFacade().map(params, Api.class);
         updateById(api);
         return "更新接口【" + api.getPath() + "】成功";
     }
 
     @Override
-    public ApiDto getApi(Long apiId) {
-        Api api = getBaseMapper().selectById(apiId);
+    public ApiDto getApi(Long fid) {
+        Api api = getBaseMapper().selectById(fid);
         if (api == null) {
             throw new ApiResponseException(4030);
         }
-        ApiDto apiDto = mapperFacade.map(api, ApiDto.class);
-        return apiDto;
+        return getBaseDto(api);
     }
 
     @Override
     public List<ApiDto> getAllApi() {
-        List<ApiDto> apiDtoList = mapperFacade.mapAsList(list(), ApiDto.class);
+        List<ApiDto> apiDtoList = getMapperFacade().mapAsList(list(), ApiDto.class);
         return apiDtoList;
     }
+
+
 }

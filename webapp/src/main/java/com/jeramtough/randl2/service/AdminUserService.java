@@ -41,4 +41,6 @@ public interface AdminUserService extends IService<AdminUser> {
     AdminUserDto getOneAdminUser(Long uid);
 
     PageDto<AdminUserDto> getAdminUserListByPage(QueryByPageParams queryByPageParams);
+
+    AdminUserDto getAdminUserByKeyword(String keyword);
 }

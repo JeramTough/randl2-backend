@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 public class QueryByPageParams {
 
     @NotNull(message = "{'code':667,'placeholders':['获取数据','第几页']}")
-    @ApiParam(value = "第几页",required = false,example = "1")
+    @ApiParam(value = "第几页",required = true,example = "1")
     private Long index;
 
     @NotNull(message = "{'code':667,'placeholders':['获取数据','每页大小']}")

@@ -62,7 +62,8 @@ public class AdminUserController extends BaseController {
             @ApiResponse(code = 1015, message = "手机号码格式错误"),
             @ApiResponse(code = 1016, message = "邮箱地址格式错误"),
             @ApiResponse(code = 1017, message = "已存在重复的手机号码，请换一个"),
-            @ApiResponse(code = 1018, message = "已存在重复的邮箱地址，请换一个")
+            @ApiResponse(code = 1018, message = "已存在重复的邮箱地址，请换一个"),
+            @ApiResponse(code = 1019, message = "该角色Id不存在")
     })
     public RestfulApiResponse addAdminUser1(@RequestBody RegisterAdminUserParams params) {
         return getSuccessfulApiResponse(adminUserService.addAdminUser(params));
@@ -92,6 +93,17 @@ public class AdminUserController extends BaseController {
         return getSuccessfulApiResponse(adminUserService.getOneAdminUser(uid));
     }
 
+    @ApiOperation(value = "关键字查询", notes = "根据关键字查询得到一个管理员用户信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "keyword", value = "关键字", paramType = "query",
+                    required = true, dataType = "String", defaultValue = "username")})
+    @ApiResponses(value = {@ApiResponse(code = 1040, message = "查询失败！该用户不存在")})
+    @RequestMapping(value = "/byKeyword", method = {RequestMethod.GET})
+    public RestfulApiResponse getOneAdminUser(@RequestParam String keyword) {
+        return getSuccessfulApiResponse(adminUserService.getAdminUserByKeyword(keyword));
+    }
+
+
     @ApiOperation(value = "移除", notes = "移除系统管理员账号")
     @RequestMapping(value = "/remove", method = {RequestMethod.POST})
     @ApiImplicitParams({
@@ -113,7 +125,8 @@ public class AdminUserController extends BaseController {
             @ApiResponse(code = 1035, message = "手机号码格式错误"),
             @ApiResponse(code = 1036, message = "邮箱地址格式错误"),
             @ApiResponse(code = 1037, message = "已存在重复的手机号码，请换一个"),
-            @ApiResponse(code = 1038, message = "已存在重复的邮箱地址，请换一个")
+            @ApiResponse(code = 1038, message = "已存在重复的邮箱地址，请换一个"),
+            @ApiResponse(code = 1039, message = "该角色Id不存在")
     })
     public RestfulApiResponse updateAdminUser(@RequestBody UpdateAdminUserParams params) {
         return getSuccessfulApiResponse(adminUserService.updateAdminUser(params));

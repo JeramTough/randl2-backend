@@ -33,6 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -144,6 +145,11 @@ public class AdminUserServiceImpl
             throw new ApiResponseException(1018);
         }
 
+        if (params.getRoleId() != null && roleMapper.selectById(params.getRoleId()) == null) {
+            //该角色不存在
+            throw new ApiResponseException(1019);
+        }
+
         AdminUser adminUser = myUserFactory.getAdminUser(params);
         save(adminUser);
         return "添加管理员用户【" + adminUser.getUsername() + "】成功!";
@@ -168,29 +174,44 @@ public class AdminUserServiceImpl
     public String updateAdminUser(UpdateAdminUserParams params) {
         BeanValidator.verifyDto(params);
 
-        if (getById(params.getUid()) == null) {
+        AdminUser currentAdminUser = getById(params.getUid());
+
+        if (currentAdminUser == null) {
             throw new ApiResponseException(1031);
         }
 
-        if (getBaseMapper().selectOne(new QueryWrapper<AdminUser>().eq("username",
-                params.getUsername())) != null) {
-            //存在同名用户
-            throw new ApiResponseException(1033);
+
+        if (!currentAdminUser.getUsername().equals(params.getUsername())) {
+            if (getBaseMapper().selectOne(new QueryWrapper<AdminUser>().eq("username",
+                    params.getUsername())) != null) {
+                //存在同名用户
+                throw new ApiResponseException(1033);
+            }
         }
 
-        if (params.getPhoneNumber() != null && (getBaseMapper().selectCount(
-                new QueryWrapper<AdminUser>().eq("phone_number",
-                        params.getPhoneNumber())) > 0)) {
-            //存在重复手机号码
-            throw new ApiResponseException(1037);
+
+        if (!currentAdminUser.getPhoneNumber().equals(params.getPhoneNumber())) {
+            if (params.getPhoneNumber() != null && (getBaseMapper().selectCount(
+                    new QueryWrapper<AdminUser>().eq("phone_number",
+                            params.getPhoneNumber())) > 0)) {
+                //存在重复手机号码
+                throw new ApiResponseException(1037);
+            }
         }
 
-        if (params.getEmailAddress() != null && (getBaseMapper().selectCount(
-                new QueryWrapper<AdminUser>().eq(
-                        "email_address",
-                        params.getEmailAddress())) > 0)) {
-            //存在重复邮箱地址
-            throw new ApiResponseException(1038);
+        if (!currentAdminUser.getEmailAddress().equals(params.getEmailAddress())) {
+            if (params.getEmailAddress() != null && (getBaseMapper().selectCount(
+                    new QueryWrapper<AdminUser>().eq(
+                            "email_address",
+                            params.getEmailAddress())) > 0)) {
+                //存在重复邮箱地址
+                throw new ApiResponseException(1038);
+            }
+        }
+
+        if (roleMapper.selectById(params.getRoleId()) == null) {
+            //该角色不存在
+            throw new ApiResponseException(1039);
         }
 
         AdminUser adminUser = mapperFacade.map(params, AdminUser.class);
@@ -219,6 +240,15 @@ public class AdminUserServiceImpl
         QueryPage<AdminUser> queryPage = getBaseMapper().selectPage(
                 new QueryPage<>(queryByPageParams), null);
         return getPageDto(queryPage);
+    }
+
+    @Override
+    public AdminUserDto getAdminUserByKeyword(String keyword) {
+        AdminUser adminUser = getBaseMapper().selectByKeyword(keyword);
+        if (adminUser == null) {
+            throw new ApiResponseException(1040);
+        }
+        return getBaseDto(adminUser);
     }
 
 
