@@ -30,4 +30,6 @@ public interface ApiService extends BaseService<Api, ApiDto> {
     ApiDto getApi(Long fid);
 
     List<ApiDto> getAllApi();
+
+    List<ApiDto> getApiListByKeyword(String keyword);
 }

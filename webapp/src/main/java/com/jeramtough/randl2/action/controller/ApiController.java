@@ -89,6 +89,15 @@ public class ApiController extends BaseSwaggerController {
                 apiService.getBaseDtoListByPage(queryByPageParams));
     }
 
+
+    @ApiOperation(value = "关键字查询", notes = "根据关键字查询得到一个api接口信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "keyword", value = "关键字", paramType = "query",
+                    required = true, dataType = "String", defaultValue = "username")})
+    @ApiResponses(value = {@ApiResponse(code = 4040, message = "查询失败！该接口不存在")})
+    @RequestMapping(value = "/byKeyword", method = {RequestMethod.GET})
+    public RestfulApiResponse getOneAdminUser(@RequestParam String keyword) {
+        return getSuccessfulApiResponse(apiService.getApiListByKeyword(keyword));
+    }
+
 }
-
-

@@ -38,7 +38,8 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role, RoleDto>
 
     @Override
     protected RoleDto toDto(Role role) {
-        return null;
+        RoleDto roleDto = getMapperFacade().map(role, RoleDto.class);
+        return roleDto;
     }
 
 
@@ -57,20 +58,30 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role, RoleDto>
     }
 
     @Override
-    public String deleteRole(Long roleId) {
-        Role role = getBaseMapper().selectById(roleId);
+    public String deleteRole(Long fid) {
+        Role role = getBaseMapper().selectById(fid);
         if (role == null) {
             throw new ApiResponseException(5010);
         }
+        getBaseMapper().deleteById(fid);
         return "删除系统角色【" + role.getName() + "】成功";
     }
 
     @Override
     public String updateRole(UpdateRoleParams params) {
+        BeanValidator.verifyDto(params);
         Role role = getBaseMapper().selectById(params.getFid());
         if (role == null) {
             throw new ApiResponseException(5021);
         }
+
+        if (!params.getName().equalsIgnoreCase(role.getName())) {
+            if (getBaseMapper().selectOne(
+                    new QueryWrapper<Role>().eq("name", params.getName())) != null) {
+                throw new ApiResponseException(5001);
+            }
+        }
+
         role = getMapperFacade().map(params, Role.class);
         if (role.getName() != null) {
             role.setName(role.getName().toUpperCase());
@@ -80,18 +91,29 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role, RoleDto>
     }
 
     @Override
-    public RoleDto getRole(Long roleId) {
-        Role role = getBaseMapper().selectById(roleId);
+    public RoleDto getRole(Long fid) {
+        Role role = getBaseMapper().selectById(fid);
         if (role == null) {
             throw new ApiResponseException(5030);
         }
-        RoleDto roleDto = getMapperFacade().map(role, RoleDto.class);
-        return roleDto;
+        return getBaseDto(role);
     }
 
     @Override
     public List<RoleDto> getAllRole() {
         List<RoleDto> roleDtoList = getMapperFacade().mapAsList(list(), RoleDto.class);
         return roleDtoList;
+    }
+
+    @Override
+    public List<RoleDto> getRoleListByKeyword(String keyword) {
+        QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("fid", keyword).or().like("name", "%" + keyword + "%")
+                    .or().like("description", "%" + keyword + "%");
+        List<Role> apiList = getBaseMapper().selectList(queryWrapper);
+        if (apiList == null) {
+            throw new ApiResponseException(5040);
+        }
+        return getDtoList(apiList);
     }
 }

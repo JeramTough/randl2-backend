@@ -3,6 +3,7 @@ package com.jeramtough.randl2.bean.permission;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  * <pre>
@@ -16,6 +17,7 @@ public class UpdateRoleParams {
     @NotNull(message = "{'code':5020,'placeholders':['角色Id']}")
     private Long fid;
 
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "5002")
     private String name;
 
     private String description;

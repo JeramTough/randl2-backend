@@ -69,7 +69,7 @@ public class ApiServiceImpl extends BaseServiceImpl<ApiMapper, Api, ApiDto>
         if (api == null) {
             throw new ApiResponseException(4021);
         }
-        if (!api.getPath().equals(params.getPath())){
+        if (!api.getPath().equals(params.getPath())) {
             if (getBaseMapper().selectOne(
                     new QueryWrapper<Api>().eq("path", params.getPath())) != null) {
                 throw new ApiResponseException(4001);
@@ -93,6 +93,18 @@ public class ApiServiceImpl extends BaseServiceImpl<ApiMapper, Api, ApiDto>
     public List<ApiDto> getAllApi() {
         List<ApiDto> apiDtoList = getMapperFacade().mapAsList(list(), ApiDto.class);
         return apiDtoList;
+    }
+
+    @Override
+    public List<ApiDto> getApiListByKeyword(String keyword) {
+        QueryWrapper<Api> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("fid", keyword).or().like("path", "%" + keyword + "%")
+                    .or().like("description", "%" + keyword + "%");
+        List<Api> apiList = getBaseMapper().selectList(queryWrapper);
+        if (apiList == null) {
+            throw new ApiResponseException(4040);
+        }
+        return getDtoList(apiList);
     }
 
 

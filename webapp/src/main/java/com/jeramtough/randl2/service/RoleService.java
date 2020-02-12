@@ -17,15 +17,17 @@ import java.util.List;
  * @author JeramTough
  * @since 2020-01-26
  */
-public interface RoleService extends IService<Role> {
+public interface RoleService extends BaseService<Role,RoleDto> {
 
     String addRole(AddRoleParams params);
 
-    String deleteRole(Long roleId);
+    String deleteRole(Long fid);
 
     String updateRole(UpdateRoleParams params);
 
-    RoleDto getRole(Long roleId);
+    RoleDto getRole(Long fid);
 
     List<RoleDto> getAllRole();
+
+    List<RoleDto> getRoleListByKeyword(String keyword);
 }
