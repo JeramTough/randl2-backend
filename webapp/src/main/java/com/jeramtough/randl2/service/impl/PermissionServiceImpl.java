@@ -6,15 +6,16 @@ import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.bean.permission.PermissionParams;
 import com.jeramtough.randl2.dao.entity.Permission;
+import com.jeramtough.randl2.dao.entity.Role;
 import com.jeramtough.randl2.dao.mapper.PermissionMapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jeramtough.randl2.dao.mapper.RoleMapper;
 import com.jeramtough.randl2.dto.PermissionDto;
 import com.jeramtough.randl2.service.PermissionService;
+import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.WebApplicationContext;
 
-import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,24 +28,43 @@ import java.util.List;
  * @since 2020-01-26
  */
 @Service
-public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permission> implements
-        PermissionService , WithLogger {
+public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Permission,
+        PermissionDto> implements
+        PermissionService, WithLogger {
 
     private final RoleMapper roleMapper;
 
     @Autowired
-    public PermissionServiceImpl(RoleMapper roleMapper) {
+    public PermissionServiceImpl(WebApplicationContext wc,
+                                 MapperFacade mapperFacade,
+                                 RoleMapper roleMapper) {
+        super(wc, mapperFacade);
         this.roleMapper = roleMapper;
     }
 
     @Override
-    public String addPermissions(PermissionParams permissionParams) {
+    protected PermissionDto toDto(Permission permission) {
+        return null;
+    }
+
+
+    @Override
+    public List<PermissionDto> getPermissionListByRoleId(Long roleId) {
+        return getBaseMapper().selectListPermissionDtoByRoleId(roleId);
+    }
+
+    @Override
+    public String setPermissions(PermissionParams permissionParams) {
         BeanValidator.verifyDto(permissionParams);
 
-        if (roleMapper.selectById(permissionParams.getRoleId()) == null) {
+        Role role = roleMapper.selectById(permissionParams.getRoleId());
+        if (role == null) {
             throw new ApiResponseException(3001);
         }
 
+        //先移除该角色的所有接口权限，然后在重新设置回去
+        getBaseMapper().delete(
+                new QueryWrapper<Permission>().eq("role_id", permissionParams.getRoleId()));
         List<Permission> permissionList = new ArrayList<>();
         for (Long apiId : permissionParams.getApiIds()) {
             //TODO 判断该接口是否存在代码没写
@@ -55,7 +75,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         }
         saveBatch(permissionList);
 
-        return "添加API接口权限成功！";
+        return "角色【" + role.getDescription() + "】更新API接口权限成功！";
     }
 
     @Override
@@ -80,4 +100,6 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     public List<PermissionDto> getPermissions() {
         return getBaseMapper().selectListPermissionDto();
     }
+
+
 }

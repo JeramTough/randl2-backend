@@ -15,11 +15,14 @@ import java.util.List;
  * @author JeramTough
  * @since 2020-01-26
  */
-public interface PermissionService extends IService<Permission> {
+public interface PermissionService extends BaseService<Permission,PermissionDto> {
 
-    String addPermissions(PermissionParams permissionParams);
+    String setPermissions(PermissionParams permissionParams);
 
+    @Deprecated
     String removePermissions(PermissionParams permissionParams);
 
     List<PermissionDto> getPermissions();
+
+    List<PermissionDto> getPermissionListByRoleId(Long roleId);
 }

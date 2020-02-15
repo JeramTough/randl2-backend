@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
  * by @author JeramTough
  * </pre>
  */
-@ApiModel("为角色添加或删除接口权限参数")
+@ApiModel("为角色设置接口权限参数")
 public class PermissionParams {
 
     @NotNull(message = "3000")

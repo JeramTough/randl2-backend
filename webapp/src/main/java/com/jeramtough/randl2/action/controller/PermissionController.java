@@ -5,16 +5,9 @@ import com.jeramtough.jtweb.action.controller.BaseSwaggerController;
 import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
 import com.jeramtough.randl2.bean.permission.PermissionParams;
 import com.jeramtough.randl2.service.PermissionService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -37,19 +30,19 @@ public class PermissionController extends BaseSwaggerController {
         this.permissionService = permissionService;
     }
 
-    @ApiOperation(value = "添加", notes = "系统管理员增加API接口权限")
-    @RequestMapping(value = "/add", method = {RequestMethod.POST})
+    @ApiOperation(value = "设置", notes = "系统管理员增加API接口权限")
+    @RequestMapping(value = "/set", method = {RequestMethod.POST})
     @ApiResponses(value = {
             @ApiResponse(code = 3000, message = "roleId参数不能为空"),
             @ApiResponse(code = 3001, message = "该角色roleId不存在")
     })
     public RestfulApiResponse addPermissions(
             @RequestBody PermissionParams permissionParams) {
-        return getSuccessfulApiResponse(permissionService.addPermissions(permissionParams));
+        return getSuccessfulApiResponse(permissionService.setPermissions(permissionParams));
     }
 
 
-    @ApiOperation(value = "移除", notes = "系统管理员移除API接口权限")
+    /*@ApiOperation(value = "移除", notes = "系统管理员移除API接口权限")
     @RequestMapping(value = "/remove", method = {RequestMethod.POST})
     @ApiResponses(value = {
             @ApiResponse(code = 3000, message = "roleId参数不能为空"),
@@ -58,12 +51,22 @@ public class PermissionController extends BaseSwaggerController {
     public RestfulApiResponse removePermissions(
             @RequestBody PermissionParams permissionParams) {
         return getSuccessfulApiResponse(permissionService.removePermissions(permissionParams));
-    }
+    }*/
 
     @ApiOperation(value = "查询全部", notes = "查询全部角色的API接口权限信息")
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
     public RestfulApiResponse getAllPermissions() {
         return getSuccessfulApiResponse(permissionService.getPermissions());
+    }
+
+    @ApiOperation(value = "根据角色ID查询", notes = "根据角色ID查询API接口权限信息")
+    @RequestMapping(value = "/byRole", method = {RequestMethod.GET})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query",
+                    required = true, dataType = "Long", defaultValue = "1")})
+    public RestfulApiResponse getAllPermissions(@RequestParam Long roleId) {
+
+        return getSuccessfulApiResponse(permissionService.getPermissionListByRoleId(roleId));
     }
 
 }
