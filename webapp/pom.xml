@@ -75,8 +75,32 @@
         <dependency>
             <groupId>com.jeramtough</groupId>
             <artifactId>spring-boot-starter-jtweb</artifactId>
-            <version>1.1.6-LOCAL</version>
+            <version>1.1.7-LOCAL</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-bom</artifactId>
+            <version>Bean-SR8</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-jdbc</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>com.baomidou</groupId>
