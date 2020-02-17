@@ -13,7 +13,6 @@ import org.springframework.web.context.WebApplicationContext;
  * </pre>
  */
 @Component
-@Scope("session")
 public class RegisteredUserPlantGetter {
 
 
