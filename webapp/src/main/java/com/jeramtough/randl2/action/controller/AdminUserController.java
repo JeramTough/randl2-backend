@@ -32,7 +32,7 @@ public class AdminUserController extends BaseController {
     }
 
 
-    @ApiOperation(value = "登录", notes = "系统管理员登录")
+    /*@ApiOperation(value = "登录", notes = "系统管理员登录")
     @RequestMapping(value = "/login", method = {RequestMethod.POST})
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名", paramType = "query",
@@ -138,7 +138,7 @@ public class AdminUserController extends BaseController {
     public RestfulApiResponse logout() {
 
         return getSuccessfulApiResponse(adminUserService.adminLogout());
-    }
+    }*/
 
 }
 

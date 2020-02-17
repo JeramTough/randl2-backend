@@ -35,7 +35,7 @@ public class RedisConfig {
         GenericFastJsonRedisSerializer genericFastJsonRedisSerializer=
                 new GenericFastJsonRedisSerializer();
         StringRedisSerializer stringRedisSerializer=new StringRedisSerializer();
-        redisTemplate.setDefaultSerializer(genericFastJsonRedisSerializer);
+        redisTemplate.setDefaultSerializer(stringRedisSerializer);
         return redisTemplate;
     }
 }
