@@ -1,5 +1,7 @@
 package com.jeramtough.randl2.dto;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.time.LocalDateTime;
 
 /**
@@ -18,8 +20,7 @@ public class RegisteredUserDto {
 
     private String emailAddress;
 
-    private String password;
-
+    @JSONField(format = "yyyy-MM-dd HH:mm")
     private LocalDateTime registrationTime;
 
     private String registrationIp;
@@ -59,14 +60,6 @@ public class RegisteredUserDto {
         this.emailAddress = emailAddress;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public LocalDateTime getRegistrationTime() {
         return registrationTime;
     }
@@ -98,7 +91,6 @@ public class RegisteredUserDto {
                 ", account=" + account +
                 ", phoneNumber=" + phoneNumber +
                 ", emailAddress=" + emailAddress +
-                ", password=" + password +
                 ", registrationTime=" + registrationTime +
                 ", registrationIp=" + registrationIp +
                 ", accountStatus=" + accountStatus +

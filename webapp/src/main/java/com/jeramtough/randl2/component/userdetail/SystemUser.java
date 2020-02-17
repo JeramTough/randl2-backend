@@ -4,6 +4,7 @@ import com.jeramtough.randl2.component.userdetail.UserType;
 import com.jeramtough.randl2.dao.entity.Role;
 import com.jeramtough.randl2.dao.entity.SurfaceImage;
 
+import java.io.Serializable;
 import java.security.Principal;
 import java.time.LocalDateTime;
 
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
  * by @author JeramTough
  * </pre>
  */
-public class SystemUser implements Principal {
+public class SystemUser implements Principal, Serializable {
 
     private Long uid;
 

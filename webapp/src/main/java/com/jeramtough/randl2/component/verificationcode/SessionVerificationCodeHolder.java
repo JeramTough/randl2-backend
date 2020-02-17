@@ -18,11 +18,11 @@ import java.util.LinkedList;
 public class SessionVerificationCodeHolder implements VerificationCodeHolder {
 
     private static final String VERIFICATION_CODES_KEY =
-            SessionVerificationCodeHolder.class.getName() + "CODE";
+            SessionVerificationCodeHolder.class.getSimpleName() + "_CODE";
     private static final String IS_PASSED_KEY =
-            SessionVerificationCodeHolder.class.getName() + "IS_PASSED";
+            SessionVerificationCodeHolder.class.getSimpleName() + "_IS_PASSED";
     private static final String SEND_WAY_VALUE_KEY =
-            SessionVerificationCodeHolder.class.getName() + "SEND_WAY";
+            SessionVerificationCodeHolder.class.getSimpleName() + "_SEND_WAY";
     private static final int MAX_CAPACITY = 3;
 
     private final HttpSession session;
@@ -44,6 +44,9 @@ public class SessionVerificationCodeHolder implements VerificationCodeHolder {
             }
         }
         session.setAttribute(IS_PASSED_KEY, isPassed);
+        if (isPassed){
+            setRightVerificationCodes(null);
+        }
         return isPassed;
     }
 
@@ -75,7 +78,7 @@ public class SessionVerificationCodeHolder implements VerificationCodeHolder {
             isPassed = (boolean) o;
         }
         if (oo == null) {
-            sendWayValue = "";
+            sendWayValue = "DIDN'T SEND";
         }
         else {
             sendWayValue = (String) oo;
@@ -102,8 +105,13 @@ public class SessionVerificationCodeHolder implements VerificationCodeHolder {
     }
 
     private void setRightVerificationCodes(LinkedList<String> list) {
-        String[] verificationCodes = list.toArray(new String[0]);
-        session.setAttribute(VERIFICATION_CODES_KEY, verificationCodes);
+        if (list != null) {
+            String[] verificationCodes = list.toArray(new String[0]);
+            session.setAttribute(VERIFICATION_CODES_KEY, verificationCodes);
+        }
+        else {
+            session.setAttribute(VERIFICATION_CODES_KEY, null);
+        }
     }
 
     //{{{{{{{{{{{}}}}}}}}}}}}}}}}}}}}}

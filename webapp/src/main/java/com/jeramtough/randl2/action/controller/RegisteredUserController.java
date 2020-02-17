@@ -5,6 +5,7 @@ import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
 import com.jeramtough.randl2.bean.registereduser.VerifyPasswordParams;
 import com.jeramtough.randl2.bean.registereduser.VerifyPhoneOrEmailForNewParams;
 import com.jeramtough.randl2.service.RegisteredUserService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-01-26
  */
 @RestController
+@Api(tags = {"普通注册用户接口"})
 @RequestMapping("/registeredUser")
 @ApiResponses(value = {
         @ApiResponse(code = 7000, message = "注册信息以失效，请重新注册"),
@@ -76,10 +78,12 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "注册", notes = "注册该用户")
     @RequestMapping(value = "/register", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 7030, message = "注册信息以失效，请重新注册"),
+            @ApiResponse(code = 7030, message = "注册未完成或信息以失效，或请重新注册"),
+            @ApiResponse(code = 7031, message = "验证码校验失败，或验证码未发送或以失效"),
+            @ApiResponse(code = 7032, message = "发送验证码的手机号或邮箱地址与注册的不符"),
     })
-    public void registerUser() {
-
+    public RestfulApiResponse registerUser() {
+        return getSuccessfulApiResponse(registeredUserService.register());
     }
 
     @ApiOperation(value = "重置", notes = "重置密码")

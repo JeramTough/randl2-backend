@@ -37,7 +37,7 @@ public class VerificationCodeController extends BaseController {
         return getSuccessfulApiResponse(verificationCodeService.send(params));
     }
 
-    @ApiOperation(value = "发送验证码", notes = "发送6位数的手机或邮箱验证码")
+    @ApiOperation(value = "校验验证码", notes = "验收验证码是否正确")
     @RequestMapping(value = "/verify", method = {RequestMethod.POST})
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "验证码", paramType = "query",

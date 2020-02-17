@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.component.registereduser;
+package com.jeramtough.randl2.component.registereduser.builder;
 
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.dao.entity.RegisteredUser;
@@ -13,11 +13,11 @@ import javax.servlet.http.HttpSession;
  * by @author JeramTough
  * </pre>
  */
-public class QqRegisteredUserPlant extends BaseRegisteredUserPlant {
+public class QqRegisteredUserBuilder extends BaseRegisteredUserBuilder {
 
-    public QqRegisteredUserPlant(HttpSession session,
-                                 PasswordEncoder passwordEncoder,
-                                 RegisteredUserMapper registeredUserMapper) {
+    public QqRegisteredUserBuilder(HttpSession session,
+                                   PasswordEncoder passwordEncoder,
+                                   RegisteredUserMapper registeredUserMapper) {
         super(session, passwordEncoder, registeredUserMapper);
     }
 
@@ -29,7 +29,7 @@ public class QqRegisteredUserPlant extends BaseRegisteredUserPlant {
     }
 
     @Override
-    public RegisteredUser create(int... errorCodes) throws ApiResponseException {
+    public RegisteredUser build(int... errorCodes) throws ApiResponseException {
         return null;
     }
 }

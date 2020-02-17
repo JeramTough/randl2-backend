@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.component.registereduser;
+package com.jeramtough.randl2.component.registereduser.builder;
 
 import com.jeramtough.jtcomponent.utils.ValidationUtil;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -19,13 +20,13 @@ import java.time.LocalDateTime;
  * </pre>
  */
 @Component
-@Scope("session")
-public class PhoneRegisteredUserPlant extends BaseRegisteredUserPlant {
+@Scope("request")
+public class PhoneRegisteredUserBuilder extends BaseRegisteredUserBuilder {
 
     @Autowired
-    public PhoneRegisteredUserPlant(HttpSession session,
-                                    PasswordEncoder passwordEncoder,
-                                    RegisteredUserMapper registeredUserMapper) {
+    public PhoneRegisteredUserBuilder(HttpSession session,
+                                      PasswordEncoder passwordEncoder,
+                                      RegisteredUserMapper registeredUserMapper) {
         super(session, passwordEncoder, registeredUserMapper);
     }
 
@@ -38,19 +39,19 @@ public class PhoneRegisteredUserPlant extends BaseRegisteredUserPlant {
         if (getRegisteredUserMapper().selectByPhoneNumber(phoneOrEmailOrOther)!=null){
             throw new ApiResponseException(errorCodes[2]);
         }
-        getRegisteredUser().setPhoneNumber(phoneOrEmailOrOther);
+        RegisteredUser registeredUser = getRegisteredUser();
+        registeredUser.setPhoneNumber(phoneOrEmailOrOther);
+        setRegisteredUser(registeredUser);
     }
 
     @Override
-    public RegisteredUser create(int...errorCodes) throws ApiResponseException {
+    public RegisteredUser build(int...errorCodes) throws ApiResponseException {
         if (getRegisteredUser().getPhoneNumber()==null||getRegisteredUser().getPassword()==null){
             throw new ApiResponseException(errorCodes[0]);
         }
         getRegisteredUser().setAccount("phone_"+System.currentTimeMillis());
         getRegisteredUser().setRegistrationTime(LocalDateTime.now());
         getRegisteredUser().setAccountStatus(1);
-
-        getRegisteredUserMapper().insert(getRegisteredUser());
         return getRegisteredUser();
     }
 }

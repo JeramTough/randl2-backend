@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
  * by @author JeramTough
  */
 @Component
-@Scope("session")
 public class EmailVerificationCodeSender extends BaseVerificationCodeSender
         implements VerificationCodeSender {
 

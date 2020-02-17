@@ -19,4 +19,6 @@ public interface RegisteredUserService extends BaseService<RegisteredUser, Regis
     String verifyPhoneOrEmailForNew(VerifyPhoneOrEmailForNewParams params);
 
     String verifyPassword(VerifyPasswordParams params);
+
+    RegisteredUserDto register();
 }

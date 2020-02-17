@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.component.registereduser;
+package com.jeramtough.randl2.component.registereduser.builder;
 
 import com.jeramtough.jtcomponent.utils.ValidationUtil;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
@@ -19,14 +19,14 @@ import java.time.LocalDateTime;
  * </pre>
  */
 @Component
-@Scope("session")
-public class EmailRegisteredUserPlant extends BaseRegisteredUserPlant {
+@Scope("request")
+public class EmailRegisteredUserBuilder extends BaseRegisteredUserBuilder {
 
 
     @Autowired
-    public EmailRegisteredUserPlant(HttpSession session,
-                                    PasswordEncoder passwordEncoder,
-                                    RegisteredUserMapper registeredUserMapper) {
+    public EmailRegisteredUserBuilder(HttpSession session,
+                                      PasswordEncoder passwordEncoder,
+                                      RegisteredUserMapper registeredUserMapper) {
         super(session, passwordEncoder, registeredUserMapper);
     }
 
@@ -44,7 +44,7 @@ public class EmailRegisteredUserPlant extends BaseRegisteredUserPlant {
     }
 
     @Override
-    public RegisteredUser create(int... errorCodes) throws ApiResponseException {
+    public RegisteredUser build(int... errorCodes) throws ApiResponseException {
         if (getRegisteredUser().getEmailAddress() == null || getRegisteredUser().getPassword() == null) {
             throw new ApiResponseException(errorCodes[0]);
         }
@@ -52,7 +52,6 @@ public class EmailRegisteredUserPlant extends BaseRegisteredUserPlant {
         getRegisteredUser().setRegistrationTime(LocalDateTime.now());
         getRegisteredUser().setAccountStatus(1);
 
-        getRegisteredUserMapper().insert(getRegisteredUser());
         return getRegisteredUser();
     }
 }
