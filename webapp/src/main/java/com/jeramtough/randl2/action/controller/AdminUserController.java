@@ -32,7 +32,7 @@ public class AdminUserController extends BaseController {
     }
 
 
-    /*@ApiOperation(value = "登录", notes = "系统管理员登录")
+    @ApiOperation(value = "登录", notes = "系统管理员登录")
     @RequestMapping(value = "/login", method = {RequestMethod.POST})
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名", paramType = "query",
@@ -78,7 +78,7 @@ public class AdminUserController extends BaseController {
     @ApiOperation(value = "分页查询", notes = "分页查询管理员用户信息")
     @RequestMapping(value = "/page", method = {RequestMethod.GET})
     public RestfulApiResponse getAdminUserByPage(
-             QueryByPageParams queryByPageParams) {
+            QueryByPageParams queryByPageParams) {
         return getSuccessfulApiResponse(
                 adminUserService.getAdminUserListByPage(queryByPageParams));
     }
@@ -86,7 +86,7 @@ public class AdminUserController extends BaseController {
     @ApiOperation(value = "查询一个", notes = "得到一个管理员用户信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "uid", value = "用户Id", paramType = "query",
-                    required = true, dataType = "Long", defaultValue = "1")})
+                    required = true, defaultValue = "1")})
     @ApiResponses(value = {@ApiResponse(code = 1040, message = "查询失败！该用户不存在")})
     @RequestMapping(value = "/one", method = {RequestMethod.GET})
     public RestfulApiResponse getOneAdminUser(@RequestParam Long uid) {
@@ -138,7 +138,7 @@ public class AdminUserController extends BaseController {
     public RestfulApiResponse logout() {
 
         return getSuccessfulApiResponse(adminUserService.adminLogout());
-    }*/
+    }
 
 }
 

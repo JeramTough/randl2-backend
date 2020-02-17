@@ -63,7 +63,7 @@ public class PermissionController extends BaseSwaggerController {
     @RequestMapping(value = "/byRole", method = {RequestMethod.GET})
     @ApiImplicitParams({
             @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query",
-                    required = true, dataType = "Long", defaultValue = "1")})
+                    required = true, defaultValue = "1")})
     public RestfulApiResponse getAllPermissions(@RequestParam Long roleId) {
 
         return getSuccessfulApiResponse(permissionService.getPermissionListByRoleId(roleId));
