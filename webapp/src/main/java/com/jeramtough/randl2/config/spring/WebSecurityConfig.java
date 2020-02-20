@@ -28,7 +28,16 @@ import java.util.Map;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private static final String[] OPENED_ADI_URLS = {
+            "/adminUser/login",
+            "/registeredUser/verify/**",
+            "/registeredUser/register",
+            "/registeredUser/reset",
+            "/verificationCode/**"
+    };
+
     private final PermissionMapper permissionMapper;
+
 
     @Autowired
     public WebSecurityConfig(
@@ -76,15 +85,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         }
 
         http.formLogin().loginPage("/unlogged.html").permitAll();
-        String[] openedApiUrls = new String[]{"/adminUser/login"};
-        String[] accessOnlySuperadminApiUrls = new String[]{"/adminUser/add"};
+        String[] accessOnlySuperAdminApiUrls = new String[]{"/adminUser/add"};
 
-        authorizationConfigurer.antMatchers(accessOnlySuperadminApiUrls).hasAnyRole(
+        authorizationConfigurer.antMatchers(accessOnlySuperAdminApiUrls).hasAnyRole(
                 SuperAdmin.ROLE_NAME);
 
         //开放登录接口
         authorizationConfigurer
-                .antMatchers(openedApiUrls).permitAll()
+                .antMatchers(OPENED_ADI_URLS).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .cors()

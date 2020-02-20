@@ -40,7 +40,9 @@ public class EmailRegisteredUserBuilder extends BaseRegisteredUserBuilder {
         if (getRegisteredUserMapper().selectByEmailAddress(phoneOrEmailOrOther) != null) {
             throw new ApiResponseException(errorCodes[3]);
         }
-        getRegisteredUser().setEmailAddress(phoneOrEmailOrOther);
+        RegisteredUser registeredUser = getRegisteredUser();
+        registeredUser.setEmailAddress(phoneOrEmailOrOther);
+        setRegisteredUser(registeredUser);
     }
 
     @Override
@@ -51,7 +53,8 @@ public class EmailRegisteredUserBuilder extends BaseRegisteredUserBuilder {
         getRegisteredUser().setAccount("email_" + System.currentTimeMillis());
         getRegisteredUser().setRegistrationTime(LocalDateTime.now());
         getRegisteredUser().setAccountStatus(1);
-
+        getRegisteredUser().setSurfaceImageId(2L);
+        setRegisteredUser(getRegisteredUser());
         return getRegisteredUser();
     }
 }

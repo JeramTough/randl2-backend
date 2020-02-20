@@ -157,10 +157,10 @@ public class AdminUserServiceImpl
 
     @Override
     public String removeAdminUser(Long uid) {
-       /* boolean isOk = removeById(uid);
+        boolean isOk = removeById(uid);
         if (!isOk) {
             throw new ApiResponseException(1020);
-        }*/
+        }
         return "移除管理员用户成功";
     }
 
@@ -190,24 +190,29 @@ public class AdminUserServiceImpl
         }
 
 
-        if (!currentAdminUser.getPhoneNumber().equals(params.getPhoneNumber())) {
-            if (params.getPhoneNumber() != null && (getBaseMapper().selectCount(
-                    new QueryWrapper<AdminUser>().eq("phone_number",
-                            params.getPhoneNumber())) > 0)) {
-                //存在重复手机号码
-                throw new ApiResponseException(1037);
+        if (currentAdminUser.getPhoneNumber() != null) {
+            if (!currentAdminUser.getPhoneNumber().equals(params.getPhoneNumber())) {
+                if (params.getPhoneNumber() != null && (getBaseMapper().selectCount(
+                        new QueryWrapper<AdminUser>().eq("phone_number",
+                                params.getPhoneNumber())) > 0)) {
+                    //存在重复手机号码
+                    throw new ApiResponseException(1037);
+                }
             }
         }
 
-        if (!currentAdminUser.getEmailAddress().equals(params.getEmailAddress())) {
-            if (params.getEmailAddress() != null && (getBaseMapper().selectCount(
-                    new QueryWrapper<AdminUser>().eq(
-                            "email_address",
-                            params.getEmailAddress())) > 0)) {
-                //存在重复邮箱地址
-                throw new ApiResponseException(1038);
+        if (currentAdminUser.getEmailAddress() != null) {
+            if (!currentAdminUser.getEmailAddress().equals(params.getEmailAddress())) {
+                if (params.getEmailAddress() != null && (getBaseMapper().selectCount(
+                        new QueryWrapper<AdminUser>().eq(
+                                "email_address",
+                                params.getEmailAddress())) > 0)) {
+                    //存在重复邮箱地址
+                    throw new ApiResponseException(1038);
+                }
             }
         }
+
 
         if (roleMapper.selectById(params.getRoleId()) == null) {
             //该角色不存在

@@ -1,6 +1,7 @@
 package com.jeramtough.randl2.dto;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import io.swagger.annotations.ApiModel;
 
 import java.time.LocalDateTime;
 
@@ -10,9 +11,12 @@ import java.time.LocalDateTime;
  * by @author JeramTough
  * </pre>
  */
+@ApiModel(value="RegisteredUser对象", description="")
 public class RegisteredUserDto {
 
     private Long uid;
+
+    private Long surfaceImageId;
 
     private String account;
 
@@ -27,6 +31,13 @@ public class RegisteredUserDto {
 
     private Integer accountStatus;
 
+    public Long getSurfaceImageId() {
+        return surfaceImageId;
+    }
+
+    public void setSurfaceImageId(Long surfaceImageId) {
+        this.surfaceImageId = surfaceImageId;
+    }
 
     public Long getUid() {
         return uid;

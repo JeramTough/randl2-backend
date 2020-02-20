@@ -52,6 +52,8 @@ public class PhoneRegisteredUserBuilder extends BaseRegisteredUserBuilder {
         getRegisteredUser().setAccount("phone_"+System.currentTimeMillis());
         getRegisteredUser().setRegistrationTime(LocalDateTime.now());
         getRegisteredUser().setAccountStatus(1);
+        getRegisteredUser().setSurfaceImageId(2L);
+        setRegisteredUser(getRegisteredUser());
         return getRegisteredUser();
     }
 }

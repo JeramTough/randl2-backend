@@ -15,7 +15,7 @@ import javax.validation.constraints.Pattern;
 @ApiModel("校验该密码是否可用")
 public class VerifyPasswordParams {
 
-    @NotNull(message = "{'code':667,'placeholders':['','密码']}")
+    @NotNull(message = "{'code':667,'placeholders':['校验失败','密码']}")
     @ApiModelProperty(value = "密码", example = "12345678")
     @Pattern(regexp = "^\\S{8,16}$", message = "7021")
     private String password;

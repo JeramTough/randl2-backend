@@ -2,19 +2,15 @@ package com.jeramtough.randl2.action.controller;
 
 
 import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
+import com.jeramtough.randl2.bean.QueryByPageParams;
+import com.jeramtough.randl2.bean.adminuser.UpdateAdminUserParams;
+import com.jeramtough.randl2.bean.registereduser.UpdateRegisteredUserParams;
 import com.jeramtough.randl2.bean.registereduser.VerifyPasswordParams;
 import com.jeramtough.randl2.bean.registereduser.VerifyPhoneOrEmailForNewParams;
 import com.jeramtough.randl2.service.RegisteredUserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -71,7 +67,7 @@ public class RegisteredUserController extends BaseController {
             @ApiResponse(code = 7020, message = "添加管理员用户失败！两次密码不一致"),
             @ApiResponse(code = 7021, message = "密码长度范围在8-16位；只允许非空白任意字符"),
     })
-    public RestfulApiResponse verifyPassword(VerifyPasswordParams params) {
+    public RestfulApiResponse verifyPassword(@RequestBody VerifyPasswordParams params) {
         return getSuccessfulApiResponse(registeredUserService.verifyPassword(params));
     }
 
@@ -93,6 +89,47 @@ public class RegisteredUserController extends BaseController {
     })
     public void resetUser() {
 
+    }
+
+
+    @ApiOperation(value = "查询全部", notes = "得到全部普通注册用户信息")
+    @RequestMapping(value = "/all", method = {RequestMethod.GET})
+    public RestfulApiResponse getAllAdminUser() {
+        return getSuccessfulApiResponse(registeredUserService.getAllBaseDto());
+    }
+
+    @ApiOperation(value = "分页查询", notes = "分页查询普通注册用户信息")
+    @RequestMapping(value = "/page", method = {RequestMethod.GET})
+    public RestfulApiResponse getAdminUserByPage(
+            QueryByPageParams queryByPageParams) {
+        return getSuccessfulApiResponse(
+                registeredUserService.getBaseDtoListByPage(queryByPageParams));
+    }
+
+    @ApiOperation(value = "移除", notes = "移除系统管理员账号")
+    @RequestMapping(value = "/remove", method = {RequestMethod.POST})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "uid", value = "管理员用户Id", paramType = "query",
+                    required = true)})
+    @ApiResponses(value = {@ApiResponse(code = 7050, message = "移除普通注册用户失败！请检查该用户是否存在")})
+    public RestfulApiResponse removeAdminUser(@RequestParam Long uid) {
+        return getSuccessfulApiResponse(registeredUserService.removeRegisteredUser(uid));
+    }
+
+    @ApiOperation(value = "更新", notes = "更新普通注册用户账号信息")
+    @RequestMapping(value = "/update", method = {RequestMethod.POST})
+    @ApiResponses(value = {
+            @ApiResponse(code = 7060, message = "更新失败！该注册用户不存在！"),
+            @ApiResponse(code = 7061, message = "密码长度范围在8-16位；只允许非空白任意字符"),
+            @ApiResponse(code = 7062, message = "更新失败！存在同名账号名"),
+            @ApiResponse(code = 7063, message = "用户名长度范围在5-12位；只能为数字或者字母；不能含有特殊字符"),
+            @ApiResponse(code = 7064, message = "手机号码格式错误"),
+            @ApiResponse(code = 7065, message = "邮箱地址格式错误"),
+            @ApiResponse(code = 7066, message = "已存在重复的手机号码，请换一个"),
+            @ApiResponse(code = 7067, message = "已存在重复的邮箱地址，请换一个"),
+    })
+    public RestfulApiResponse updateAdminUser(@RequestBody UpdateRegisteredUserParams params) {
+        return getSuccessfulApiResponse(registeredUserService.updateRegisteredUser(params));
     }
 
 }

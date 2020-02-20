@@ -1,26 +1,24 @@
-package com.jeramtough.randl2.dao.entity;
+package com.jeramtough.randl2.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import io.swagger.annotations.ApiModel;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 /**
  * <p>
- *
+ * 
  * </p>
  *
  * @author JeramTough
  * @since 2020-01-26
  */
-@ApiModel(value = "PersonalInfo对象", description = "")
-public class PersonalInfo implements Serializable {
+@ApiModel(value="PersonalInfo对象", description="")
+public class PersonalInfoDto implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID=1L;
 
     @TableId(value = "fid", type = IdType.AUTO)
     private Long fid;
@@ -50,6 +48,8 @@ public class PersonalInfo implements Serializable {
     private String personalizedSignature;
 
     private Integer identityNumber;
+
+    private String surfaceImage;
 
 
     public Long getFid() {
@@ -156,6 +156,14 @@ public class PersonalInfo implements Serializable {
         this.personalizedSignature = personalizedSignature;
     }
 
+    public String getSurfaceImage() {
+        return surfaceImage;
+    }
+
+    public void setSurfaceImage(String surfaceImage) {
+        this.surfaceImage = surfaceImage;
+    }
+
     public Integer getIdentityNumber() {
         return identityNumber;
     }
@@ -167,20 +175,20 @@ public class PersonalInfo implements Serializable {
     @Override
     public String toString() {
         return "PersonalInfo{" +
-                "fid=" + fid +
-                ", uid=" + uid +
-                ", gender=" + gender +
-                ", age=" + age +
-                ", birthday=" + birthday +
-                ", nickname=" + nickname +
-                ", realname=" + realname +
-                ", homeAddress=" + homeAddress +
-                ", school=" + school +
-                ", company=" + company +
-                ", job=" + job +
-                ", contactWays=" + contactWays +
-                ", personalizedSignature=" + personalizedSignature +
-                ", identityNumber=" + identityNumber +
-                "}";
+        "fid=" + fid +
+        ", uid=" + uid +
+        ", gender=" + gender +
+        ", age=" + age +
+        ", birthday=" + birthday +
+        ", nickname=" + nickname +
+        ", realname=" + realname +
+        ", homeAddress=" + homeAddress +
+        ", school=" + school +
+        ", company=" + company +
+        ", job=" + job +
+        ", contactWays=" + contactWays +
+        ", personalizedSignature=" + personalizedSignature +
+        ", identityNumber=" + identityNumber +
+        "}";
     }
 }

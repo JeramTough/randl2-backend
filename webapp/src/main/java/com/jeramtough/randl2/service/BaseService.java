@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.jeramtough.randl2.bean.QueryByPageParams;
 import com.jeramtough.randl2.dto.PageDto;
 
+import java.util.List;
+
 /**
  * <pre>
  * Created on 2020/2/11 19:56
@@ -12,5 +14,7 @@ import com.jeramtough.randl2.dto.PageDto;
  */
 public interface BaseService<T,D> extends IService<T> {
 
-    public PageDto<D> getBaseDtoListByPage(QueryByPageParams queryByPageParams);
+     PageDto<D> getBaseDtoListByPage(QueryByPageParams queryByPageParams);
+
+    List<D> getAllBaseDto();
 }

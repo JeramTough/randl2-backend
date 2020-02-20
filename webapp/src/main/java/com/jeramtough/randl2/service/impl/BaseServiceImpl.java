@@ -61,6 +61,12 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T, D>
         return getPageDto(queryPage);
     }
 
+    @Override
+    public List<D> getAllBaseDto() {
+        List<T> list = getBaseMapper().selectList(null);
+        return getDtoList(list);
+    }
+
     public PageDto<D> getPageDto(QueryPage<T> queryPage) {
         PageDto<D> pageDto = new PageDto<>();
         pageDto.setIndex(queryPage.getCurrent());

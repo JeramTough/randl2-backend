@@ -1,9 +1,9 @@
 package com.jeramtough.randl2.service;
 
+import com.jeramtough.randl2.bean.registereduser.UpdateRegisteredUserParams;
 import com.jeramtough.randl2.bean.registereduser.VerifyPasswordParams;
 import com.jeramtough.randl2.bean.registereduser.VerifyPhoneOrEmailForNewParams;
 import com.jeramtough.randl2.dao.entity.RegisteredUser;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.jeramtough.randl2.dto.RegisteredUserDto;
 
 /**
@@ -21,4 +21,8 @@ public interface RegisteredUserService extends BaseService<RegisteredUser, Regis
     String verifyPassword(VerifyPasswordParams params);
 
     RegisteredUserDto register();
+
+    String removeRegisteredUser(Long uid);
+
+    String updateRegisteredUser(UpdateRegisteredUserParams params);
 }

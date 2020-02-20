@@ -15,13 +15,14 @@ import io.swagger.annotations.ApiModelProperty;
  * @author JeramTough
  * @since 2020-01-26
  */
-@ApiModel(value="RegisteredUser对象", description="")
 public class RegisteredUser implements Serializable {
 
     private static final long serialVersionUID=1L;
 
     @TableId(value = "uid", type = IdType.AUTO)
     private Long uid;
+
+    private Long surfaceImageId;
 
     private String account;
 
@@ -37,6 +38,14 @@ public class RegisteredUser implements Serializable {
 
     private Integer accountStatus;
 
+
+    public Long getSurfaceImageId() {
+        return surfaceImageId;
+    }
+
+    public void setSurfaceImageId(Long surfaceImageId) {
+        this.surfaceImageId = surfaceImageId;
+    }
 
     public Long getUid() {
         return uid;
