@@ -1,8 +1,5 @@
-package com.jeramtough.randl2.dto;
+package com.jeramtough.randl2.bean.personalinfo;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 
 import java.io.Serializable;
@@ -16,12 +13,9 @@ import java.time.LocalDateTime;
  * @author JeramTough
  * @since 2020-01-26
  */
-@ApiModel(value = "PersonalInfo对象", description = "")
-public class PersonalInfoDto implements Serializable {
+@ApiModel(value = "更新PersonalInfo对象参数", description = "")
+public class UpdatePersonalInfoParams implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    @TableId(value = "fid", type = IdType.AUTO)
     private Long fid;
 
     private Long uid;
@@ -30,7 +24,6 @@ public class PersonalInfoDto implements Serializable {
 
     private Integer age;
 
-    @JSONField(format = "yyyy-MM-dd")
     private LocalDateTime birthday;
 
     private String nickname;
@@ -51,7 +44,8 @@ public class PersonalInfoDto implements Serializable {
 
     private Integer identityNumber;
 
-    private SurfaceImageDto surfaceImage;
+    private Long surfaceImageId;
+
 
     public Long getFid() {
         return fid;
@@ -157,20 +151,20 @@ public class PersonalInfoDto implements Serializable {
         this.personalizedSignature = personalizedSignature;
     }
 
-    public SurfaceImageDto getSurfaceImage() {
-        return surfaceImage;
-    }
-
-    public void setSurfaceImage(SurfaceImageDto surfaceImage) {
-        this.surfaceImage = surfaceImage;
-    }
-
     public Integer getIdentityNumber() {
         return identityNumber;
     }
 
     public void setIdentityNumber(Integer identityNumber) {
         this.identityNumber = identityNumber;
+    }
+
+    public Long getSurfaceImageId() {
+        return surfaceImageId;
+    }
+
+    public void setSurfaceImageId(Long surfaceImageId) {
+        this.surfaceImageId = surfaceImageId;
     }
 
     @Override

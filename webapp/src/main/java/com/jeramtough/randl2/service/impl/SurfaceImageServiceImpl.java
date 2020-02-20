@@ -3,6 +3,8 @@ package com.jeramtough.randl2.service.impl;
 import com.jeramtough.jtcomponent.key.util.KeyUtil;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.bean.surfaceimage.UpdateSurfaceImageParams;
+import com.jeramtough.randl2.bean.surfaceimage.UploadSurfaceImageParams;
 import com.jeramtough.randl2.component.userdetail.SystemUser;
 import com.jeramtough.randl2.component.userdetail.UserHolder;
 import com.jeramtough.randl2.dao.entity.RegisteredUser;
@@ -98,5 +100,25 @@ public class SurfaceImageServiceImpl extends BaseServiceImpl<SurfaceImageMapper,
             throw new ApiResponseException(6020);
         }
         return surfaceImage.getSurfaceImage();
+    }
+
+    @Override
+    public String updateSurfaceImageByBase64(UpdateSurfaceImageParams params) {
+        SurfaceImage surfaceImage = getById(params.getFid());
+        if (surfaceImage == null) {
+            throw new ApiResponseException(6020);
+        }
+        surfaceImage = getMapperFacade().map(params, SurfaceImage.class);
+        updateById(surfaceImage);
+        return "更新用户头像成功";
+    }
+
+    @Override
+    public SurfaceImageDto uploadSurfaceImageByBase64(UploadSurfaceImageParams params) {
+        SurfaceImage surfaceImage = getMapperFacade().map(params,
+                SurfaceImage.class);
+        getBaseMapper().insertSurfaceImage(surfaceImage);
+        SurfaceImageDto surfaceImageDto=getMapperFacade().map(surfaceImage,SurfaceImageDto.class);
+        return surfaceImageDto;
     }
 }

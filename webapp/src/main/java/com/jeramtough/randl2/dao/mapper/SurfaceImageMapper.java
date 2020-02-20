@@ -2,9 +2,7 @@ package com.jeramtough.randl2.dao.mapper;
 
 import com.jeramtough.randl2.dao.entity.SurfaceImage;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,6 +17,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SurfaceImageMapper extends BaseMapper<SurfaceImage> {
 
+
+    @Insert("INSERT INTO surface_image VALUES(null,#{surfaceImage})")
+    @Options(useGeneratedKeys = true, keyProperty = "fid", keyColumn = "fid")
+    int insertSurfaceImage(SurfaceImage surfaceImage);
 
 
 }

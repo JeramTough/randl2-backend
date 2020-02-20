@@ -2,6 +2,8 @@ package com.jeramtough.randl2.action.controller;
 
 
 import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
+import com.jeramtough.randl2.bean.surfaceimage.UpdateSurfaceImageParams;
+import com.jeramtough.randl2.bean.surfaceimage.UploadSurfaceImageParams;
 import com.jeramtough.randl2.service.SurfaceImageService;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +30,8 @@ public class SurfaceImageController extends BaseController {
         this.surfaceImageService = surfaceImageService;
     }
 
-    @ApiOperation(value = "上传|更新", notes = "上传或者更新头像")
-    @RequestMapping(value = "/upload", method = RequestMethod.POST,
+    @ApiOperation(value = "上传|更新", notes = "上传或者更新当前登录用户的头像")
+    @RequestMapping(value = "/uploadAndUpdate", method = RequestMethod.POST,
             headers = {"content-type=multipart/form-data"}, consumes = {"multipart/*"})
     @ApiImplicitParams({
             @ApiImplicitParam(name = "file", value = "头像文件", dataType = "file",
@@ -39,9 +41,28 @@ public class SurfaceImageController extends BaseController {
             @ApiResponse(code = 6001, message = "上传失败，头像图片大小不允许超过500kb"),
             @ApiResponse(code = 6002, message = "上传失败，图片格式只能为jpg或png")
     })
-    public RestfulApiResponse uploadUserSurfaceImage(
+    public RestfulApiResponse uploadAndUpdateUserSurfaceImage(
             @RequestParam("file") MultipartFile file) {
         return getSuccessfulApiResponse(surfaceImageService.addUpdateSurfaceImage(file));
+    }
+
+    @ApiOperation(value = "更新", notes = "更新头像")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @ApiResponses(value = {
+            @ApiResponse(code = 6020, message = "该图片ID不存在")
+    })
+    public RestfulApiResponse updateUserSurfaceImageByBase64(
+            @RequestBody UpdateSurfaceImageParams params) {
+        return getSuccessfulApiResponse(surfaceImageService.updateSurfaceImageByBase64(params));
+    }
+
+    @ApiOperation(value = "上传", notes = "上传base64格式的头像图片")
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @ApiResponses(value = {
+    })
+    public RestfulApiResponse uploadUserSurfaceImageByBase64(
+            @RequestBody UploadSurfaceImageParams params) {
+        return getSuccessfulApiResponse(surfaceImageService.uploadSurfaceImageByBase64(params));
     }
 
     @ApiOperation(value = "获取1", notes = "根据uid得到用户base64头像")

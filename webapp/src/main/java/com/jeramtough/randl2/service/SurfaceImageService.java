@@ -1,5 +1,7 @@
 package com.jeramtough.randl2.service;
 
+import com.jeramtough.randl2.bean.surfaceimage.UpdateSurfaceImageParams;
+import com.jeramtough.randl2.bean.surfaceimage.UploadSurfaceImageParams;
 import com.jeramtough.randl2.dao.entity.SurfaceImage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jeramtough.randl2.dto.SurfaceImageDto;
@@ -20,4 +22,8 @@ public interface SurfaceImageService extends BaseService<SurfaceImage, SurfaceIm
     String getUpdateSurfaceImageByUid(Long uid);
 
     String getUpdateSurfaceImageById(Long fid);
+
+    String updateSurfaceImageByBase64(UpdateSurfaceImageParams params);
+
+    SurfaceImageDto uploadSurfaceImageByBase64(UploadSurfaceImageParams params);
 }

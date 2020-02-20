@@ -17,4 +17,7 @@ public interface BaseService<T,D> extends IService<T> {
      PageDto<D> getBaseDtoListByPage(QueryByPageParams queryByPageParams);
 
     List<D> getAllBaseDto();
+
+    D getBaseDtoById(Long id);
+
 }

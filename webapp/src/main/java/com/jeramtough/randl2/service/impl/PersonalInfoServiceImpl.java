@@ -1,21 +1,125 @@
 package com.jeramtough.randl2.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
+import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.bean.personalinfo.UpdatePersonalInfoParams;
 import com.jeramtough.randl2.dao.entity.PersonalInfo;
+import com.jeramtough.randl2.dao.entity.RegisteredUser;
 import com.jeramtough.randl2.dao.mapper.PersonalInfoMapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;
+import com.jeramtough.randl2.dao.mapper.SurfaceImageMapper;
+import com.jeramtough.randl2.dto.PersonalInfoDto;
+import com.jeramtough.randl2.dto.SurfaceImageDto;
 import com.jeramtough.randl2.service.PersonalInfoService;
+import ma.glasnost.orika.MapperFacade;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.WebApplicationContext;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author JeramTough
  * @since 2020-01-26
  */
 @Service
-public class PersonalInfoServiceImpl extends ServiceImpl<PersonalInfoMapper, PersonalInfo> implements
+public class PersonalInfoServiceImpl extends BaseServiceImpl<PersonalInfoMapper,
+        PersonalInfo, PersonalInfoDto> implements
         PersonalInfoService {
 
+    private SurfaceImageMapper surfaceImageMapper;
+    private RegisteredUserMapper registeredUserMapper;
+
+    @Autowired
+    public PersonalInfoServiceImpl(WebApplicationContext wc,
+                                   MapperFacade mapperFacade,
+                                   SurfaceImageMapper surfaceImageMapper,
+                                   RegisteredUserMapper registeredUserMapper) {
+        super(wc, mapperFacade);
+        this.surfaceImageMapper = surfaceImageMapper;
+        this.registeredUserMapper = registeredUserMapper;
+    }
+
+    @Override
+    protected PersonalInfoDto toDto(PersonalInfo personalInfo) {
+        PersonalInfoDto dto = getMapperFacade().map(personalInfo, PersonalInfoDto.class);
+        Long surfaceImageId = registeredUserMapper.selectById(
+                dto.getUid()).getSurfaceImageId();
+        SurfaceImageDto surfaceImageDto =
+                getMapperFacade().map(surfaceImageMapper.selectById(surfaceImageId),
+                        SurfaceImageDto.class);
+        dto.setSurfaceImage(surfaceImageDto);
+        return dto;
+    }
+
+
+    @Override
+    public PersonalInfoDto getPersonalInfoByUid(Long uid) {
+        if (registeredUserMapper.selectById(uid) == null) {
+            throw new ApiResponseException(669);
+        }
+
+        PersonalInfo personalInfo =
+                getBaseMapper().selectOne(new QueryWrapper<PersonalInfo>().eq("uid", uid));
+        if (personalInfo == null) {
+            personalInfo = new PersonalInfo();
+            personalInfo.setUid(uid);
+            getBaseMapper().insert(personalInfo);
+            personalInfo = getBaseMapper().selectOne(
+                    new QueryWrapper<PersonalInfo>().eq("uid", uid));
+        }
+
+        PersonalInfoDto dto = getMapperFacade().map(personalInfo, PersonalInfoDto.class);
+        Long surfaceImageId = registeredUserMapper.selectById(
+                dto.getUid()).getSurfaceImageId();
+        SurfaceImageDto surfaceImageDto =
+                getMapperFacade().map(surfaceImageMapper.selectById(surfaceImageId),
+                        SurfaceImageDto.class);
+        dto.setSurfaceImage(surfaceImageDto);
+        return dto;
+    }
+
+    @Override
+    public String updatePersonalInfo(UpdatePersonalInfoParams params) {
+        BeanValidator.verifyDto(params);
+
+        if (params.getFid() == null && params.getUid() == null) {
+            throw new ApiResponseException(9001);
+        }
+        long fid = params.getFid();
+        long uid;
+
+        //优先使用uid进行查询
+        if (params.getUid() != null) {
+            uid = params.getUid();
+            PersonalInfo personalInfo =
+                    getBaseMapper().selectOne(new QueryWrapper<PersonalInfo>().eq("uid",
+                            params.getUid()));
+            if (personalInfo != null) {
+                fid = personalInfo.getFid();
+            }
+        }
+        else {
+            PersonalInfo personalInfo =
+                    getBaseMapper().selectById(params.getFid());
+            uid = personalInfo.getUid();
+        }
+
+        //如果需要更新头像的话
+        if (params.getSurfaceImageId() != null) {
+            RegisteredUser registeredUser = registeredUserMapper.selectById(uid);
+            registeredUser.setSurfaceImageId(params.getSurfaceImageId());
+            registeredUserMapper.updateById(registeredUser);
+        }
+
+        PersonalInfo personalInfo = getMapperFacade().map(params, PersonalInfo.class);
+        personalInfo.setFid(fid);
+
+        updateById(personalInfo);
+
+        return "更新普通用户个人资料成功";
+    }
 }

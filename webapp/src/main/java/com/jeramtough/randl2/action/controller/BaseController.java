@@ -12,7 +12,8 @@ import io.swagger.annotations.ApiResponses;
  */
 @ApiResponses({
         @ApiResponse(code = 667, message = "[%s]失败! [%s]参数不能为空"),
-        @ApiResponse(code = 668, message = "[%s]参数格式不正确! 应为[%s]")
+        @ApiResponse(code = 668, message = "[%s]参数格式不正确! 应为[%s]"),
+        @ApiResponse(code = 669, message = "没有发现该ID的目标资源")
 })
 public abstract class BaseController extends BaseSwaggerController {
 

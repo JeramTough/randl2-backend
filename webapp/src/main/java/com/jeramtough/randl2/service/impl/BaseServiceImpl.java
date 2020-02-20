@@ -1,8 +1,10 @@
 package com.jeramtough.randl2.service.impl;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.exceptions.ApiException;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
+import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.bean.QueryByPageParams;
 import com.jeramtough.randl2.component.db.QueryPage;
 import com.jeramtough.randl2.dao.entity.AdminUser;
@@ -65,6 +67,15 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T, D>
     public List<D> getAllBaseDto() {
         List<T> list = getBaseMapper().selectList(null);
         return getDtoList(list);
+    }
+
+    @Override
+    public D getBaseDtoById(Long id) {
+        T t = getById(id);
+        if (t == null) {
+            throw new ApiResponseException(669);
+        }
+        return toDto(t);
     }
 
     public PageDto<D> getPageDto(QueryPage<T> queryPage) {
