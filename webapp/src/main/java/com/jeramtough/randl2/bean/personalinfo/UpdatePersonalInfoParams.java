@@ -44,9 +44,6 @@ public class UpdatePersonalInfoParams implements Serializable {
 
     private Integer identityNumber;
 
-    private Long surfaceImageId;
-
-
     public Long getFid() {
         return fid;
     }
@@ -157,14 +154,6 @@ public class UpdatePersonalInfoParams implements Serializable {
 
     public void setIdentityNumber(Integer identityNumber) {
         this.identityNumber = identityNumber;
-    }
-
-    public Long getSurfaceImageId() {
-        return surfaceImageId;
-    }
-
-    public void setSurfaceImageId(Long surfaceImageId) {
-        this.surfaceImageId = surfaceImageId;
     }
 
     @Override

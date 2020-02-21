@@ -80,7 +80,7 @@ public class SurfaceImageServiceImpl extends BaseServiceImpl<SurfaceImageMapper,
             e.printStackTrace();
         }
 
-        return "更新头像图片成功！";
+        return "更新当前登录用户头像图片成功！";
     }
 
     @Override
@@ -104,12 +104,18 @@ public class SurfaceImageServiceImpl extends BaseServiceImpl<SurfaceImageMapper,
 
     @Override
     public String updateSurfaceImageByBase64(UpdateSurfaceImageParams params) {
-        SurfaceImage surfaceImage = getById(params.getFid());
-        if (surfaceImage == null) {
-            throw new ApiResponseException(6020);
+
+        RegisteredUser registeredUser = registeredUserMapper.selectById(params.getUid());
+        if (registeredUser == null) {
+            throw new ApiResponseException(6010);
         }
-        surfaceImage = getMapperFacade().map(params, SurfaceImage.class);
-        updateById(surfaceImage);
+
+        UploadSurfaceImageParams uploadParams=new UploadSurfaceImageParams();
+        uploadParams.setSurfaceImage(params.getSurfaceImage());
+        SurfaceImageDto surfaceImageDto = uploadSurfaceImageByBase64(uploadParams);
+
+        registeredUser.setSurfaceImageId(surfaceImageDto.getFid());
+        registeredUserMapper.updateById(registeredUser);
         return "更新用户头像成功";
     }
 

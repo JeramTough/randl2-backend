@@ -90,11 +90,9 @@ public class PersonalInfoServiceImpl extends BaseServiceImpl<PersonalInfoMapper,
             throw new ApiResponseException(9001);
         }
         long fid = params.getFid();
-        long uid;
 
         //优先使用uid进行查询
         if (params.getUid() != null) {
-            uid = params.getUid();
             PersonalInfo personalInfo =
                     getBaseMapper().selectOne(new QueryWrapper<PersonalInfo>().eq("uid",
                             params.getUid()));
@@ -102,24 +100,11 @@ public class PersonalInfoServiceImpl extends BaseServiceImpl<PersonalInfoMapper,
                 fid = personalInfo.getFid();
             }
         }
-        else {
-            PersonalInfo personalInfo =
-                    getBaseMapper().selectById(params.getFid());
-            uid = personalInfo.getUid();
-        }
-
-        //如果需要更新头像的话
-        if (params.getSurfaceImageId() != null) {
-            RegisteredUser registeredUser = registeredUserMapper.selectById(uid);
-            registeredUser.setSurfaceImageId(params.getSurfaceImageId());
-            registeredUserMapper.updateById(registeredUser);
-        }
 
         PersonalInfo personalInfo = getMapperFacade().map(params, PersonalInfo.class);
         personalInfo.setFid(fid);
 
         updateById(personalInfo);
-
         return "更新普通用户个人资料成功";
     }
 }

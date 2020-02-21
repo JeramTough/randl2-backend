@@ -49,7 +49,6 @@ public class SurfaceImageController extends BaseController {
     @ApiOperation(value = "更新", notes = "更新头像")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ApiResponses(value = {
-            @ApiResponse(code = 6020, message = "该图片ID不存在")
     })
     public RestfulApiResponse updateUserSurfaceImageByBase64(
             @RequestBody UpdateSurfaceImageParams params) {
