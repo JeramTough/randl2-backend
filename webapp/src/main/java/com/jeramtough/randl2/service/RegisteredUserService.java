@@ -6,9 +6,11 @@ import com.jeramtough.randl2.bean.registereduser.VerifyPhoneOrEmailForNewParams;
 import com.jeramtough.randl2.dao.entity.RegisteredUser;
 import com.jeramtough.randl2.dto.RegisteredUserDto;
 
+import java.util.List;
+
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author JeramTough
@@ -25,4 +27,6 @@ public interface RegisteredUserService extends BaseService<RegisteredUser, Regis
     String removeRegisteredUser(Long uid);
 
     String updateRegisteredUser(UpdateRegisteredUserParams params);
+
+    List<RegisteredUserDto> getRegisteredUsersByKeyword(String keyword);
 }

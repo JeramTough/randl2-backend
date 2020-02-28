@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.service;
 
+import com.jeramtough.randl2.bean.surfaceimage.UpdateCurrentAdminSurfaceImageParams;
 import com.jeramtough.randl2.bean.surfaceimage.UpdateSurfaceImageParams;
 import com.jeramtough.randl2.bean.surfaceimage.UploadSurfaceImageParams;
 import com.jeramtough.randl2.dao.entity.SurfaceImage;
@@ -26,4 +27,6 @@ public interface SurfaceImageService extends BaseService<SurfaceImage, SurfaceIm
     String updateSurfaceImageByBase64(UpdateSurfaceImageParams params);
 
     SurfaceImageDto uploadSurfaceImageByBase64(UploadSurfaceImageParams params);
+
+    SurfaceImageDto updateCurrentAdminSurfaceImageByBase64(UpdateCurrentAdminSurfaceImageParams params);
 }

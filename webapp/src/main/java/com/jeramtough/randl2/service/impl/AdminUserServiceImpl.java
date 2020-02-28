@@ -8,9 +8,11 @@ import com.jeramtough.randl2.bean.QueryByPageParams;
 import com.jeramtough.randl2.bean.adminuser.AdminUserCredentials;
 import com.jeramtough.randl2.bean.adminuser.RegisterAdminUserParams;
 import com.jeramtough.randl2.bean.adminuser.UpdateAdminUserParams;
+import com.jeramtough.randl2.bean.adminuser.UpdateCurrentAdminUserParams;
 import com.jeramtough.randl2.component.db.QueryPage;
 import com.jeramtough.randl2.component.userdetail.MyUserFactory;
 import com.jeramtough.randl2.component.userdetail.SystemUser;
+import com.jeramtough.randl2.component.userdetail.UserHolder;
 import com.jeramtough.randl2.component.userdetail.login.AdminUserLoginer;
 import com.jeramtough.randl2.component.userdetail.login.UserLoginer;
 import com.jeramtough.randl2.dao.entity.AdminUser;
@@ -23,17 +25,12 @@ import com.jeramtough.randl2.dto.SystemUserDto;
 import com.jeramtough.randl2.service.AdminUserService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.jaas.JaasGrantedAuthority;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -88,17 +85,9 @@ public class AdminUserServiceImpl
             throw new ApiResponseException(1001);
         }
 
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
-        grantedAuthorityList.add(
-                new JaasGrantedAuthority("ROLE_" + systemUser.getRole().getName(),
-                        systemUser));
-        UsernamePasswordAuthenticationToken token =
-                new UsernamePasswordAuthenticationToken(systemUser.getUsername(),
-                        systemUser.getPassword(), grantedAuthorityList);
-        token.setDetails(systemUser);
-        securityContext.setAuthentication(token);
+        UserHolder.afterLogin(systemUser);
 
+        //processing SystemUserDto
         SystemUserDto systemUserDto = getMapperFacade().map(systemUser, SystemUserDto.class);
         String surfaceImage = surfaceImageMapper.selectById(
                 systemUser.getSurfaceImageId()).getSurfaceImage();
@@ -254,6 +243,51 @@ public class AdminUserServiceImpl
             throw new ApiResponseException(1040);
         }
         return getBaseDto(adminUser);
+    }
+
+    @Override
+    public String updateCurrentAdminUser(UpdateCurrentAdminUserParams params) {
+        BeanValidator.verifyDto(params);
+
+        if (UserHolder.isSuperAdmin()) {
+            throw new ApiResponseException(1040);
+        }
+
+        AdminUser currentAdminUser = getMapperFacade().map(UserHolder.getSystemUser(), AdminUser.class);
+
+        if (currentAdminUser.getPhoneNumber() != null) {
+            if (!currentAdminUser.getPhoneNumber().equals(params.getPhoneNumber())) {
+                if (params.getPhoneNumber() != null && (getBaseMapper().selectCount(
+                        new QueryWrapper<AdminUser>().eq("phone_number",
+                                params.getPhoneNumber())) > 0)) {
+                    //存在重复手机号码
+                    throw new ApiResponseException(1037);
+                }
+            }
+        }
+
+        if (currentAdminUser.getEmailAddress() != null) {
+            if (!currentAdminUser.getEmailAddress().equals(params.getEmailAddress())) {
+                if (params.getEmailAddress() != null && (getBaseMapper().selectCount(
+                        new QueryWrapper<AdminUser>().eq(
+                                "email_address",
+                                params.getEmailAddress())) > 0)) {
+                    //存在重复邮箱地址
+                    throw new ApiResponseException(1038);
+                }
+            }
+        }
+
+        AdminUser adminUser = mapperFacade.map(params, AdminUser.class);
+        adminUser.setUid(currentAdminUser.getUid());
+        if (params.getPassword() != null) {
+            adminUser.setPassword(passwordEncoder.encode(params.getPassword()));
+        }
+        updateById(adminUser);
+
+        UserHolder.update(params.getPhoneNumber(),params.getEmailAddress());
+
+        return "您的账户信息成功！";
     }
 
 

@@ -6,6 +6,7 @@ import com.jeramtough.randl2.bean.QueryByPageParams;
 import com.jeramtough.randl2.bean.adminuser.AdminUserCredentials;
 import com.jeramtough.randl2.bean.adminuser.RegisterAdminUserParams;
 import com.jeramtough.randl2.bean.adminuser.UpdateAdminUserParams;
+import com.jeramtough.randl2.bean.adminuser.UpdateCurrentAdminUserParams;
 import com.jeramtough.randl2.service.AdminUserService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,6 +133,16 @@ public class AdminUserController extends BaseController {
         return getSuccessfulApiResponse(adminUserService.updateAdminUser(params));
     }
 
+    @ApiOperation(value = "更新当前", notes = "更新当前登录的系统管理员账号信息")
+    @RequestMapping(value = "/updateCurrent", method = {RequestMethod.POST})
+    @ApiResponses(value = {
+            @ApiResponse(code = 1040, message = "超级管理员用户不能更新！"),
+    })
+    public RestfulApiResponse updateCurrentAdminUser(
+            @RequestBody UpdateCurrentAdminUserParams params) {
+        return getSuccessfulApiResponse(adminUserService.updateCurrentAdminUser(params));
+    }
+
 
     @ApiOperation(value = "退出登录", notes = "系统管理员退出登录")
     @RequestMapping(value = "/logout", method = {RequestMethod.POST})
@@ -139,6 +150,7 @@ public class AdminUserController extends BaseController {
 
         return getSuccessfulApiResponse(adminUserService.adminLogout());
     }
+
 
 }
 

@@ -5,6 +5,7 @@ import com.jeramtough.randl2.bean.QueryByPageParams;
 import com.jeramtough.randl2.bean.adminuser.AdminUserCredentials;
 import com.jeramtough.randl2.bean.adminuser.RegisterAdminUserParams;
 import com.jeramtough.randl2.bean.adminuser.UpdateAdminUserParams;
+import com.jeramtough.randl2.bean.adminuser.UpdateCurrentAdminUserParams;
 import com.jeramtough.randl2.component.db.QueryPage;
 import com.jeramtough.randl2.dao.entity.AdminUser;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -43,4 +44,6 @@ public interface AdminUserService extends IService<AdminUser> {
     PageDto<AdminUserDto> getAdminUserListByPage(QueryByPageParams queryByPageParams);
 
     AdminUserDto getAdminUserByKeyword(String keyword);
+
+    String updateCurrentAdminUser(UpdateCurrentAdminUserParams params);
 }

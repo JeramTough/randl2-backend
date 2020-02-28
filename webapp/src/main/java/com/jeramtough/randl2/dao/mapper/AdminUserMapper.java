@@ -5,11 +5,12 @@ import com.jeramtough.randl2.dao.entity.AdminUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author JeramTough
@@ -23,5 +24,9 @@ public interface AdminUserMapper extends BaseMapper<AdminUser> {
             " OR phone_number = #{keyword}" +
             " OR email_address = #{keyword}")
     AdminUser selectByKeyword(@Param("keyword") String keyword);
+
+    @Update("UPDATE admin_user SET surface_image_id=#{surfaceImageId} WHERE uid=#{uid}")
+    void updateSurfaceImageId(@Param("uid") long uid,
+                            @Param("surfaceImageId") long surfaceImageId);
 
 }

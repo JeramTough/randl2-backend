@@ -132,5 +132,15 @@ public class RegisteredUserController extends BaseController {
         return getSuccessfulApiResponse(registeredUserService.updateRegisteredUser(params));
     }
 
+    @ApiOperation(value = "关键字查询", notes = "根据关键字查询得到一个管理员用户信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "keyword", value = "关键字", paramType = "query",
+                    required = true, dataType = "String", defaultValue = "username")})
+    @ApiResponses(value = {@ApiResponse(code = 1040, message = "查询失败！该用户不存在")})
+    @RequestMapping(value = "/byKeyword", method = {RequestMethod.GET})
+    public RestfulApiResponse getRegisteredUsersByKeyword(@RequestParam String keyword) {
+        return getSuccessfulApiResponse(registeredUserService.getRegisteredUsersByKeyword(keyword));
+    }
+
 }
 

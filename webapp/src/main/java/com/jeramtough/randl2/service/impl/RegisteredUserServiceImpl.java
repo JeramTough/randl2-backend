@@ -20,6 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.List;
+
 /**
  * <p>
  * 服务实现类
@@ -162,6 +164,15 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
 
         updateById(registeredUser);
         return "更新普通注册用户信息成功！";
+    }
+
+    @Override
+    public List<RegisteredUserDto> getRegisteredUsersByKeyword(String keyword) {
+        QueryWrapper<RegisteredUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("account", "%" + keyword + "%").or().like("phone_number",
+                "%" + keyword + "%").or().like("email_address", "%" + keyword + "%");
+        List<RegisteredUser> registeredUserList = getBaseMapper().selectList(queryWrapper);
+        return getDtoList(registeredUserList);
     }
 
 

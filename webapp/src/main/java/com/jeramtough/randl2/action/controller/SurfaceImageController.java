@@ -2,6 +2,7 @@ package com.jeramtough.randl2.action.controller;
 
 
 import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
+import com.jeramtough.randl2.bean.surfaceimage.UpdateCurrentAdminSurfaceImageParams;
 import com.jeramtough.randl2.bean.surfaceimage.UpdateSurfaceImageParams;
 import com.jeramtough.randl2.bean.surfaceimage.UploadSurfaceImageParams;
 import com.jeramtough.randl2.service.SurfaceImageService;
@@ -46,7 +47,18 @@ public class SurfaceImageController extends BaseController {
         return getSuccessfulApiResponse(surfaceImageService.addUpdateSurfaceImage(file));
     }
 
-    @ApiOperation(value = "更新", notes = "更新头像")
+    @ApiOperation(value = "更新管理员", notes = "更新当前登录管理员账户的头像")
+    @RequestMapping(value = "/updateCurrentAdmin", method = RequestMethod.POST)
+    @ApiResponses(value = {
+            @ApiResponse(code = 6030, message = "管理员账户头像不允许被修改")
+    })
+    public RestfulApiResponse updateAdminSurfaceImageByBase64(
+            @RequestBody UpdateCurrentAdminSurfaceImageParams params) {
+        return getSuccessfulApiResponse(surfaceImageService.updateCurrentAdminSurfaceImageByBase64(params));
+    }
+
+
+    @ApiOperation(value = "更新普通用户", notes = "更新普通用户的头像")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ApiResponses(value = {
     })

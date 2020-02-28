@@ -2,13 +2,16 @@ package com.jeramtough.randl2.service.impl;
 
 import com.jeramtough.jtcomponent.key.util.KeyUtil;
 import com.jeramtough.jtlog.with.WithLogger;
+import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.bean.surfaceimage.UpdateCurrentAdminSurfaceImageParams;
 import com.jeramtough.randl2.bean.surfaceimage.UpdateSurfaceImageParams;
 import com.jeramtough.randl2.bean.surfaceimage.UploadSurfaceImageParams;
 import com.jeramtough.randl2.component.userdetail.SystemUser;
 import com.jeramtough.randl2.component.userdetail.UserHolder;
 import com.jeramtough.randl2.dao.entity.RegisteredUser;
 import com.jeramtough.randl2.dao.entity.SurfaceImage;
+import com.jeramtough.randl2.dao.mapper.AdminUserMapper;
 import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;
 import com.jeramtough.randl2.dao.mapper.SurfaceImageMapper;
 import com.jeramtough.randl2.dto.SurfaceImageDto;
@@ -35,13 +38,16 @@ public class SurfaceImageServiceImpl extends BaseServiceImpl<SurfaceImageMapper,
         SurfaceImage, SurfaceImageDto> implements SurfaceImageService, WithLogger {
 
     private RegisteredUserMapper registeredUserMapper;
+    private AdminUserMapper adminUserMapper;
 
     @Autowired
     public SurfaceImageServiceImpl(WebApplicationContext wc,
                                    MapperFacade mapperFacade,
-                                   RegisteredUserMapper registeredUserMapper) {
+                                   RegisteredUserMapper registeredUserMapper,
+                                   AdminUserMapper adminUserMapper) {
         super(wc, mapperFacade);
         this.registeredUserMapper = registeredUserMapper;
+        this.adminUserMapper = adminUserMapper;
     }
 
     @Override
@@ -110,7 +116,7 @@ public class SurfaceImageServiceImpl extends BaseServiceImpl<SurfaceImageMapper,
             throw new ApiResponseException(6010);
         }
 
-        UploadSurfaceImageParams uploadParams=new UploadSurfaceImageParams();
+        UploadSurfaceImageParams uploadParams = new UploadSurfaceImageParams();
         uploadParams.setSurfaceImage(params.getSurfaceImage());
         SurfaceImageDto surfaceImageDto = uploadSurfaceImageByBase64(uploadParams);
 
@@ -124,7 +130,32 @@ public class SurfaceImageServiceImpl extends BaseServiceImpl<SurfaceImageMapper,
         SurfaceImage surfaceImage = getMapperFacade().map(params,
                 SurfaceImage.class);
         getBaseMapper().insertSurfaceImage(surfaceImage);
-        SurfaceImageDto surfaceImageDto=getMapperFacade().map(surfaceImage,SurfaceImageDto.class);
+        SurfaceImageDto surfaceImageDto = getMapperFacade().map(surfaceImage,
+                SurfaceImageDto.class);
         return surfaceImageDto;
     }
+
+    @Override
+    public SurfaceImageDto updateCurrentAdminSurfaceImageByBase64(
+            UpdateCurrentAdminSurfaceImageParams params) {
+
+        BeanValidator.verifyDto(params);
+
+        SystemUser systemUser = UserHolder.getSystemUser();
+        if (UserHolder.isSuperAdmin()) {
+            throw new ApiResponseException(6030);
+        }
+
+        SurfaceImage surfaceImage = getMapperFacade().map(params,
+                SurfaceImage.class);
+        getBaseMapper().insertSurfaceImage(surfaceImage);
+        SurfaceImageDto surfaceImageDto = getMapperFacade().map(surfaceImage,
+                SurfaceImageDto.class);
+
+        systemUser.setSurfaceImageId(surfaceImage.getFid());
+        adminUserMapper.updateSurfaceImageId(systemUser.getUid(), surfaceImage.getFid());
+
+        return surfaceImageDto;
+    }
+
 }

@@ -23,11 +23,12 @@ public class SuperAdmin {
 
     private String roleName = ROLE_NAME;
 
-    private Long uid=0L;
+    public static Long UID =0L;
 
-    private Long roleId=0L;
+    public static Long SURFACE_IMAGE_ID = 0L;
 
-    private Long surfaceImageId = 0L;
+    public static Long ROLE_ID =0L;
+
 
     public String getUsername() {
         return username;
@@ -55,16 +56,16 @@ public class SuperAdmin {
 
     public SystemUser toSystemUser() {
         SystemUser systemUser = new SystemUser();
-        systemUser.setUid(uid);
+        systemUser.setUid(UID);
         systemUser.setUsername(username);
         systemUser.setPassword(password);
         Role role = new Role();
         role.setDescription("超级管理员");
-        role.setFid(roleId);
+        role.setFid(ROLE_ID);
         role.setName(roleName);
         systemUser.setRole(role);
         systemUser.setUserType(UserType.ADMIN);
-        systemUser.setSurfaceImageId(surfaceImageId);
+        systemUser.setSurfaceImageId(SURFACE_IMAGE_ID);
         return systemUser;
     }
 }
