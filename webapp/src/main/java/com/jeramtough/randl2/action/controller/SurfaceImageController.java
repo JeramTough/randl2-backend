@@ -35,7 +35,7 @@ public class SurfaceImageController extends BaseController {
     @RequestMapping(value = "/uploadAndUpdate", method = RequestMethod.POST,
             headers = {"content-type=multipart/form-data"}, consumes = {"multipart/*"})
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "file", value = "头像文件", dataType = "file",
+            @ApiImplicitParam(name = "file", value = "头像文件", dataType = "MultipartFile",allowMultiple = true,
                     required = true, paramType = "form")})
     @ApiResponses(value = {
             @ApiResponse(code = 6000, message = "上传失败，上传数据为空"),

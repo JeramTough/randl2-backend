@@ -75,7 +75,7 @@
         <dependency>
             <groupId>com.jeramtough</groupId>
             <artifactId>spring-boot-starter-jtweb</artifactId>
-            <version>1.1.7-LOCAL</version>
+            <version>1.2.1-LOCAL</version>
         </dependency>
 
         <dependency>

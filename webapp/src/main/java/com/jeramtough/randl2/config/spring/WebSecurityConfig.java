@@ -33,7 +33,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/registeredUser/verify/**",
             "/registeredUser/register",
             "/registeredUser/reset",
-            "/verificationCode/**"
+            "/verificationCode/**",
+    };
+
+    private static final String[] SWAGGER_URLS = {
+            "/swagger-resources",
+            "/v2/api-docs",
+            "/v2/api-docs-ext",
+            "/doc.html",
+            "/webjars",
+            "/swagger-ui.html",
+            "/swagger-resources/**",
+            "/images/**",
+            "/webjars/**",
+            "/configuration/ui",
+            "/configuration/security"
     };
 
     private final PermissionMapper permissionMapper;
@@ -67,16 +81,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authorizationConfigurer = http
                 .authorizeRequests();
 
-
         authorizationConfigurer
                 //放行Swagger的资源
-                .antMatchers("/swagger-ui.html").permitAll()
-                .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers("/images/**").permitAll()
-                .antMatchers("/webjars/**").permitAll()
-                .antMatchers("/v2/api-docs").permitAll()
-                .antMatchers("/configuration/ui").permitAll()
-                .antMatchers("/configuration/security").permitAll();
+                .antMatchers(SWAGGER_URLS).permitAll();
 
         //动态分配权限
         for (Map.Entry<String, List<String>> entry : apiUrlKeyPermissionMap.entrySet()) {
@@ -85,7 +92,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         }
 
         http.formLogin().loginPage("/unlogged.html").permitAll();
-        String[] accessOnlySuperAdminApiUrls = new String[]{"/adminUser/add"};
+        String[] accessOnlySuperAdminApiUrls = new String[]{"/adminUser/add" };
 
         authorizationConfigurer.antMatchers(accessOnlySuperAdminApiUrls).hasAnyRole(
                 SuperAdmin.ROLE_NAME);

@@ -11,7 +11,7 @@ public class Randl2Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Randl2Application.class, args);
-		L.info("swagger: http://127.0.0.1:8088/randl2/swagger-ui.html");
+		L.info("swagger: http://127.0.0.1:8088/randl2/doc.html?cache=1&lang=zh");
 	}
 
 }
