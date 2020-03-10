@@ -2,6 +2,7 @@ package com.jeramtough.randl2.service;
 
 import com.jeramtough.randl2.bean.registereduser.UpdateRegisteredUserParams;
 import com.jeramtough.randl2.bean.registereduser.VerifyPasswordParams;
+import com.jeramtough.randl2.bean.registereduser.VerifyPhoneOrEmailByForgetParams;
 import com.jeramtough.randl2.bean.registereduser.VerifyPhoneOrEmailForNewParams;
 import com.jeramtough.randl2.dao.entity.RegisteredUser;
 import com.jeramtough.randl2.dto.RegisteredUserDto;
@@ -20,13 +21,22 @@ public interface RegisteredUserService extends BaseService<RegisteredUser, Regis
 
     String verifyPhoneOrEmailForNew(VerifyPhoneOrEmailForNewParams params);
 
+    String verifyPhoneOrEmailByForget(VerifyPhoneOrEmailByForgetParams params);
+
     String verifyPassword(VerifyPasswordParams params);
 
     RegisteredUserDto register();
+
+    RegisteredUserDto resetPassword();
 
     String removeRegisteredUser(Long uid);
 
     String updateRegisteredUser(UpdateRegisteredUserParams params);
 
     List<RegisteredUserDto> getRegisteredUsersByKeyword(String keyword);
+
+
+
+
+
 }

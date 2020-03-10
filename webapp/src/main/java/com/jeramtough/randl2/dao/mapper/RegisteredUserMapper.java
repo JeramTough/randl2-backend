@@ -25,4 +25,7 @@ public interface RegisteredUserMapper extends BaseMapper<RegisteredUser> {
     @Select("SELECT * FROM registered_user WHERE email_address=#{emailAddress}")
     RegisteredUser selectByEmailAddress(@Param("emailAddress") String emailAddress);
 
+    @Select("SELECT * FROM registered_user WHERE  phone_number=#{phoneOrEmail} OR " +
+            "email_address=#{phoneOrEmail}")
+    RegisteredUser selectByPhoneNumberOrEmailAddress(String phoneOrEmail);
 }

@@ -16,7 +16,7 @@ public interface RegisteredUserBuilder {
 
     void rebuildRegisteredUser(@NotNull RegisteredUser registeredUser);
 
-    void resetRegisteredUser();
+    RegisteredUser resetRegisteredUser(int... errorCodes);
 
     void setAccount(String phoneOrEmailOrOther, int... errorCodes) throws ApiResponseException;
 
@@ -24,5 +24,10 @@ public interface RegisteredUserBuilder {
                      int... errorCodes) throws ApiResponseException;
 
     RegisteredUser build(int... errorCodes) throws ApiResponseException;
+
+    /**
+     * 将session清除
+     */
+    void clear();
 }
 

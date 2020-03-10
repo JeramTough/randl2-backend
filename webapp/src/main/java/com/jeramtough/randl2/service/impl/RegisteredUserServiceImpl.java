@@ -1,11 +1,13 @@
 package com.jeramtough.randl2.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.jeramtough.jtcomponent.utils.ValidationUtil;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.bean.registereduser.UpdateRegisteredUserParams;
 import com.jeramtough.randl2.bean.registereduser.VerifyPasswordParams;
+import com.jeramtough.randl2.bean.registereduser.VerifyPhoneOrEmailByForgetParams;
 import com.jeramtough.randl2.bean.registereduser.VerifyPhoneOrEmailForNewParams;
 import com.jeramtough.randl2.component.registereduser.builder.RegisteredUserBuilder;
 import com.jeramtough.randl2.component.registereduser.builder.RegisteredUserBuilderGetter;
@@ -62,13 +64,39 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
     public String verifyPhoneOrEmailForNew(VerifyPhoneOrEmailForNewParams params) {
         BeanValidator.verifyDto(params);
 
-        //初始化注册方式
+        //初始化用户的方式
         registeredUserPlantGetter.initRegisterUserWay(params.getWay(), 7005);
 
         RegisteredUserBuilder builder = registeredUserPlantGetter.getRegisteredUserBuilder(
                 7000);
         builder.setAccount(params.getPhoneOrEmail(), 7001, 7002, 7003, 7004);
         return "该账号可以注册";
+    }
+
+    @Override
+    public String verifyPhoneOrEmailByForget(VerifyPhoneOrEmailByForgetParams params) {
+        BeanValidator.verifyDto(params);
+
+        //初始化用户的方式
+        registeredUserPlantGetter.initRegisterUserWay(params.getWay(), 7005);
+
+        RegisteredUserBuilder builder = registeredUserPlantGetter.getRegisteredUserBuilder(
+                7000);
+
+        boolean isPhone = ValidationUtil.isPhone(params.getPhoneOrEmail());
+        boolean isEmail = ValidationUtil.isEmail(params.getPhoneOrEmail());
+        if (!(isPhone || isEmail)) {
+            throw new ApiResponseException(668, "账号", "格式不正确");
+        }
+
+        RegisteredUser registeredUser =
+                getBaseMapper().selectByPhoneNumberOrEmailAddress(params.getPhoneOrEmail());
+        if (registeredUser == null) {
+            throw new ApiResponseException(7010);
+        }
+
+        builder.rebuildRegisteredUser(registeredUser);
+        return "校验通过";
     }
 
     @Override
@@ -101,7 +129,33 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         }
 
         getBaseMapper().insert(registeredUser);
-        builder.resetRegisteredUser();
+        builder.clear();
+        return getBaseDto(registeredUser);
+    }
+
+    @Override
+    public synchronized RegisteredUserDto resetPassword() {
+        RegisteredUserBuilder builder = registeredUserPlantGetter.getRegisteredUserBuilder(
+                7000);
+        RegisteredUser registeredUser = builder.resetRegisteredUser(7040);
+
+        //验证码校验是否通过
+        if (!verificationCodeHolder.getVerificationResult().isPassed()) {
+            throw new ApiResponseException(7041);
+        }
+
+        boolean isTheSamePhoneNumber =
+                verificationCodeHolder.getVerificationResult().getSendWayValue().equals(
+                        registeredUser.getPhoneNumber());
+        boolean isTheSameEmailAddress =
+                verificationCodeHolder.getVerificationResult().getSendWayValue().equals(
+                        registeredUser.getEmailAddress());
+        if (!(isTheSamePhoneNumber || isTheSameEmailAddress)) {
+            throw new ApiResponseException(7042);
+        }
+
+        getBaseMapper().updateById(registeredUser);
+        builder.clear();
         return getBaseDto(registeredUser);
     }
 
@@ -174,6 +228,8 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         List<RegisteredUser> registeredUserList = getBaseMapper().selectList(queryWrapper);
         return getDtoList(registeredUserList);
     }
+
+
 
 
     //****************************

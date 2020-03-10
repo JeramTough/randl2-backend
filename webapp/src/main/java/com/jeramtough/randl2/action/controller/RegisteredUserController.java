@@ -6,6 +6,7 @@ import com.jeramtough.randl2.bean.QueryByPageParams;
 import com.jeramtough.randl2.bean.adminuser.UpdateAdminUserParams;
 import com.jeramtough.randl2.bean.registereduser.UpdateRegisteredUserParams;
 import com.jeramtough.randl2.bean.registereduser.VerifyPasswordParams;
+import com.jeramtough.randl2.bean.registereduser.VerifyPhoneOrEmailByForgetParams;
 import com.jeramtough.randl2.bean.registereduser.VerifyPhoneOrEmailForNewParams;
 import com.jeramtough.randl2.service.RegisteredUserService;
 import io.swagger.annotations.*;
@@ -54,14 +55,16 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "找回密码账号校验", notes = "校验手机号码或者邮箱")
     @RequestMapping(value = "/verify/phoneOrEmailByForget", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 7010, message = "该手机号未注册过本系统"),
-            @ApiResponse(code = 7011, message = "该邮箱地址未注册过本系统"),
+            @ApiResponse(code = 7005, message = "way参数只能填1(以手机)或2(以邮箱)"),
+            @ApiResponse(code = 7010, message = "该手机号或者邮箱地址未注册过本系统"),
     })
-    public void verifyPhoneOrEmailByForget() {
-
+    public RestfulApiResponse verifyPhoneOrEmailByForget(@RequestBody
+                                                         VerifyPhoneOrEmailByForgetParams params) {
+        return getSuccessfulApiResponse(
+                registeredUserService.verifyPhoneOrEmailByForget(params));
     }
 
-    @ApiOperation(value = "密码校验", notes = "校验密码")
+    @ApiOperation(value = "新用户密码校验", notes = "新用户密码校验")
     @RequestMapping(value = "/verify/password", method = {RequestMethod.POST})
     @ApiResponses(value = {
             @ApiResponse(code = 7020, message = "添加管理员用户失败！两次密码不一致"),
@@ -71,10 +74,10 @@ public class RegisteredUserController extends BaseController {
         return getSuccessfulApiResponse(registeredUserService.verifyPassword(params));
     }
 
-    @ApiOperation(value = "注册", notes = "注册该用户")
+    @ApiOperation(value = "确定注册", notes = "注册该用户")
     @RequestMapping(value = "/register", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 7030, message = "注册未完成或信息以失效，或请重新注册"),
+            @ApiResponse(code = 7030, message = "注册未完成或信息以失效，请重新注册"),
             @ApiResponse(code = 7031, message = "验证码校验失败，或验证码未发送或以失效"),
             @ApiResponse(code = 7032, message = "发送验证码的手机号或邮箱地址与注册的不符"),
     })
@@ -82,13 +85,15 @@ public class RegisteredUserController extends BaseController {
         return getSuccessfulApiResponse(registeredUserService.register());
     }
 
-    @ApiOperation(value = "重置", notes = "重置密码")
+    @ApiOperation(value = "确定重置", notes = "重置密码")
     @RequestMapping(value = "/reset", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 7040, message = "注册验证码错误！"),
+            @ApiResponse(code = 7040, message = "重置未完成或信息以失效，请重新开始重置流程"),
+            @ApiResponse(code = 7041, message = "验证码校验失败，或验证码未发送或以失效"),
+            @ApiResponse(code = 7042, message = "发送验证码的手机号或邮箱地址与申请的不符"),
     })
-    public void resetUser() {
-
+    public RestfulApiResponse resetUser() {
+        return getSuccessfulApiResponse(registeredUserService.resetPassword());
     }
 
 
@@ -139,7 +144,8 @@ public class RegisteredUserController extends BaseController {
     @ApiResponses(value = {@ApiResponse(code = 1040, message = "查询失败！该用户不存在")})
     @RequestMapping(value = "/byKeyword", method = {RequestMethod.GET})
     public RestfulApiResponse getRegisteredUsersByKeyword(@RequestParam String keyword) {
-        return getSuccessfulApiResponse(registeredUserService.getRegisteredUsersByKeyword(keyword));
+        return getSuccessfulApiResponse(
+                registeredUserService.getRegisteredUsersByKeyword(keyword));
     }
 
 }

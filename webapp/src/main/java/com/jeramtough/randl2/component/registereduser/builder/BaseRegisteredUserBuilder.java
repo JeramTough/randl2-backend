@@ -38,8 +38,11 @@ public abstract class BaseRegisteredUserBuilder implements RegisteredUserBuilder
     }
 
     @Override
-    public void resetRegisteredUser() {
-        setRegisteredUser(null);
+    public RegisteredUser resetRegisteredUser(int... errorCodes) {
+        if (getRegisteredUser().getPassword() == null) {
+            throw new ApiResponseException(errorCodes[0]);
+        }
+        return getRegisteredUser();
     }
 
     @Override
@@ -51,6 +54,11 @@ public abstract class BaseRegisteredUserBuilder implements RegisteredUserBuilder
         RegisteredUser registeredUser = getRegisteredUser();
         registeredUser.setPassword(passwordEncoder.encode(password));
         setRegisteredUser(registeredUser);
+    }
+
+    @Override
+    public void clear() {
+        setRegisteredUser(null);
     }
 
     RegisteredUser getRegisteredUser() {
