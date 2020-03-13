@@ -23,6 +23,8 @@ public class Api implements Serializable {
 
     private String path;
 
+    private String alias;
+
     private String description;
 
 
@@ -48,6 +50,14 @@ public class Api implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 
     @Override

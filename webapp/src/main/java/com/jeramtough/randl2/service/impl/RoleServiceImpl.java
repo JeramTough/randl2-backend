@@ -6,8 +6,9 @@ import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.bean.permission.AddRoleParams;
 import com.jeramtough.randl2.bean.permission.UpdateRoleParams;
-import com.jeramtough.randl2.dao.entity.Api;
+import com.jeramtough.randl2.dao.entity.AdminUser;
 import com.jeramtough.randl2.dao.entity.Role;
+import com.jeramtough.randl2.dao.mapper.AdminUserMapper;
 import com.jeramtough.randl2.dao.mapper.RoleMapper;
 import com.jeramtough.randl2.dto.RoleDto;
 import com.jeramtough.randl2.service.RoleService;
@@ -31,9 +32,13 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role, RoleDto>
         implements RoleService,
         WithLogger {
 
+    private final AdminUserMapper adminUserMapper;
+
     @Autowired
-    public RoleServiceImpl(WebApplicationContext wc, MapperFacade mapperFacade) {
+    public RoleServiceImpl(WebApplicationContext wc, MapperFacade mapperFacade,
+                           AdminUserMapper adminUserMapper) {
         super(wc, mapperFacade);
+        this.adminUserMapper = adminUserMapper;
     }
 
     @Override
@@ -63,6 +68,13 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role, RoleDto>
         if (role == null) {
             throw new ApiResponseException(5010);
         }
+
+        QueryWrapper<AdminUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("role_id", role.getFid());
+        if (adminUserMapper.selectCount(queryWrapper) > 0) {
+            throw new ApiResponseException(5011);
+        }
+
         getBaseMapper().deleteById(fid);
         return "删除系统角色【" + role.getName() + "】成功";
     }

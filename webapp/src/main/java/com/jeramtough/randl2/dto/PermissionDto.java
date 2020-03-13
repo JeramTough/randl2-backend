@@ -10,9 +10,9 @@ public class PermissionDto {
 
     private Integer permissionId;
 
-    private Integer roleId;
+    private Long roleId;
 
-    private Integer apiId;
+    private Long apiId;
 
     private String roleName;
 
@@ -22,6 +22,8 @@ public class PermissionDto {
 
     private String apiDescription;
 
+    private String apiAlias;
+
     public Integer getPermissionId() {
         return permissionId;
     }
@@ -30,19 +32,19 @@ public class PermissionDto {
         this.permissionId = permissionId;
     }
 
-    public Integer getRoleId() {
+    public Long getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Integer roleId) {
+    public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
 
-    public Integer getApiId() {
+    public Long getApiId() {
         return apiId;
     }
 
-    public void setApiId(Integer apiId) {
+    public void setApiId(Long apiId) {
         this.apiId = apiId;
     }
 
@@ -76,5 +78,13 @@ public class PermissionDto {
 
     public void setApiDescription(String apiDescription) {
         this.apiDescription = apiDescription;
+    }
+
+    public String getApiAlias() {
+        return apiAlias;
+    }
+
+    public void setApiAlias(String apiAlias) {
+        this.apiAlias = apiAlias;
     }
 }

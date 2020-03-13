@@ -37,7 +37,7 @@ public class RoleController extends BaseSwaggerController {
     @ApiResponses(value = {
             @ApiResponse(code = 5000, message = "添加系统角色失败，[%s]参数不能为空"),
             @ApiResponse(code = 5001, message = "该系统角色已存在"),
-            @ApiResponse(code = 5002, message = "角色名只能为英文字母")
+            @ApiResponse(code = 5002, message = "角色名只允许输入英文字母或者下划线或减号")
     })
     public RestfulApiResponse addRole(@RequestBody AddRoleParams params) {
         return getSuccessfulApiResponse(roleService.addRole(params));
@@ -50,6 +50,7 @@ public class RoleController extends BaseSwaggerController {
                     required = true, defaultValue = "1")})
     @ApiResponses(value = {
             @ApiResponse(code = 5010, message = "删除系统角色失败！该系统角色不存在"),
+            @ApiResponse(code = 5011, message = "删除系统角色失败！因为还有管理员账号被赋予该角色，请修改后重试！"),
     })
     public RestfulApiResponse deleteRole(Long fid) {
         return getSuccessfulApiResponse(roleService.deleteRole(fid));

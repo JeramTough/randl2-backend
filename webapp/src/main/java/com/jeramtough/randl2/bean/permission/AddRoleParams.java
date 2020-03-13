@@ -15,7 +15,7 @@ public class AddRoleParams {
 
     @ApiModelProperty(value = "角色名", example = "TEST", required = true)
     @NotNull(message = "{'code':5000,'placeholders':['角色名']}")
-    @Pattern(regexp = "[a-zA-Z]", message = "5002")
+    @Pattern(regexp = "^([a-zA-Z]|[-]|[_])+$", message = "5002")
     private String name;
 
     @ApiModelProperty(value = "角色描述", example = "who", required = true)

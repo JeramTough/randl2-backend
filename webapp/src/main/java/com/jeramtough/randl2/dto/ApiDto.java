@@ -26,6 +26,8 @@ public class ApiDto implements Serializable {
 
     private String description;
 
+    private String alias;
+
 
     public Long getFid() {
         return fid;
@@ -49,6 +51,14 @@ public class ApiDto implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 
     @Override

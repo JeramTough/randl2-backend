@@ -23,11 +23,13 @@ public class SuperAdmin {
 
     private String roleName = ROLE_NAME;
 
-    public static Long UID =0L;
+    public static final Long UID =0L;
 
-    public static Long SURFACE_IMAGE_ID = 0L;
+    public static final Long SURFACE_IMAGE_ID = 0L;
 
-    public static Long ROLE_ID =0L;
+    public static final Long ROLE_ID =0L;
+
+    public static final String ROLE_DESCRIPTION="超级管理员";
 
 
     public String getUsername() {
@@ -60,7 +62,7 @@ public class SuperAdmin {
         systemUser.setUsername(username);
         systemUser.setPassword(password);
         Role role = new Role();
-        role.setDescription("超级管理员");
+        role.setDescription(ROLE_DESCRIPTION);
         role.setFid(ROLE_ID);
         role.setName(roleName);
         systemUser.setRole(role);

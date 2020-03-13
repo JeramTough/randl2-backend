@@ -17,7 +17,7 @@ public class UpdateRoleParams {
     @NotNull(message = "{'code':5020,'placeholders':['角色Id']}")
     private Long fid;
 
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "5002")
+    @Pattern(regexp = "^([a-zA-Z]|[-]|[_])+$", message = "5002")
     private String name;
 
     private String description;

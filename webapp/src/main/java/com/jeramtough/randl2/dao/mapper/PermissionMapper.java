@@ -27,4 +27,5 @@ public interface PermissionMapper extends BaseMapper<Permission> {
 
     @Select("SELECT * FROM permission_view where role_id=#{roleId}")
     List<PermissionDto> selectListPermissionDtoByRoleId(@Param("roleId") Long roleId);
+
 }

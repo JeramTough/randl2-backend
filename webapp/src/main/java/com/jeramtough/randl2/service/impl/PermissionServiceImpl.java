@@ -5,8 +5,11 @@ import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.bean.permission.PermissionParams;
+import com.jeramtough.randl2.component.userdetail.SuperAdmin;
+import com.jeramtough.randl2.dao.entity.Api;
 import com.jeramtough.randl2.dao.entity.Permission;
 import com.jeramtough.randl2.dao.entity.Role;
+import com.jeramtough.randl2.dao.mapper.ApiMapper;
 import com.jeramtough.randl2.dao.mapper.PermissionMapper;
 import com.jeramtough.randl2.dao.mapper.RoleMapper;
 import com.jeramtough.randl2.dto.PermissionDto;
@@ -33,13 +36,16 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Per
         PermissionService, WithLogger {
 
     private final RoleMapper roleMapper;
+    private final ApiMapper apiMapper;
 
     @Autowired
     public PermissionServiceImpl(WebApplicationContext wc,
                                  MapperFacade mapperFacade,
-                                 RoleMapper roleMapper) {
+                                 RoleMapper roleMapper,
+                                 ApiMapper apiMapper) {
         super(wc, mapperFacade);
         this.roleMapper = roleMapper;
+        this.apiMapper = apiMapper;
     }
 
     @Override
@@ -50,7 +56,25 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Per
 
     @Override
     public List<PermissionDto> getPermissionListByRoleId(Long roleId) {
-        return getBaseMapper().selectListPermissionDtoByRoleId(roleId);
+        if (roleId.equals(SuperAdmin.ROLE_ID)) {
+            List<PermissionDto> permissionDtoList = new ArrayList<>();
+            List<Api> apiList=apiMapper.selectList(null);
+            for (Api api : apiList) {
+                PermissionDto permissionDto=new PermissionDto();
+                permissionDto.setApiDescription(api.getDescription());
+                permissionDto.setApiId(api.getFid());
+                permissionDto.setApiPath(api.getPath());
+                permissionDto.setApiAlias(api.getAlias());
+                permissionDto.setRoleDescription(SuperAdmin.ROLE_DESCRIPTION);
+                permissionDto.setRoleId(SuperAdmin.ROLE_ID);
+                permissionDto.setRoleName(SuperAdmin.ROLE_NAME);
+                permissionDtoList.add(permissionDto);
+            }
+            return permissionDtoList;
+        }
+        else {
+            return getBaseMapper().selectListPermissionDtoByRoleId(roleId);
+        }
     }
 
     @Override

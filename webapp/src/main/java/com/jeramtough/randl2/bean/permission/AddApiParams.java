@@ -12,7 +12,7 @@ import javax.validation.constraints.Pattern;
  * by @author JeramTough
  * </pre>
  */
-@ApiModel("添加API接口参数")
+@ApiModel("添加API接口信息参数")
 public class AddApiParams {
 
     @ApiModelProperty(value = "路径", example = "/test/getSomething", required = true)
@@ -22,6 +22,9 @@ public class AddApiParams {
     @ApiModelProperty(value = "接口描述", example = "do something", required = false)
     private String description;
 
+    @NotNull(message = "{'code':667,'placeholders':['添加','API别名']}")
+    @ApiModelProperty(value = "接口别名", example = "BM", required = true)
+    private String alias;
 
     public String getPath() {
         return path;
@@ -37,5 +40,13 @@ public class AddApiParams {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 }

@@ -35,7 +35,8 @@ public class ApiController extends BaseSwaggerController {
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
     @ApiResponses(value = {
             @ApiResponse(code = 4000, message = "添加接口信息失败，[%s]参数不能为空"),
-            @ApiResponse(code = 4001, message = "该接口已存在")
+            @ApiResponse(code = 4001, message = "该接口已存在"),
+            @ApiResponse(code = 4002, message = "接口别名不能重复")
     })
     public RestfulApiResponse addApi(@RequestBody AddApiParams params) {
         return getSuccessfulApiResponse(apiService.addApi(params));

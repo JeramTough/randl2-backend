@@ -43,9 +43,17 @@ public class ApiServiceImpl extends BaseServiceImpl<ApiMapper, Api, ApiDto>
     @Override
     public String addApi(AddApiParams params) {
         BeanValidator.verifyDto(params);
+        params.setDescription(params.getDescription().trim());
+        params.setAlias(params.getAlias().trim());
+
         if (getBaseMapper().selectOne(
                 new QueryWrapper<Api>().eq("path", params.getPath())) != null) {
             throw new ApiResponseException(4001);
+        }
+
+        if (getBaseMapper().selectOne(
+                new QueryWrapper<Api>().eq("alias", params.getAlias())) != null) {
+            throw new ApiResponseException(4002);
         }
 
         Api api = getMapperFacade().map(params, Api.class);
@@ -65,6 +73,14 @@ public class ApiServiceImpl extends BaseServiceImpl<ApiMapper, Api, ApiDto>
 
     @Override
     public String updateApi(UpdateApiParams params) {
+        BeanValidator.verifyDto(params);
+        if (params.getDescription() != null) {
+            params.setDescription(params.getDescription().trim());
+        }
+        if (params.getAlias() != null) {
+            params.setAlias(params.getAlias().trim());
+        }
+
         Api api = getBaseMapper().selectById(params.getFid());
         if (api == null) {
             throw new ApiResponseException(4021);
@@ -73,6 +89,12 @@ public class ApiServiceImpl extends BaseServiceImpl<ApiMapper, Api, ApiDto>
             if (getBaseMapper().selectOne(
                     new QueryWrapper<Api>().eq("path", params.getPath())) != null) {
                 throw new ApiResponseException(4001);
+            }
+        }
+        if (!api.getAlias().equals(params.getAlias())) {
+            if (getBaseMapper().selectOne(
+                    new QueryWrapper<Api>().eq("alias", params.getAlias())) != null) {
+                throw new ApiResponseException(4002);
             }
         }
         api = getMapperFacade().map(params, Api.class);
