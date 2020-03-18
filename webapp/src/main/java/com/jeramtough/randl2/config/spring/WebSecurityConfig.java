@@ -50,6 +50,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/configuration/security"
     };
 
+    private static final String[] ONLY_SUPER_ADMIN_API_URLS ={
+            "/adminUser/add",
+            "/adminUser/all",
+            "/adminUser/page",
+            "/adminUser/byKeyword",
+            "/adminUser/remove",
+    };
+
     private final PermissionMapper permissionMapper;
 
 
@@ -104,7 +112,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .cors()
                 .and()
-                .csrf().disable();
+                .csrf().disable(); 
     }
 
     /**
