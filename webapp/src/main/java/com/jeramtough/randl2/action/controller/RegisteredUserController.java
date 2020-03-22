@@ -3,11 +3,9 @@ package com.jeramtough.randl2.action.controller;
 
 import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
 import com.jeramtough.randl2.bean.QueryByPageParams;
+import com.jeramtough.randl2.bean.adminuser.AdminUserCredentials;
 import com.jeramtough.randl2.bean.adminuser.UpdateAdminUserParams;
-import com.jeramtough.randl2.bean.registereduser.UpdateRegisteredUserParams;
-import com.jeramtough.randl2.bean.registereduser.VerifyPasswordParams;
-import com.jeramtough.randl2.bean.registereduser.VerifyPhoneOrEmailByForgetParams;
-import com.jeramtough.randl2.bean.registereduser.VerifyPhoneOrEmailForNewParams;
+import com.jeramtough.randl2.bean.registereduser.*;
 import com.jeramtough.randl2.service.RegisteredUserService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +57,7 @@ public class RegisteredUserController extends BaseController {
             @ApiResponse(code = 7010, message = "该手机号或者邮箱地址未注册过本系统"),
     })
     public RestfulApiResponse verifyPhoneOrEmailByForget(@RequestBody
-                                                         VerifyPhoneOrEmailByForgetParams params) {
+                                                                 VerifyPhoneOrEmailByForgetParams params) {
         return getSuccessfulApiResponse(
                 registeredUserService.verifyPhoneOrEmailByForget(params));
     }
@@ -141,11 +139,19 @@ public class RegisteredUserController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "keyword", value = "关键字", paramType = "query",
                     required = true, dataType = "String", defaultValue = "username")})
-    @ApiResponses(value = {@ApiResponse(code = 1040, message = "查询失败！该用户不存在")})
+    @ApiResponses(value = {@ApiResponse(code = 7070, message = "查询失败！该用户不存在")})
     @RequestMapping(value = "/byKeyword", method = {RequestMethod.GET})
     public RestfulApiResponse getRegisteredUsersByKeyword(@RequestParam String keyword) {
         return getSuccessfulApiResponse(
                 registeredUserService.getRegisteredUsersByKeyword(keyword));
+    }
+
+    @ApiOperation(value = "登录", notes = "普通注册用户通过密码登录")
+    @RequestMapping(value = "/login", method = {RequestMethod.POST},params = "login_method" +
+            "=password")
+    @ApiResponses(value = {})
+    public RestfulApiResponse login(RegisteredUserCredentials credentials) {
+        return getSuccessfulApiResponse(registeredUserService.loginByPassword(credentials));
     }
 
 }

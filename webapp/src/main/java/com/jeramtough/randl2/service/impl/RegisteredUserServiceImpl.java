@@ -18,6 +18,8 @@ import com.jeramtough.randl2.dto.RegisteredUserDto;
 import com.jeramtough.randl2.service.RegisteredUserService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
@@ -226,10 +228,16 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         queryWrapper.like("account", "%" + keyword + "%").or().like("phone_number",
                 "%" + keyword + "%").or().like("email_address", "%" + keyword + "%");
         List<RegisteredUser> registeredUserList = getBaseMapper().selectList(queryWrapper);
+        if(registeredUserList==null||registeredUserList.size()==0){
+            throw new ApiResponseException(7070);
+        }
         return getDtoList(registeredUserList);
     }
 
-
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
+    }
 
 
     //****************************

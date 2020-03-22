@@ -102,6 +102,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin().loginPage("/unlogged.html").permitAll();
         String[] accessOnlySuperAdminApiUrls = new String[]{"/adminUser/add" };
 
+        //只有超级管理员才能访问的权限
         authorizationConfigurer.antMatchers(accessOnlySuperAdminApiUrls).hasAnyRole(
                 SuperAdmin.ROLE_NAME);
 
@@ -112,7 +113,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .cors()
                 .and()
-                .csrf().disable(); 
+                .csrf().disable();
     }
 
     /**
