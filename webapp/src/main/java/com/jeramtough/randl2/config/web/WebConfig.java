@@ -1,17 +1,9 @@
-package com.jeramtough.randl2.config.spring;
+package com.jeramtough.randl2.config.web;
 
-import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
-import org.apache.catalina.filters.CorsFilter;
-import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**

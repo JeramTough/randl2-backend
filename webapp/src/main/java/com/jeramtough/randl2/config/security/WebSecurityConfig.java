@@ -1,17 +1,20 @@
-package com.jeramtough.randl2.config.spring;
+package com.jeramtough.randl2.config.security;
 
+import com.jeramtough.randl2.action.filter.JwtRequestFilter;
 import com.jeramtough.randl2.component.userdetail.SuperAdmin;
 import com.jeramtough.randl2.dao.mapper.PermissionMapper;
 import com.jeramtough.randl2.dto.PermissionDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/registeredUser/verify/**",
             "/registeredUser/register",
             "/registeredUser/reset",
+            "/registeredUser/login",
             "/verificationCode/**",
     };
 
@@ -50,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/configuration/security"
     };
 
-    private static final String[] ONLY_SUPER_ADMIN_API_URLS ={
+    private static final String[] ONLY_SUPER_ADMIN_API_URLS = {
             "/adminUser/add",
             "/adminUser/all",
             "/adminUser/page",
@@ -59,17 +63,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     };
 
     private final PermissionMapper permissionMapper;
+    private final JwtRequestFilter jwtRequestFilter;
 
 
     @Autowired
     public WebSecurityConfig(
-            PermissionMapper permissionMapper) {
+            PermissionMapper permissionMapper,
+            JwtRequestFilter jwtRequestFilter) {
         this.permissionMapper = permissionMapper;
+        this.jwtRequestFilter = jwtRequestFilter;
     }
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        //添加jwt过滤
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         //从数据库读取角色权限
         List<PermissionDto> permissionDtoList = permissionMapper.selectListPermissionDto();
@@ -100,11 +110,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         }
 
         http.formLogin().loginPage("/unlogged.html").permitAll();
-        String[] accessOnlySuperAdminApiUrls = new String[]{"/adminUser/add" };
+        String[] accessOnlySuperAdminApiUrls = new String[]{"/adminUser/add"};
 
         //只有超级管理员才能访问的权限
         authorizationConfigurer.antMatchers(accessOnlySuperAdminApiUrls).hasAnyRole(
                 SuperAdmin.ROLE_NAME);
+
 
         //开放登录接口
         authorizationConfigurer
@@ -122,5 +133,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 }

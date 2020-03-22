@@ -6,6 +6,7 @@ import com.jeramtough.randl2.dto.RegisteredUserDto;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -34,5 +35,5 @@ public interface RegisteredUserService extends BaseService<RegisteredUser,
 
     List<RegisteredUserDto> getRegisteredUsersByKeyword(String keyword);
 
-    String loginByPassword(RegisteredUserCredentials credentials);
+    Map loginByPassword(RegisteredUserCredentials credentials);
 }

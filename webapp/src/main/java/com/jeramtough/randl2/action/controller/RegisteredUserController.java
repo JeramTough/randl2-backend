@@ -1,10 +1,9 @@
 package com.jeramtough.randl2.action.controller;
 
 
+import com.jeramtough.jtlog.facade.L;
 import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
 import com.jeramtough.randl2.bean.QueryByPageParams;
-import com.jeramtough.randl2.bean.adminuser.AdminUserCredentials;
-import com.jeramtough.randl2.bean.adminuser.UpdateAdminUserParams;
 import com.jeramtough.randl2.bean.registereduser.*;
 import com.jeramtough.randl2.service.RegisteredUserService;
 import io.swagger.annotations.*;
@@ -131,7 +130,7 @@ public class RegisteredUserController extends BaseController {
             @ApiResponse(code = 7066, message = "已存在重复的手机号码，请换一个"),
             @ApiResponse(code = 7067, message = "已存在重复的邮箱地址，请换一个"),
     })
-    public RestfulApiResponse updateAdminUser(@RequestBody UpdateRegisteredUserParams params) {
+    public RestfulApiResponse updateRegisteredUser(@RequestBody UpdateRegisteredUserParams params) {
         return getSuccessfulApiResponse(registeredUserService.updateRegisteredUser(params));
     }
 
@@ -146,13 +145,14 @@ public class RegisteredUserController extends BaseController {
                 registeredUserService.getRegisteredUsersByKeyword(keyword));
     }
 
-    @ApiOperation(value = "登录", notes = "普通注册用户通过密码登录")
-    @RequestMapping(value = "/login", method = {RequestMethod.POST},params = "login_method" +
-            "=password")
+    @ApiOperation(value = "登录1", notes = "普通注册用户通过密码登录")
+    @RequestMapping(value = "/loginByPassword", method = {RequestMethod.POST})
     @ApiResponses(value = {})
     public RestfulApiResponse login(RegisteredUserCredentials credentials) {
         return getSuccessfulApiResponse(registeredUserService.loginByPassword(credentials));
     }
+
+
 
 }
 

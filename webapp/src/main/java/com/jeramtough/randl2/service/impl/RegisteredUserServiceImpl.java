@@ -5,16 +5,18 @@ import com.jeramtough.jtcomponent.utils.ValidationUtil;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.randl2.bean.registereduser.UpdateRegisteredUserParams;
-import com.jeramtough.randl2.bean.registereduser.VerifyPasswordParams;
-import com.jeramtough.randl2.bean.registereduser.VerifyPhoneOrEmailByForgetParams;
-import com.jeramtough.randl2.bean.registereduser.VerifyPhoneOrEmailForNewParams;
+import com.jeramtough.randl2.bean.registereduser.*;
 import com.jeramtough.randl2.component.registereduser.builder.RegisteredUserBuilder;
 import com.jeramtough.randl2.component.registereduser.builder.RegisteredUserBuilderGetter;
+import com.jeramtough.randl2.component.userdetail.SystemUser;
+import com.jeramtough.randl2.component.userdetail.login.RegisteredUserLoginer;
+import com.jeramtough.randl2.component.userdetail.login.UserLoginer;
 import com.jeramtough.randl2.component.verificationcode.VerificationCodeHolder;
 import com.jeramtough.randl2.dao.entity.RegisteredUser;
 import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;
+import com.jeramtough.randl2.dao.mapper.SurfaceImageMapper;
 import com.jeramtough.randl2.dto.RegisteredUserDto;
+import com.jeramtough.randl2.dto.SystemUserDto;
 import com.jeramtough.randl2.service.RegisteredUserService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -42,17 +46,20 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
     private RegisteredUserBuilderGetter registeredUserPlantGetter;
     private VerificationCodeHolder verificationCodeHolder;
     private PasswordEncoder passwordEncoder;
+    private SurfaceImageMapper surfaceImageMapper;
 
     @Autowired
     public RegisteredUserServiceImpl(WebApplicationContext wc,
                                      MapperFacade mapperFacade,
                                      RegisteredUserBuilderGetter registeredUserPlantGetter,
                                      VerificationCodeHolder verificationCodeHolder,
-                                     PasswordEncoder passwordEncoder) {
+                                     PasswordEncoder passwordEncoder,
+                                     SurfaceImageMapper surfaceImageMapper) {
         super(wc, mapperFacade);
         this.registeredUserPlantGetter = registeredUserPlantGetter;
         this.verificationCodeHolder = verificationCodeHolder;
         this.passwordEncoder = passwordEncoder;
+        this.surfaceImageMapper = surfaceImageMapper;
     }
 
     @Override
@@ -228,10 +235,33 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         queryWrapper.like("account", "%" + keyword + "%").or().like("phone_number",
                 "%" + keyword + "%").or().like("email_address", "%" + keyword + "%");
         List<RegisteredUser> registeredUserList = getBaseMapper().selectList(queryWrapper);
-        if(registeredUserList==null||registeredUserList.size()==0){
+        if (registeredUserList == null || registeredUserList.size() == 0) {
             throw new ApiResponseException(7070);
         }
         return getDtoList(registeredUserList);
+    }
+
+    @Override
+    public Map loginByPassword(RegisteredUserCredentials credentials) {
+
+        BeanValidator.verifyDto(credentials);
+        UserLoginer userLoginer = super.getWC().getBean(RegisteredUserLoginer.class);
+        SystemUser systemUser = userLoginer.login(credentials);
+
+        if (systemUser == null) {
+            throw new ApiResponseException(1001);
+        }
+
+        //processing SystemUserDto
+        SystemUserDto systemUserDto = getMapperFacade().map(systemUser, SystemUserDto.class);
+        String surfaceImage = surfaceImageMapper.selectById(
+                systemUser.getSurfaceImageId()).getSurfaceImage();
+        systemUserDto.setSurfaceImage(surfaceImage);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("systemUser", systemUserDto);
+        map.put("token", null);
+        return null;
     }
 
     @Override

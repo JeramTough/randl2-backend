@@ -31,21 +31,18 @@ public class AdminUserLoginer implements UserLoginer {
     private final AdminUserMapper adminUserMapper;
     private final RoleMapper roleMapper;
     private final MapperFacade mapperFacade;
-    private final SurfaceImageMapper surfaceImageMapper;
 
 
     public AdminUserLoginer(
             PasswordEncoder passwordEncoder,
             SuperAdmin superAdmin,
             AdminUserMapper adminUserMapper,
-            RoleMapper roleMapper, MapperFacade mapperFacade,
-            SurfaceImageMapper surfaceImageMapper) {
+            RoleMapper roleMapper, MapperFacade mapperFacade) {
         this.passwordEncoder = passwordEncoder;
         this.superAdmin = superAdmin;
         this.adminUserMapper = adminUserMapper;
         this.roleMapper = roleMapper;
         this.mapperFacade = mapperFacade;
-        this.surfaceImageMapper = surfaceImageMapper;
     }
 
     @Override

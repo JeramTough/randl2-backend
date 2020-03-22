@@ -12,6 +12,5 @@ public class PasswordTest {
 
     @Test
     public void test1() {
-
     }
 }

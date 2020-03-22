@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.config.spring;
+package com.jeramtough.randl2.config.db;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
