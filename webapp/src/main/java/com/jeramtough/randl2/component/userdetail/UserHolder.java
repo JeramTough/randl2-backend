@@ -55,4 +55,9 @@ public class UserHolder {
 
         token.setDetails(systemUser);
     }
+
+    public static void clear(){
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(null);
+    }
 }

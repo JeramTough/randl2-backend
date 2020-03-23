@@ -35,5 +35,4 @@ public interface RegisteredUserService extends BaseService<RegisteredUser,
 
     List<RegisteredUserDto> getRegisteredUsersByKeyword(String keyword);
 
-    Map loginByPassword(RegisteredUserCredentials credentials);
 }

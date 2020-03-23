@@ -1,10 +1,12 @@
 package com.jeramtough.randl2.action.controller;
 
 
-import com.jeramtough.jtlog.facade.L;
 import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
 import com.jeramtough.randl2.bean.QueryByPageParams;
-import com.jeramtough.randl2.bean.registereduser.*;
+import com.jeramtough.randl2.bean.registereduser.UpdateRegisteredUserParams;
+import com.jeramtough.randl2.bean.registereduser.VerifyPasswordParams;
+import com.jeramtough.randl2.bean.registereduser.VerifyPhoneOrEmailByForgetParams;
+import com.jeramtough.randl2.bean.registereduser.VerifyPhoneOrEmailForNewParams;
 import com.jeramtough.randl2.service.RegisteredUserService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,14 +146,6 @@ public class RegisteredUserController extends BaseController {
         return getSuccessfulApiResponse(
                 registeredUserService.getRegisteredUsersByKeyword(keyword));
     }
-
-    @ApiOperation(value = "登录1", notes = "普通注册用户通过密码登录")
-    @RequestMapping(value = "/loginByPassword", method = {RequestMethod.POST})
-    @ApiResponses(value = {})
-    public RestfulApiResponse login(RegisteredUserCredentials credentials) {
-        return getSuccessfulApiResponse(registeredUserService.loginByPassword(credentials));
-    }
-
 
 
 }

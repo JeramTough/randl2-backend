@@ -1,6 +1,8 @@
 package com.jeramtough.randl2.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.jeramtough.jtcomponent.task.bean.TaskResult;
+import com.jeramtough.jtcomponent.task.response.TaskResponse;
 import com.jeramtough.jtcomponent.utils.ValidationUtil;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
@@ -9,15 +11,19 @@ import com.jeramtough.randl2.bean.registereduser.*;
 import com.jeramtough.randl2.component.registereduser.builder.RegisteredUserBuilder;
 import com.jeramtough.randl2.component.registereduser.builder.RegisteredUserBuilderGetter;
 import com.jeramtough.randl2.component.userdetail.SystemUser;
+import com.jeramtough.randl2.component.userdetail.UserHolder;
 import com.jeramtough.randl2.component.userdetail.login.RegisteredUserLoginer;
+import com.jeramtough.randl2.component.userdetail.login.RegisteredUserTokenLoginer;
 import com.jeramtough.randl2.component.userdetail.login.UserLoginer;
 import com.jeramtough.randl2.component.verificationcode.VerificationCodeHolder;
+import com.jeramtough.randl2.config.security.AuthTokenConfig;
 import com.jeramtough.randl2.dao.entity.RegisteredUser;
 import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;
 import com.jeramtough.randl2.dao.mapper.SurfaceImageMapper;
 import com.jeramtough.randl2.dto.RegisteredUserDto;
 import com.jeramtough.randl2.dto.SystemUserDto;
 import com.jeramtough.randl2.service.RegisteredUserService;
+import com.jeramtough.randl2.util.JwtTokenUtil;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -241,28 +247,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         return getDtoList(registeredUserList);
     }
 
-    @Override
-    public Map loginByPassword(RegisteredUserCredentials credentials) {
 
-        BeanValidator.verifyDto(credentials);
-        UserLoginer userLoginer = super.getWC().getBean(RegisteredUserLoginer.class);
-        SystemUser systemUser = userLoginer.login(credentials);
-
-        if (systemUser == null) {
-            throw new ApiResponseException(1001);
-        }
-
-        //processing SystemUserDto
-        SystemUserDto systemUserDto = getMapperFacade().map(systemUser, SystemUserDto.class);
-        String surfaceImage = surfaceImageMapper.selectById(
-                systemUser.getSurfaceImageId()).getSurfaceImage();
-        systemUserDto.setSurfaceImage(surfaceImage);
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("systemUser", systemUserDto);
-        map.put("token", null);
-        return null;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

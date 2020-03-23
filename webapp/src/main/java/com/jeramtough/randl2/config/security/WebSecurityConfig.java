@@ -1,7 +1,9 @@
 package com.jeramtough.randl2.config.security;
 
 import com.jeramtough.randl2.action.filter.JwtRequestFilter;
+import com.jeramtough.randl2.component.userdetail.RegisteredUserRole;
 import com.jeramtough.randl2.component.userdetail.SuperAdmin;
+import com.jeramtough.randl2.dao.entity.RegisteredUser;
 import com.jeramtough.randl2.dao.mapper.PermissionMapper;
 import com.jeramtough.randl2.dto.PermissionDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/registeredUser/verify/**",
             "/registeredUser/register",
             "/registeredUser/reset",
-            "/registeredUser/login",
+            "/registeredUser/login/**",
             "/verificationCode/**",
     };
 
@@ -116,6 +118,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         authorizationConfigurer.antMatchers(accessOnlySuperAdminApiUrls).hasAnyRole(
                 SuperAdmin.ROLE_NAME);
 
+        //普通注册用户登录以后才能使用的接口
+        authorizationConfigurer.antMatchers("/registeredUserLogined/**")
+                               .hasRole(RegisteredUserRole.get().getName());
 
         //开放登录接口
         authorizationConfigurer

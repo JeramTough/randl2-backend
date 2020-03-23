@@ -1,12 +1,11 @@
 package com.jeramtough.randl2.component.userdetail.login;
 
 import com.jeramtough.randl2.bean.registereduser.RegisteredUserCredentials;
+import com.jeramtough.randl2.component.userdetail.RegisteredUserRole;
 import com.jeramtough.randl2.component.userdetail.SystemUser;
 import com.jeramtough.randl2.component.userdetail.UserType;
 import com.jeramtough.randl2.dao.entity.RegisteredUser;
-import com.jeramtough.randl2.dao.entity.Role;
 import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;
-import com.jeramtough.randl2.dao.mapper.SurfaceImageMapper;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -21,19 +20,14 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Scope("request")
-public class RegisteredUserLoginer implements UserLoginer {
+public class RegisteredUserLoginer extends BaseRegisteredUserLoginer implements UserLoginer {
 
-    private final PasswordEncoder passwordEncoder;
-    private final MapperFacade mapperFacade;
-    private final RegisteredUserMapper registeredUserMapper;
 
     @Autowired
-    public RegisteredUserLoginer(
+    protected RegisteredUserLoginer(
             PasswordEncoder passwordEncoder, MapperFacade mapperFacade,
             RegisteredUserMapper registeredUserMapper) {
-        this.passwordEncoder = passwordEncoder;
-        this.mapperFacade = mapperFacade;
-        this.registeredUserMapper = registeredUserMapper;
+        super(passwordEncoder, mapperFacade, registeredUserMapper);
     }
 
     @Override
@@ -47,12 +41,11 @@ public class RegisteredUserLoginer implements UserLoginer {
                     passwordEncoder.matches(registeredUserCredentials.getPassword(),
                             registeredUser.getPassword());
             if (passwordIsRight) {
-                SystemUser systemUser = mapperFacade.map(registeredUser, SystemUser.class);
-                systemUser.setUserType(UserType.REGISTERED);
-                systemUser.setRole(null);
-                return systemUser;
+                return processSystemUser(registeredUser);
             }
         }
         return null;
     }
+
+
 }

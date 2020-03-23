@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.config.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
@@ -21,7 +22,14 @@ import java.util.Collections;
 public class AuthTokenConfig {
 
 
-    private final static String SIGNING_KEY = "ABCD";
+    @Value("${jwt_signing_key}")
+    private String signingKey;
+
+
+    public static final String ISSUER = "JeramTough";
+
+    @Value("${jwt_token_validity}")
+    private long jwtTokenValidity;
 
     @Bean(name = "tokenStore")
     public TokenStore tokenStore() {
@@ -32,7 +40,7 @@ public class AuthTokenConfig {
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey(SIGNING_KEY);
+        converter.setSigningKey(signingKey);
         return converter;
     }
 
@@ -55,5 +63,11 @@ public class AuthTokenConfig {
         return defaultTokenServices;
     }
 
+    public String getSigningKey() {
+        return signingKey;
+    }
 
+    public long getJwtTokenValidity() {
+        return jwtTokenValidity;
+    }
 }

@@ -1,6 +1,15 @@
 package com.jeramtough.test.db;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwt.interfaces.JWTVerifier;
+import com.jeramtough.jtlog.facade.L;
+import com.jeramtough.randl2.config.security.AuthTokenConfig;
 import org.junit.Test;
+
+import java.util.Date;
 
 /**
  * <pre>
@@ -12,5 +21,23 @@ public class PasswordTest {
 
     @Test
     public void test1() {
+        Algorithm algorithm = Algorithm.HMAC256("a");
+        String token = JWT.create()
+                          .withIssuer("JeramTough")
+                          .withClaim("uid", 2123)
+                          .withExpiresAt(new Date(System.currentTimeMillis()+2000))
+                          .sign(algorithm);
+        L.debug(token);
+
+        try {
+            JWTVerifier verifier = JWT.require(algorithm)
+                                      .withIssuer("JeramTough")
+                                      .build(); //Reusable verifier instance
+            DecodedJWT jwt = verifier.verify(token);
+            L.debug(jwt.getClaim("uid").asLong());
+        }
+        catch (JWTVerificationException exception) {
+            L.debug(exception.getMessage());
+        }
     }
 }

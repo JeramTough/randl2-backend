@@ -99,8 +99,7 @@ public class AdminUserServiceImpl
 
     @Override
     public String adminLogout() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        securityContext.setAuthentication(null);
+        UserHolder.clear();
         return "管理员退出登录成功！";
     }
 
@@ -253,7 +252,8 @@ public class AdminUserServiceImpl
             throw new ApiResponseException(1040);
         }
 
-        AdminUser currentAdminUser = getMapperFacade().map(UserHolder.getSystemUser(), AdminUser.class);
+        AdminUser currentAdminUser = getMapperFacade().map(UserHolder.getSystemUser(),
+                AdminUser.class);
 
         if (currentAdminUser.getPhoneNumber() != null) {
             if (!currentAdminUser.getPhoneNumber().equals(params.getPhoneNumber())) {
@@ -285,7 +285,7 @@ public class AdminUserServiceImpl
         }
         updateById(adminUser);
 
-        UserHolder.update(params.getPhoneNumber(),params.getEmailAddress());
+        UserHolder.update(params.getPhoneNumber(), params.getEmailAddress());
 
         return "您的账户信息成功！";
     }
