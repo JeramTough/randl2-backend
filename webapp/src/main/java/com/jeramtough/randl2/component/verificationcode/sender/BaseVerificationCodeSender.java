@@ -2,6 +2,7 @@ package com.jeramtough.randl2.component.verificationcode.sender;
 
 import com.jeramtough.jtcomponent.utils.DateTimeUtil;
 import com.jeramtough.jtlog.with.WithLogger;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,9 +17,12 @@ public abstract class BaseVerificationCodeSender implements VerificationCodeSend
             "lastSentVerificationCodeTime";
 
     private HttpSession httpSession;
+    private RedisTemplate<String,Object> redisTemplate;
 
-    protected BaseVerificationCodeSender(HttpSession httpSession) {
-        this.httpSession = httpSession;
+    protected BaseVerificationCodeSender(HttpSession httpSession,
+                                         RedisTemplate redisTemplate) {
+        this.httpSession = this.httpSession;
+        this.redisTemplate = redisTemplate;
     }
 
 
@@ -40,15 +44,15 @@ public abstract class BaseVerificationCodeSender implements VerificationCodeSend
         if (isSuccessful) {
             if (isTest) {
                 getLogger().verbose(
-                        "sent the verification code【" + verificationCode + "】 successfully at " + DateTimeUtil.getCurrentDateTime());
+                        "Sending the verification code【" + verificationCode + "】 successfully at " + DateTimeUtil.getCurrentDateTime());
             }
             else{
                 getLogger().verbose(
-                        "sent the verification code successfully at " + DateTimeUtil.getCurrentDateTime());
+                        "Sending the verification code successfully at " + DateTimeUtil.getCurrentDateTime());
             }
         }
         else {
-            getLogger().warn("sent the verification code unsuccessfully");
+            getLogger().warn("Sending the verification code unsuccessfully");
         }
         return isSuccessful;
     }

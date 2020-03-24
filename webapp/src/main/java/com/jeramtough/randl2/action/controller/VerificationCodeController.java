@@ -37,6 +37,17 @@ public class VerificationCodeController extends BaseController {
         return getSuccessfulApiResponse(verificationCodeService.send(params));
     }
 
+    @ApiOperation(value = "发送验证码2", notes = "普通注册用户发送手机或邮箱验证码")
+    @RequestMapping(value = "/send2", method = {RequestMethod.POST})
+    @ApiResponses(value = {
+            @ApiResponse(code = 8000, message = "发送频率限制，距离下次可发送验证码还有%s秒"),
+            @ApiResponse(code = 8001, message = "发送失败，因为%s")
+    })
+    public RestfulApiResponse send2(
+            @RequestBody SendVerificationCodeParams params) {
+        return getSuccessfulApiResponse(verificationCodeService.registeredUserSendVerificationCode(params));
+    }
+
     @ApiOperation(value = "校验验证码", notes = "验收验证码是否正确")
     @RequestMapping(value = "/verify", method = {RequestMethod.POST})
     @ApiImplicitParams({

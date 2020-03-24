@@ -3,14 +3,15 @@ package com.jeramtough.randl2.service.impl;
 import com.jeramtough.jtcomponent.task.bean.TaskResult;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.randl2.bean.registereduser.RegisteredUserCredentials;
+import com.jeramtough.randl2.bean.registereduser.RegisteredUserCredentials1;
+import com.jeramtough.randl2.bean.registereduser.RegisteredUserCredentials2;
 import com.jeramtough.randl2.component.registereduser.builder.RegisteredUserBuilderGetter;
 import com.jeramtough.randl2.component.userdetail.SystemUser;
 import com.jeramtough.randl2.component.userdetail.UserHolder;
 import com.jeramtough.randl2.component.userdetail.login.RegisteredUserLoginer;
 import com.jeramtough.randl2.component.userdetail.login.RegisteredUserTokenLoginer;
 import com.jeramtough.randl2.component.userdetail.login.UserLoginer;
-import com.jeramtough.randl2.component.verificationcode.VerificationCodeHolder;
+import com.jeramtough.randl2.component.verificationcode.RedisVerificationCodeHolder;
 import com.jeramtough.randl2.config.security.AuthTokenConfig;
 import com.jeramtough.randl2.dao.entity.RegisteredUser;
 import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;
@@ -21,7 +22,6 @@ import com.jeramtough.randl2.service.RegisteredUserLoginedService;
 import com.jeramtough.randl2.util.JwtTokenUtil;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -39,7 +39,7 @@ public class RegisteredUserLoginedServiceImpl extends BaseServiceImpl<Registered
         RegisteredUser, RegisteredUserDto> implements RegisteredUserLoginedService {
 
     private RegisteredUserBuilderGetter registeredUserPlantGetter;
-    private VerificationCodeHolder verificationCodeHolder;
+    private RedisVerificationCodeHolder verificationCodeHolder;
     private SurfaceImageMapper surfaceImageMapper;
     private AuthTokenConfig authTokenConfig;
 
@@ -49,7 +49,7 @@ public class RegisteredUserLoginedServiceImpl extends BaseServiceImpl<Registered
             WebApplicationContext wc,
             MapperFacade mapperFacade,
             RegisteredUserBuilderGetter registeredUserPlantGetter,
-            VerificationCodeHolder verificationCodeHolder,
+            RedisVerificationCodeHolder verificationCodeHolder,
             SurfaceImageMapper surfaceImageMapper,
             AuthTokenConfig authTokenConfig) {
         super(wc, mapperFacade);
@@ -68,7 +68,7 @@ public class RegisteredUserLoginedServiceImpl extends BaseServiceImpl<Registered
     }
 
     @Override
-    public Map loginByPassword(RegisteredUserCredentials credentials) {
+    public Map loginByPassword(RegisteredUserCredentials1 credentials) {
 
         BeanValidator.verifyDto(credentials);
         UserLoginer userLoginer = super.getWC().getBean(RegisteredUserLoginer.class);
@@ -91,6 +91,12 @@ public class RegisteredUserLoginedServiceImpl extends BaseServiceImpl<Registered
         map.put("systemUser", systemUserDto);
         map.put("token", token);
         return map;
+    }
+
+    @Override
+    public Map<String, Object> loginByVerificationCode(
+            RegisteredUserCredentials2 credentials) {
+        return null;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.jeramtough.randl2.component.verificationcode;
 
+import com.jeramtough.jtcomponent.task.bean.TaskResult;
+
 /**
  * <pre>
  * 该类负责创建、存储、校验验证码
@@ -12,6 +14,9 @@ public interface VerificationCodeHolder {
 //    boolean verifySign(String sign);
 
     boolean verifyCode(String verificationCode);
+
+    TaskResult verifyCode(String phoneOrEmail,
+                          String verificationCode);
 
     String getAndRecordVerificationCode(String phoneOrEmail);
 

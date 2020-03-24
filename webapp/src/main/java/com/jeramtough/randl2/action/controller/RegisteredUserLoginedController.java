@@ -1,8 +1,8 @@
 package com.jeramtough.randl2.action.controller;
 
-import com.jeramtough.jtlog.facade.L;
 import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
-import com.jeramtough.randl2.bean.registereduser.RegisteredUserCredentials;
+import com.jeramtough.randl2.bean.registereduser.RegisteredUserCredentials1;
+import com.jeramtough.randl2.bean.registereduser.RegisteredUserCredentials2;
 import com.jeramtough.randl2.service.RegisteredUserLoginedService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +36,23 @@ public class RegisteredUserLoginedController extends BaseController {
     @ApiOperation(value = "登录1", notes = "普通注册用户通过密码登录")
     @RequestMapping(value = "/login/byPassword", method = {RequestMethod.POST})
     @ApiResponses(value = {})
-    public RestfulApiResponse login(RegisteredUserCredentials credentials) {
+    public RestfulApiResponse login1(RegisteredUserCredentials1 credentials) {
         return getSuccessfulApiResponse(
                 registeredUserLoginedService.loginByPassword(credentials));
     }
 
 
+    @ApiOperation(value = "登录2", notes = "普通注册用户通过验证码登录")
+    @RequestMapping(value = "/login/byVerificationCode", method = {RequestMethod.POST})
+    @ApiResponses(value = {})
+    public RestfulApiResponse login2(RegisteredUserCredentials2 credentials) {
+        return getSuccessfulApiResponse(
+                registeredUserLoginedService.loginByVerificationCode(credentials));
+    }
+
+
     @ApiOperation(value = "绑定", notes = "绑定账号的手机号码或者邮箱"
-    ,authorizations = {@Authorization("aaaa")})
+            , authorizations = {@Authorization("aaaa")})
     @RequestMapping(value = "/logined/bindingPhoneOrEmail", method = {RequestMethod.POST})
     public RestfulApiResponse bindingPhoneOrEmail() {
         return getSuccessfulApiResponse("tttt");

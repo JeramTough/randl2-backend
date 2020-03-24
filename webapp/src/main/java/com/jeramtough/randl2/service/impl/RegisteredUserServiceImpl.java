@@ -15,6 +15,7 @@ import com.jeramtough.randl2.component.userdetail.UserHolder;
 import com.jeramtough.randl2.component.userdetail.login.RegisteredUserLoginer;
 import com.jeramtough.randl2.component.userdetail.login.RegisteredUserTokenLoginer;
 import com.jeramtough.randl2.component.userdetail.login.UserLoginer;
+import com.jeramtough.randl2.component.verificationcode.SessionVerificationCodeHolder;
 import com.jeramtough.randl2.component.verificationcode.VerificationCodeHolder;
 import com.jeramtough.randl2.config.security.AuthTokenConfig;
 import com.jeramtough.randl2.dao.entity.RegisteredUser;
@@ -50,7 +51,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         RegisteredUserService, WithLogger {
 
     private RegisteredUserBuilderGetter registeredUserPlantGetter;
-    private VerificationCodeHolder verificationCodeHolder;
+    private SessionVerificationCodeHolder verificationCodeHolder;
     private PasswordEncoder passwordEncoder;
     private SurfaceImageMapper surfaceImageMapper;
 
@@ -58,7 +59,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
     public RegisteredUserServiceImpl(WebApplicationContext wc,
                                      MapperFacade mapperFacade,
                                      RegisteredUserBuilderGetter registeredUserPlantGetter,
-                                     VerificationCodeHolder verificationCodeHolder,
+                                     SessionVerificationCodeHolder verificationCodeHolder,
                                      PasswordEncoder passwordEncoder,
                                      SurfaceImageMapper surfaceImageMapper) {
         super(wc, mapperFacade);

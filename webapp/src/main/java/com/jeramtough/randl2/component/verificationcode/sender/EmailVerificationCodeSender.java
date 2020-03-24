@@ -1,7 +1,6 @@
 package com.jeramtough.randl2.component.verificationcode.sender;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
@@ -16,7 +15,7 @@ public class EmailVerificationCodeSender extends BaseVerificationCodeSender
 
     @Autowired
     protected EmailVerificationCodeSender(HttpSession httpSession) {
-        super(httpSession);
+        super(httpSession, redisTemplate);
     }
 
     @Override

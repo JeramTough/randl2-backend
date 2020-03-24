@@ -1,7 +1,7 @@
 package com.jeramtough.randl2.component.verificationcode.sender;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
@@ -14,8 +14,8 @@ import javax.servlet.http.HttpSession;
 public class SmsVerificationCodeSender extends BaseVerificationCodeSender {
 
     @Autowired
-    protected SmsVerificationCodeSender(HttpSession httpSession) {
-        super(httpSession);
+    protected SmsVerificationCodeSender(HttpSession httpSession, RedisTemplate redisTemplate) {
+        super(httpSession, redisTemplate);
     }
 
 

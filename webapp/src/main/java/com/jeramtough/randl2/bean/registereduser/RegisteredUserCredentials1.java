@@ -1,5 +1,8 @@
 package com.jeramtough.randl2.bean.registereduser;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiParam;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -9,22 +12,25 @@ import javax.validation.constraints.Pattern;
  * by @author JeramTough
  * </pre>
  */
-public class RegisteredUserCredentials {
+@ApiModel("通过账号密码登录参数")
+public class RegisteredUserCredentials1 {
 
     @NotNull(message = "{'code':1002,'placeholders':['用户名']}")
     @Pattern(regexp = "^[a-z0-9A-Z]{5,16}$", message = "1003")
+    @ApiParam(value = "账号、手机号、邮箱地址", required = true)
     private String credential;
 
     @NotNull(message = "{'code':1002,'placeholders':['密码']}")
-    @Pattern(regexp ="^\\S{8,16}$" , message = "1004")
+    @Pattern(regexp = "^\\S{8,16}$", message = "1004")
+    @ApiParam(value = "密码", required = true)
     private String password;
 
     private String verificationCode;
 
-    public RegisteredUserCredentials() {
+    public RegisteredUserCredentials1() {
     }
 
-    public RegisteredUserCredentials(String credential, String password) {
+    public RegisteredUserCredentials1(String credential, String password) {
         this.credential = credential;
         this.password = password;
     }

@@ -1,9 +1,7 @@
 package com.jeramtough.randl2.component.userdetail.login;
 
-import com.jeramtough.randl2.bean.registereduser.RegisteredUserCredentials;
-import com.jeramtough.randl2.component.userdetail.RegisteredUserRole;
+import com.jeramtough.randl2.bean.registereduser.RegisteredUserCredentials1;
 import com.jeramtough.randl2.component.userdetail.SystemUser;
-import com.jeramtough.randl2.component.userdetail.UserType;
 import com.jeramtough.randl2.dao.entity.RegisteredUser;
 import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;
 import ma.glasnost.orika.MapperFacade;
@@ -32,13 +30,13 @@ public class RegisteredUserLoginer extends BaseRegisteredUserLoginer implements 
 
     @Override
     public SystemUser login(Object credentials) {
-        RegisteredUserCredentials registeredUserCredentials = (RegisteredUserCredentials) credentials;
+        RegisteredUserCredentials1 registeredUserCredentials1 = (RegisteredUserCredentials1) credentials;
         RegisteredUser registeredUser =
                 registeredUserMapper.selectByCredentials(
-                        registeredUserCredentials.getCredential());
+                        registeredUserCredentials1.getCredential());
         if (registeredUser != null) {
             boolean passwordIsRight =
-                    passwordEncoder.matches(registeredUserCredentials.getPassword(),
+                    passwordEncoder.matches(registeredUserCredentials1.getPassword(),
                             registeredUser.getPassword());
             if (passwordIsRight) {
                 return processSystemUser(registeredUser);

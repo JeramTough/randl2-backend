@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.component.verificationcode;
 
+import com.jeramtough.jtcomponent.task.bean.TaskResult;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,10 +45,16 @@ public class SessionVerificationCodeHolder implements VerificationCodeHolder {
             }
         }
         session.setAttribute(IS_PASSED_KEY, isPassed);
-        if (isPassed){
+        if (isPassed) {
             setRightVerificationCodes(null);
         }
         return isPassed;
+    }
+
+    @Deprecated
+    @Override
+    public TaskResult verifyCode(String phoneOrEmail, String verificationCode) {
+        return null;
     }
 
 

@@ -17,4 +17,8 @@ public interface VerificationCodeService {
 
     String verify(String code);
 
+    /**
+     * 普通注册用户发送短信验证码
+     */
+    String registeredUserSendVerificationCode(SendVerificationCodeParams params);
 }
