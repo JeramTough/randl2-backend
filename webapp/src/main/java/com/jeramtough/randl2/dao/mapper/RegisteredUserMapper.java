@@ -19,6 +19,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RegisteredUserMapper extends BaseMapper<RegisteredUser> {
 
+    @Select("SELECT * FROM registered_user WHERE account=#{account}")
+    RegisteredUser selectByAccount(@Param("account") String account);
+
     @Select("SELECT * FROM registered_user WHERE phone_number=#{phoneNumber}")
     RegisteredUser selectByPhoneNumber(@Param("phoneNumber") String phoneNumber);
 

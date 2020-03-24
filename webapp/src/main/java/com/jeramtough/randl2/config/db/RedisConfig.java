@@ -29,12 +29,13 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate injectRedisTemplate(LettuceConnectionFactory factory) {
-        RedisTemplate redisTemplate = new RedisTemplate();
+    public RedisTemplate<String, Object> injectRedisTemplate(
+            LettuceConnectionFactory factory) {
+        RedisTemplate<String, Object> redisTemplate = new <String, Object>RedisTemplate();
         redisTemplate.setConnectionFactory(factory);
-        GenericFastJsonRedisSerializer genericFastJsonRedisSerializer=
+        GenericFastJsonRedisSerializer genericFastJsonRedisSerializer =
                 new GenericFastJsonRedisSerializer();
-        StringRedisSerializer stringRedisSerializer=new StringRedisSerializer();
+        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
         redisTemplate.setDefaultSerializer(stringRedisSerializer);
         return redisTemplate;
     }

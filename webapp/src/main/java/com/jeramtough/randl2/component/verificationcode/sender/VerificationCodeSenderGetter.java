@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.component.verificationcode.sender;
 
+import com.jeramtough.randl2.component.verificationcode.sender.SendWay;
 import org.springframework.web.context.WebApplicationContext;
 
 /**

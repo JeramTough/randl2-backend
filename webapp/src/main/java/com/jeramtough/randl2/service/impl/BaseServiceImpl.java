@@ -15,7 +15,9 @@ import ma.glasnost.orika.MapperFacade;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <pre>
@@ -88,4 +90,5 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T, D>
     }
 
     protected abstract D toDto(T t);
+
 }

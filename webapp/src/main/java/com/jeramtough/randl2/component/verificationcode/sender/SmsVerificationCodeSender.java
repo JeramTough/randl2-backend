@@ -1,32 +1,33 @@
 package com.jeramtough.randl2.component.verificationcode.sender;
 
+import com.jeramtough.jtcomponent.task.bean.PreTaskResult;
+import com.jeramtough.jtcomponent.task.bean.TaskResult;
+import com.jeramtough.jtcomponent.task.response.ResponseFactory;
+import com.jeramtough.jtcomponent.task.runner.SimpleRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpSession;
-
 /**
- * Created on 2018-09-13 00:22
+ * <pre>
+ * Created on 2020/3/24 14:41
  * by @author JeramTough
+ * </pre>
  */
 @Component
 public class SmsVerificationCodeSender extends BaseVerificationCodeSender {
 
     @Autowired
-    protected SmsVerificationCodeSender(HttpSession httpSession, RedisTemplate redisTemplate) {
-        super(httpSession, redisTemplate);
+    public SmsVerificationCodeSender(
+            RedisTemplate<String, Object> redisTemplate) {
+        super(redisTemplate);
     }
 
-
     @Override
-    public boolean doSending(String verificationCode) {
-        return false;
-    }
-
-
-    @Override
-    public String getFailedReason() {
-        return "还没写实现";
+    public TaskResult doSending(String phoneOrEmail, String verificationCode) {
+        return ResponseFactory.doing(preTaskResult -> {
+            preTaskResult.setMessage("还没写实现");
+            return false;
+        }).getTaskResult();
     }
 }

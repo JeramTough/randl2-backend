@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
+import com.jeramtough.jtcomponent.utils.IdUtil;
 import com.jeramtough.jtlog.facade.L;
 import com.jeramtough.randl2.config.security.AuthTokenConfig;
 import org.junit.Test;
@@ -39,5 +40,10 @@ public class PasswordTest {
         catch (JWTVerificationException exception) {
             L.debug(exception.getMessage());
         }
+    }
+
+    @Test
+    public void test2(){
+        L.debug(IdUtil.getUUID());
     }
 }

@@ -5,7 +5,6 @@ import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.bean.registereduser.RegisteredUserCredentials1;
 import com.jeramtough.randl2.bean.registereduser.RegisteredUserCredentials2;
-import com.jeramtough.randl2.component.registereduser.builder.RegisteredUserBuilderGetter;
 import com.jeramtough.randl2.component.userdetail.SystemUser;
 import com.jeramtough.randl2.component.userdetail.UserHolder;
 import com.jeramtough.randl2.component.userdetail.login.RegisteredUserLoginer;
@@ -38,7 +37,6 @@ import java.util.Map;
 public class RegisteredUserLoginedServiceImpl extends BaseServiceImpl<RegisteredUserMapper,
         RegisteredUser, RegisteredUserDto> implements RegisteredUserLoginedService {
 
-    private RegisteredUserBuilderGetter registeredUserPlantGetter;
     private RedisVerificationCodeHolder verificationCodeHolder;
     private SurfaceImageMapper surfaceImageMapper;
     private AuthTokenConfig authTokenConfig;
@@ -48,13 +46,11 @@ public class RegisteredUserLoginedServiceImpl extends BaseServiceImpl<Registered
     public RegisteredUserLoginedServiceImpl(
             WebApplicationContext wc,
             MapperFacade mapperFacade,
-            RegisteredUserBuilderGetter registeredUserPlantGetter,
             RedisVerificationCodeHolder verificationCodeHolder,
             SurfaceImageMapper surfaceImageMapper,
             AuthTokenConfig authTokenConfig) {
         super(wc, mapperFacade);
 
-        this.registeredUserPlantGetter = registeredUserPlantGetter;
         this.verificationCodeHolder = verificationCodeHolder;
         this.surfaceImageMapper = surfaceImageMapper;
         this.authTokenConfig = authTokenConfig;

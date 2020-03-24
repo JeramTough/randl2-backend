@@ -2,6 +2,8 @@ package com.jeramtough.randl2.component.verificationcode;
 
 import com.jeramtough.jtcomponent.task.bean.TaskResult;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * <pre>
  * 该类负责创建、存储、校验验证码
@@ -21,8 +23,8 @@ public interface VerificationCodeHolder {
     String getAndRecordVerificationCode(String phoneOrEmail);
 
     /**
-     * 返回验证码校验结果，不为空，未发送的话，sendWayValue为"DIDN'T SEND"
+     * 返回验证码校验结果
      */
-    SessionVerificationCodeHolder.VerificationResult getVerificationResult();
+    boolean getVerificationResult(String phoneOrEmail);
 
 }

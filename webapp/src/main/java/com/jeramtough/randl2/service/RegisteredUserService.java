@@ -17,15 +17,15 @@ import java.util.Map;
  * @since 2020-01-26
  */
 public interface RegisteredUserService extends BaseService<RegisteredUser,
-        RegisteredUserDto> , UserDetailsService {
+        RegisteredUserDto>, UserDetailsService {
 
-    String verifyPhoneOrEmailForNew(VerifyPhoneOrEmailForNewParams params);
+    Map<String, Object> verifyPhoneOrEmailForNew(VerifyPhoneOrEmailForNewParams params);
 
-    String verifyPhoneOrEmailByForget(VerifyPhoneOrEmailByForgetParams params);
+    Map<String, Object> verifyPhoneOrEmailByForget(VerifyPhoneOrEmailByForgetParams params);
 
     String verifyPassword(VerifyPasswordParams params);
 
-    RegisteredUserDto register();
+    RegisteredUserDto register(DoRegisterParams params);
 
     RegisteredUserDto resetPassword();
 

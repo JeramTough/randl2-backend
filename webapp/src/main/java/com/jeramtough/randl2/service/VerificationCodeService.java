@@ -1,6 +1,7 @@
 package com.jeramtough.randl2.service;
 
 import com.jeramtough.randl2.bean.verificationcode.SendVerificationCodeParams;
+import com.jeramtough.randl2.bean.verificationcode.VerifyVerificationCodeParams;
 
 /**
  * <pre>
@@ -15,10 +16,5 @@ public interface VerificationCodeService {
      */
     String send(SendVerificationCodeParams params);
 
-    String verify(String code);
-
-    /**
-     * 普通注册用户发送短信验证码
-     */
-    String registeredUserSendVerificationCode(SendVerificationCodeParams params);
+    String verify(VerifyVerificationCodeParams params);
 }

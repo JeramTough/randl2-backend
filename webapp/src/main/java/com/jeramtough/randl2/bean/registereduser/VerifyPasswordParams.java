@@ -15,6 +15,14 @@ import javax.validation.constraints.Pattern;
 @ApiModel("校验该密码是否可用")
 public class VerifyPasswordParams {
 
+    @NotNull(message = "{'code':667,'placeholders':['校验失败','事务ID']}")
+    @ApiModelProperty(value = "事务ID", example = "aaaaaaaaa")
+    private String transactionId;
+
+    @NotNull(message = "{'code':667,'placeholders':['校验失败','以手机1或邮箱方式注册2']}")
+    @ApiModelProperty(value = "注册方式，1:手机号码，2:邮箱地址", example = "1")
+    private Integer way;
+
     @NotNull(message = "{'code':667,'placeholders':['校验失败','密码']}")
     @ApiModelProperty(value = "密码", example = "12345678")
     @Pattern(regexp = "^\\S{8,16}$", message = "7021")
@@ -23,6 +31,8 @@ public class VerifyPasswordParams {
     @NotNull(message = "{'code':667,'placeholders':['','重复密码']}")
     @ApiModelProperty(value = "重复密码", example = "12345678")
     private String repeatedPassword;
+
+
 
 
     public String getPassword() {
@@ -39,5 +49,21 @@ public class VerifyPasswordParams {
 
     public void setRepeatedPassword(String repeatedPassword) {
         this.repeatedPassword = repeatedPassword;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    public Integer getWay() {
+        return way;
+    }
+
+    public void setWay(Integer way) {
+        this.way = way;
     }
 }

@@ -2,6 +2,7 @@ package com.jeramtough.randl2.action.controller;
 
 import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
 import com.jeramtough.randl2.bean.verificationcode.SendVerificationCodeParams;
+import com.jeramtough.randl2.bean.verificationcode.VerifyVerificationCodeParams;
 import com.jeramtough.randl2.service.VerificationCodeService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,27 +38,13 @@ public class VerificationCodeController extends BaseController {
         return getSuccessfulApiResponse(verificationCodeService.send(params));
     }
 
-    @ApiOperation(value = "发送验证码2", notes = "普通注册用户发送手机或邮箱验证码")
-    @RequestMapping(value = "/send2", method = {RequestMethod.POST})
-    @ApiResponses(value = {
-            @ApiResponse(code = 8000, message = "发送频率限制，距离下次可发送验证码还有%s秒"),
-            @ApiResponse(code = 8001, message = "发送失败，因为%s")
-    })
-    public RestfulApiResponse send2(
-            @RequestBody SendVerificationCodeParams params) {
-        return getSuccessfulApiResponse(verificationCodeService.registeredUserSendVerificationCode(params));
-    }
 
     @ApiOperation(value = "校验验证码", notes = "验收验证码是否正确")
     @RequestMapping(value = "/verify", method = {RequestMethod.POST})
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "验证码", paramType = "query",
-                    required = true, dataType = "String", defaultValue = "123456")
-    })
     @ApiResponses(value = {
-            @ApiResponse(code = 8002, message = "校验失败！未发送或校验码错误"),
+            @ApiResponse(code = 8002, message = "验证码校验失败！[%s]"),
     })
-    public RestfulApiResponse verify(@RequestParam String code) {
-        return getSuccessfulApiResponse(verificationCodeService.verify(code));
+    public RestfulApiResponse verify(@RequestBody VerifyVerificationCodeParams params) {
+        return getSuccessfulApiResponse(verificationCodeService.verify(params));
     }
 }

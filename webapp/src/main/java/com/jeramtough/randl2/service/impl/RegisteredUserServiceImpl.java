@@ -1,30 +1,21 @@
 package com.jeramtough.randl2.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.jeramtough.jtcomponent.task.bean.TaskResult;
-import com.jeramtough.jtcomponent.task.response.TaskResponse;
 import com.jeramtough.jtcomponent.utils.ValidationUtil;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.bean.registereduser.*;
+import com.jeramtough.randl2.component.registereduser.RegisterUserWay;
+import com.jeramtough.randl2.component.registereduser.builder.EmailRegisterUserBuilder;
+import com.jeramtough.randl2.component.registereduser.builder.PhoneRegisterUserBuilder;
 import com.jeramtough.randl2.component.registereduser.builder.RegisteredUserBuilder;
-import com.jeramtough.randl2.component.registereduser.builder.RegisteredUserBuilderGetter;
-import com.jeramtough.randl2.component.userdetail.SystemUser;
-import com.jeramtough.randl2.component.userdetail.UserHolder;
-import com.jeramtough.randl2.component.userdetail.login.RegisteredUserLoginer;
-import com.jeramtough.randl2.component.userdetail.login.RegisteredUserTokenLoginer;
-import com.jeramtough.randl2.component.userdetail.login.UserLoginer;
-import com.jeramtough.randl2.component.verificationcode.SessionVerificationCodeHolder;
-import com.jeramtough.randl2.component.verificationcode.VerificationCodeHolder;
-import com.jeramtough.randl2.config.security.AuthTokenConfig;
+import com.jeramtough.randl2.component.verificationcode.RedisVerificationCodeHolder;
 import com.jeramtough.randl2.dao.entity.RegisteredUser;
 import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;
 import com.jeramtough.randl2.dao.mapper.SurfaceImageMapper;
 import com.jeramtough.randl2.dto.RegisteredUserDto;
-import com.jeramtough.randl2.dto.SystemUserDto;
 import com.jeramtough.randl2.service.RegisteredUserService;
-import com.jeramtough.randl2.util.JwtTokenUtil;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,6 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * <p>
@@ -50,20 +42,17 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         RegisteredUser, RegisteredUserDto> implements
         RegisteredUserService, WithLogger {
 
-    private RegisteredUserBuilderGetter registeredUserPlantGetter;
-    private SessionVerificationCodeHolder verificationCodeHolder;
+    private RedisVerificationCodeHolder verificationCodeHolder;
     private PasswordEncoder passwordEncoder;
     private SurfaceImageMapper surfaceImageMapper;
 
     @Autowired
     public RegisteredUserServiceImpl(WebApplicationContext wc,
                                      MapperFacade mapperFacade,
-                                     RegisteredUserBuilderGetter registeredUserPlantGetter,
-                                     SessionVerificationCodeHolder verificationCodeHolder,
+                                     RedisVerificationCodeHolder verificationCodeHolder,
                                      PasswordEncoder passwordEncoder,
                                      SurfaceImageMapper surfaceImageMapper) {
         super(wc, mapperFacade);
-        this.registeredUserPlantGetter = registeredUserPlantGetter;
         this.verificationCodeHolder = verificationCodeHolder;
         this.passwordEncoder = passwordEncoder;
         this.surfaceImageMapper = surfaceImageMapper;
@@ -77,27 +66,25 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
     }
 
     @Override
-    public String verifyPhoneOrEmailForNew(VerifyPhoneOrEmailForNewParams params) {
+    public Map<String, Object> verifyPhoneOrEmailForNew(
+            VerifyPhoneOrEmailForNewParams params) {
         BeanValidator.verifyDto(params);
 
-        //初始化用户的方式
-        registeredUserPlantGetter.initRegisterUserWay(params.getWay(), 7005);
+        RegisteredUserBuilder builder = getRegisteredUserBuilder(params.getWay());
+        String transactionId = builder.setAccount(params.getPhoneOrEmail(), 7001, 7003, 7000);
 
-        RegisteredUserBuilder builder = registeredUserPlantGetter.getRegisteredUserBuilder(
-                7000);
-        builder.setAccount(params.getPhoneOrEmail(), 7001, 7002, 7003, 7004);
-        return "该账号可以注册";
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("transactionId", transactionId);
+        map.put("message", "该账号可以注册");
+        return map;
     }
 
     @Override
-    public String verifyPhoneOrEmailByForget(VerifyPhoneOrEmailByForgetParams params) {
+    public Map<String, Object> verifyPhoneOrEmailByForget(
+            VerifyPhoneOrEmailByForgetParams params) {
         BeanValidator.verifyDto(params);
 
-        //初始化用户的方式
-        registeredUserPlantGetter.initRegisterUserWay(params.getWay(), 7005);
-
-        RegisteredUserBuilder builder = registeredUserPlantGetter.getRegisteredUserBuilder(
-                7000);
+        RegisteredUserBuilder builder = getRegisteredUserBuilder(params.getWay());
 
         boolean isPhone = ValidationUtil.isPhone(params.getPhoneOrEmail());
         boolean isEmail = ValidationUtil.isEmail(params.getPhoneOrEmail());
@@ -111,47 +98,40 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
             throw new ApiResponseException(7010);
         }
 
-        builder.rebuildRegisteredUser(registeredUser);
-        return "校验通过";
+        return new HashMap<>();
     }
 
     @Override
     public String verifyPassword(VerifyPasswordParams params) {
         BeanValidator.verifyDto(params);
-        RegisteredUserBuilder builder = registeredUserPlantGetter.getRegisteredUserBuilder(
-                7000);
-        builder.setPassword(params.getPassword(), params.getRepeatedPassword(), 7020);
+        RegisteredUserBuilder builder = getRegisteredUserBuilder(params.getWay());
+
+        builder.setPassword(params.getTransactionId(), params.getPassword(),
+                params.getRepeatedPassword(), 7020, 7000);
         return "密码校验通过";
     }
 
     @Override
-    public synchronized RegisteredUserDto register() {
-        RegisteredUserBuilder builder = registeredUserPlantGetter.getRegisteredUserBuilder(
-                7000);
-        RegisteredUser registeredUser = builder.build(7030);
+    public synchronized RegisteredUserDto register(DoRegisterParams params) {
+        BeanValidator.verifyDto(params);
 
-        if (!verificationCodeHolder.getVerificationResult().isPassed()) {
+        RegisteredUserBuilder builder = getRegisteredUserBuilder(params.getWay());
+
+        RegisteredUser registeredUser = builder.build(params.getTransactionId(), 7000, 7030);
+
+        if (!verificationCodeHolder.getVerificationResult(
+                registeredUser.getPhoneNumber())) {
             throw new ApiResponseException(7031);
         }
 
-        boolean isTheSamePhoneNumber =
-                verificationCodeHolder.getVerificationResult().getSendWayValue().equals(
-                        registeredUser.getPhoneNumber());
-        boolean isTheSameEmailAddress =
-                verificationCodeHolder.getVerificationResult().getSendWayValue().equals(
-                        registeredUser.getEmailAddress());
-        if (!(isTheSamePhoneNumber || isTheSameEmailAddress)) {
-            throw new ApiResponseException(7032);
-        }
-
         getBaseMapper().insert(registeredUser);
-        builder.clear();
+        builder.clear(params.getTransactionId());
         return getBaseDto(registeredUser);
     }
 
     @Override
     public synchronized RegisteredUserDto resetPassword() {
-        RegisteredUserBuilder builder = registeredUserPlantGetter.getRegisteredUserBuilder(
+       /* RegisteredUserBuilder builder = registeredUserPlantGetter.getRegisteredUserBuilder(
                 7000);
         RegisteredUser registeredUser = builder.resetRegisteredUser(7040);
 
@@ -172,7 +152,8 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
 
         getBaseMapper().updateById(registeredUser);
         builder.clear();
-        return getBaseDto(registeredUser);
+        return getBaseDto(registeredUser);*/
+        return null;
     }
 
     @Override
@@ -249,7 +230,6 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
     }
 
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return null;
@@ -258,4 +238,23 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
 
     //****************************
 
+    public RegisteredUserBuilder getRegisteredUserBuilder(int way) {
+        RegisterUserWay registerUserWay = RegisterUserWay.toRegisterUserWay(way);
+        if (registerUserWay == null) {
+            throw new ApiResponseException(7005);
+        }
+        RegisteredUserBuilder builder = null;
+        switch (registerUserWay) {
+            case PHONE_USER_WAY:
+                builder = getWC().getBean(PhoneRegisterUserBuilder.class);
+                break;
+            case EMAIL_USER_WAY:
+                builder = getWC().getBean(EmailRegisterUserBuilder.class);
+                break;
+            default:
+                break;
+        }
+        Objects.requireNonNull(builder);
+        return builder;
+    }
 }
