@@ -7,9 +7,7 @@ import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.bean.registereduser.*;
 import com.jeramtough.randl2.component.registereduser.RegisterUserWay;
-import com.jeramtough.randl2.component.registereduser.builder.EmailRegisterUserBuilder;
-import com.jeramtough.randl2.component.registereduser.builder.PhoneRegisterUserBuilder;
-import com.jeramtough.randl2.component.registereduser.builder.RegisteredUserBuilder;
+import com.jeramtough.randl2.component.registereduser.builder.*;
 import com.jeramtough.randl2.component.verificationcode.RedisVerificationCodeHolder;
 import com.jeramtough.randl2.dao.entity.RegisteredUser;
 import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;
@@ -71,7 +69,8 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         BeanValidator.verifyDto(params);
 
         RegisteredUserBuilder builder = getRegisteredUserBuilder(params.getWay());
-        String transactionId = builder.setAccount(params.getPhoneOrEmail(), 7001, 7003, 7000);
+        String transactionId = builder.setAccount(params.getPhoneOrEmail(),
+                7001, 7002, 7003, 7004);
 
         Map<String, Object> map = new HashMap<>(2);
         map.put("transactionId", transactionId);
@@ -84,12 +83,21 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
             VerifyPhoneOrEmailByForgetParams params) {
         BeanValidator.verifyDto(params);
 
-        RegisteredUserBuilder builder = getRegisteredUserBuilder(params.getWay());
+        RegisteredUserRebuilder rebuilder = getRegisteredUserRebuilder();
 
-        boolean isPhone = ValidationUtil.isPhone(params.getPhoneOrEmail());
-        boolean isEmail = ValidationUtil.isEmail(params.getPhoneOrEmail());
-        if (!(isPhone || isEmail)) {
-            throw new ApiResponseException(668, "账号", "格式不正确");
+        RegisterUserWay registerUserWay = RegisterUserWay.toRegisterUserWay(params.getWay());
+        switch (Objects.requireNonNull(registerUserWay)) {
+            case PHONE_USER_WAY:
+                if (!ValidationUtil.isPhone(params.getPhoneOrEmail())) {
+                    throw new ApiResponseException(668, "手机号码", "格式不正确");
+                }
+                break;
+            case EMAIL_USER_WAY:
+                if (!ValidationUtil.isEmail(params.getPhoneOrEmail())) {
+                    throw new ApiResponseException(668, "邮箱地址", "格式不正确");
+                }
+                break;
+            default:
         }
 
         RegisteredUser registeredUser =
@@ -98,7 +106,11 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
             throw new ApiResponseException(7010);
         }
 
-        return new HashMap<>();
+        String transactionId = rebuilder.rebuildRegisteredUser(registeredUser);
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("transactionId", transactionId);
+        map.put("message", "该账号可以重置");
+        return map;
     }
 
     @Override
@@ -112,15 +124,34 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
     }
 
     @Override
-    public synchronized RegisteredUserDto register(DoRegisterParams params) {
+    public Object verifyPasswordByForget(VerifyPasswordParams params) {
+        BeanValidator.verifyDto(params);
+        RegisteredUserRebuilder rebuilder = getRegisteredUserRebuilder();
+        rebuilder.setPassword(params.getTransactionId(), params.getPassword(),
+                params.getRepeatedPassword(), 7020, 7000, 7022);
+        return "密码校验通过";
+    }
+
+    @Override
+    public synchronized RegisteredUserDto register(DoRegisterOrResetParams params) {
         BeanValidator.verifyDto(params);
 
         RegisteredUserBuilder builder = getRegisteredUserBuilder(params.getWay());
 
         RegisteredUser registeredUser = builder.build(params.getTransactionId(), 7000, 7030);
 
-        if (!verificationCodeHolder.getVerificationResult(
-                registeredUser.getPhoneNumber())) {
+        String phoneOrEmailOrOther = null;
+        switch (builder.getRegisterUserWay()) {
+            case PHONE_USER_WAY:
+                phoneOrEmailOrOther = registeredUser.getPhoneNumber();
+                break;
+            case EMAIL_USER_WAY:
+                phoneOrEmailOrOther = registeredUser.getEmailAddress();
+                break;
+            default:
+                break;
+        }
+        if (!verificationCodeHolder.getVerificationResult(phoneOrEmailOrOther)) {
             throw new ApiResponseException(7031);
         }
 
@@ -130,30 +161,29 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
     }
 
     @Override
-    public synchronized RegisteredUserDto resetPassword() {
-       /* RegisteredUserBuilder builder = registeredUserPlantGetter.getRegisteredUserBuilder(
-                7000);
-        RegisteredUser registeredUser = builder.resetRegisteredUser(7040);
+    public synchronized RegisteredUserDto reset(DoRegisterOrResetParams params) {
+        RegisteredUserRebuilder rebuilder = getRegisteredUserRebuilder();
+        RegisteredUser registeredUser = rebuilder.reset(params.getTransactionId(), 7040, 7042);
 
-        //验证码校验是否通过
-        if (!verificationCodeHolder.getVerificationResult().isPassed()) {
+        RegisterUserWay registerUserWay = RegisterUserWay.toRegisterUserWay(params.getWay());
+        String phoneOrEmailOrOther = null;
+        switch (Objects.requireNonNull(registerUserWay)) {
+            case PHONE_USER_WAY:
+                phoneOrEmailOrOther = registeredUser.getPhoneNumber();
+                break;
+            case EMAIL_USER_WAY:
+                phoneOrEmailOrOther = registeredUser.getEmailAddress();
+                break;
+            default:
+                break;
+        }
+        if (!verificationCodeHolder.getVerificationResult(phoneOrEmailOrOther)) {
             throw new ApiResponseException(7041);
         }
 
-        boolean isTheSamePhoneNumber =
-                verificationCodeHolder.getVerificationResult().getSendWayValue().equals(
-                        registeredUser.getPhoneNumber());
-        boolean isTheSameEmailAddress =
-                verificationCodeHolder.getVerificationResult().getSendWayValue().equals(
-                        registeredUser.getEmailAddress());
-        if (!(isTheSamePhoneNumber || isTheSameEmailAddress)) {
-            throw new ApiResponseException(7042);
-        }
-
         getBaseMapper().updateById(registeredUser);
-        builder.clear();
-        return getBaseDto(registeredUser);*/
-        return null;
+        rebuilder.clear(params.getTransactionId());
+        return getBaseDto(registeredUser);
     }
 
     @Override
@@ -238,7 +268,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
 
     //****************************
 
-    public RegisteredUserBuilder getRegisteredUserBuilder(int way) {
+    private RegisteredUserBuilder getRegisteredUserBuilder(int way) {
         RegisterUserWay registerUserWay = RegisterUserWay.toRegisterUserWay(way);
         if (registerUserWay == null) {
             throw new ApiResponseException(7005);
@@ -257,4 +287,12 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         Objects.requireNonNull(builder);
         return builder;
     }
+
+    private RegisteredUserRebuilder getRegisteredUserRebuilder() {
+        RegisteredUserRebuilder registeredUserRebuilder =
+                getWC().getBean(MyRegisteredUserRebuiler.class);
+        return registeredUserRebuilder;
+    }
 }
+
+

@@ -6,6 +6,8 @@ import com.jeramtough.jtcomponent.utils.DateTimeUtil;
 import com.jeramtough.jtlog.with.WithLogger;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * <pre>
  * Created on 2020/3/24 14:27
@@ -14,6 +16,8 @@ import org.springframework.data.redis.core.RedisTemplate;
  */
 public abstract class BaseVerificationCodeSender implements VerificationCodeSender,
         WithLogger {
+
+    private static final long MAX_EXPIRE_TIME_SECONDS = 30 * 60;
 
     private static final String LAST_SENT_VERIFICATION_CODE_TIME_SESSION_KEY_PROFIX =
             "lastSentVerificationCodeTime";
@@ -38,8 +42,9 @@ public abstract class BaseVerificationCodeSender implements VerificationCodeSend
         }
 
         //however true or false, saving the last sent verification code time to session
-        String key = LAST_SENT_VERIFICATION_CODE_TIME_SESSION_KEY_PROFIX + "_" + phoneOrEmail;
-        redisTemplate.boundValueOps(key).set(System.currentTimeMillis() + "");
+        String key = getLastSentVerificationCodeTimeSessionKey(phoneOrEmail);
+        redisTemplate.boundValueOps(key).set(System.currentTimeMillis() + "",
+                MAX_EXPIRE_TIME_SECONDS, TimeUnit.SECONDS);
 
         if (taskResult.isSuccessful()) {
             if (isTest) {
@@ -59,7 +64,7 @@ public abstract class BaseVerificationCodeSender implements VerificationCodeSend
 
     @Override
     public int getLastSentVerificationCodeInterval(String phoneOrEmail) {
-        String key = LAST_SENT_VERIFICATION_CODE_TIME_SESSION_KEY_PROFIX + "_" + phoneOrEmail;
+        String key = getLastSentVerificationCodeTimeSessionKey(phoneOrEmail);
         Object value = redisTemplate.boundValueOps(key).get();
         if (value == null) {
             return Integer.MAX_VALUE;
@@ -72,4 +77,11 @@ public abstract class BaseVerificationCodeSender implements VerificationCodeSend
     }
 
     public abstract TaskResult doSending(String phoneOrEmail, String verificationCode);
+
+    //*************
+
+    private String getLastSentVerificationCodeTimeSessionKey(String phoneOrEmail) {
+        String key = LAST_SENT_VERIFICATION_CODE_TIME_SESSION_KEY_PROFIX + "_" + phoneOrEmail;
+        return key;
+    }
 }

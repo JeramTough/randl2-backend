@@ -25,14 +25,17 @@ public interface RegisteredUserService extends BaseService<RegisteredUser,
 
     String verifyPassword(VerifyPasswordParams params);
 
-    RegisteredUserDto register(DoRegisterParams params);
+    Object verifyPasswordByForget(VerifyPasswordParams params);
 
-    RegisteredUserDto resetPassword();
+    RegisteredUserDto register(DoRegisterOrResetParams params);
+
+    RegisteredUserDto reset(DoRegisterOrResetParams params);
 
     String removeRegisteredUser(Long uid);
 
     String updateRegisteredUser(UpdateRegisteredUserParams params);
 
     List<RegisteredUserDto> getRegisteredUsersByKeyword(String keyword);
+
 
 }

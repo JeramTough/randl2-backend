@@ -3,6 +3,8 @@ package com.jeramtough.randl2.component.verificationcode.sender;
 import com.jeramtough.randl2.component.verificationcode.sender.SendWay;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.Objects;
+
 /**
  * <pre>
  * Created on 2020/2/16 21:18
@@ -14,7 +16,7 @@ public class VerificationCodeSenderGetter {
     public static VerificationCodeSender getSender(WebApplicationContext webApplicationContext,
                                                    int way) {
         VerificationCodeSender sender = null;
-        switch (SendWay.getSendWay(way)) {
+        switch (Objects.requireNonNull(SendWay.getSendWay(way))) {
             case PHONE:
                 sender = webApplicationContext.getBean(SmsVerificationCodeSender.class);
                 break;

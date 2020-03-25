@@ -3,6 +3,7 @@ package com.jeramtough.randl2.component.registereduser.builder;
 import com.jeramtough.jtcomponent.utils.IdUtil;
 import com.jeramtough.jtcomponent.utils.ValidationUtil;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.component.registereduser.RegisterUserWay;
 import com.jeramtough.randl2.dao.entity.RegisteredUser;
 import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class PhoneRegisterUserBuilder extends CommonUserBuilder
             throw new ApiResponseException(errorCodes[0]);
         }
         if (getRegisteredUserMapper().selectByPhoneNumber(phoneOrEmailOrOther) != null) {
-            throw new ApiResponseException(errorCodes[1]);
+            throw new ApiResponseException(errorCodes[2]);
         }
 
         String transactionId = createTransactionId();
@@ -60,11 +61,16 @@ public class PhoneRegisterUserBuilder extends CommonUserBuilder
         RegisteredUser registeredUser = new RegisteredUser();
         registeredUser.setPhoneNumber(phoneNumber);
         registeredUser.setPassword(getPasswordEncoder().encode(password));
-        registeredUser.setAccount("phone_" + IdUtil.getUUID().substring(0, 8));
+        registeredUser.setAccount("P_" + phoneNumber);
         registeredUser.setRegistrationTime(LocalDateTime.now());
         registeredUser.setAccountStatus(1);
         registeredUser.setSurfaceImageId(2L);
         return registeredUser;
+    }
+
+    @Override
+    public RegisterUserWay getRegisterUserWay() {
+        return RegisterUserWay.PHONE_USER_WAY;
     }
 
     //************

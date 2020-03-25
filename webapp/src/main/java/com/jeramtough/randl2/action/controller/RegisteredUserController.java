@@ -36,7 +36,6 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "新账号登录方式校验", notes = "校验手机号码或者邮箱是否允许被注册")
     @RequestMapping(value = "/verify/phoneOrEmailForNew", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 7000, message = "事务ID以失效，注册信息失效，请重新开始注册"),
             @ApiResponse(code = 7001, message = "手机号码格式错误"),
             @ApiResponse(code = 7002, message = "邮箱地址格式错误"),
             @ApiResponse(code = 7003, message = "已存在重复的手机号码，请换一个"),
@@ -52,9 +51,8 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "找回密码账号校验", notes = "校验手机号码或者邮箱")
     @RequestMapping(value = "/verify/phoneOrEmailByForget", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 7000, message = "事务ID以失效，注册信息失效，请重新开始注册"),
             @ApiResponse(code = 7005, message = "way参数只能填1(以手机)或2(以邮箱)"),
-            @ApiResponse(code = 7010, message = "该手机号或者邮箱地址未注册过本系统"),
+            @ApiResponse(code = 7010, message = "该手机号或者邮箱地址未注册或绑定过本系统"),
     })
     public RestfulApiResponse verifyPhoneOrEmailByForget(@RequestBody
                                                                  VerifyPhoneOrEmailByForgetParams params) {
@@ -62,15 +60,28 @@ public class RegisteredUserController extends BaseController {
                 registeredUserService.verifyPhoneOrEmailByForget(params));
     }
 
-    @ApiOperation(value = "用户密码校验", notes = "用户密码校验")
+    @ApiOperation(value = "注册时用户密码校验", notes = "注册时用户密码校验")
     @RequestMapping(value = "/verify/password", method = {RequestMethod.POST})
     @ApiResponses(value = {
             @ApiResponse(code = 7000, message = "事务ID以失效，注册信息失效，请重新开始注册"),
-            @ApiResponse(code = 7020, message = "注册用户失败！两次密码不一致"),
+            @ApiResponse(code = 7020, message = "校验失败！两次密码不一致"),
             @ApiResponse(code = 7021, message = "密码长度范围在8-16位；只允许非空白任意字符"),
     })
     public RestfulApiResponse verifyPassword(@RequestBody VerifyPasswordParams params) {
         return getSuccessfulApiResponse(registeredUserService.verifyPassword(params));
+    }
+
+    @ApiOperation(value = "找回密码时用户密码校验", notes = "找回密码时用户密码校验")
+    @RequestMapping(value = "/verify/passwordByForget", method = {RequestMethod.POST})
+    @ApiResponses(value = {
+            @ApiResponse(code = 7000, message = "事务ID以失效，注册信息失效，请重新开始注册"),
+            @ApiResponse(code = 7020, message = "校验失败！两次密码不一致"),
+            @ApiResponse(code = 7021, message = "密码长度范围在8-16位；只允许非空白任意字符"),
+            @ApiResponse(code = 7022, message = "新密码不能和旧密码一致"),
+    })
+    public RestfulApiResponse verifyPasswordByForget(
+            @RequestBody VerifyPasswordParams params) {
+        return getSuccessfulApiResponse(registeredUserService.verifyPasswordByForget(params));
     }
 
     @ApiOperation(value = "确定注册", notes = "注册该用户")
@@ -79,21 +90,21 @@ public class RegisteredUserController extends BaseController {
             @ApiResponse(code = 7000, message = "事务ID以失效，注册信息失效，请重新开始注册"),
             @ApiResponse(code = 7030, message = "注册未完成或信息以失效，请重新注册"),
             @ApiResponse(code = 7031, message = "验证码校验失败，或验证码未发送或以失效"),
-            @ApiResponse(code = 7032, message = "发送验证码的手机号或邮箱地址与注册的不符"),
     })
-    public RestfulApiResponse registerUser(@RequestBody DoRegisterParams params) {
+    public RestfulApiResponse registerUser(@RequestBody DoRegisterOrResetParams params) {
         return getSuccessfulApiResponse(registeredUserService.register(params));
     }
 
     @ApiOperation(value = "确定重置", notes = "重置密码")
     @RequestMapping(value = "/reset", method = {RequestMethod.POST})
     @ApiResponses(value = {
+            @ApiResponse(code = 7000, message = "事务ID以失效，注册信息失效，请重新开始注册"),
             @ApiResponse(code = 7040, message = "重置未完成或信息以失效，请重新开始重置流程"),
             @ApiResponse(code = 7041, message = "验证码校验失败，或验证码未发送或以失效"),
-            @ApiResponse(code = 7042, message = "发送验证码的手机号或邮箱地址与申请的不符"),
+            @ApiResponse(code = 7042, message = "重置失败！账户信息未做过任何修改"),
     })
-    public RestfulApiResponse resetUser() {
-        return getSuccessfulApiResponse(registeredUserService.resetPassword());
+    public RestfulApiResponse resetUser(@RequestBody DoRegisterOrResetParams params) {
+        return getSuccessfulApiResponse(registeredUserService.reset(params));
     }
 
 
@@ -133,7 +144,8 @@ public class RegisteredUserController extends BaseController {
             @ApiResponse(code = 7066, message = "已存在重复的手机号码，请换一个"),
             @ApiResponse(code = 7067, message = "已存在重复的邮箱地址，请换一个"),
     })
-    public RestfulApiResponse updateRegisteredUser(@RequestBody UpdateRegisteredUserParams params) {
+    public RestfulApiResponse updateRegisteredUser(
+            @RequestBody UpdateRegisteredUserParams params) {
         return getSuccessfulApiResponse(registeredUserService.updateRegisteredUser(params));
     }
 

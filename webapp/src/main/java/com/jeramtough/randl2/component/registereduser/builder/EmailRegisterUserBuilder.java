@@ -1,8 +1,8 @@
 package com.jeramtough.randl2.component.registereduser.builder;
 
-import com.jeramtough.jtcomponent.utils.IdUtil;
 import com.jeramtough.jtcomponent.utils.ValidationUtil;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.component.registereduser.RegisterUserWay;
 import com.jeramtough.randl2.dao.entity.RegisteredUser;
 import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,16 +34,16 @@ public class EmailRegisterUserBuilder extends CommonUserBuilder
     @Override
     public String setAccount(String phoneOrEmailOrOther, int... errorCodes) throws
             ApiResponseException {
-        boolean isRightFormat = ValidationUtil.isPhone(phoneOrEmailOrOther);
+        boolean isRightFormat = ValidationUtil.isEmail(phoneOrEmailOrOther);
         if (!isRightFormat) {
-            throw new ApiResponseException(errorCodes[0]);
-        }
-        if (getRegisteredUserMapper().selectByPhoneNumber(phoneOrEmailOrOther) != null) {
             throw new ApiResponseException(errorCodes[1]);
+        }
+        if (getRegisteredUserMapper().selectByEmailAddress(phoneOrEmailOrOther) != null) {
+            throw new ApiResponseException(errorCodes[3]);
         }
 
         String transactionId = createTransactionId();
-        setPhoneNumber(transactionId, errorCodes[2], phoneOrEmailOrOther);
+        setEmailAddress(transactionId, phoneOrEmailOrOther);
         return transactionId;
     }
 
@@ -51,31 +51,37 @@ public class EmailRegisterUserBuilder extends CommonUserBuilder
     @Override
     public RegisteredUser build(String transactionId, int... errorCodes) throws
             ApiResponseException {
-        String phoneNumber = getPhoneNumber(transactionId, errorCodes[0]);
+        String emailAddress = getEmailAddress(transactionId, errorCodes[0]);
         String password = getPassword(transactionId, errorCodes[0]);
-        if (phoneNumber == null || password == null) {
+        if (emailAddress == null || password == null) {
             throw new ApiResponseException(errorCodes[1]);
         }
 
         RegisteredUser registeredUser = new RegisteredUser();
-        registeredUser.setPhoneNumber(phoneNumber);
-        registeredUser.setPassword(password);
-        registeredUser.setAccount("phone_" + IdUtil.getUUID().substring(0, 8));
+        registeredUser.setEmailAddress(emailAddress);
+        registeredUser.setPassword(getPasswordEncoder().encode(password));
+        registeredUser.setAccount("E_" + emailAddress.substring(0,
+                Math.min(emailAddress.length(), 16)));
         registeredUser.setRegistrationTime(LocalDateTime.now());
         registeredUser.setAccountStatus(1);
         registeredUser.setSurfaceImageId(2L);
         return registeredUser;
     }
 
+    @Override
+    public RegisterUserWay getRegisterUserWay() {
+        return RegisterUserWay.EMAIL_USER_WAY;
+    }
+
     //************
 
-    private String getPhoneNumber(String transactionId, int errorCode) {
-        return (String) getHashOperations(transactionId, errorCode).get("phoneNumber");
+    private String getEmailAddress(String transactionId, int errorCode) {
+        return (String) getHashOperations(transactionId, errorCode).get("emailAddress");
     }
 
 
-    private void setPhoneNumber(String transactionId, int errorCode, String phoneNumber) {
-        getHashOperations(transactionId, errorCode).put("phoneNumber", phoneNumber);
+    private void setEmailAddress(String transactionId, String phoneNumber) {
+        createHashOperations(transactionId).put("emailAddress", phoneNumber);
     }
 
 

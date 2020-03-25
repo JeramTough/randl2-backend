@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import com.jeramtough.jtlog.facade.L;
 import org.junit.Test;
 
 /**
@@ -64,5 +65,12 @@ public class CodeTest {
         codeAutoGenerator.setStrategy(strategy);
 
         codeAutoGenerator.execute();
+    }
+
+
+    @Test
+    public void test3(){
+        String a="safsafddddddddddddddddddddddddddd";
+        L.debug(a.substring(0,a.length()<16?a.length():16));
     }
 }

@@ -11,8 +11,8 @@ import javax.validation.constraints.NotNull;
  * by @author JeramTough
  * </pre>
  */
-@ApiModel("确定注册用户参数")
-public class DoRegisterParams {
+@ApiModel("确定注册或重置用户参数")
+public class DoRegisterOrResetParams {
 
     @NotNull(message = "{'code':667,'placeholders':['校验失败','事务ID']}")
     @ApiModelProperty(value = "事务ID", example = "aaaaaaaaa")

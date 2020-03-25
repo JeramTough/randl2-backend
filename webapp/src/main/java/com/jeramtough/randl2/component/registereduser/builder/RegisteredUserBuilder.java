@@ -1,6 +1,7 @@
 package com.jeramtough.randl2.component.registereduser.builder;
 
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.component.registereduser.RegisterUserWay;
 import com.jeramtough.randl2.dao.entity.RegisteredUser;
 
 /**
@@ -26,6 +27,8 @@ public interface RegisteredUserBuilder extends UserBuilder {
     RegisteredUser build(String transactionId, int... errorCodes) throws
             ApiResponseException;
 
+
+    RegisterUserWay getRegisterUserWay();
 
 }
 
