@@ -3,8 +3,8 @@ package com.jeramtough.randl2.action.filter;
 import com.jeramtough.jtweb.action.filter.BaseSwaggerFilter;
 import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.service.RegisteredUserLoginService;
 import com.jeramtough.randl2.service.RegisteredUserLoginedService;
-import com.jeramtough.randl2.service.RegisteredUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -24,12 +24,12 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter implements BaseSwaggerFilter {
 
-    private final RegisteredUserLoginedService registeredUserLoginedService;
+    private final RegisteredUserLoginService registeredUserLoginService;
 
     @Autowired
     public JwtRequestFilter(
-            RegisteredUserLoginedService registeredUserLoginedService) {
-        this.registeredUserLoginedService = registeredUserLoginedService;
+            RegisteredUserLoginService registeredUserLoginService) {
+        this.registeredUserLoginService = registeredUserLoginService;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class JwtRequestFilter extends OncePerRequestFilter implements BaseSwagge
                 "registeredUser/logined")) {
             String token = parseToken(request);
             try {
-                registeredUserLoginedService.loginByExistingToken(token);
+                registeredUserLoginService.loginByExistingToken(token);
                 filterChain.doFilter(request, response);
             }
             catch (ApiResponseException e) {
@@ -48,7 +48,7 @@ public class JwtRequestFilter extends OncePerRequestFilter implements BaseSwagge
                 returnRestfulApiResponse(restfulApiResponse, response);
             }
         }
-        else{
+        else {
             filterChain.doFilter(request, response);
         }
     }

@@ -39,5 +39,5 @@ public interface RegisteredUserMapper extends BaseMapper<RegisteredUser> {
 
     @Update("UPDATE registered_user SET password=#{newPassword} WHERE  " +
             "uid=#{uid};")
-    RegisteredUser updatePassword(@Param("uid")Long uid,@Param("newPassword")String newPassword);
+    void updatePassword(@Param("uid")Long uid,@Param("newPassword")String newPassword);
 }

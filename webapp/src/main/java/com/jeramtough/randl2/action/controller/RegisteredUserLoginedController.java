@@ -5,8 +5,8 @@ import com.jeramtough.randl2.bean.personalinfo.UpdatePersonalInfoParams;
 import com.jeramtough.randl2.bean.registereduser.LoginByPasswordCredentials;
 import com.jeramtough.randl2.bean.registereduser.LoginByVerificationCodeCredentials;
 import com.jeramtough.randl2.bean.registereduser.ResetPasswordParams;
-import com.jeramtough.randl2.bean.surfaceimage.UpdateSurfaceImageParams;
 import com.jeramtough.randl2.bean.surfaceimage.UploadSurfaceImageParams;
+import com.jeramtough.randl2.service.RegisteredUserLoginService;
 import com.jeramtough.randl2.service.RegisteredUserLoginedService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +31,14 @@ import org.springframework.web.bind.annotation.RestController;
 })
 public class RegisteredUserLoginedController extends BaseController {
 
-    private RegisteredUserLoginedService registeredUserLoginedService;
+    private final RegisteredUserLoginService registeredUserLoginService;
+    private final RegisteredUserLoginedService registeredUserLoginedService;
 
     @Autowired
     public RegisteredUserLoginedController(
+            RegisteredUserLoginService registeredUserLoginService,
             RegisteredUserLoginedService registeredUserLoginedService) {
+        this.registeredUserLoginService = registeredUserLoginService;
         this.registeredUserLoginedService = registeredUserLoginedService;
     }
 
@@ -46,7 +49,7 @@ public class RegisteredUserLoginedController extends BaseController {
     })
     public RestfulApiResponse login1(LoginByPasswordCredentials credentials) {
         return getSuccessfulApiResponse(
-                registeredUserLoginedService.loginByPassword(credentials));
+                registeredUserLoginService.loginByPassword(credentials));
     }
 
 
@@ -57,7 +60,7 @@ public class RegisteredUserLoginedController extends BaseController {
     })
     public RestfulApiResponse login2(LoginByVerificationCodeCredentials credentials) {
         return getSuccessfulApiResponse(
-                registeredUserLoginedService.loginByVerificationCode(credentials));
+                registeredUserLoginService.loginByVerificationCode(credentials));
     }
 
     @ApiOperation(value = "个人资料", notes = "查询当前登录账号的个人资料")

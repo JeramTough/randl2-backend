@@ -19,14 +19,6 @@ import java.util.Map;
  */
 public interface RegisteredUserLoginedService extends BaseService<RegisteredUser,
         RegisteredUserDto> {
-    /**
-     * 登录根据之前已经存在的token
-     */
-    void loginByExistingToken(String token);
-
-    Map<String, Object> loginByPassword(LoginByPasswordCredentials credentials);
-
-    Map<String, Object> loginByVerificationCode(LoginByVerificationCodeCredentials credentials);
 
     PersonalInfoDto getPersonalInfo();
 
