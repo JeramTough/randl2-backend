@@ -1,8 +1,12 @@
 package com.jeramtough.randl2.service;
 
-import com.jeramtough.randl2.bean.registereduser.RegisteredUserCredentials1;
-import com.jeramtough.randl2.bean.registereduser.RegisteredUserCredentials2;
+import com.jeramtough.randl2.bean.personalinfo.UpdatePersonalInfoParams;
+import com.jeramtough.randl2.bean.registereduser.LoginByPasswordCredentials;
+import com.jeramtough.randl2.bean.registereduser.LoginByVerificationCodeCredentials;
+import com.jeramtough.randl2.bean.registereduser.ResetPasswordParams;
+import com.jeramtough.randl2.bean.surfaceimage.UploadSurfaceImageParams;
 import com.jeramtough.randl2.dao.entity.RegisteredUser;
+import com.jeramtough.randl2.dto.PersonalInfoDto;
 import com.jeramtough.randl2.dto.RegisteredUserDto;
 
 import java.util.Map;
@@ -20,7 +24,15 @@ public interface RegisteredUserLoginedService extends BaseService<RegisteredUser
      */
     void loginByExistingToken(String token);
 
-    Map<String, Object> loginByPassword(RegisteredUserCredentials1 credentials);
+    Map<String, Object> loginByPassword(LoginByPasswordCredentials credentials);
 
-    Map<String, Object> loginByVerificationCode(RegisteredUserCredentials2 credentials);
+    Map<String, Object> loginByVerificationCode(LoginByVerificationCodeCredentials credentials);
+
+    PersonalInfoDto getPersonalInfo();
+
+    String updatePersonalInfo(UpdatePersonalInfoParams params);
+
+    String updateSurfaceImageByBase64(UploadSurfaceImageParams params);
+
+    String resetPassword(ResetPasswordParams params);
 }

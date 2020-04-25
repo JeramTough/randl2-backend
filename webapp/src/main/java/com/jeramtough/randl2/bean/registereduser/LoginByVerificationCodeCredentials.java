@@ -14,22 +14,22 @@ import javax.validation.constraints.Pattern;
  * </pre>
  */
 @ApiModel("通过验证码登录参数")
-public class RegisteredUserCredentials2 {
+public class LoginByVerificationCodeCredentials {
 
-    @NotNull(message = "{'code':1002,'placeholders':['用户名']}")
-    @Pattern(regexp = "^[a-z0-9A-Z]{5,16}$", message = "1003")
-    @ApiParam(value = "账号、手机号、邮箱地址", required = true)
+    @NotNull(message = "{'code':1002,'placeholders':['登录凭证']}")
+    @Pattern(
+            regexp = "(^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$)|(^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$)",
+            message = "{'code':668,'placeholders':['登录凭证','手机号码或者邮箱地址']}")
+    @ApiParam(value = "手机号、邮箱地址", required = true)
     private String credential;
 
-    @NotNull(message = "{'code':667,'placeholders':['登录失败','以手机1或邮箱方式2登录']}")
-    @ApiModelProperty(value = "登录方式，1:手机号码，2:邮箱地址", example = "1")
-    private Integer way;
-
     @NotNull(message = "{'code':667,'placeholders':['登录失败','验证码']}")
-    @ApiModelProperty(value = "验证码", example = "108764")
+    @ApiModelProperty(value = "验证码", example = "108764", required = true)
+    @Pattern(regexp = "^[0-9]{6}$", message = "{'code':668,'placeholders':['验证码'," +
+            "'6位长度正整数']}")
     private String verificationCode;
 
-    public RegisteredUserCredentials2() {
+    public LoginByVerificationCodeCredentials() {
     }
 
     public String getCredential() {
@@ -38,14 +38,6 @@ public class RegisteredUserCredentials2 {
 
     public void setCredential(String credential) {
         this.credential = credential;
-    }
-
-    public Integer getWay() {
-        return way;
-    }
-
-    public void setWay(Integer way) {
-        this.way = way;
     }
 
     public String getVerificationCode() {

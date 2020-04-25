@@ -18,11 +18,11 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Scope("request")
-public class RegisteredUserTokenLoginer extends BaseRegisteredUserLoginer
+public class RegisteredUserUidLoginer extends BaseRegisteredUserLoginer
         implements UserLoginer {
 
     @Autowired
-    public RegisteredUserTokenLoginer(
+    public RegisteredUserUidLoginer(
             PasswordEncoder passwordEncoder,
             MapperFacade mapperFacade,
             RegisteredUserMapper registeredUserMapper) {

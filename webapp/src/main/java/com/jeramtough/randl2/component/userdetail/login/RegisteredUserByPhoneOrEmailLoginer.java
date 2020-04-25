@@ -1,6 +1,5 @@
 package com.jeramtough.randl2.component.userdetail.login;
 
-import com.jeramtough.randl2.bean.registereduser.LoginByPasswordCredentials;
 import com.jeramtough.randl2.component.userdetail.SystemUser;
 import com.jeramtough.randl2.dao.entity.RegisteredUser;
 import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;
@@ -18,11 +17,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Scope("request")
-public class RegisteredUserLoginer extends BaseRegisteredUserLoginer implements UserLoginer {
+public class RegisteredUserByPhoneOrEmailLoginer extends BaseRegisteredUserLoginer
+        implements UserLoginer {
 
 
     @Autowired
-    protected RegisteredUserLoginer(
+    protected RegisteredUserByPhoneOrEmailLoginer(
             PasswordEncoder passwordEncoder, MapperFacade mapperFacade,
             RegisteredUserMapper registeredUserMapper) {
         super(passwordEncoder, mapperFacade, registeredUserMapper);
@@ -30,17 +30,12 @@ public class RegisteredUserLoginer extends BaseRegisteredUserLoginer implements 
 
     @Override
     public SystemUser login(Object credentials) {
-        LoginByPasswordCredentials loginByPasswordCredentials = (LoginByPasswordCredentials) credentials;
+        String phoneOrEmail = (String) credentials;
         RegisteredUser registeredUser =
-                registeredUserMapper.selectByCredentials(
-                        loginByPasswordCredentials.getCredential());
+                registeredUserMapper.selectByPhoneNumberOrEmailAddress(
+                        phoneOrEmail);
         if (registeredUser != null) {
-            boolean passwordIsRight =
-                    passwordEncoder.matches(loginByPasswordCredentials.getPassword(),
-                            registeredUser.getPassword());
-            if (passwordIsRight) {
-                return processSystemUser(registeredUser);
-            }
+            return processSystemUser(registeredUser);
         }
         return null;
     }

@@ -37,6 +37,7 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
     @Override
     public String send(SendVerificationCodeParams params) {
         BeanValidator.verifyDto(params);
+
         if (SendWay.getSendWay(params.getWay()) == SendWay.PHONE) {
             if (!ValidationUtil.isPhone(params.getPhoneOrEmail())) {
                 throw new ApiResponseException(668, "手机号码", "11位手机号码格式");

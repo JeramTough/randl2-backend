@@ -32,6 +32,7 @@ public abstract class BaseRegisteredUserLoginer {
         SystemUser systemUser = mapperFacade.map(registeredUser, SystemUser.class);
         systemUser.setUserType(UserType.REGISTERED);
         systemUser.setRole(RegisteredUserRole.get());
+        systemUser.setUsername(registeredUser.getAccount());
         return systemUser;
     }
 

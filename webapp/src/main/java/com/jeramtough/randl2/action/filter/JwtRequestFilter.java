@@ -41,15 +41,18 @@ public class JwtRequestFilter extends OncePerRequestFilter implements BaseSwagge
             String token = parseToken(request);
             try {
                 registeredUserLoginedService.loginByExistingToken(token);
+                filterChain.doFilter(request, response);
             }
             catch (ApiResponseException e) {
                 RestfulApiResponse restfulApiResponse = getFailedApiResponse(e);
                 returnRestfulApiResponse(restfulApiResponse, response);
             }
         }
-
-        filterChain.doFilter(request, response);
+        else{
+            filterChain.doFilter(request, response);
+        }
     }
+
 
     //********************
 

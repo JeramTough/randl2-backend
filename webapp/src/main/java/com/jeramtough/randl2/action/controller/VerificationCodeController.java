@@ -33,8 +33,7 @@ public class VerificationCodeController extends BaseController {
             @ApiResponse(code = 8000, message = "发送频率限制，距离下次可发送验证码还有%s秒"),
             @ApiResponse(code = 8001, message = "发送失败，因为%s")
     })
-    public RestfulApiResponse send(
-            @RequestBody SendVerificationCodeParams params) {
+    public RestfulApiResponse send(SendVerificationCodeParams params) {
         return getSuccessfulApiResponse(verificationCodeService.send(params));
     }
 
@@ -44,7 +43,7 @@ public class VerificationCodeController extends BaseController {
     @ApiResponses(value = {
             @ApiResponse(code = 8002, message = "验证码校验失败！[%s]"),
     })
-    public RestfulApiResponse verify(@RequestBody VerifyVerificationCodeParams params) {
+    public RestfulApiResponse verify(VerifyVerificationCodeParams params) {
         return getSuccessfulApiResponse(verificationCodeService.verify(params));
     }
 }

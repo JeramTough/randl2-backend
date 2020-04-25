@@ -17,5 +17,7 @@ public interface PersonalInfoService extends BaseService<PersonalInfo,PersonalIn
 
     PersonalInfoDto getPersonalInfoByUid(Long uid);
 
+    PersonalInfoDto getPersonalInfoDtoByUidWithoutSurfaceImage(Long uid);
+
     String updatePersonalInfo(UpdatePersonalInfoParams params);
 }

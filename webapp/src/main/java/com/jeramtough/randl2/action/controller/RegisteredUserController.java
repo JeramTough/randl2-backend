@@ -33,7 +33,7 @@ public class RegisteredUserController extends BaseController {
         this.registeredUserService = registeredUserService;
     }
 
-    @ApiOperation(value = "新账号登录方式校验", notes = "校验手机号码或者邮箱是否允许被注册")
+    @ApiOperation(value = "新账号注册方式校验", notes = "校验手机号码或者邮箱是否允许被注册")
     @RequestMapping(value = "/verify/phoneOrEmailForNew", method = {RequestMethod.POST})
     @ApiResponses(value = {
             @ApiResponse(code = 7001, message = "手机号码格式错误"),

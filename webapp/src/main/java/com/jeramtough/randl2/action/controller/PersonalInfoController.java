@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/personalInfo")
 public class PersonalInfoController extends BaseController {
 
-    private PersonalInfoService personalInfoService;
+    private final PersonalInfoService personalInfoService;
 
     @Autowired
     public PersonalInfoController(

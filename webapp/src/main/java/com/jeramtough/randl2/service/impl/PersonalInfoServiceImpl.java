@@ -58,12 +58,25 @@ public class PersonalInfoServiceImpl extends BaseServiceImpl<PersonalInfoMapper,
 
     @Override
     public PersonalInfoDto getPersonalInfoByUid(Long uid) {
+        PersonalInfoDto dto = getPersonalInfoDtoByUidWithoutSurfaceImage(uid);
+        Long surfaceImageId = registeredUserMapper.selectById(
+                dto.getUid()).getSurfaceImageId();
+        SurfaceImageDto surfaceImageDto =
+                getMapperFacade().map(surfaceImageMapper.selectById(surfaceImageId),
+                        SurfaceImageDto.class);
+        dto.setSurfaceImage(surfaceImageDto);
+        return dto;
+    }
+
+    @Override
+    public PersonalInfoDto getPersonalInfoDtoByUidWithoutSurfaceImage(Long uid) {
         if (registeredUserMapper.selectById(uid) == null) {
             throw new ApiResponseException(669);
         }
 
         PersonalInfo personalInfo =
                 getBaseMapper().selectOne(new QueryWrapper<PersonalInfo>().eq("uid", uid));
+        //如果并没有更新过个人资料是没有数据的，需要一个默认的
         if (personalInfo == null) {
             personalInfo = new PersonalInfo();
             personalInfo.setUid(uid);
@@ -73,12 +86,6 @@ public class PersonalInfoServiceImpl extends BaseServiceImpl<PersonalInfoMapper,
         }
 
         PersonalInfoDto dto = getMapperFacade().map(personalInfo, PersonalInfoDto.class);
-        Long surfaceImageId = registeredUserMapper.selectById(
-                dto.getUid()).getSurfaceImageId();
-        SurfaceImageDto surfaceImageDto =
-                getMapperFacade().map(surfaceImageMapper.selectById(surfaceImageId),
-                        SurfaceImageDto.class);
-        dto.setSurfaceImage(surfaceImageDto);
         return dto;
     }
 

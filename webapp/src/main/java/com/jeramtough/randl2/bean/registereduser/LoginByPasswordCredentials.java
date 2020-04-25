@@ -13,9 +13,9 @@ import javax.validation.constraints.Pattern;
  * </pre>
  */
 @ApiModel("通过账号密码登录参数")
-public class RegisteredUserCredentials1 {
+public class LoginByPasswordCredentials {
 
-    @NotNull(message = "{'code':1002,'placeholders':['用户名']}")
+    @NotNull(message = "{'code':1002,'placeholders':['登录凭证']}")
     @Pattern(regexp = "^[a-z0-9A-Z]{5,16}$", message = "1003")
     @ApiParam(value = "账号、手机号、邮箱地址", required = true)
     private String credential;
@@ -27,10 +27,10 @@ public class RegisteredUserCredentials1 {
 
     private String verificationCode;
 
-    public RegisteredUserCredentials1() {
+    public LoginByPasswordCredentials() {
     }
 
-    public RegisteredUserCredentials1(String credential, String password) {
+    public LoginByPasswordCredentials(String credential, String password) {
         this.credential = credential;
         this.password = password;
     }

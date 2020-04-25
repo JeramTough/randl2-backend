@@ -14,8 +14,8 @@ import javax.validation.constraints.NotNull;
 @ApiModel("发送验证码参数")
 public class SendVerificationCodeParams {
 
-    @NotNull(message = "{'code':667,'placeholders':['发送失败','以手机1或邮箱方式注册2']}")
-    @ApiModelProperty(value = "注册方式，1:手机号码，2:邮箱地址", example = "1")
+    @NotNull(message = "{'code':667,'placeholders':['发送失败','以手机1或邮箱方式2']}")
+    @ApiModelProperty(value = "发送方式，1:手机号码，2:邮箱地址", example = "1")
     private Integer way;
 
     @NotNull(message = "{'code':667,'placeholders':['发送失败','以手机号码或邮箱地址']}")
