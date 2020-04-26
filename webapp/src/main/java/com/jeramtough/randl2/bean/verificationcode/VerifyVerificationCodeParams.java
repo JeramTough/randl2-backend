@@ -25,6 +25,18 @@ public class VerifyVerificationCodeParams {
     @ApiModelProperty(value = "以手机号码或邮箱地址", example = "15289678163")
     private String phoneOrEmail;
 
+    public VerifyVerificationCodeParams() {
+    }
+
+    public VerifyVerificationCodeParams(@NotNull(
+            message = "{'code':667,'placeholders':['登录失败','验证码']}") @Pattern(
+            regexp = "^[0-9]{6}$", message = "{'code':668,'placeholders':['验证码'," +
+            "'6位长度正整数']}") String verificationCode,
+                                        @NotNull(
+                                                message = "{'code':667,'placeholders':['发送失败','以手机号码或邮箱地址']}") String phoneOrEmail) {
+        this.verificationCode = verificationCode;
+        this.phoneOrEmail = phoneOrEmail;
+    }
 
     public String getPhoneOrEmail() {
         return phoneOrEmail;

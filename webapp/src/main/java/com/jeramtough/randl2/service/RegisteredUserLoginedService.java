@@ -1,6 +1,7 @@
 package com.jeramtough.randl2.service;
 
 import com.jeramtough.randl2.bean.personalinfo.UpdatePersonalInfoParams;
+import com.jeramtough.randl2.bean.registereduser.BindingPhoneOrEmailParams;
 import com.jeramtough.randl2.bean.registereduser.LoginByPasswordCredentials;
 import com.jeramtough.randl2.bean.registereduser.LoginByVerificationCodeCredentials;
 import com.jeramtough.randl2.bean.registereduser.ResetPasswordParams;
@@ -27,4 +28,6 @@ public interface RegisteredUserLoginedService extends BaseService<RegisteredUser
     String updateSurfaceImageByBase64(UploadSurfaceImageParams params);
 
     String resetPassword(ResetPasswordParams params);
+
+    String bindPhoneNumberOrEmailAddress(BindingPhoneOrEmailParams params);
 }

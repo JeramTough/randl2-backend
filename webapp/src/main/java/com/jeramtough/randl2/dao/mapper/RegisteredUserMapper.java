@@ -39,5 +39,13 @@ public interface RegisteredUserMapper extends BaseMapper<RegisteredUser> {
 
     @Update("UPDATE registered_user SET password=#{newPassword} WHERE  " +
             "uid=#{uid};")
-    void updatePassword(@Param("uid")Long uid,@Param("newPassword")String newPassword);
+    void updatePassword(@Param("uid") Long uid, @Param("newPassword") String newPassword);
+
+    @Update("UPDATE registered_user SET phone_number=#{phoneNumber} WHERE  " +
+            "uid=#{uid};")
+    void updatePhoneNumber(@Param("uid") Long uid, @Param("phoneNumber") String phoneNumber);
+
+    @Update("UPDATE registered_user SET email_address=#{emailAddress} WHERE  " +
+            "uid=#{uid};")
+    void updateEmailAddress(@Param("uid") Long uid, @Param("emailAddress") String emailAddress);
 }

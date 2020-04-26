@@ -3,11 +3,14 @@ package com.jeramtough.randl2.service.impl;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.bean.personalinfo.UpdatePersonalInfoParams;
+import com.jeramtough.randl2.bean.registereduser.BindingPhoneOrEmailParams;
 import com.jeramtough.randl2.bean.registereduser.ResetPasswordParams;
 import com.jeramtough.randl2.bean.surfaceimage.UpdateSurfaceImageParams;
 import com.jeramtough.randl2.bean.surfaceimage.UploadSurfaceImageParams;
+import com.jeramtough.randl2.bean.verificationcode.VerifyVerificationCodeParams;
 import com.jeramtough.randl2.component.userdetail.SystemUser;
 import com.jeramtough.randl2.component.userdetail.UserHolder;
+import com.jeramtough.randl2.component.verificationcode.sender.SendWay;
 import com.jeramtough.randl2.dao.entity.RegisteredUser;
 import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;
 import com.jeramtough.randl2.dto.PersonalInfoDto;
@@ -15,11 +18,14 @@ import com.jeramtough.randl2.dto.RegisteredUserDto;
 import com.jeramtough.randl2.service.PersonalInfoService;
 import com.jeramtough.randl2.service.RegisteredUserLoginedService;
 import com.jeramtough.randl2.service.SurfaceImageService;
+import com.jeramtough.randl2.service.VerificationCodeService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.Objects;
 
 /**
  * <pre>
@@ -31,6 +37,7 @@ import org.springframework.web.context.WebApplicationContext;
 public class RegisteredUserLoginedServiceImpl extends BaseServiceImpl<RegisteredUserMapper,
         RegisteredUser, RegisteredUserDto> implements RegisteredUserLoginedService {
 
+    private final VerificationCodeService verificationCodeService;
     private final PersonalInfoService personalInfoService;
     private final SurfaceImageService surfaceImageService;
     private final PasswordEncoder passwordEncoder;
@@ -39,10 +46,12 @@ public class RegisteredUserLoginedServiceImpl extends BaseServiceImpl<Registered
     public RegisteredUserLoginedServiceImpl(
             WebApplicationContext wc,
             MapperFacade mapperFacade,
+            VerificationCodeService verificationCodeService,
             PersonalInfoService personalInfoService,
             SurfaceImageService surfaceImageService,
             PasswordEncoder passwordEncoder) {
         super(wc, mapperFacade);
+        this.verificationCodeService = verificationCodeService;
 
         this.personalInfoService = personalInfoService;
         this.surfaceImageService = surfaceImageService;
@@ -102,6 +111,52 @@ public class RegisteredUserLoginedServiceImpl extends BaseServiceImpl<Registered
         return "修改新密码成功";
     }
 
+    @Override
+    public String bindPhoneNumberOrEmailAddress(BindingPhoneOrEmailParams params) {
+        BeanValidator.verifyDto(params);
+
+        SystemUser systemUser = UserHolder.getSystemUser();
+        SendWay sendWay = SendWay.getSendWay(params.getWay());
+        switch (Objects.requireNonNull(sendWay)) {
+            case PHONE:
+                if (systemUser.getPhoneNumber() != null && systemUser.getPhoneNumber().equals(
+                        params.getPhoneOrEmail())) {
+                    throw new ApiResponseException(10006);
+                }
+                if (getBaseMapper().selectByPhoneNumber(params.getPhoneOrEmail()) != null) {
+                    throw new ApiResponseException(10007);
+                }
+                verificationCodeService.verify(
+                        new VerifyVerificationCodeParams(params.getVerificationCode(),
+                                params.getPhoneOrEmail()));
+
+                systemUser.setPhoneNumber(params.getPhoneOrEmail());
+                getBaseMapper().updatePhoneNumber(systemUser.getUid(),
+                        systemUser.getPhoneNumber());
+                break;
+            case EMAIL:
+                if (systemUser.getEmailAddress() != null &&systemUser.getEmailAddress().equals(params.getPhoneOrEmail())) {
+                    throw new ApiResponseException(10006);
+                }
+                if (getBaseMapper().selectByEmailAddress(params.getPhoneOrEmail()) != null) {
+                    throw new ApiResponseException(10007);
+                }
+                verificationCodeService.verify(
+                        new VerifyVerificationCodeParams(params.getVerificationCode(),
+                                params.getPhoneOrEmail()));
+
+                systemUser.setEmailAddress(params.getPhoneOrEmail());
+                getBaseMapper().updateEmailAddress(systemUser.getUid(),
+                        systemUser.getEmailAddress());
+                break;
+            default:
+        }
+
+        return String.format("绑定%s[%s]到账号%s成功！", sendWay.getName(), params.getPhoneOrEmail(),
+                systemUser.getUsername());
+    }
+
+    //******************
 
 
 }

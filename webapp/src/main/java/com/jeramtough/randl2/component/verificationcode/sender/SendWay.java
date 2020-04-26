@@ -8,17 +8,20 @@ public enum SendWay {
     /**
      * PHONE
      */
-    PHONE(1),
+    PHONE(1, "手机号码"),
 
     /**
      * EMAIL
      */
-    EMAIL(2);
+    EMAIL(2, "邮箱地址");
 
     private int way;
 
-    SendWay(int way) {
+    private String name;
+
+    SendWay(int way, String name) {
         this.way = way;
+        this.name = name;
     }
 
     public int getWay() {
@@ -34,5 +37,7 @@ public enum SendWay {
         return null;
     }
 
-
+    public String getName() {
+        return name;
+    }
 }

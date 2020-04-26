@@ -2,6 +2,7 @@ package com.jeramtough.randl2.action.controller;
 
 import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
 import com.jeramtough.randl2.bean.personalinfo.UpdatePersonalInfoParams;
+import com.jeramtough.randl2.bean.registereduser.BindingPhoneOrEmailParams;
 import com.jeramtough.randl2.bean.registereduser.LoginByPasswordCredentials;
 import com.jeramtough.randl2.bean.registereduser.LoginByVerificationCodeCredentials;
 import com.jeramtough.randl2.bean.registereduser.ResetPasswordParams;
@@ -103,11 +104,15 @@ public class RegisteredUserLoginedController extends BaseController {
     }
 
 
-    @ApiOperation(value = "绑定", notes = "绑定账号的手机号码或者邮箱"
-            , authorizations = {@Authorization("aaaa")})
+    @ApiOperation(value = "绑定", notes = "绑定账号的手机号码或者邮箱")
     @RequestMapping(value = "/logined/bindingPhoneOrEmail", method = {RequestMethod.POST})
-    public RestfulApiResponse bindingPhoneOrEmail() {
-        return getSuccessfulApiResponse("tttt");
+    @ApiResponses(value = {
+            @ApiResponse(code = 10006, message = "绑定的号码或者地址不能与当前的重复"),
+            @ApiResponse(code = 10007, message = "绑定的号码或者地址已被其他账号所绑定")
+    })
+    public RestfulApiResponse bindingPhoneOrEmail(
+            @RequestBody BindingPhoneOrEmailParams params) {
+        return getSuccessfulApiResponse(registeredUserLoginedService.bindPhoneNumberOrEmailAddress(params));
     }
 
 }
