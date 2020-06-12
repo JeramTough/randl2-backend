@@ -1,6 +1,7 @@
 package com.jeramtough.randl2.component.userdetail;
 
-import com.jeramtough.randl2.dao.entity.Role;
+
+import com.jeramtough.randl2.model.entity.Role;
 
 /**
  * <pre>
@@ -10,17 +11,27 @@ import com.jeramtough.randl2.dao.entity.Role;
  */
 public class RegisteredUserRole {
 
-    private Long fid;
+    public static final class VisitorRole {
 
-    private String name;
-
-    private String description;
-
-    public static Role get() {
-        Role role = new Role();
-        role.setFid(-1L);
-        role.setName("REGISTERED_USER");
-        role.setDescription("普通注册用户");
-        return role;
+        public static Role get() {
+            Role role = new Role();
+            role.setFid(1L);
+            role.setName("PRIMARY_VISITOR_USER");
+            role.setDescription("普通游客用户");
+            return role;
+        }
     }
+
+    public static final class PrimaryRole {
+
+        public static Role get() {
+            Role role = new Role();
+            role.setFid(2L);
+            role.setName("PRIMARY_REGISTERED_USER");
+            role.setDescription("普通注册用户");
+            return role;
+        }
+    }
+
+
 }

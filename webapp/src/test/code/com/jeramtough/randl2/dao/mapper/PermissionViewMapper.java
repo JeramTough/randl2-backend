@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.dao.mapper;
 
-import com.jeramtough.randl2.dao.entity.PermissionView;
+import com.jeramtough.randl2.model.entity.PermissionView;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

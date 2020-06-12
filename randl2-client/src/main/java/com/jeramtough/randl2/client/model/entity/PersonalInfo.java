@@ -1,13 +1,7 @@
-package com.jeramtough.randl2.dao.entity;
-
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+package com.jeramtough.randl2.client.model.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
@@ -17,12 +11,10 @@ import io.swagger.annotations.ApiModelProperty;
  * @author JeramTough
  * @since 2020-01-26
  */
-@ApiModel(value = "PersonalInfo对象", description = "")
 public class PersonalInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "fid", type = IdType.AUTO)
     private Long fid;
 
     private Long uid;

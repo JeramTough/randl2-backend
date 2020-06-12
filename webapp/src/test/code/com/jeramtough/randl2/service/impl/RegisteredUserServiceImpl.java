@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.service.impl;
 
-import com.jeramtough.randl2.dao.entity.RegisteredUser;
+import com.jeramtough.randl2.model.entity.RegisteredUser;
 import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.dao.mapper;
 
-import com.jeramtough.randl2.dao.entity.SurfaceImage;
+import com.jeramtough.randl2.model.entity.SurfaceImage;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

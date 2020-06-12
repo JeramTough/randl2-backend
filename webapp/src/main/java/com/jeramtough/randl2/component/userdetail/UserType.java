@@ -8,6 +8,18 @@ package com.jeramtough.randl2.component.userdetail;
  */
 public enum UserType {
 
-    ADMIN, REGISTERED;
+    /**
+     * 管理员
+     */
+    ADMIN,
+    /**
+     * 普通注册用户
+     */
+    REGISTERED,
+
+    /**
+     * 游客
+     */
+    VISITOR;
 
 }

@@ -161,6 +161,11 @@
             <version>3.10.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.jeramtough</groupId>
+            <artifactId>randl2-client</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

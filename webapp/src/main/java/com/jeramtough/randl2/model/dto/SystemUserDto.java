@@ -1,19 +1,14 @@
-package com.jeramtough.randl2.dto;
+package com.jeramtough.randl2.model.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.jeramtough.randl2.dao.entity.Role;
-
-import java.time.LocalDateTime;
+import com.jeramtough.randl2.model.entity.Role;
 
 /**
  * <pre>
- * Created on 2020/1/27 16:37
+ * Created on 2020/2/6 16:54
  * by @author JeramTough
  * </pre>
  */
-public class AdminUserDto {
+public class SystemUserDto {
 
     private Long uid;
 
@@ -23,14 +18,11 @@ public class AdminUserDto {
 
     private String emailAddress;
 
-    @JSONField(format="yyyy-MM-dd HH:mm")
-    private LocalDateTime registrationTime;
-
-    private String registrationIp;
-
     private Integer accountStatus;
 
     private Role role;
+
+    private String surfaceImage;
 
     public Long getUid() {
         return uid;
@@ -64,22 +56,6 @@ public class AdminUserDto {
         this.emailAddress = emailAddress;
     }
 
-    public LocalDateTime getRegistrationTime() {
-        return registrationTime;
-    }
-
-    public void setRegistrationTime(LocalDateTime registrationTime) {
-        this.registrationTime = registrationTime;
-    }
-
-    public String getRegistrationIp() {
-        return registrationIp;
-    }
-
-    public void setRegistrationIp(String registrationIp) {
-        this.registrationIp = registrationIp;
-    }
-
     public Integer getAccountStatus() {
         return accountStatus;
     }
@@ -94,5 +70,13 @@ public class AdminUserDto {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getSurfaceImage() {
+        return surfaceImage;
+    }
+
+    public void setSurfaceImage(String surfaceImage) {
+        this.surfaceImage = surfaceImage;
     }
 }

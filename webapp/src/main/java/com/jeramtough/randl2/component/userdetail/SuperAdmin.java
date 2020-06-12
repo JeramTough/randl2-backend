@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.component.userdetail;
 
-import com.jeramtough.randl2.dao.entity.Role;
+import com.jeramtough.randl2.model.entity.Role;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -23,13 +23,15 @@ public class SuperAdmin {
 
     private String roleName = ROLE_NAME;
 
-    public static final Long UID =0L;
+    public static final Long UID = 0L;
 
     public static final Long SURFACE_IMAGE_ID = 0L;
 
-    public static final Long ROLE_ID =0L;
+    public static final Long ROLE_ID = 0L;
 
-    public static final String ROLE_DESCRIPTION="超级管理员";
+    public static final String ROLE_DESCRIPTION = "超级管理员";
+
+    private SystemUser systemUser;
 
 
     public String getUsername() {
@@ -56,18 +58,24 @@ public class SuperAdmin {
         this.roleName = roleName;
     }
 
-    public SystemUser toSystemUser() {
-        SystemUser systemUser = new SystemUser();
-        systemUser.setUid(UID);
-        systemUser.setUsername(username);
-        systemUser.setPassword(password);
-        Role role = new Role();
-        role.setDescription(ROLE_DESCRIPTION);
-        role.setFid(ROLE_ID);
-        role.setName(roleName);
-        systemUser.setRole(role);
-        systemUser.setUserType(UserType.ADMIN);
-        systemUser.setSurfaceImageId(SURFACE_IMAGE_ID);
+    public SystemUser getSystemUser() {
+        if (systemUser == null) {
+            synchronized (this) {
+                if (systemUser == null) {
+                    systemUser = new SystemUser();
+                    systemUser.setUid(UID);
+                    systemUser.setUsername(username);
+                    systemUser.setPassword(password);
+                    Role role = new Role();
+                    role.setDescription(ROLE_DESCRIPTION);
+                    role.setFid(ROLE_ID);
+                    role.setName(roleName);
+                    systemUser.setRole(role);
+                    systemUser.setUserType(UserType.ADMIN);
+                    systemUser.setSurfaceImageId(SURFACE_IMAGE_ID);
+                }
+            }
+        }
         return systemUser;
     }
 }

@@ -1,9 +1,6 @@
-package com.jeramtough.randl2.dao.entity;
+package com.jeramtough.randl2.client.model.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
 
 /**
  * <p>
@@ -13,17 +10,17 @@ import io.swagger.annotations.ApiModel;
  * @author JeramTough
  * @since 2020-01-26
  */
-@ApiModel(value="Role对象", description="")
-public class Role implements Serializable {
+public class ApiDto implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "fid", type = IdType.AUTO)
     private Long fid;
 
-    private String name;
+    private String path;
 
     private String description;
+
+    private String alias;
 
 
     public Long getFid() {
@@ -34,12 +31,12 @@ public class Role implements Serializable {
         this.fid = fid;
     }
 
-    public String getName() {
-        return name;
+    public String getPath() {
+        return path;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public String getDescription() {
@@ -50,11 +47,19 @@ public class Role implements Serializable {
         this.description = description;
     }
 
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
     @Override
     public String toString() {
-        return "RoleDto{" +
+        return "ApiDto{" +
         "fid=" + fid +
-        ", name=" + name +
+        ", path=" + path +
         ", description=" + description +
         "}";
     }

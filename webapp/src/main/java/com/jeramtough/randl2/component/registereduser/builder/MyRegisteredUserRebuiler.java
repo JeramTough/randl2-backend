@@ -2,9 +2,8 @@ package com.jeramtough.randl2.component.registereduser.builder;
 
 import com.alibaba.fastjson.JSON;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.randl2.dao.entity.RegisteredUser;
+import com.jeramtough.randl2.model.entity.RegisteredUser;
 import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;

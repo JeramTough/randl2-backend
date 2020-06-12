@@ -5,16 +5,14 @@ import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.bean.registereduser.LoginByPasswordCredentials;
 import com.jeramtough.randl2.bean.registereduser.LoginByVerificationCodeCredentials;
+import com.jeramtough.randl2.bean.registereduser.LoginForVisitorCredentials;
 import com.jeramtough.randl2.bean.verificationcode.VerifyVerificationCodeParams;
 import com.jeramtough.randl2.component.userdetail.SystemUser;
 import com.jeramtough.randl2.component.userdetail.UserHolder;
-import com.jeramtough.randl2.component.userdetail.login.RegisteredUserByPhoneOrEmailLoginer;
-import com.jeramtough.randl2.component.userdetail.login.RegisteredUserLoginer;
-import com.jeramtough.randl2.component.userdetail.login.RegisteredUserUidLoginer;
-import com.jeramtough.randl2.component.userdetail.login.UserLoginer;
+import com.jeramtough.randl2.component.userdetail.login.*;
 import com.jeramtough.randl2.config.security.AuthTokenConfig;
 import com.jeramtough.randl2.dao.mapper.SurfaceImageMapper;
-import com.jeramtough.randl2.dto.SystemUserDto;
+import com.jeramtough.randl2.model.dto.SystemUserDto;
 import com.jeramtough.randl2.service.RegisteredUserLoginService;
 import com.jeramtough.randl2.service.VerificationCodeService;
 import com.jeramtough.randl2.util.JwtTokenUtil;
@@ -106,6 +104,19 @@ public class RegisteredUserLoginServiceImpl implements RegisteredUserLoginServic
 
         if (systemUser == null) {
             throw new ApiResponseException(10003);
+        }
+        return processingLoginResult(systemUser);
+    }
+
+    @Override
+    public Map<String, Object> loginForVisitor(LoginForVisitorCredentials credentials) {
+        BeanValidator.verifyDto(credentials);
+
+        UserLoginer userLoginer = getWC().getBean(VisitorUserLoginer.class);
+        SystemUser systemUser = userLoginer.login(credentials);
+
+        if (systemUser == null) {
+            throw new ApiResponseException(10008);
         }
         return processingLoginResult(systemUser);
     }

@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.dao.mapper;
 
-import com.jeramtough.randl2.dao.entity.PersonalInfo;
+import com.jeramtough.randl2.model.entity.PersonalInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;

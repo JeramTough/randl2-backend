@@ -1,11 +1,7 @@
-package com.jeramtough.randl2.dao.entity;
+package com.jeramtough.randl2.client.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -15,16 +11,17 @@ import io.swagger.annotations.ApiModelProperty;
  * @author JeramTough
  * @since 2020-01-26
  */
-public class RegisteredUser implements Serializable {
+public class AdminUser implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "uid", type = IdType.AUTO)
     private Long uid;
+
+    private Long roleId;
 
     private Long surfaceImageId;
 
-    private String account;
+    private String username;
 
     private String phoneNumber;
 
@@ -38,13 +35,20 @@ public class RegisteredUser implements Serializable {
 
     private Integer accountStatus;
 
-
     public Long getSurfaceImageId() {
         return surfaceImageId;
     }
 
     public void setSurfaceImageId(Long surfaceImageId) {
         this.surfaceImageId = surfaceImageId;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
     public Long getUid() {
@@ -55,12 +59,12 @@ public class RegisteredUser implements Serializable {
         this.uid = uid;
     }
 
-    public String getAccount() {
-        return account;
+    public String getUsername() {
+        return username;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPhoneNumber() {
@@ -113,9 +117,9 @@ public class RegisteredUser implements Serializable {
 
     @Override
     public String toString() {
-        return "RegisteredUser{" +
+        return "AdminUser{" +
         "uid=" + uid +
-        ", account=" + account +
+        ", username=" + username +
         ", phoneNumber=" + phoneNumber +
         ", emailAddress=" + emailAddress +
         ", password=" + password +

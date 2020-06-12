@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.service;
 
-import com.jeramtough.randl2.dao.entity.RegisteredUser;
+import com.jeramtough.randl2.model.entity.RegisteredUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

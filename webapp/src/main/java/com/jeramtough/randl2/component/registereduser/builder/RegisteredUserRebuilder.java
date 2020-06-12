@@ -1,7 +1,7 @@
 package com.jeramtough.randl2.component.registereduser.builder;
 
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.randl2.dao.entity.RegisteredUser;
+import com.jeramtough.randl2.model.entity.RegisteredUser;
 
 import javax.validation.constraints.NotNull;
 

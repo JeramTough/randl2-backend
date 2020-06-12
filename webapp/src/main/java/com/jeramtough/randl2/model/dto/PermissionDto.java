@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.dto;
+package com.jeramtough.randl2.model.dto;
 
 /**
  * <pre>

@@ -1,11 +1,9 @@
 package com.jeramtough.randl2.service;
 
-import com.jeramtough.randl2.bean.permission.AddApiParams;
 import com.jeramtough.randl2.bean.permission.AddRoleParams;
 import com.jeramtough.randl2.bean.permission.UpdateRoleParams;
-import com.jeramtough.randl2.dao.entity.Role;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.jeramtough.randl2.dto.RoleDto;
+import com.jeramtough.randl2.model.entity.Role;
+import com.jeramtough.randl2.model.dto.RoleDto;
 
 import java.util.List;
 

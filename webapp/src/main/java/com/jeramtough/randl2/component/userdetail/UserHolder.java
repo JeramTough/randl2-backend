@@ -1,6 +1,5 @@
 package com.jeramtough.randl2.component.userdetail;
 
-import com.jeramtough.randl2.dao.entity.AdminUser;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.jaas.JaasGrantedAuthority;
 import org.springframework.security.core.GrantedAuthority;

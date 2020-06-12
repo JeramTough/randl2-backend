@@ -1,13 +1,9 @@
 package com.jeramtough.randl2.service;
 
-import com.jeramtough.randl2.bean.QueryByPageParams;
 import com.jeramtough.randl2.bean.permission.AddApiParams;
 import com.jeramtough.randl2.bean.permission.UpdateApiParams;
-import com.jeramtough.randl2.dao.entity.Api;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.jeramtough.randl2.dto.ApiDto;
-import com.jeramtough.randl2.dto.PageDto;
-import com.jeramtough.randl2.dto.RoleDto;
+import com.jeramtough.randl2.model.entity.Api;
+import com.jeramtough.randl2.model.dto.ApiDto;
 
 import java.util.List;
 

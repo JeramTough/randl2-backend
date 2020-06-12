@@ -1,19 +1,24 @@
-package com.jeramtough.randl2.dto;
+package com.jeramtough.randl2.model.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import io.swagger.annotations.ApiModel;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.time.LocalDateTime;
+import java.io.Serializable;
 
 /**
- * <pre>
- * Created on 2020/2/16 17:37
- * by @author JeramTough
- * </pre>
+ * <p>
+ *
+ * </p>
+ *
+ * @author JeramTough
+ * @since 2020-01-26
  */
-@ApiModel(value="RegisteredUser对象", description="")
-public class RegisteredUserDto {
+public class RegisteredUser implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "uid", type = IdType.AUTO)
     private Long uid;
 
     private Long surfaceImageId;
@@ -24,12 +29,16 @@ public class RegisteredUserDto {
 
     private String emailAddress;
 
-    @JSONField(format = "yyyy-MM-dd HH:mm")
+    private String password;
+
     private LocalDateTime registrationTime;
 
     private String registrationIp;
 
     private Integer accountStatus;
+
+    private Long roleId;
+
 
     public Long getSurfaceImageId() {
         return surfaceImageId;
@@ -71,6 +80,14 @@ public class RegisteredUserDto {
         this.emailAddress = emailAddress;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public LocalDateTime getRegistrationTime() {
         return registrationTime;
     }
@@ -95,16 +112,27 @@ public class RegisteredUserDto {
         this.accountStatus = accountStatus;
     }
 
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
+
     @Override
     public String toString() {
         return "RegisteredUser{" +
                 "uid=" + uid +
-                ", account=" + account +
-                ", phoneNumber=" + phoneNumber +
-                ", emailAddress=" + emailAddress +
+                ", surfaceImageId=" + surfaceImageId +
+                ", account='" + account + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", password='" + password + '\'' +
                 ", registrationTime=" + registrationTime +
-                ", registrationIp=" + registrationIp +
+                ", registrationIp='" + registrationIp + '\'' +
                 ", accountStatus=" + accountStatus +
-                "}";
+                ", roleId=" + roleId +
+                '}';
     }
 }

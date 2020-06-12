@@ -1,9 +1,7 @@
-package com.jeramtough.randl2.dao.entity;
+package com.jeramtough.randl2.client.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
 
 /**
  * <p>
@@ -13,12 +11,10 @@ import io.swagger.annotations.ApiModel;
  * @author JeramTough
  * @since 2020-02-06
  */
-@ApiModel(value="SurfaceImage对象")
 public class SurfaceImage implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "fid", type = IdType.AUTO)
     private Long fid;
 
     private String surfaceImage;

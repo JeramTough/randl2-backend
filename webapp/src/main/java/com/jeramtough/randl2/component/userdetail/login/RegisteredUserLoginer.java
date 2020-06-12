@@ -2,7 +2,8 @@ package com.jeramtough.randl2.component.userdetail.login;
 
 import com.jeramtough.randl2.bean.registereduser.LoginByPasswordCredentials;
 import com.jeramtough.randl2.component.userdetail.SystemUser;
-import com.jeramtough.randl2.dao.entity.RegisteredUser;
+import com.jeramtough.randl2.dao.mapper.RoleMapper;
+import com.jeramtough.randl2.model.entity.RegisteredUser;
 import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,8 @@ public class RegisteredUserLoginer extends BaseRegisteredUserLoginer implements 
     @Autowired
     protected RegisteredUserLoginer(
             PasswordEncoder passwordEncoder, MapperFacade mapperFacade,
-            RegisteredUserMapper registeredUserMapper) {
-        super(passwordEncoder, mapperFacade, registeredUserMapper);
+            RegisteredUserMapper registeredUserMapper, RoleMapper roleMapper) {
+        super(passwordEncoder, mapperFacade, registeredUserMapper, roleMapper);
     }
 
     @Override

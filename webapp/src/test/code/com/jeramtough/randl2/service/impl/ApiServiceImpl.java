@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.service.impl;
 
-import com.jeramtough.randl2.dao.entity.Api;
+import com.jeramtough.randl2.model.entity.Api;
 import com.jeramtough.randl2.dao.mapper.ApiMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;

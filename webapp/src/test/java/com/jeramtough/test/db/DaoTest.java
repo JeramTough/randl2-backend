@@ -3,7 +3,6 @@ package com.jeramtough.test.db;
 import com.jeramtough.jtlog.facade.L;
 import com.jeramtough.randl2.Randl2Application;
 import com.jeramtough.randl2.dao.mapper.PermissionMapper;
-import com.jeramtough.randl2.dto.PermissionDto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,12 +1,12 @@
-package com.jeramtough.randl2.dto;
+package com.jeramtough.randl2.model.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import io.swagger.annotations.ApiModel;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import io.swagger.annotations.ApiModel;
 
 /**
  * <p>
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
  * @since 2020-01-26
  */
 @ApiModel(value = "PersonalInfo对象", description = "")
-public class PersonalInfoDto implements Serializable {
+public class PersonalInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,7 +30,6 @@ public class PersonalInfoDto implements Serializable {
 
     private Integer age;
 
-    @JSONField(format = "yyyy-MM-dd")
     private LocalDateTime birthday;
 
     private String nickname;
@@ -51,7 +50,6 @@ public class PersonalInfoDto implements Serializable {
 
     private Integer identityNumber;
 
-    private SurfaceImageDto surfaceImage;
 
     public Long getFid() {
         return fid;
@@ -155,14 +153,6 @@ public class PersonalInfoDto implements Serializable {
 
     public void setPersonalizedSignature(String personalizedSignature) {
         this.personalizedSignature = personalizedSignature;
-    }
-
-    public SurfaceImageDto getSurfaceImage() {
-        return surfaceImage;
-    }
-
-    public void setSurfaceImage(SurfaceImageDto surfaceImage) {
-        this.surfaceImage = surfaceImage;
     }
 
     public Integer getIdentityNumber() {

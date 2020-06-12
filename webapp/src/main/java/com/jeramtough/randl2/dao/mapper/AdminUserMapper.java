@@ -1,7 +1,7 @@
 package com.jeramtough.randl2.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.jeramtough.randl2.dao.entity.AdminUser;
+import com.jeramtough.randl2.model.entity.AdminUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

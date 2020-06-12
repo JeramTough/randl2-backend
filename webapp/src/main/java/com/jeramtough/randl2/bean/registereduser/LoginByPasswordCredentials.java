@@ -25,7 +25,6 @@ public class LoginByPasswordCredentials {
     @ApiParam(value = "密码", required = true)
     private String password;
 
-    private String verificationCode;
 
     public LoginByPasswordCredentials() {
     }

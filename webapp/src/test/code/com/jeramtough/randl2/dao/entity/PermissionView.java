@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.dao.entity;
+package com.jeramtough.randl2.model.entity;
 
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;

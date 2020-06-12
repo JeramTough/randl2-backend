@@ -1,8 +1,8 @@
 package com.jeramtough.randl2.dao.mapper;
 
-import com.jeramtough.randl2.dao.entity.Permission;
+import com.jeramtough.randl2.model.entity.Permission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.jeramtough.randl2.dto.PermissionDto;
+import com.jeramtough.randl2.model.dto.PermissionDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

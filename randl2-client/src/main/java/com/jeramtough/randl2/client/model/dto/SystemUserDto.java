@@ -1,9 +1,7 @@
-package com.jeramtough.randl2.dto;
+package com.jeramtough.randl2.client.model.dto;
 
-import com.jeramtough.randl2.dao.entity.Role;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import com.jeramtough.randl2.client.model.entity.Role;
 
 /**
  * <pre>

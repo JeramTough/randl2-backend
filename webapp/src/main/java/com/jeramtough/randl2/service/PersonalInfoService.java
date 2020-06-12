@@ -1,9 +1,8 @@
 package com.jeramtough.randl2.service;
 
 import com.jeramtough.randl2.bean.personalinfo.UpdatePersonalInfoParams;
-import com.jeramtough.randl2.dao.entity.PersonalInfo;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.jeramtough.randl2.dto.PersonalInfoDto;
+import com.jeramtough.randl2.model.entity.PersonalInfo;
+import com.jeramtough.randl2.model.dto.PersonalInfoDto;
 
 /**
  * <p>

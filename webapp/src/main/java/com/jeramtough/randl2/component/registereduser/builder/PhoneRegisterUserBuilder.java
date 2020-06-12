@@ -1,10 +1,10 @@
 package com.jeramtough.randl2.component.registereduser.builder;
 
-import com.jeramtough.jtcomponent.utils.IdUtil;
 import com.jeramtough.jtcomponent.utils.ValidationUtil;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.component.userdetail.RegisteredUserRole;
 import com.jeramtough.randl2.component.registereduser.RegisterUserWay;
-import com.jeramtough.randl2.dao.entity.RegisteredUser;
+import com.jeramtough.randl2.model.entity.RegisteredUser;
 import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -65,6 +65,7 @@ public class PhoneRegisterUserBuilder extends CommonUserBuilder
         registeredUser.setRegistrationTime(LocalDateTime.now());
         registeredUser.setAccountStatus(1);
         registeredUser.setSurfaceImageId(2L);
+        registeredUser.setRoleId(RegisteredUserRole.PrimaryRole.get().getFid());
         return registeredUser;
     }
 

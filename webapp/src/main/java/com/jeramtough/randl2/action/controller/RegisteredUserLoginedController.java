@@ -2,10 +2,7 @@ package com.jeramtough.randl2.action.controller;
 
 import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
 import com.jeramtough.randl2.bean.personalinfo.UpdatePersonalInfoParams;
-import com.jeramtough.randl2.bean.registereduser.BindingPhoneOrEmailParams;
-import com.jeramtough.randl2.bean.registereduser.LoginByPasswordCredentials;
-import com.jeramtough.randl2.bean.registereduser.LoginByVerificationCodeCredentials;
-import com.jeramtough.randl2.bean.registereduser.ResetPasswordParams;
+import com.jeramtough.randl2.bean.registereduser.*;
 import com.jeramtough.randl2.bean.surfaceimage.UploadSurfaceImageParams;
 import com.jeramtough.randl2.service.RegisteredUserLoginService;
 import com.jeramtough.randl2.service.RegisteredUserLoginedService;
@@ -43,11 +40,18 @@ public class RegisteredUserLoginedController extends BaseController {
         this.registeredUserLoginedService = registeredUserLoginedService;
     }
 
+    @ApiOperation(value = "游客登录", notes = "游客登录，授予游客身份令牌")
+    @RequestMapping(value = "/login/visitor", method = {RequestMethod.POST})
+    @ApiResponses(value = {
+            @ApiResponse(code = 10008, message = "游客身份账号密码不正确")
+    })
+    public RestfulApiResponse loginForVisitor(LoginForVisitorCredentials credentials) {
+        return getSuccessfulApiResponse(
+                registeredUserLoginService.loginForVisitor(credentials));
+    }
+
     @ApiOperation(value = "登录1", notes = "普通注册用户通过密码登录")
     @RequestMapping(value = "/login/byPassword", method = {RequestMethod.POST})
-    @ApiResponses(value = {
-            @ApiResponse(code = 10002, message = "登录失败，该账号或者密码不正确"),
-    })
     public RestfulApiResponse login1(LoginByPasswordCredentials credentials) {
         return getSuccessfulApiResponse(
                 registeredUserLoginService.loginByPassword(credentials));
@@ -112,7 +116,8 @@ public class RegisteredUserLoginedController extends BaseController {
     })
     public RestfulApiResponse bindingPhoneOrEmail(
             @RequestBody BindingPhoneOrEmailParams params) {
-        return getSuccessfulApiResponse(registeredUserLoginedService.bindPhoneNumberOrEmailAddress(params));
+        return getSuccessfulApiResponse(
+                registeredUserLoginedService.bindPhoneNumberOrEmailAddress(params));
     }
 
 }

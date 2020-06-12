@@ -5,12 +5,10 @@ import com.jeramtough.randl2.bean.adminuser.AdminUserCredentials;
 import com.jeramtough.randl2.component.userdetail.SuperAdmin;
 import com.jeramtough.randl2.component.userdetail.SystemUser;
 import com.jeramtough.randl2.component.userdetail.UserType;
-import com.jeramtough.randl2.dao.entity.AdminUser;
-import com.jeramtough.randl2.dao.entity.Role;
-import com.jeramtough.randl2.dao.entity.SurfaceImage;
+import com.jeramtough.randl2.model.entity.AdminUser;
+import com.jeramtough.randl2.model.entity.Role;
 import com.jeramtough.randl2.dao.mapper.AdminUserMapper;
 import com.jeramtough.randl2.dao.mapper.RoleMapper;
-import com.jeramtough.randl2.dao.mapper.SurfaceImageMapper;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,7 +52,7 @@ public class AdminUserLoginer implements UserLoginer {
                 adminUserCredentials.getUsername()) && passwordEncoder
                 .matches(adminUserCredentials.getPassword(),
                         superAdmin.getPassword())) {
-            return superAdmin.toSystemUser();
+            return superAdmin.getSystemUser();
         }
 
         //如果是普通的系统管理员登录

@@ -1,11 +1,10 @@
 package com.jeramtough.randl2.config.security;
 
-import com.jeramtough.jtlog.facade.L;
 import com.jeramtough.randl2.action.filter.JwtRequestFilter;
 import com.jeramtough.randl2.component.userdetail.RegisteredUserRole;
 import com.jeramtough.randl2.component.userdetail.SuperAdmin;
 import com.jeramtough.randl2.dao.mapper.PermissionMapper;
-import com.jeramtough.randl2.dto.PermissionDto;
+import com.jeramtough.randl2.model.dto.PermissionDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -119,9 +118,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         authorizationConfigurer.antMatchers(accessOnlySuperAdminApiUrls).hasAnyRole(
                 SuperAdmin.ROLE_NAME);
 
-        //普通注册用户登录以后才能使用的接口
+        //普通注册用户登录以后并且还要有普通注册用户的角色才能使用的接口
         authorizationConfigurer.antMatchers("/registeredUserLogined/**")
-                               .hasRole(RegisteredUserRole.get().getName());
+                               .hasRole(RegisteredUserRole.PrimaryRole.get().getName());
 
         //开放登录接口
         authorizationConfigurer
@@ -138,7 +137,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
-        PasswordEncoder passwordEncoder=
+        PasswordEncoder passwordEncoder =
                 PasswordEncoderFactories.createDelegatingPasswordEncoder();
         return passwordEncoder;
     }

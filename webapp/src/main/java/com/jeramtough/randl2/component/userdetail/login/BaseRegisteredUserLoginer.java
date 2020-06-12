@@ -1,10 +1,11 @@
 package com.jeramtough.randl2.component.userdetail.login;
 
-import com.jeramtough.randl2.component.userdetail.RegisteredUserRole;
+import com.jeramtough.randl2.model.entity.Role;
 import com.jeramtough.randl2.component.userdetail.SystemUser;
 import com.jeramtough.randl2.component.userdetail.UserType;
-import com.jeramtough.randl2.dao.entity.RegisteredUser;
+import com.jeramtough.randl2.model.entity.RegisteredUser;
 import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;
+import com.jeramtough.randl2.dao.mapper.RoleMapper;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -19,20 +20,26 @@ public abstract class BaseRegisteredUserLoginer {
     final PasswordEncoder passwordEncoder;
     final MapperFacade mapperFacade;
     final RegisteredUserMapper registeredUserMapper;
+    private final RoleMapper roleMapper;
 
     protected BaseRegisteredUserLoginer(
             PasswordEncoder passwordEncoder, MapperFacade mapperFacade,
-            RegisteredUserMapper registeredUserMapper) {
+            RegisteredUserMapper registeredUserMapper,
+            RoleMapper roleMapper) {
         this.passwordEncoder = passwordEncoder;
         this.mapperFacade = mapperFacade;
         this.registeredUserMapper = registeredUserMapper;
+        this.roleMapper = roleMapper;
     }
 
     protected SystemUser processSystemUser(RegisteredUser registeredUser) {
         SystemUser systemUser = mapperFacade.map(registeredUser, SystemUser.class);
         systemUser.setUserType(UserType.REGISTERED);
-        systemUser.setRole(RegisteredUserRole.get());
         systemUser.setUsername(registeredUser.getAccount());
+
+        //所有用户只能拥有一种角色
+        Role role = roleMapper.selectById(registeredUser.getRoleId());
+        systemUser.setRole(role);
         return systemUser;
     }
 

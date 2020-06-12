@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.dto;
+package com.jeramtough.randl2.client.model.dto;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.service.impl;
 
-import com.jeramtough.randl2.dao.entity.SurfaceImage;
+import com.jeramtough.randl2.model.entity.SurfaceImage;
 import com.jeramtough.randl2.dao.mapper.SurfaceImageMapper;
 import com.jeramtough.randl2.service.SurfaceImageService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

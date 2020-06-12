@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.dao.mapper;
 
-import com.jeramtough.randl2.dao.entity.Api;
+import com.jeramtough.randl2.model.entity.Api;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

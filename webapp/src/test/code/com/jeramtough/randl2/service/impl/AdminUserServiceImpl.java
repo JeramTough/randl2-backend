@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.service.impl;
 
-import com.jeramtough.randl2.dao.entity.AdminUser;
+import com.jeramtough.randl2.model.entity.AdminUser;
 import com.jeramtough.randl2.dao.mapper.AdminUserMapper;
 import com.jeramtough.randl2.service.AdminUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

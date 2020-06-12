@@ -1,8 +1,4 @@
-package com.jeramtough.randl2.dto;
-
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import io.swagger.annotations.ApiModel;
+package com.jeramtough.randl2.client.model.entity;
 
 import java.io.Serializable;
 
@@ -14,19 +10,17 @@ import java.io.Serializable;
  * @author JeramTough
  * @since 2020-01-26
  */
-@ApiModel(value="Api对象", description="")
-public class ApiDto implements Serializable {
+public class Api implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "fid", type = IdType.AUTO)
     private Long fid;
 
     private String path;
 
-    private String description;
-
     private String alias;
+
+    private String description;
 
 
     public Long getFid() {

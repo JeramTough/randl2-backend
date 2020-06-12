@@ -3,9 +3,8 @@ package com.jeramtough.randl2.service;
 import com.jeramtough.randl2.bean.surfaceimage.UpdateCurrentAdminSurfaceImageParams;
 import com.jeramtough.randl2.bean.surfaceimage.UpdateSurfaceImageParams;
 import com.jeramtough.randl2.bean.surfaceimage.UploadSurfaceImageParams;
-import com.jeramtough.randl2.dao.entity.SurfaceImage;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.jeramtough.randl2.dto.SurfaceImageDto;
+import com.jeramtough.randl2.model.entity.SurfaceImage;
+import com.jeramtough.randl2.model.dto.SurfaceImageDto;
 import org.springframework.web.multipart.MultipartFile;
 
 /**

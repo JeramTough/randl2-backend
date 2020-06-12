@@ -1,8 +1,6 @@
 package com.jeramtough.randl2.component.userdetail;
 
-import com.jeramtough.randl2.component.userdetail.UserType;
-import com.jeramtough.randl2.dao.entity.Role;
-import com.jeramtough.randl2.dao.entity.SurfaceImage;
+import com.jeramtough.randl2.model.entity.Role;
 
 import java.io.Serializable;
 import java.security.Principal;

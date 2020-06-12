@@ -1,31 +1,19 @@
-package com.jeramtough.randl2.dao.entity;
+package com.jeramtough.randl2.client.model.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+
+import com.jeramtough.randl2.client.model.entity.Role;
+
 import java.time.LocalDateTime;
-import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 /**
- * <p>
- * 
- * </p>
- *
- * @author JeramTough
- * @since 2020-01-26
+ * <pre>
+ * Created on 2020/1/27 16:37
+ * by @author JeramTough
+ * </pre>
  */
-@ApiModel(value="AdminUser对象", description="")
-public class AdminUser implements Serializable {
+public class AdminUserDto {
 
-    private static final long serialVersionUID=1L;
-
-    @TableId(value = "uid", type = IdType.AUTO)
     private Long uid;
-
-    private Long roleId;
-
-    private Long surfaceImageId;
 
     private String username;
 
@@ -33,29 +21,13 @@ public class AdminUser implements Serializable {
 
     private String emailAddress;
 
-    private String password;
-
     private LocalDateTime registrationTime;
 
     private String registrationIp;
 
     private Integer accountStatus;
 
-    public Long getSurfaceImageId() {
-        return surfaceImageId;
-    }
-
-    public void setSurfaceImageId(Long surfaceImageId) {
-        this.surfaceImageId = surfaceImageId;
-    }
-
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
+    private Role role;
 
     public Long getUid() {
         return uid;
@@ -89,14 +61,6 @@ public class AdminUser implements Serializable {
         this.emailAddress = emailAddress;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public LocalDateTime getRegistrationTime() {
         return registrationTime;
     }
@@ -121,17 +85,11 @@ public class AdminUser implements Serializable {
         this.accountStatus = accountStatus;
     }
 
-    @Override
-    public String toString() {
-        return "AdminUser{" +
-        "uid=" + uid +
-        ", username=" + username +
-        ", phoneNumber=" + phoneNumber +
-        ", emailAddress=" + emailAddress +
-        ", password=" + password +
-        ", registrationTime=" + registrationTime +
-        ", registrationIp=" + registrationIp +
-        ", accountStatus=" + accountStatus +
-        "}";
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

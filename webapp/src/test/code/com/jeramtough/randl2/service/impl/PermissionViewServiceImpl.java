@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.service.impl;
 
-import com.jeramtough.randl2.dao.entity.PermissionView;
+import com.jeramtough.randl2.model.entity.PermissionView;
 import com.jeramtough.randl2.dao.mapper.PermissionViewMapper;
 import com.jeramtough.randl2.service.PermissionViewService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
