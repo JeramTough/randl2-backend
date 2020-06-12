@@ -1,9 +1,9 @@
 package com.jeramtough.randl2.config.security;
 
+import com.jeramtough.jtlog.facade.L;
 import com.jeramtough.randl2.action.filter.JwtRequestFilter;
 import com.jeramtough.randl2.component.userdetail.RegisteredUserRole;
 import com.jeramtough.randl2.component.userdetail.SuperAdmin;
-import com.jeramtough.randl2.dao.entity.RegisteredUser;
 import com.jeramtough.randl2.dao.mapper.PermissionMapper;
 import com.jeramtough.randl2.dto.PermissionDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/registeredUser/reset",
             "/registeredUser/login/**",
             "/verificationCode/**",
+            "/test/**",
     };
 
     private static final String[] SWAGGER_URLS = {
@@ -137,7 +138,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        PasswordEncoder passwordEncoder=
+                PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        return passwordEncoder;
     }
 
     @Bean

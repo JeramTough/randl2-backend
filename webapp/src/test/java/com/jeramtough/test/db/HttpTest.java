@@ -4,6 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.jeramtough.jtlog.facade.L;
 import com.jeramtough.randl2.bean.adminuser.AdminUserCredentials;
 import okhttp3.*;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -30,7 +33,8 @@ public class HttpTest {
         url =
                 url + "?username=" + adminUserCredentials.getUsername() + "&password=" + adminUserCredentials.getPassword();
 
-        RequestBody body = RequestBody.create(com.alibaba.fastjson.JSON.toJSONString(adminUserCredentials), JSON);
+        RequestBody body = RequestBody.create(
+                com.alibaba.fastjson.JSON.toJSONString(adminUserCredentials), JSON);
 
         Request request = new Request.Builder()
                 .post(okhttp3.internal.Util.EMPTY_REQUEST)
@@ -42,5 +46,38 @@ public class HttpTest {
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void test2() {
+        OkHttpClient client = new OkHttpClient();
+
+        String url = "https://www.gamersky.com/handbook/201806/1067140.shtml";
+
+        Request request = new Request.Builder()
+                .get()
+                .url(url)
+                .build();
+        try (Response response = client.newCall(request).execute()) {
+            Document document = Jsoup.parse(response.body().string());
+//            L.debug(document.body());tring
+            String title =
+                    document.body().getElementsByClass("Mid2L_title").first().child(0).text();
+
+            Element element = document.body().getElementsByClass("Mid2L_con").first();
+            element.getElementsByClass("post_ding_top").remove();
+//            L.debug(element);
+            L.debug(document.head());
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void test3() {
+        String url = "https://www.gamersky.com/handbook/201806/1067140.shtml";
+        Document document = Jsoup.parse(url);
+        L.debug(document.body());
     }
 }

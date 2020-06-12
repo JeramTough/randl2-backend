@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * </pre>
  */
 @Configuration
-@ComponentScan(basePackages = "com.jeramtough.jtweb.springconfig")
+//@ComponentScan(basePackages = "com.jeramtough.jtweb.springconfig")
 @EnableTransactionManagement
 public class WebConfig extends WebMvcConfigurerAdapter {
 
