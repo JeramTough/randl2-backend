@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.randl2.bean.QueryByPageParams;
+import com.jeramtough.randl2.model.params.QueryByPageParams;
 import com.jeramtough.randl2.component.db.QueryPage;
 import com.jeramtough.randl2.model.dto.PageDto;
 import com.jeramtough.randl2.service.BaseService;

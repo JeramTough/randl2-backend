@@ -1,16 +1,21 @@
 package com.jeramtough.randl2.action.controller;
 
 
-import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
-import com.jeramtough.randl2.bean.QueryByPageParams;
-import com.jeramtough.randl2.bean.adminuser.AdminUserCredentials;
-import com.jeramtough.randl2.bean.adminuser.RegisterAdminUserParams;
-import com.jeramtough.randl2.bean.adminuser.UpdateAdminUserParams;
-import com.jeramtough.randl2.bean.adminuser.UpdateCurrentAdminUserParams;
+import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.randl2.model.params.QueryByPageParams;
+import com.jeramtough.randl2.model.params.adminuser.AdminUserCredentials;
+import com.jeramtough.randl2.model.params.adminuser.RegisterAdminUserParams;
+import com.jeramtough.randl2.model.params.adminuser.UpdateAdminUserParams;
+import com.jeramtough.randl2.model.params.adminuser.UpdateCurrentAdminUserParams;
+import com.jeramtough.randl2.model.dto.AdminUserDto;
+import com.jeramtough.randl2.model.dto.PageDto;
+import com.jeramtough.randl2.model.dto.SystemUserDto;
 import com.jeramtough.randl2.service.AdminUserService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -45,8 +50,8 @@ public class AdminUserController extends BaseController {
             @ApiResponse(code = 1002, message = "登录失败! [%s]参数不能为空"),
             @ApiResponse(code = 1004, message = "密码长度范围在8-16位；只允许非空白任意字符"),
             @ApiResponse(code = 1003, message = "用户名长度范围在5-16位；只能为数字或者字母；不能含有特殊字符"),})
-    public RestfulApiResponse login(@RequestParam(required = false) String username,
-                                    @RequestParam(required = false) String password) {
+    public CommonApiResponse<SystemUserDto> login(@RequestParam(required = false) String username,
+                                                  @RequestParam(required = false) String password) {
         AdminUserCredentials adminUserCredentials = new AdminUserCredentials(username,
                 password);
         return getSuccessfulApiResponse(adminUserService.adminLogin(adminUserCredentials));
@@ -66,19 +71,19 @@ public class AdminUserController extends BaseController {
             @ApiResponse(code = 1018, message = "已存在重复的邮箱地址，请换一个"),
             @ApiResponse(code = 1019, message = "该角色Id不存在")
     })
-    public RestfulApiResponse addAdminUser1(@RequestBody RegisterAdminUserParams params) {
+    public CommonApiResponse<String> addAdminUser1(@RequestBody RegisterAdminUserParams params) {
         return getSuccessfulApiResponse(adminUserService.addAdminUser(params));
     }
 
     @ApiOperation(value = "查询全部", notes = "得到全部管理员用户信息")
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
-    public RestfulApiResponse getAllAdminUser() {
+    public CommonApiResponse<List<AdminUserDto>> getAllAdminUser() {
         return getSuccessfulApiResponse(adminUserService.getAllAdminUser());
     }
 
     @ApiOperation(value = "分页查询", notes = "分页查询管理员用户信息")
     @RequestMapping(value = "/page", method = {RequestMethod.GET})
-    public RestfulApiResponse getAdminUserByPage(
+    public CommonApiResponse<PageDto<AdminUserDto>> getAdminUserByPage(
             QueryByPageParams queryByPageParams) {
         return getSuccessfulApiResponse(
                 adminUserService.getAdminUserListByPage(queryByPageParams));
@@ -90,7 +95,7 @@ public class AdminUserController extends BaseController {
                     required = true, defaultValue = "1")})
     @ApiResponses(value = {@ApiResponse(code = 1040, message = "查询失败！该用户不存在")})
     @RequestMapping(value = "/one", method = {RequestMethod.GET})
-    public RestfulApiResponse getOneAdminUser(@RequestParam Long uid) {
+    public CommonApiResponse<AdminUserDto> getOneAdminUser(@RequestParam Long uid) {
         return getSuccessfulApiResponse(adminUserService.getOneAdminUser(uid));
     }
 
@@ -100,7 +105,7 @@ public class AdminUserController extends BaseController {
                     required = true, dataType = "String", defaultValue = "username")})
     @ApiResponses(value = {@ApiResponse(code = 1040, message = "查询失败！该用户不存在")})
     @RequestMapping(value = "/byKeyword", method = {RequestMethod.GET})
-    public RestfulApiResponse getOneAdminUser(@RequestParam String keyword) {
+    public CommonApiResponse<AdminUserDto> getOneAdminUser(@RequestParam String keyword) {
         return getSuccessfulApiResponse(adminUserService.getAdminUserByKeyword(keyword));
     }
 
@@ -111,7 +116,7 @@ public class AdminUserController extends BaseController {
             @ApiImplicitParam(name = "uid", value = "管理员用户Id", paramType = "query",
                     required = true)})
     @ApiResponses(value = {@ApiResponse(code = 1020, message = "移除管理员用户失败！请检查该用户是否存在")})
-    public RestfulApiResponse removeAdminUser(@RequestParam Long uid) {
+    public CommonApiResponse<String> removeAdminUser(@RequestParam Long uid) {
         return getSuccessfulApiResponse(adminUserService.removeAdminUser(uid));
     }
 
@@ -129,7 +134,7 @@ public class AdminUserController extends BaseController {
             @ApiResponse(code = 1038, message = "已存在重复的邮箱地址，请换一个"),
             @ApiResponse(code = 1039, message = "该角色Id不存在")
     })
-    public RestfulApiResponse updateAdminUser(@RequestBody UpdateAdminUserParams params) {
+    public CommonApiResponse<String> updateAdminUser(@RequestBody UpdateAdminUserParams params) {
         return getSuccessfulApiResponse(adminUserService.updateAdminUser(params));
     }
 
@@ -138,7 +143,7 @@ public class AdminUserController extends BaseController {
     @ApiResponses(value = {
             @ApiResponse(code = 1040, message = "超级管理员用户不能更新！"),
     })
-    public RestfulApiResponse updateCurrentAdminUser(
+    public CommonApiResponse<String> updateCurrentAdminUser(
             @RequestBody UpdateCurrentAdminUserParams params) {
         return getSuccessfulApiResponse(adminUserService.updateCurrentAdminUser(params));
     }
@@ -146,7 +151,7 @@ public class AdminUserController extends BaseController {
 
     @ApiOperation(value = "退出登录", notes = "系统管理员退出登录")
     @RequestMapping(value = "/logout", method = {RequestMethod.POST})
-    public RestfulApiResponse logout() {
+    public CommonApiResponse<String> logout() {
 
         return getSuccessfulApiResponse(adminUserService.adminLogout());
     }

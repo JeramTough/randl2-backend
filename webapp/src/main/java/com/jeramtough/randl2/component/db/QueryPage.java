@@ -1,7 +1,7 @@
 package com.jeramtough.randl2.component.db;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jeramtough.randl2.bean.QueryByPageParams;
+import com.jeramtough.randl2.model.params.QueryByPageParams;
 import io.swagger.annotations.ApiModel;
 
 /**

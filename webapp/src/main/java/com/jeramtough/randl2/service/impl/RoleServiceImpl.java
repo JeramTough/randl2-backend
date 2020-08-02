@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.randl2.bean.permission.AddRoleParams;
-import com.jeramtough.randl2.bean.permission.UpdateRoleParams;
+import com.jeramtough.randl2.model.params.permission.AddRoleParams;
+import com.jeramtough.randl2.model.params.permission.UpdateRoleParams;
 import com.jeramtough.randl2.model.entity.AdminUser;
 import com.jeramtough.randl2.model.entity.Role;
 import com.jeramtough.randl2.dao.mapper.AdminUserMapper;
@@ -114,6 +114,22 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role, RoleDto>
     @Override
     public List<RoleDto> getAllRole() {
         List<RoleDto> roleDtoList = getMapperFacade().mapAsList(list(), RoleDto.class);
+        return roleDtoList;
+    }
+
+    @Override
+    public List<RoleDto> getAllAdminRole() {
+        List<Role> list = getBaseMapper().selectList(new QueryWrapper<Role>().like("name",
+                "%_ADMIN"));
+        List<RoleDto> roleDtoList = getMapperFacade().mapAsList(list, RoleDto.class);
+        return roleDtoList;
+    }
+
+    @Override
+    public List<RoleDto> getAllUserRole() {
+        List<Role> list = getBaseMapper().selectList(new QueryWrapper<Role>().like("name",
+                "%_USER"));
+        List<RoleDto> roleDtoList = getMapperFacade().mapAsList(list, RoleDto.class);
         return roleDtoList;
     }
 

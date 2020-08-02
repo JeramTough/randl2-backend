@@ -2,12 +2,15 @@ package com.jeramtough.randl2.action.controller;
 
 
 import com.jeramtough.jtweb.action.controller.BaseSwaggerController;
-import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
-import com.jeramtough.randl2.bean.permission.PermissionParams;
+import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.randl2.model.params.permission.PermissionParams;
+import com.jeramtough.randl2.model.dto.PermissionDto;
 import com.jeramtough.randl2.service.PermissionService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -36,7 +39,7 @@ public class PermissionController extends BaseSwaggerController {
             @ApiResponse(code = 3000, message = "roleId参数不能为空"),
             @ApiResponse(code = 3001, message = "该角色roleId不存在")
     })
-    public RestfulApiResponse addPermissions(
+    public CommonApiResponse<String> addPermissions(
             @RequestBody PermissionParams permissionParams) {
         return getSuccessfulApiResponse(permissionService.setPermissions(permissionParams));
     }
@@ -55,7 +58,7 @@ public class PermissionController extends BaseSwaggerController {
 
     @ApiOperation(value = "查询全部", notes = "查询全部角色的API接口权限信息")
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
-    public RestfulApiResponse getAllPermissions() {
+    public CommonApiResponse<List<PermissionDto>> getAllPermissions() {
         return getSuccessfulApiResponse(permissionService.getPermissions());
     }
 
@@ -64,7 +67,7 @@ public class PermissionController extends BaseSwaggerController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query",
                     required = true, defaultValue = "1")})
-    public RestfulApiResponse getAllPermissions(@RequestParam Long roleId) {
+    public CommonApiResponse<List<PermissionDto>> getAllPermissions(@RequestParam Long roleId) {
 
         return getSuccessfulApiResponse(permissionService.getPermissionListByRoleId(roleId));
     }

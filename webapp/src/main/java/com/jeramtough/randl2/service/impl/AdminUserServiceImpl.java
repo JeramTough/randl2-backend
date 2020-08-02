@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.randl2.bean.QueryByPageParams;
-import com.jeramtough.randl2.bean.adminuser.AdminUserCredentials;
-import com.jeramtough.randl2.bean.adminuser.RegisterAdminUserParams;
-import com.jeramtough.randl2.bean.adminuser.UpdateAdminUserParams;
-import com.jeramtough.randl2.bean.adminuser.UpdateCurrentAdminUserParams;
+import com.jeramtough.randl2.model.params.QueryByPageParams;
+import com.jeramtough.randl2.model.params.adminuser.AdminUserCredentials;
+import com.jeramtough.randl2.model.params.adminuser.RegisterAdminUserParams;
+import com.jeramtough.randl2.model.params.adminuser.UpdateAdminUserParams;
+import com.jeramtough.randl2.model.params.adminuser.UpdateCurrentAdminUserParams;
 import com.jeramtough.randl2.component.db.QueryPage;
 import com.jeramtough.randl2.component.userdetail.MyUserFactory;
 import com.jeramtough.randl2.component.userdetail.SystemUser;
@@ -199,11 +199,13 @@ public class AdminUserServiceImpl
             }
         }
 
-
-        if (roleMapper.selectById(params.getRoleId()) == null) {
-            //该角色不存在
-            throw new ApiResponseException(1039);
+        if (!currentAdminUser.getRoleId().equals(params.getRoleId())) {
+            if (roleMapper.selectById(params.getRoleId()) == null) {
+                //该角色不存在
+                throw new ApiResponseException(1039);
+            }
         }
+
 
         AdminUser adminUser = mapperFacade.map(params, AdminUser.class);
         if (params.getPassword() != null) {

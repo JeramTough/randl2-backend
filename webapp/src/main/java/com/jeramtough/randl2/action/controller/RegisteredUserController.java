@@ -1,13 +1,18 @@
 package com.jeramtough.randl2.action.controller;
 
 
-import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
-import com.jeramtough.randl2.bean.QueryByPageParams;
-import com.jeramtough.randl2.bean.registereduser.*;
+import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.randl2.model.params.QueryByPageParams;
+import com.jeramtough.randl2.model.params.registereduser.*;
+import com.jeramtough.randl2.model.dto.PageDto;
+import com.jeramtough.randl2.model.dto.RegisteredUserDto;
 import com.jeramtough.randl2.service.RegisteredUserService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -42,7 +47,7 @@ public class RegisteredUserController extends BaseController {
             @ApiResponse(code = 7004, message = "已存在重复的邮箱地址，请换一个"),
             @ApiResponse(code = 7005, message = "way参数只能填1(以手机)或2(以邮箱)"),
     })
-    public RestfulApiResponse verifyPhoneOrEmailForNew(
+    public CommonApiResponse<Map<String, Object>> verifyPhoneOrEmailForNew(
             @RequestBody VerifyPhoneOrEmailForNewParams params) {
         return getSuccessfulApiResponse(
                 registeredUserService.verifyPhoneOrEmailForNew(params));
@@ -54,7 +59,7 @@ public class RegisteredUserController extends BaseController {
             @ApiResponse(code = 7005, message = "way参数只能填1(以手机)或2(以邮箱)"),
             @ApiResponse(code = 7010, message = "该手机号或者邮箱地址未注册或绑定过本系统"),
     })
-    public RestfulApiResponse verifyPhoneOrEmailByForget(@RequestBody
+    public CommonApiResponse<Map<String, Object>> verifyPhoneOrEmailByForget(@RequestBody
                                                                  VerifyPhoneOrEmailByForgetParams params) {
         return getSuccessfulApiResponse(
                 registeredUserService.verifyPhoneOrEmailByForget(params));
@@ -67,7 +72,7 @@ public class RegisteredUserController extends BaseController {
             @ApiResponse(code = 7020, message = "校验失败！两次密码不一致"),
             @ApiResponse(code = 7021, message = "密码长度范围在8-16位；只允许非空白任意字符"),
     })
-    public RestfulApiResponse verifyPassword(@RequestBody VerifyPasswordParams params) {
+    public CommonApiResponse<String> verifyPassword(@RequestBody VerifyPasswordParams params) {
         return getSuccessfulApiResponse(registeredUserService.verifyPassword(params));
     }
 
@@ -79,7 +84,7 @@ public class RegisteredUserController extends BaseController {
             @ApiResponse(code = 7021, message = "密码长度范围在8-16位；只允许非空白任意字符"),
             @ApiResponse(code = 7022, message = "新密码不能和旧密码一致"),
     })
-    public RestfulApiResponse verifyPasswordByForget(
+    public CommonApiResponse<Object> verifyPasswordByForget(
             @RequestBody VerifyPasswordParams params) {
         return getSuccessfulApiResponse(registeredUserService.verifyPasswordByForget(params));
     }
@@ -91,7 +96,7 @@ public class RegisteredUserController extends BaseController {
             @ApiResponse(code = 7030, message = "注册未完成或信息以失效，请重新注册"),
             @ApiResponse(code = 7031, message = "验证码校验失败，或验证码未发送或以失效"),
     })
-    public RestfulApiResponse registerUser(@RequestBody DoRegisterOrResetParams params) {
+    public CommonApiResponse<RegisteredUserDto> registerUser(@RequestBody DoRegisterOrResetParams params) {
         return getSuccessfulApiResponse(registeredUserService.register(params));
     }
 
@@ -103,20 +108,20 @@ public class RegisteredUserController extends BaseController {
             @ApiResponse(code = 7041, message = "验证码校验失败，或验证码未发送或以失效"),
             @ApiResponse(code = 7042, message = "重置失败！账户信息未做过任何修改"),
     })
-    public RestfulApiResponse resetUser(@RequestBody DoRegisterOrResetParams params) {
+    public CommonApiResponse<RegisteredUserDto> resetUser(@RequestBody DoRegisterOrResetParams params) {
         return getSuccessfulApiResponse(registeredUserService.reset(params));
     }
 
 
     @ApiOperation(value = "查询全部", notes = "得到全部普通注册用户信息")
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
-    public RestfulApiResponse getAllAdminUser() {
+    public CommonApiResponse<List<RegisteredUserDto>> getAllAdminUser() {
         return getSuccessfulApiResponse(registeredUserService.getAllBaseDto());
     }
 
     @ApiOperation(value = "分页查询", notes = "分页查询普通注册用户信息")
     @RequestMapping(value = "/page", method = {RequestMethod.GET})
-    public RestfulApiResponse getAdminUserByPage(
+    public CommonApiResponse<PageDto<RegisteredUserDto>> getAdminUserByPage(
             QueryByPageParams queryByPageParams) {
         return getSuccessfulApiResponse(
                 registeredUserService.getBaseDtoListByPage(queryByPageParams));
@@ -128,7 +133,7 @@ public class RegisteredUserController extends BaseController {
             @ApiImplicitParam(name = "uid", value = "管理员用户Id", paramType = "query",
                     required = true)})
     @ApiResponses(value = {@ApiResponse(code = 7050, message = "移除普通注册用户失败！请检查该用户是否存在")})
-    public RestfulApiResponse removeAdminUser(@RequestParam Long uid) {
+    public CommonApiResponse<String> removeAdminUser(@RequestParam Long uid) {
         return getSuccessfulApiResponse(registeredUserService.removeRegisteredUser(uid));
     }
 
@@ -144,7 +149,7 @@ public class RegisteredUserController extends BaseController {
             @ApiResponse(code = 7066, message = "已存在重复的手机号码，请换一个"),
             @ApiResponse(code = 7067, message = "已存在重复的邮箱地址，请换一个"),
     })
-    public RestfulApiResponse updateRegisteredUser(
+    public CommonApiResponse<String> updateRegisteredUser(
             @RequestBody UpdateRegisteredUserParams params) {
         return getSuccessfulApiResponse(registeredUserService.updateRegisteredUser(params));
     }
@@ -155,7 +160,7 @@ public class RegisteredUserController extends BaseController {
                     required = true, dataType = "String", defaultValue = "username")})
     @ApiResponses(value = {@ApiResponse(code = 7070, message = "查询失败！该用户不存在")})
     @RequestMapping(value = "/byKeyword", method = {RequestMethod.GET})
-    public RestfulApiResponse getRegisteredUsersByKeyword(@RequestParam String keyword) {
+    public CommonApiResponse<List<RegisteredUserDto>> getRegisteredUsersByKeyword(@RequestParam String keyword) {
         return getSuccessfulApiResponse(
                 registeredUserService.getRegisteredUsersByKeyword(keyword));
     }

@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.service;
 
-import com.jeramtough.randl2.bean.personalinfo.UpdatePersonalInfoParams;
+import com.jeramtough.randl2.model.params.personalinfo.UpdatePersonalInfoParams;
 import com.jeramtough.randl2.model.entity.PersonalInfo;
 import com.jeramtough.randl2.model.dto.PersonalInfoDto;
 

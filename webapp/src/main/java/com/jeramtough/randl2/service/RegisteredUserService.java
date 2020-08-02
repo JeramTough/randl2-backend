@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.service;
 
-import com.jeramtough.randl2.bean.registereduser.*;
+import com.jeramtough.randl2.model.params.registereduser.*;
 import com.jeramtough.randl2.model.entity.RegisteredUser;
 import com.jeramtough.randl2.model.dto.RegisteredUserDto;
 import org.springframework.security.core.userdetails.UserDetailsService;

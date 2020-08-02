@@ -1,8 +1,7 @@
 package com.jeramtough.test.db;
 
-import com.alibaba.fastjson.JSON;
 import com.jeramtough.jtlog.facade.L;
-import com.jeramtough.randl2.bean.adminuser.AdminUserCredentials;
+import com.jeramtough.randl2.model.params.adminuser.AdminUserCredentials;
 import okhttp3.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

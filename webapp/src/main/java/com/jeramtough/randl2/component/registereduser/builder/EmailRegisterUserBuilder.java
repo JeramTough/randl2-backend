@@ -58,15 +58,14 @@ public class EmailRegisterUserBuilder extends CommonUserBuilder
             throw new ApiResponseException(errorCodes[1]);
         }
 
-        RegisteredUser registeredUser = new RegisteredUser();
+        //构建对象公共部门
+        RegisteredUser registeredUser = buildTheCommon();
+
         registeredUser.setEmailAddress(emailAddress);
         registeredUser.setPassword(getPasswordEncoder().encode(password));
         registeredUser.setAccount("E_" + emailAddress.substring(0,
                 Math.min(emailAddress.length(), 16)));
-        registeredUser.setRegistrationTime(LocalDateTime.now());
-        registeredUser.setAccountStatus(1);
-        registeredUser.setSurfaceImageId(2L);
-        registeredUser.setRoleId(RegisteredUserRole.PrimaryRole.get().getFid());
+
         return registeredUser;
     }
 

@@ -1,17 +1,23 @@
 package com.jeramtough.randl2.action.controller;
 
-import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
-import com.jeramtough.randl2.bean.personalinfo.UpdatePersonalInfoParams;
-import com.jeramtough.randl2.bean.registereduser.*;
-import com.jeramtough.randl2.bean.surfaceimage.UploadSurfaceImageParams;
+import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.randl2.model.params.personalinfo.UpdatePersonalInfoParams;
+import com.jeramtough.randl2.model.params.registereduser.*;
+import com.jeramtough.randl2.model.params.surfaceimage.UploadSurfaceImageParams;
+import com.jeramtough.randl2.model.dto.PersonalInfoDto;
 import com.jeramtough.randl2.service.RegisteredUserLoginService;
 import com.jeramtough.randl2.service.RegisteredUserLoginedService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 /**
  * <pre>
@@ -45,14 +51,14 @@ public class RegisteredUserLoginedController extends BaseController {
     @ApiResponses(value = {
             @ApiResponse(code = 10008, message = "游客身份账号密码不正确")
     })
-    public RestfulApiResponse loginForVisitor(LoginForVisitorCredentials credentials) {
+    public CommonApiResponse<Map<String, Object>> loginForVisitor(LoginForVisitorCredentials credentials) {
         return getSuccessfulApiResponse(
                 registeredUserLoginService.loginForVisitor(credentials));
     }
 
     @ApiOperation(value = "登录1", notes = "普通注册用户通过密码登录")
     @RequestMapping(value = "/login/byPassword", method = {RequestMethod.POST})
-    public RestfulApiResponse login1(LoginByPasswordCredentials credentials) {
+    public CommonApiResponse<Map<String, Object>> login1(LoginByPasswordCredentials credentials) {
         return getSuccessfulApiResponse(
                 registeredUserLoginService.loginByPassword(credentials));
     }
@@ -63,7 +69,7 @@ public class RegisteredUserLoginedController extends BaseController {
     @ApiResponses(value = {
             @ApiResponse(code = 10003, message = "登录失败，该账号或者密码并没有注册过本系统")
     })
-    public RestfulApiResponse login2(LoginByVerificationCodeCredentials credentials) {
+    public CommonApiResponse<Map<String, Object>> login2(LoginByVerificationCodeCredentials credentials) {
         return getSuccessfulApiResponse(
                 registeredUserLoginService.loginByVerificationCode(credentials));
     }
@@ -72,7 +78,7 @@ public class RegisteredUserLoginedController extends BaseController {
     @RequestMapping(value = "/logined/personalInfo", method = {RequestMethod.GET})
     @ApiResponses(value = {
     })
-    public RestfulApiResponse getPersonalInfoByUid() {
+    public CommonApiResponse<PersonalInfoDto> getPersonalInfoByUid() {
         return getSuccessfulApiResponse(registeredUserLoginedService.getPersonalInfo());
     }
 
@@ -80,7 +86,7 @@ public class RegisteredUserLoginedController extends BaseController {
     @RequestMapping(value = "/logined/updatePersonalInfo", method = {RequestMethod.POST})
     @ApiResponses(value = {
     })
-    public RestfulApiResponse updateAdminUser(@RequestBody UpdatePersonalInfoParams params) {
+    public CommonApiResponse<String> updateAdminUser(@RequestBody UpdatePersonalInfoParams params) {
         return getSuccessfulApiResponse(
                 registeredUserLoginedService.updatePersonalInfo(params));
     }
@@ -91,7 +97,7 @@ public class RegisteredUserLoginedController extends BaseController {
             @ApiResponse(code = 10004, message = "重置失败，旧密码不正确"),
             @ApiResponse(code = 10005, message = "新密码和重复新密码不一致")
     })
-    public RestfulApiResponse resetPassword(
+    public CommonApiResponse<String> resetPassword(
             @RequestBody ResetPasswordParams params) {
         return getSuccessfulApiResponse(
                 registeredUserLoginedService.resetPassword(params));
@@ -101,7 +107,7 @@ public class RegisteredUserLoginedController extends BaseController {
     @RequestMapping(value = "/logined/updateSurfaceImage", method = RequestMethod.POST)
     @ApiResponses(value = {
     })
-    public RestfulApiResponse updateUserSurfaceImageByBase64(
+    public CommonApiResponse<String> updateUserSurfaceImageByBase64(
             @RequestBody UploadSurfaceImageParams params) {
         return getSuccessfulApiResponse(
                 registeredUserLoginedService.updateSurfaceImageByBase64(params));
@@ -114,7 +120,7 @@ public class RegisteredUserLoginedController extends BaseController {
             @ApiResponse(code = 10006, message = "绑定的号码或者地址不能与当前的重复"),
             @ApiResponse(code = 10007, message = "绑定的号码或者地址已被其他账号所绑定")
     })
-    public RestfulApiResponse bindingPhoneOrEmail(
+    public CommonApiResponse<String> bindingPhoneOrEmail(
             @RequestBody BindingPhoneOrEmailParams params) {
         return getSuccessfulApiResponse(
                 registeredUserLoginedService.bindPhoneNumberOrEmailAddress(params));

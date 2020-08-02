@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.service;
 
-import com.jeramtough.randl2.bean.permission.PermissionParams;
+import com.jeramtough.randl2.model.params.permission.PermissionParams;
 import com.jeramtough.randl2.model.entity.Permission;
 import com.jeramtough.randl2.model.dto.PermissionDto;
 

@@ -1,6 +1,7 @@
 package com.jeramtough.randl2.model.dto;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.jeramtough.randl2.model.entity.Role;
 import io.swagger.annotations.ApiModel;
 
 import java.time.LocalDateTime;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
  * by @author JeramTough
  * </pre>
  */
-@ApiModel(value="RegisteredUser对象", description="")
+@ApiModel(value = "RegisteredUser对象", description = "")
 public class RegisteredUserDto {
 
     private Long uid;
@@ -23,6 +24,8 @@ public class RegisteredUserDto {
     private String phoneNumber;
 
     private String emailAddress;
+
+    private Role role;
 
     @JSONField(format = "yyyy-MM-dd HH:mm")
     private LocalDateTime registrationTime;
@@ -93,6 +96,15 @@ public class RegisteredUserDto {
 
     public void setAccountStatus(Integer accountStatus) {
         this.accountStatus = accountStatus;
+    }
+
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override

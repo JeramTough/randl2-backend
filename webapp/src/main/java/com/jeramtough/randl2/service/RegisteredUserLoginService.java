@@ -1,8 +1,8 @@
 package com.jeramtough.randl2.service;
 
-import com.jeramtough.randl2.bean.registereduser.LoginByPasswordCredentials;
-import com.jeramtough.randl2.bean.registereduser.LoginByVerificationCodeCredentials;
-import com.jeramtough.randl2.bean.registereduser.LoginForVisitorCredentials;
+import com.jeramtough.randl2.model.params.registereduser.LoginByPasswordCredentials;
+import com.jeramtough.randl2.model.params.registereduser.LoginByVerificationCodeCredentials;
+import com.jeramtough.randl2.model.params.registereduser.LoginForVisitorCredentials;
 
 import java.util.Map;
 

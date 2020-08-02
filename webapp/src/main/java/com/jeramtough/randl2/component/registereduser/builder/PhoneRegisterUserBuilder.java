@@ -58,14 +58,12 @@ public class PhoneRegisterUserBuilder extends CommonUserBuilder
             throw new ApiResponseException(errorCodes[1]);
         }
 
-        RegisteredUser registeredUser = new RegisteredUser();
+        //构建对象公共部门
+        RegisteredUser registeredUser = buildTheCommon();
+
         registeredUser.setPhoneNumber(phoneNumber);
         registeredUser.setPassword(getPasswordEncoder().encode(password));
         registeredUser.setAccount("P_" + phoneNumber);
-        registeredUser.setRegistrationTime(LocalDateTime.now());
-        registeredUser.setAccountStatus(1);
-        registeredUser.setSurfaceImageId(2L);
-        registeredUser.setRoleId(RegisteredUserRole.PrimaryRole.get().getFid());
         return registeredUser;
     }
 

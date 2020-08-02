@@ -3,7 +3,7 @@ package com.jeramtough.randl2.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.randl2.bean.personalinfo.UpdatePersonalInfoParams;
+import com.jeramtough.randl2.model.params.personalinfo.UpdatePersonalInfoParams;
 import com.jeramtough.randl2.model.entity.PersonalInfo;
 import com.jeramtough.randl2.dao.mapper.PersonalInfoMapper;
 import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;

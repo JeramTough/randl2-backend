@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.randl2.bean.permission.PermissionParams;
+import com.jeramtough.randl2.model.params.permission.PermissionParams;
 import com.jeramtough.randl2.component.userdetail.SuperAdmin;
 import com.jeramtough.randl2.model.entity.Api;
 import com.jeramtough.randl2.model.entity.Permission;

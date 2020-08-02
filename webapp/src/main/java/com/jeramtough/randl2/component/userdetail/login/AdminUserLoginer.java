@@ -1,7 +1,7 @@
 package com.jeramtough.randl2.component.userdetail.login;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.jeramtough.randl2.bean.adminuser.AdminUserCredentials;
+import com.jeramtough.randl2.model.params.adminuser.AdminUserCredentials;
 import com.jeramtough.randl2.component.userdetail.SuperAdmin;
 import com.jeramtough.randl2.component.userdetail.SystemUser;
 import com.jeramtough.randl2.component.userdetail.UserType;

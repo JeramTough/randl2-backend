@@ -2,12 +2,12 @@ package com.jeramtough.randl2.service.impl;
 
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.randl2.bean.personalinfo.UpdatePersonalInfoParams;
-import com.jeramtough.randl2.bean.registereduser.BindingPhoneOrEmailParams;
-import com.jeramtough.randl2.bean.registereduser.ResetPasswordParams;
-import com.jeramtough.randl2.bean.surfaceimage.UpdateSurfaceImageParams;
-import com.jeramtough.randl2.bean.surfaceimage.UploadSurfaceImageParams;
-import com.jeramtough.randl2.bean.verificationcode.VerifyVerificationCodeParams;
+import com.jeramtough.randl2.model.params.personalinfo.UpdatePersonalInfoParams;
+import com.jeramtough.randl2.model.params.registereduser.BindingPhoneOrEmailParams;
+import com.jeramtough.randl2.model.params.registereduser.ResetPasswordParams;
+import com.jeramtough.randl2.model.params.surfaceimage.UpdateSurfaceImageParams;
+import com.jeramtough.randl2.model.params.surfaceimage.UploadSurfaceImageParams;
+import com.jeramtough.randl2.model.params.verificationcode.VerifyVerificationCodeParams;
 import com.jeramtough.randl2.component.userdetail.SystemUser;
 import com.jeramtough.randl2.component.userdetail.UserHolder;
 import com.jeramtough.randl2.component.verificationcode.sender.SendWay;

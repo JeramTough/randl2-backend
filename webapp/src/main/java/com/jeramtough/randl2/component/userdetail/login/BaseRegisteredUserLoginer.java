@@ -17,9 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 public abstract class BaseRegisteredUserLoginer {
 
-    final PasswordEncoder passwordEncoder;
-    final MapperFacade mapperFacade;
-    final RegisteredUserMapper registeredUserMapper;
+    protected final PasswordEncoder passwordEncoder;
+    protected final MapperFacade mapperFacade;
+    protected final RegisteredUserMapper registeredUserMapper;
     private final RoleMapper roleMapper;
 
     protected BaseRegisteredUserLoginer(

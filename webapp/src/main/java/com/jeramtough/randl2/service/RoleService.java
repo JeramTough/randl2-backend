@@ -1,7 +1,7 @@
 package com.jeramtough.randl2.service;
 
-import com.jeramtough.randl2.bean.permission.AddRoleParams;
-import com.jeramtough.randl2.bean.permission.UpdateRoleParams;
+import com.jeramtough.randl2.model.params.permission.AddRoleParams;
+import com.jeramtough.randl2.model.params.permission.UpdateRoleParams;
 import com.jeramtough.randl2.model.entity.Role;
 import com.jeramtough.randl2.model.dto.RoleDto;
 
@@ -25,7 +25,16 @@ public interface RoleService extends BaseService<Role,RoleDto> {
 
     RoleDto getRole(Long fid);
 
+    /**
+     * @deprecated 使用{}{@link #getAllAdminRole()}和#{@link #getAllUserRole()} 代替
+     * @return 返回角色对象列表
+     */
+    @Deprecated
     List<RoleDto> getAllRole();
+
+    List<RoleDto> getAllAdminRole();
+
+    List<RoleDto> getAllUserRole();
 
     List<RoleDto> getRoleListByKeyword(String keyword);
 }

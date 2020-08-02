@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.component.userdetail;
 
-import com.jeramtough.randl2.bean.adminuser.RegisterAdminUserParams;
+import com.jeramtough.randl2.model.params.adminuser.RegisterAdminUserParams;
 import com.jeramtough.randl2.model.entity.AdminUser;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;

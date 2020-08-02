@@ -53,7 +53,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/images/**",
             "/webjars/**",
             "/configuration/ui",
-            "/configuration/security"
+            "/configuration/security",
+            "/api-docs-ext",
+            "/api-docs",
+            "/swagger-resources/configuration/ui/**",
+            "/swagger-resources/configuration/security"
     };
 
     private static final String[] ONLY_SUPER_ADMIN_API_URLS = {

@@ -1,12 +1,17 @@
 package com.jeramtough.randl2.action.controller;
 
-import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
-import com.jeramtough.randl2.bean.verificationcode.SendVerificationCodeParams;
-import com.jeramtough.randl2.bean.verificationcode.VerifyVerificationCodeParams;
+import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.randl2.model.params.verificationcode.SendVerificationCodeParams;
+import com.jeramtough.randl2.model.params.verificationcode.VerifyVerificationCodeParams;
 import com.jeramtough.randl2.service.VerificationCodeService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <pre>
@@ -33,7 +38,7 @@ public class VerificationCodeController extends BaseController {
             @ApiResponse(code = 8000, message = "发送频率限制，距离下次可发送验证码还有%s秒"),
             @ApiResponse(code = 8001, message = "发送失败，因为%s")
     })
-    public RestfulApiResponse send(SendVerificationCodeParams params) {
+    public CommonApiResponse<String> send(SendVerificationCodeParams params) {
         return getSuccessfulApiResponse(verificationCodeService.send(params));
     }
 
@@ -43,7 +48,7 @@ public class VerificationCodeController extends BaseController {
     @ApiResponses(value = {
             @ApiResponse(code = 8002, message = "验证码校验失败！[%s]"),
     })
-    public RestfulApiResponse verify(VerifyVerificationCodeParams params) {
+    public CommonApiResponse<String> verify(VerifyVerificationCodeParams params) {
         return getSuccessfulApiResponse(verificationCodeService.verify(params));
     }
 }

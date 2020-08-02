@@ -5,7 +5,8 @@ import com.jeramtough.jtcomponent.utils.ValidationUtil;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.randl2.bean.registereduser.*;
+import com.jeramtough.randl2.dao.mapper.RoleMapper;
+import com.jeramtough.randl2.model.params.registereduser.*;
 import com.jeramtough.randl2.component.registereduser.RegisterUserWay;
 import com.jeramtough.randl2.component.registereduser.builder.*;
 import com.jeramtough.randl2.component.verificationcode.RedisVerificationCodeHolder;
@@ -43,23 +44,27 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
     private RedisVerificationCodeHolder verificationCodeHolder;
     private PasswordEncoder passwordEncoder;
     private SurfaceImageMapper surfaceImageMapper;
+    private RoleMapper roleMapper;
 
     @Autowired
     public RegisteredUserServiceImpl(WebApplicationContext wc,
                                      MapperFacade mapperFacade,
                                      RedisVerificationCodeHolder verificationCodeHolder,
                                      PasswordEncoder passwordEncoder,
-                                     SurfaceImageMapper surfaceImageMapper) {
+                                     SurfaceImageMapper surfaceImageMapper,
+                                     RoleMapper roleMapper) {
         super(wc, mapperFacade);
         this.verificationCodeHolder = verificationCodeHolder;
         this.passwordEncoder = passwordEncoder;
         this.surfaceImageMapper = surfaceImageMapper;
+        this.roleMapper = roleMapper;
     }
 
     @Override
     protected RegisteredUserDto toDto(RegisteredUser registeredUser) {
         RegisteredUserDto registeredUserDto = getMapperFacade().map(registeredUser,
                 RegisteredUserDto.class);
+        registeredUserDto.setRole(roleMapper.selectById(registeredUser.getRoleId()));
         return registeredUserDto;
     }
 
@@ -234,6 +239,13 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
                     //存在重复邮箱地址
                     throw new ApiResponseException(7067);
                 }
+            }
+        }
+
+        if (!currentRegisteredUser.getRoleId().equals(params.getRoleId())) {
+            if (roleMapper.selectById(params.getRoleId()) == null) {
+                //该角色不存在
+                throw new ApiResponseException(1039);
             }
         }
 

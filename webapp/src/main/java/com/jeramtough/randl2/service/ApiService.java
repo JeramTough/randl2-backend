@@ -1,7 +1,7 @@
 package com.jeramtough.randl2.service;
 
-import com.jeramtough.randl2.bean.permission.AddApiParams;
-import com.jeramtough.randl2.bean.permission.UpdateApiParams;
+import com.jeramtough.randl2.model.params.permission.AddApiParams;
+import com.jeramtough.randl2.model.params.permission.UpdateApiParams;
 import com.jeramtough.randl2.model.entity.Api;
 import com.jeramtough.randl2.model.dto.ApiDto;
 

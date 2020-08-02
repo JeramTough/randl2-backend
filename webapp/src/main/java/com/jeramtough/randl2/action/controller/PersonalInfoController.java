@@ -1,15 +1,14 @@
 package com.jeramtough.randl2.action.controller;
 
 
-import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
-import com.jeramtough.randl2.bean.adminuser.UpdateAdminUserParams;
-import com.jeramtough.randl2.bean.personalinfo.UpdatePersonalInfoParams;
+import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.randl2.model.params.personalinfo.UpdatePersonalInfoParams;
+import com.jeramtough.randl2.model.dto.PersonalInfoDto;
 import com.jeramtough.randl2.service.PersonalInfoService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,7 +40,7 @@ public class PersonalInfoController extends BaseController {
                     required = true, defaultValue = "1")})
     @ApiResponses(value = {
     })
-    public RestfulApiResponse getPersonalInfoByUid(Long uid) {
+    public CommonApiResponse<PersonalInfoDto> getPersonalInfoByUid(Long uid) {
         return getSuccessfulApiResponse(personalInfoService.getPersonalInfoByUid(uid));
     }
 
@@ -50,7 +49,7 @@ public class PersonalInfoController extends BaseController {
     @ApiResponses(value = {
             @ApiResponse(code = 9001, message = "FID参数或者UID参数必须填其中一个"),
     })
-    public RestfulApiResponse updateAdminUser(@RequestBody UpdatePersonalInfoParams params) {
+    public CommonApiResponse<String> updateAdminUser(@RequestBody UpdatePersonalInfoParams params) {
         return getSuccessfulApiResponse(personalInfoService.updatePersonalInfo(params));
     }
 

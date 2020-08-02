@@ -28,9 +28,13 @@ public class JwtTokenUtil {
         String token = null;
         try {
             Algorithm algorithm = Algorithm.HMAC256(authTokenConfig.getSigningKey());
+
+            String roleName = systemUser.getRole().getName();
+
             token = JWT.create()
                        .withIssuer(AuthTokenConfig.ISSUER)
                        .withClaim("uid", systemUser.getUid())
+                       .withClaim("role", roleName)
                        .withExpiresAt(new Date(
                                System.currentTimeMillis() + authTokenConfig.getJwtTokenValidity()))
                        .sign(algorithm);

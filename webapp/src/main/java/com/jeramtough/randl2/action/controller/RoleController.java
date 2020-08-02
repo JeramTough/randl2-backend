@@ -2,14 +2,18 @@ package com.jeramtough.randl2.action.controller;
 
 
 import com.jeramtough.jtweb.action.controller.BaseSwaggerController;
-import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
-import com.jeramtough.randl2.bean.QueryByPageParams;
-import com.jeramtough.randl2.bean.permission.AddRoleParams;
-import com.jeramtough.randl2.bean.permission.UpdateRoleParams;
+import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.randl2.model.params.QueryByPageParams;
+import com.jeramtough.randl2.model.params.permission.AddRoleParams;
+import com.jeramtough.randl2.model.params.permission.UpdateRoleParams;
+import com.jeramtough.randl2.model.dto.PageDto;
+import com.jeramtough.randl2.model.dto.RoleDto;
 import com.jeramtough.randl2.service.RoleService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -39,7 +43,7 @@ public class RoleController extends BaseSwaggerController {
             @ApiResponse(code = 5001, message = "该系统角色已存在"),
             @ApiResponse(code = 5002, message = "角色名只允许输入英文字母或者下划线或减号")
     })
-    public RestfulApiResponse addRole(@RequestBody AddRoleParams params) {
+    public CommonApiResponse<String> addRole(@RequestBody AddRoleParams params) {
         return getSuccessfulApiResponse(roleService.addRole(params));
     }
 
@@ -52,7 +56,7 @@ public class RoleController extends BaseSwaggerController {
             @ApiResponse(code = 5010, message = "删除系统角色失败！该系统角色不存在"),
             @ApiResponse(code = 5011, message = "删除系统角色失败！因为还有管理员账号被赋予该角色，请修改后重试！"),
     })
-    public RestfulApiResponse deleteRole(Long fid) {
+    public CommonApiResponse<String> deleteRole(Long fid) {
         return getSuccessfulApiResponse(roleService.deleteRole(fid));
     }
 
@@ -62,7 +66,7 @@ public class RoleController extends BaseSwaggerController {
             @ApiResponse(code = 5020, message = "更新系统角色失败，[%s]参数不能为空"),
             @ApiResponse(code = 5021, message = "更新系统角色失败！该角色不存在")
     })
-    public RestfulApiResponse updateRole(@RequestBody UpdateRoleParams params) {
+    public CommonApiResponse<String> updateRole(@RequestBody UpdateRoleParams params) {
         return getSuccessfulApiResponse(roleService.updateRole(params));
     }
 
@@ -74,19 +78,31 @@ public class RoleController extends BaseSwaggerController {
     @ApiResponses(value = {
             @ApiResponse(code = 5030, message = "查询系统角色失败！该系统角色不存在"),
     })
-    public RestfulApiResponse getRole(Long fid) {
+    public CommonApiResponse<RoleDto> getRole(Long fid) {
         return getSuccessfulApiResponse(roleService.getRole(fid));
     }
 
     @ApiOperation(value = "查询全部", notes = "查询全部系统角色")
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
-    public RestfulApiResponse getAllRole() {
+    public CommonApiResponse<List<RoleDto>> getAllRole() {
         return getSuccessfulApiResponse(roleService.getAllRole());
+    }
+
+    @ApiOperation(value = "管理员角色全部", notes = "查询全部系统管理员角色")
+    @RequestMapping(value = "/adminAll", method = {RequestMethod.GET})
+    public CommonApiResponse<List<RoleDto>> getAllAdminRole() {
+        return getSuccessfulApiResponse(roleService.getAllAdminRole());
+    }
+
+    @ApiOperation(value = "普通用户角色全部", notes = "查询全部普通用户角色")
+    @RequestMapping(value = "/userAll", method = {RequestMethod.GET})
+    public CommonApiResponse<List<RoleDto>> getAllUserRole() {
+        return getSuccessfulApiResponse(roleService.getAllUserRole());
     }
 
     @ApiOperation(value = "分页查询", notes = "分页查询角色列表")
     @RequestMapping(value = "/page", method = {RequestMethod.GET})
-    public RestfulApiResponse getAdminUserByPage(
+    public CommonApiResponse<PageDto<RoleDto>> getAdminUserByPage(
             QueryByPageParams queryByPageParams) {
         return getSuccessfulApiResponse(
                 roleService.getBaseDtoListByPage(queryByPageParams));
@@ -98,7 +114,7 @@ public class RoleController extends BaseSwaggerController {
                     required = true, dataType = "String", defaultValue = "username")})
     @ApiResponses(value = {@ApiResponse(code = 5040, message = "查询失败！该角色不存在")})
     @RequestMapping(value = "/byKeyword", method = {RequestMethod.GET})
-    public RestfulApiResponse getOneAdminUser(@RequestParam String keyword) {
+    public CommonApiResponse<List<RoleDto>> getOneAdminUser(@RequestParam String keyword) {
         return getSuccessfulApiResponse(roleService.getRoleListByKeyword(keyword));
     }
 

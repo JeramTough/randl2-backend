@@ -2,14 +2,18 @@ package com.jeramtough.randl2.action.controller;
 
 
 import com.jeramtough.jtweb.action.controller.BaseSwaggerController;
-import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
-import com.jeramtough.randl2.bean.QueryByPageParams;
-import com.jeramtough.randl2.bean.permission.AddApiParams;
-import com.jeramtough.randl2.bean.permission.UpdateApiParams;
+import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.randl2.model.params.QueryByPageParams;
+import com.jeramtough.randl2.model.params.permission.AddApiParams;
+import com.jeramtough.randl2.model.params.permission.UpdateApiParams;
+import com.jeramtough.randl2.model.dto.ApiDto;
+import com.jeramtough.randl2.model.dto.PageDto;
 import com.jeramtough.randl2.service.ApiService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -38,7 +42,7 @@ public class ApiController extends BaseSwaggerController {
             @ApiResponse(code = 4001, message = "该接口已存在"),
             @ApiResponse(code = 4002, message = "接口别名不能重复")
     })
-    public RestfulApiResponse addApi(@RequestBody AddApiParams params) {
+    public CommonApiResponse<String> addApi(@RequestBody AddApiParams params) {
         return getSuccessfulApiResponse(apiService.addApi(params));
     }
 
@@ -50,7 +54,7 @@ public class ApiController extends BaseSwaggerController {
     @ApiResponses(value = {
             @ApiResponse(code = 4010, message = "删除接口失败！该接口不存在"),
     })
-    public RestfulApiResponse deleteApi(@RequestParam("fid") Long fid) {
+    public CommonApiResponse<String> deleteApi(@RequestParam("fid") Long fid) {
         return getSuccessfulApiResponse(apiService.delete(fid));
     }
 
@@ -60,7 +64,7 @@ public class ApiController extends BaseSwaggerController {
             @ApiResponse(code = 4020, message = "更新接口信息失败，[%s]参数不能为空"),
             @ApiResponse(code = 4021, message = "更新接口失败！该接口不存在")
     })
-    public RestfulApiResponse updateApi(@RequestBody UpdateApiParams params) {
+    public CommonApiResponse<String> updateApi(@RequestBody UpdateApiParams params) {
         return getSuccessfulApiResponse(apiService.updateApi(params));
     }
 
@@ -72,19 +76,19 @@ public class ApiController extends BaseSwaggerController {
     @ApiResponses(value = {
             @ApiResponse(code = 4030, message = "查询接口失败！该接口不存在"),
     })
-    public RestfulApiResponse getApi(Long fid) {
+    public CommonApiResponse<ApiDto> getApi(Long fid) {
         return getSuccessfulApiResponse(apiService.getApi(fid));
     }
 
     @ApiOperation(value = "查询全部", notes = "查询全部系统接口")
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
-    public RestfulApiResponse getAllApi() {
+    public CommonApiResponse<List<ApiDto>> getAllApi() {
         return getSuccessfulApiResponse(apiService.getAllApi());
     }
 
     @ApiOperation(value = "分页查询", notes = "分页查询API信息列表")
     @RequestMapping(value = "/page", method = {RequestMethod.GET})
-    public RestfulApiResponse getAdminUserByPage(
+    public CommonApiResponse<PageDto<ApiDto>> getAdminUserByPage(
             QueryByPageParams queryByPageParams) {
         return getSuccessfulApiResponse(
                 apiService.getBaseDtoListByPage(queryByPageParams));
@@ -97,7 +101,7 @@ public class ApiController extends BaseSwaggerController {
                     required = true, dataType = "String", defaultValue = "username")})
     @ApiResponses(value = {@ApiResponse(code = 4040, message = "查询失败！该接口不存在")})
     @RequestMapping(value = "/byKeyword", method = {RequestMethod.GET})
-    public RestfulApiResponse getOneAdminUser(@RequestParam String keyword) {
+    public CommonApiResponse<List<ApiDto>> getOneAdminUser(@RequestParam String keyword) {
         return getSuccessfulApiResponse(apiService.getApiListByKeyword(keyword));
     }
 

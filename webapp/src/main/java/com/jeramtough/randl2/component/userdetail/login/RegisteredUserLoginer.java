@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.component.userdetail.login;
 
-import com.jeramtough.randl2.bean.registereduser.LoginByPasswordCredentials;
+import com.jeramtough.randl2.model.params.registereduser.LoginByPasswordCredentials;
 import com.jeramtough.randl2.component.userdetail.SystemUser;
 import com.jeramtough.randl2.dao.mapper.RoleMapper;
 import com.jeramtough.randl2.model.entity.RegisteredUser;

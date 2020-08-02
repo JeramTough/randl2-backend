@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.component.userdetail.login;
 
-import com.jeramtough.randl2.bean.registereduser.LoginForVisitorCredentials;
+import com.jeramtough.randl2.model.params.registereduser.LoginForVisitorCredentials;
 import com.jeramtough.randl2.component.userdetail.SystemUser;
 import com.jeramtough.randl2.component.userdetail.VisitorUser;
 import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;

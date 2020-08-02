@@ -1,10 +1,9 @@
 package com.jeramtough.randl2.action.filter;
 
 import com.jeramtough.jtweb.action.filter.BaseSwaggerFilter;
-import com.jeramtough.jtweb.component.apiresponse.bean.RestfulApiResponse;
+import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.service.RegisteredUserLoginService;
-import com.jeramtough.randl2.service.RegisteredUserLoginedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -44,8 +43,8 @@ public class JwtRequestFilter extends OncePerRequestFilter implements BaseSwagge
                 filterChain.doFilter(request, response);
             }
             catch (ApiResponseException e) {
-                RestfulApiResponse restfulApiResponse = getFailedApiResponse(e);
-                returnRestfulApiResponse(restfulApiResponse, response);
+                CommonApiResponse apiResponse = getFailedApiResponse(e);
+                returnRestfulApiResponse(apiResponse, response);
             }
         }
         else {
