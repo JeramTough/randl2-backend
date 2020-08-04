@@ -20,7 +20,8 @@ public class ResetPasswordParams {
     @NotNull(message = "{'code':667,'placeholders':['校验失败','密码']}")
     @ApiModelProperty(value = "旧密码", example = "12345678")
     @Pattern(regexp = "^\\S{8,16}$",
-            message = "{'code':" + ErrorU.CODE_6.C + ",'placeholders':['密码长度范围在8-16" +
+            message = "{'code':" + ErrorU.CODE_6.C + ",'placeholders':['oldPassword'," +
+                    "'密码长度范围在8-16" +
                     "位；只允许非空白任意字符']}")
     private String oldPassword;
 

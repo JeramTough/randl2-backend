@@ -1,5 +1,7 @@
 package com.jeramtough.randl2.model.params.registereduser;
 
+import com.jeramtough.randl2.model.error.ErrorS;
+import com.jeramtough.randl2.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -24,7 +26,10 @@ public class UpdateRegisteredUserParams {
     @ApiModelProperty(value = "帐号名", example = "account", required = false)
     private String account;
 
-    @Pattern(regexp = "^\\S{8,16}$", message = "7061")
+    @Pattern(regexp = "^\\S{8,16}$",
+            message = "{'code':" + ErrorU.CODE_6.C + ",'placeholders" +
+                    "':['password'," +
+                    "'密码长度范围在8-16位；只允许非空白任意字符']}")
     @ApiModelProperty(value = "密码", example = "password", required = false)
     private String password;
 
@@ -39,7 +44,7 @@ public class UpdateRegisteredUserParams {
     @Email(message = "7065")
     private String emailAddress;
 
-    @ApiModelProperty(value = "角色Id",example = "2",required = false)
+    @ApiModelProperty(value = "角色Id", example = "2", required = false)
     private Long roleId;
 
     public UpdateRegisteredUserParams() {

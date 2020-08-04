@@ -26,6 +26,12 @@ public class ErrorS {
         public static final String M = "【系统公共错误码】执行失败！系统没有发现该 [%s] 资源";
     }
 
+    //=========================
+
+    public static final class CODE_101 {
+        public static final int C = 10101;
+        public static final String M = "事务ID以失效，注册信息失效，请重新开始注册！";
+    }
 
 
 }

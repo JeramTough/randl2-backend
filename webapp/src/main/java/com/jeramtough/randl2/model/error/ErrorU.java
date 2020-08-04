@@ -46,7 +46,7 @@ public class ErrorU {
 
     public static final class CODE_6 {
         public static final int C = 20006;
-        public static final String M = "【系统公共错误码】传递参数违背规则，应为[%s]！";
+        public static final String M = "【系统公共错误码】传递参数违背规则，[%s参数]应为[%s]！";
     }
 
     //****************************************************
@@ -97,11 +97,6 @@ public class ErrorU {
         public static final String M = "该手机号或者邮箱地址未注册或绑定过本系统！";
     }
 
-    public static final class CODE_204 {
-        public static final int C = 20204;
-        public static final String M = "事务ID以失效，注册信息失效，请重新开始注册！";
-    }
-
     public static final class CODE_205 {
         public static final int C = 20205;
         public static final String M = "校验失败！两次密码不一致！";
@@ -125,6 +120,11 @@ public class ErrorU {
     public static final class CODE_209 {
         public static final int C = 20209;
         public static final String M = "重置未完成或信息以失效，请重新开始重置流程！";
+    }
+
+    public static final class CODE_210 {
+        public static final int C = 20210;
+        public static final String M = "重置失败！账户信息未做过任何修改！";
     }
 
 }

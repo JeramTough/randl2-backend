@@ -6,6 +6,7 @@ import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.dao.mapper.RoleMapper;
+import com.jeramtough.randl2.model.error.ErrorS;
 import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.registereduser.*;
 import com.jeramtough.randl2.component.registereduser.RegisterUserWay;
@@ -125,7 +126,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         RegisteredUserBuilder builder = getRegisteredUserBuilder(params.getWay());
 
         builder.setPassword(params.getTransactionId(), params.getPassword(),
-                params.getRepeatedPassword(), ErrorU.CODE_205.C, ErrorU.CODE_204.C);
+                params.getRepeatedPassword(), ErrorU.CODE_205.C, ErrorS.CODE_101.C);
         return "密码校验通过";
     }
 
@@ -134,7 +135,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         BeanValidator.verifyDto(params);
         RegisteredUserRebuilder rebuilder = getRegisteredUserRebuilder();
         rebuilder.setPassword(params.getTransactionId(), params.getPassword(),
-                params.getRepeatedPassword(), ErrorU.CODE_205.C, ErrorU.CODE_204.C,
+                params.getRepeatedPassword(), ErrorU.CODE_205.C, ErrorS.CODE_101.C,
                 ErrorU.CODE_206.C);
         return "密码校验通过";
     }
@@ -146,7 +147,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         RegisteredUserBuilder builder = getRegisteredUserBuilder(params.getWay());
 
         RegisteredUser registeredUser = builder.build(params.getTransactionId(),
-                ErrorU.CODE_204.C, ErrorU.CODE_207.C);
+                ErrorS.CODE_101.C, ErrorU.CODE_207.C);
 
         String phoneOrEmailOrOther = null;
         switch (builder.getRegisterUserWay()) {
@@ -172,8 +173,8 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
     public synchronized RegisteredUserDto reset(DoRegisterOrResetParams params) {
         RegisteredUserRebuilder rebuilder = getRegisteredUserRebuilder();
         RegisteredUser registeredUser = rebuilder.reset(params.getTransactionId(),
-                ErrorU.CODE_204.C,
-                7042);
+                ErrorU.CODE_209.C,
+                ErrorU.CODE_210.C);
 
         RegisterUserWay registerUserWay = RegisterUserWay.toRegisterUserWay(params.getWay());
         String phoneOrEmailOrOther = null;
@@ -188,7 +189,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
                 break;
         }
         if (!verificationCodeHolder.getVerificationResult(phoneOrEmailOrOther)) {
-            throw new ApiResponseException(7041);
+            throw new ApiResponseException(ErrorU.CODE_208.C);
         }
 
         getBaseMapper().updateById(registeredUser);
@@ -200,7 +201,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
     public String removeRegisteredUser(Long uid) {
         boolean isOk = removeById(uid);
         if (!isOk) {
-            throw new ApiResponseException(7050);
+            throw new ApiResponseException(ErrorS.CODE_1.C, "普通注册用户");
         }
         return "移除普通注册用户成功";
     }
@@ -212,7 +213,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         RegisteredUser currentRegisteredUser = getById(params.getUid());
 
         if (currentRegisteredUser == null) {
-            throw new ApiResponseException(7060);
+            throw new ApiResponseException(ErrorS.CODE_1.C,"普通注册用户");
         }
 
 
@@ -271,7 +272,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
                 "%" + keyword + "%").or().like("email_address", "%" + keyword + "%");
         List<RegisteredUser> registeredUserList = getBaseMapper().selectList(queryWrapper);
         if (registeredUserList == null || registeredUserList.size() == 0) {
-            throw new ApiResponseException(7070);
+            throw new ApiResponseException(ErrorS.CODE_2.C,"普通注册用户");
         }
         return getDtoList(registeredUserList);
     }

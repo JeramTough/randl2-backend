@@ -2,6 +2,7 @@ package com.jeramtough.randl2.action.controller;
 
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.randl2.model.error.ErrorS;
 import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.QueryByPageParams;
 import com.jeramtough.randl2.model.params.registereduser.*;
@@ -65,7 +66,7 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "注册时用户密码校验", notes = "注册时用户密码校验")
     @RequestMapping(value = "/verify/password", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = ErrorU.CODE_204.C, message = ErrorU.CODE_204.M),
+            @ApiResponse(code = ErrorS.CODE_101.C, message = ErrorS.CODE_101.M),
             @ApiResponse(code = ErrorU.CODE_205.C, message = ErrorU.CODE_205.M),
     })
     public CommonApiResponse<String> verifyPassword(@RequestBody VerifyPasswordParams params) {
@@ -75,7 +76,7 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "找回密码时用户密码校验", notes = "找回密码时用户密码校验")
     @RequestMapping(value = "/verify/passwordByForget", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = ErrorU.CODE_204.C, message = ErrorU.CODE_204.M),
+            @ApiResponse(code = ErrorS.CODE_101.C, message = ErrorS.CODE_101.M),
             @ApiResponse(code = ErrorU.CODE_205.C, message = ErrorU.CODE_205.M),
             @ApiResponse(code = ErrorU.CODE_206.C, message = ErrorU.CODE_206.M),
     })
@@ -87,7 +88,7 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "确定注册", notes = "注册该用户")
     @RequestMapping(value = "/register", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = ErrorU.CODE_204.C, message = ErrorU.CODE_204.M),
+            @ApiResponse(code = ErrorS.CODE_101.C, message = ErrorS.CODE_101.M),
             @ApiResponse(code = ErrorU.CODE_207.C, message = ErrorU.CODE_207.M),
             @ApiResponse(code = ErrorU.CODE_208.C, message = ErrorU.CODE_208.M),
     })
@@ -99,12 +100,10 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "确定重置", notes = "重置密码")
     @RequestMapping(value = "/reset", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = ErrorU.CODE_204.C, message = ErrorU.CODE_204 .M),
-            @ApiResponse(code = ErrorU.CODE_208.C, message = ErrorU.CODE_208 .M),
-            @ApiResponse(code = ErrorU.CODE_209.C, message = ErrorU.CODE_209 .M),
-            @ApiResponse(code = 7040, message = "重置未完成或信息以失效，请重新开始重置流程"),
-            @ApiResponse(code = 7041, message = "验证码校验失败，或验证码未发送或以失效"),
-            @ApiResponse(code = 7042, message = "重置失败！账户信息未做过任何修改"),
+            @ApiResponse(code = ErrorS.CODE_101.C, message = ErrorS.CODE_101.M),
+            @ApiResponse(code = ErrorU.CODE_208.C, message = ErrorU.CODE_208.M),
+            @ApiResponse(code = ErrorU.CODE_209.C, message = ErrorU.CODE_209.M),
+            @ApiResponse(code = ErrorU.CODE_210.C, message = ErrorU.CODE_210.M),
     })
     public CommonApiResponse<RegisteredUserDto> resetUser(
             @RequestBody DoRegisterOrResetParams params) {
@@ -129,9 +128,8 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "移除", notes = "移除系统管理员账号")
     @RequestMapping(value = "/remove", method = {RequestMethod.POST})
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "uid", value = "管理员用户Id", paramType = "query",
+            @ApiImplicitParam(name = "uid", value = "普通注册用户Id", paramType = "query",
                     required = true)})
-    @ApiResponses(value = {@ApiResponse(code = 7050, message = "移除普通注册用户失败！请检查该用户是否存在")})
     public CommonApiResponse<String> removeAdminUser(@RequestParam Long uid) {
         return getSuccessfulApiResponse(registeredUserService.removeRegisteredUser(uid));
     }
@@ -139,7 +137,6 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "更新", notes = "更新普通注册用户账号信息")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 7060, message = "更新失败！该注册用户不存在！"),
             @ApiResponse(code = 7061, message = "密码长度范围在8-16位；只允许非空白任意字符"),
             @ApiResponse(code = 7062, message = "更新失败！存在同名账号名"),
             @ApiResponse(code = 7063, message = "用户名长度范围在5-12位；只能为数字或者字母；不能含有特殊字符"),
@@ -157,7 +154,6 @@ public class RegisteredUserController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "keyword", value = "关键字", paramType = "query",
                     required = true, dataType = "String", defaultValue = "username")})
-    @ApiResponses(value = {@ApiResponse(code = 7070, message = "查询失败！该用户不存在")})
     @RequestMapping(value = "/byKeyword", method = {RequestMethod.GET})
     public CommonApiResponse<List<RegisteredUserDto>> getRegisteredUsersByKeyword(
             @RequestParam String keyword) {
