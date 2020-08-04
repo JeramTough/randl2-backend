@@ -18,7 +18,12 @@ public class ErrorS {
 
     public static final class CODE_1 {
         public static final int C = 10001;
-        public static final String M = "系统没有发现该ID对应的目标资源";
+        public static final String M = "【系统公共错误码】执行失败！系统没有发现该 [%sID] 对应的目标资源";
+    }
+
+    public static final class CODE_2 {
+        public static final int C = 10002;
+        public static final String M = "【系统公共错误码】执行失败！系统没有发现该 [%s] 资源";
     }
 
 

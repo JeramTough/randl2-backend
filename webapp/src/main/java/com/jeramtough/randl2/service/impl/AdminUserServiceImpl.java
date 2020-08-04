@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.model.error.ErrorS;
+import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.QueryByPageParams;
 import com.jeramtough.randl2.model.params.adminuser.AdminUserCredentials;
 import com.jeramtough.randl2.model.params.adminuser.RegisterAdminUserParams;
@@ -80,7 +82,7 @@ public class AdminUserServiceImpl
         SystemUser systemUser = userLoginer.login(adminUserCredentials);
 
         if (systemUser == null) {
-            throw new ApiResponseException(1001);
+            throw new ApiResponseException(ErrorU.CODE_101.C);
         }
 
         UserHolder.afterLogin(systemUser);
@@ -107,7 +109,7 @@ public class AdminUserServiceImpl
         if (!params.getPassword().equals(
                 params.getRepeatedPassword())) {
             //重复密码不一致
-            throw new ApiResponseException(1011);
+            throw new ApiResponseException(ErrorU.CODE_102.C);
         }
 
         if (getBaseMapper().selectOne(new QueryWrapper<AdminUser>().eq("username",
@@ -133,7 +135,7 @@ public class AdminUserServiceImpl
 
         if (params.getRoleId() != null && roleMapper.selectById(params.getRoleId()) == null) {
             //该角色不存在
-            throw new ApiResponseException(1019);
+            throw new ApiResponseException(ErrorS.CODE_1.C, "角色");
         }
 
         AdminUser adminUser = myUserFactory.getAdminUser(params);
@@ -220,7 +222,7 @@ public class AdminUserServiceImpl
     public AdminUserDto getOneAdminUser(Long uid) {
         AdminUser adminUser = getById(uid);
         if (adminUser == null) {
-            throw new ApiResponseException(1040);
+            throw new ApiResponseException(ErrorS.CODE_1.C, "管理员用户");
         }
         AdminUserDto adminUserDto = mapperFacade.map(adminUser, AdminUserDto.class);
         adminUserDto.setRole(roleMapper.selectById(adminUser.getRoleId()));
@@ -239,7 +241,7 @@ public class AdminUserServiceImpl
     public AdminUserDto getAdminUserByKeyword(String keyword) {
         AdminUser adminUser = getBaseMapper().selectByKeyword(keyword);
         if (adminUser == null) {
-            throw new ApiResponseException(1040);
+            throw new ApiResponseException(ErrorS.CODE_2.C, "管理员用户");
         }
         return getBaseDto(adminUser);
     }
@@ -249,7 +251,7 @@ public class AdminUserServiceImpl
         BeanValidator.verifyDto(params);
 
         if (UserHolder.isSuperAdmin()) {
-            throw new ApiResponseException(1040);
+            throw new ApiResponseException(ErrorS.CODE_1.C, "管理员用户");
         }
 
         AdminUser currentAdminUser = getMapperFacade().map(UserHolder.getSystemUser(),

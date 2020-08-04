@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.model.params.registereduser;
 
+import com.jeramtough.randl2.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -25,14 +26,14 @@ public class VerifyPasswordParams {
 
     @NotNull(message = "{'code':667,'placeholders':['校验失败','密码']}")
     @ApiModelProperty(value = "密码", example = "12345678")
-    @Pattern(regexp = "^\\S{8,16}$", message = "7021")
+    @Pattern(regexp = "^\\S{8,16}$",
+            message = "{'code':" + ErrorU.CODE_6.C + ",'placeholders':['密码长度范围在8-16" +
+                    "位；只允许非空白任意字符']}")
     private String password;
 
     @NotNull(message = "{'code':667,'placeholders':['','重复密码']}")
     @ApiModelProperty(value = "重复密码", example = "12345678")
     private String repeatedPassword;
-
-
 
 
     public String getPassword() {

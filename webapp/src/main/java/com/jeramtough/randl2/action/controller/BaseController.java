@@ -1,6 +1,8 @@
 package com.jeramtough.randl2.action.controller;
 
 import com.jeramtough.jtweb.action.controller.BaseSwaggerController;
+import com.jeramtough.randl2.model.error.ErrorS;
+import com.jeramtough.randl2.model.error.ErrorU;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -11,9 +13,15 @@ import io.swagger.annotations.ApiResponses;
  * </pre>
  */
 @ApiResponses({
-        @ApiResponse(code = 667, message = "[%s]失败! [%s]参数不能为空"),
-        @ApiResponse(code = 668, message = "[%s]参数格式不正确! 应为[%s]"),
-        @ApiResponse(code = 669, message = "系统没有发现该ID对应的目标资源"),
+        @ApiResponse(code = ErrorU.CODE_1.C, message = ErrorU.CODE_1.M),
+        @ApiResponse(code = ErrorU.CODE_2.C, message = ErrorU.CODE_2.M),
+        @ApiResponse(code = ErrorU.CODE_3.C, message = ErrorU.CODE_3.M),
+        @ApiResponse(code = ErrorU.CODE_4.C, message = ErrorU.CODE_4.M),
+        @ApiResponse(code = ErrorU.CODE_5.C, message = ErrorU.CODE_5.M),
+        @ApiResponse(code = ErrorU.CODE_6.C, message = ErrorU.CODE_6.M),
+
+        @ApiResponse(code = ErrorS.CODE_1.C, message = ErrorS.CODE_1.M),
+        @ApiResponse(code = ErrorS.CODE_2.C, message = ErrorS.CODE_2.M),
 })
 public abstract class BaseController extends BaseSwaggerController {
 

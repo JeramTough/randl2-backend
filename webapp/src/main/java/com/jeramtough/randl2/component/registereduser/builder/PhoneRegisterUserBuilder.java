@@ -37,10 +37,10 @@ public class PhoneRegisterUserBuilder extends CommonUserBuilder
             ApiResponseException {
         boolean isRightFormat = ValidationUtil.isPhone(phoneOrEmailOrOther);
         if (!isRightFormat) {
-            throw new ApiResponseException(errorCodes[0]);
+            throw new ApiResponseException(errorCodes[0], "手机号码格式", "例子:15289678164");
         }
         if (getRegisteredUserMapper().selectByPhoneNumber(phoneOrEmailOrOther) != null) {
-            throw new ApiResponseException(errorCodes[2]);
+            throw new ApiResponseException(errorCodes[1]);
         }
 
         String transactionId = createTransactionId();

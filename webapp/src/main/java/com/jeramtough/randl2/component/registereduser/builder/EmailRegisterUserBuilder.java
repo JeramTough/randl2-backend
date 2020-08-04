@@ -6,6 +6,7 @@ import com.jeramtough.randl2.component.userdetail.RegisteredUserRole;
 import com.jeramtough.randl2.component.registereduser.RegisterUserWay;
 import com.jeramtough.randl2.model.entity.RegisteredUser;
 import com.jeramtough.randl2.dao.mapper.RegisteredUserMapper;
+import com.jeramtough.randl2.model.error.ErrorU;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,10 +38,10 @@ public class EmailRegisterUserBuilder extends CommonUserBuilder
             ApiResponseException {
         boolean isRightFormat = ValidationUtil.isEmail(phoneOrEmailOrOther);
         if (!isRightFormat) {
-            throw new ApiResponseException(errorCodes[1]);
+            throw new ApiResponseException(errorCodes[0], "邮箱格式", "例子:11787@qq.com");
         }
         if (getRegisteredUserMapper().selectByEmailAddress(phoneOrEmailOrOther) != null) {
-            throw new ApiResponseException(errorCodes[3]);
+            throw new ApiResponseException(errorCodes[2]);
         }
 
         String transactionId = createTransactionId();

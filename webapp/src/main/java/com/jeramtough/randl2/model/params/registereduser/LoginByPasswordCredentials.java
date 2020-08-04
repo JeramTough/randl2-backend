@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.model.params.registereduser;
 
+import com.jeramtough.randl2.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiParam;
 
@@ -15,12 +16,12 @@ import javax.validation.constraints.Pattern;
 @ApiModel("通过账号密码登录参数")
 public class LoginByPasswordCredentials {
 
-    @NotNull(message = "{'code':1002,'placeholders':['登录凭证']}")
+    @NotNull(message = "{'code':" + ErrorU.CODE_1.C + ",'placeholders':['登录凭证']}")
     @Pattern(regexp = "^[a-z0-9A-Z]{5,16}$", message = "1003")
     @ApiParam(value = "账号、手机号、邮箱地址", required = true)
     private String credential;
 
-    @NotNull(message = "{'code':1002,'placeholders':['密码']}")
+    @NotNull(message = "{'code':" + ErrorU.CODE_1.C + ",'placeholders':['密码']}")
     @Pattern(regexp = "^\\S{8,16}$", message = "1004")
     @ApiParam(value = "密码", required = true)
     private String password;

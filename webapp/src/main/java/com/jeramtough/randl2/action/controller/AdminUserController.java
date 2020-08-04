@@ -2,6 +2,7 @@ package com.jeramtough.randl2.action.controller;
 
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.QueryByPageParams;
 import com.jeramtough.randl2.model.params.adminuser.AdminUserCredentials;
 import com.jeramtough.randl2.model.params.adminuser.RegisterAdminUserParams;
@@ -30,7 +31,7 @@ import java.util.List;
 @RequestMapping("/adminUser")
 public class AdminUserController extends BaseController {
 
-    private AdminUserService adminUserService;
+    private final AdminUserService adminUserService;
 
     @Autowired
     public AdminUserController(AdminUserService adminUserService) {
@@ -46,12 +47,14 @@ public class AdminUserController extends BaseController {
             @ApiImplicitParam(name = "password", value = "密码", paramType = "query",
                     required = true, dataType = "String", defaultValue = "superadmin")})
     @ApiResponses(value = {
-            @ApiResponse(code = 1001, message = "登录失败，请检查账号或密码"),
-            @ApiResponse(code = 1002, message = "登录失败! [%s]参数不能为空"),
+            @ApiResponse(code = ErrorU.CODE_101.C, message = ErrorU.CODE_101.M),
             @ApiResponse(code = 1004, message = "密码长度范围在8-16位；只允许非空白任意字符"),
-            @ApiResponse(code = 1003, message = "用户名长度范围在5-16位；只能为数字或者字母；不能含有特殊字符"),})
-    public CommonApiResponse<SystemUserDto> login(@RequestParam(required = false) String username,
-                                                  @RequestParam(required = false) String password) {
+            @ApiResponse(code = 1003, message = "用户名长度范围在5-16位；只能为数字或者字母；不能含有特殊字符"),
+    })
+
+    public CommonApiResponse<SystemUserDto> login(
+            @RequestParam(required = false) String username,
+            @RequestParam(required = false) String password) {
         AdminUserCredentials adminUserCredentials = new AdminUserCredentials(username,
                 password);
         return getSuccessfulApiResponse(adminUserService.adminLogin(adminUserCredentials));
@@ -60,18 +63,13 @@ public class AdminUserController extends BaseController {
     @ApiOperation(value = "增加", notes = "添加一个管理员用户")
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 1010, message = "执行失败! [%s]参数不能为空"),
-            @ApiResponse(code = 1011, message = "添加管理员用户失败！两次密码不一致"),
-            @ApiResponse(code = 1012, message = "密码长度范围在8-16位；只允许非空白任意字符"),
-            @ApiResponse(code = 1013, message = "添加失败！存在同名用户名"),
-            @ApiResponse(code = 1014, message = "用户名长度范围在5-16位；只能为数字或者字母；不能含有特殊字符"),
-            @ApiResponse(code = 1015, message = "手机号码格式错误"),
-            @ApiResponse(code = 1016, message = "邮箱地址格式错误"),
-            @ApiResponse(code = 1017, message = "已存在重复的手机号码，请换一个"),
-            @ApiResponse(code = 1018, message = "已存在重复的邮箱地址，请换一个"),
-            @ApiResponse(code = 1019, message = "该角色Id不存在")
+            @ApiResponse(code = ErrorU.CODE_102.C, message = ErrorU.CODE_102.M),
+            @ApiResponse(code = ErrorU.CODE_103.C, message = ErrorU.CODE_103.M),
+            @ApiResponse(code = ErrorU.CODE_104.C, message = ErrorU.CODE_103.M),
+            @ApiResponse(code = ErrorU.CODE_105.C, message = ErrorU.CODE_103.M),
     })
-    public CommonApiResponse<String> addAdminUser1(@RequestBody RegisterAdminUserParams params) {
+    public CommonApiResponse<String> addAdminUser1(
+            @RequestBody RegisterAdminUserParams params) {
         return getSuccessfulApiResponse(adminUserService.addAdminUser(params));
     }
 
@@ -91,9 +89,9 @@ public class AdminUserController extends BaseController {
 
     @ApiOperation(value = "查询一个", notes = "得到一个管理员用户信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "uid", value = "用户Id", paramType = "query",
+            @ApiImplicitParam(name = "uid", value = "管理员用户Id", paramType = "query",
                     required = true, defaultValue = "1")})
-    @ApiResponses(value = {@ApiResponse(code = 1040, message = "查询失败！该用户不存在")})
+    @ApiResponses(value = {})
     @RequestMapping(value = "/one", method = {RequestMethod.GET})
     public CommonApiResponse<AdminUserDto> getOneAdminUser(@RequestParam Long uid) {
         return getSuccessfulApiResponse(adminUserService.getOneAdminUser(uid));
@@ -103,7 +101,7 @@ public class AdminUserController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "keyword", value = "关键字", paramType = "query",
                     required = true, dataType = "String", defaultValue = "username")})
-    @ApiResponses(value = {@ApiResponse(code = 1040, message = "查询失败！该用户不存在")})
+    @ApiResponses(value = {})
     @RequestMapping(value = "/byKeyword", method = {RequestMethod.GET})
     public CommonApiResponse<AdminUserDto> getOneAdminUser(@RequestParam String keyword) {
         return getSuccessfulApiResponse(adminUserService.getAdminUserByKeyword(keyword));
@@ -134,7 +132,8 @@ public class AdminUserController extends BaseController {
             @ApiResponse(code = 1038, message = "已存在重复的邮箱地址，请换一个"),
             @ApiResponse(code = 1039, message = "该角色Id不存在")
     })
-    public CommonApiResponse<String> updateAdminUser(@RequestBody UpdateAdminUserParams params) {
+    public CommonApiResponse<String> updateAdminUser(
+            @RequestBody UpdateAdminUserParams params) {
         return getSuccessfulApiResponse(adminUserService.updateAdminUser(params));
     }
 

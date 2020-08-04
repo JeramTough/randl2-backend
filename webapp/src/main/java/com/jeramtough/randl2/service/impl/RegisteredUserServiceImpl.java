@@ -6,6 +6,7 @@ import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.dao.mapper.RoleMapper;
+import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.registereduser.*;
 import com.jeramtough.randl2.component.registereduser.RegisterUserWay;
 import com.jeramtough.randl2.component.registereduser.builder.*;
@@ -75,7 +76,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
 
         RegisteredUserBuilder builder = getRegisteredUserBuilder(params.getWay());
         String transactionId = builder.setAccount(params.getPhoneOrEmail(),
-                7001, 7002, 7003, 7004);
+                ErrorU.CODE_2.C, ErrorU.CODE_201.C, ErrorU.CODE_202.C);
 
         Map<String, Object> map = new HashMap<>(2);
         map.put("transactionId", transactionId);
@@ -108,7 +109,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         RegisteredUser registeredUser =
                 getBaseMapper().selectByPhoneNumberOrEmailAddress(params.getPhoneOrEmail());
         if (registeredUser == null) {
-            throw new ApiResponseException(7010);
+            throw new ApiResponseException(ErrorU.CODE_203.C);
         }
 
         String transactionId = rebuilder.rebuildRegisteredUser(registeredUser);
@@ -124,7 +125,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         RegisteredUserBuilder builder = getRegisteredUserBuilder(params.getWay());
 
         builder.setPassword(params.getTransactionId(), params.getPassword(),
-                params.getRepeatedPassword(), 7020, 7000);
+                params.getRepeatedPassword(), ErrorU.CODE_205.C, ErrorU.CODE_204.C);
         return "密码校验通过";
     }
 
@@ -133,7 +134,8 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         BeanValidator.verifyDto(params);
         RegisteredUserRebuilder rebuilder = getRegisteredUserRebuilder();
         rebuilder.setPassword(params.getTransactionId(), params.getPassword(),
-                params.getRepeatedPassword(), 7020, 7000, 7022);
+                params.getRepeatedPassword(), ErrorU.CODE_205.C, ErrorU.CODE_204.C,
+                ErrorU.CODE_206.C);
         return "密码校验通过";
     }
 
@@ -143,7 +145,8 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
 
         RegisteredUserBuilder builder = getRegisteredUserBuilder(params.getWay());
 
-        RegisteredUser registeredUser = builder.build(params.getTransactionId(), 7000, 7030);
+        RegisteredUser registeredUser = builder.build(params.getTransactionId(),
+                ErrorU.CODE_204.C, ErrorU.CODE_207.C);
 
         String phoneOrEmailOrOther = null;
         switch (builder.getRegisterUserWay()) {
@@ -157,7 +160,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
                 break;
         }
         if (!verificationCodeHolder.getVerificationResult(phoneOrEmailOrOther)) {
-            throw new ApiResponseException(7031);
+            throw new ApiResponseException(ErrorU.CODE_208.C);
         }
 
         getBaseMapper().insert(registeredUser);
@@ -168,7 +171,9 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
     @Override
     public synchronized RegisteredUserDto reset(DoRegisterOrResetParams params) {
         RegisteredUserRebuilder rebuilder = getRegisteredUserRebuilder();
-        RegisteredUser registeredUser = rebuilder.reset(params.getTransactionId(), 7040, 7042);
+        RegisteredUser registeredUser = rebuilder.reset(params.getTransactionId(),
+                ErrorU.CODE_204.C,
+                7042);
 
         RegisterUserWay registerUserWay = RegisterUserWay.toRegisterUserWay(params.getWay());
         String phoneOrEmailOrOther = null;
@@ -283,7 +288,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
     private RegisteredUserBuilder getRegisteredUserBuilder(int way) {
         RegisterUserWay registerUserWay = RegisterUserWay.toRegisterUserWay(way);
         if (registerUserWay == null) {
-            throw new ApiResponseException(7005);
+            throw new ApiResponseException(ErrorU.CODE_5.C, "way参数只能填1(以手机)或2(以邮箱)");
         }
         RegisteredUserBuilder builder = null;
         switch (registerUserWay) {
