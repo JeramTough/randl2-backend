@@ -18,8 +18,8 @@ import io.swagger.annotations.ApiResponse;
  */
 public class ErrorU {
 
-
     //上边为公用错误码
+
     public static final class CODE_1 {
         public static final int C = 20001;
         public static final String M = "【系统公共错误码】[%s]传参异常! 参数不能为空";
@@ -50,6 +50,16 @@ public class ErrorU {
         public static final String M = "【系统公共错误码】[%s]传参违背规则，应为[%s]！";
     }
 
+    public static final class CODE_7 {
+        public static final int C = 20007;
+        public static final String M = "【系统公共错误码】执行失败，用户请求该对应的 [%sID]目标资源不存在！";
+    }
+
+    public static final class CODE_8 {
+        public static final int C = 20008;
+        public static final String M = "【系统公共错误码】执行失败，用户请求的 [%s]目标资源不存在！";
+    }
+
     //****************************************************
     //下边为特定错误码
 
@@ -72,12 +82,12 @@ public class ErrorU {
 
     public static final class CODE_104 {
         public static final int C = 20104;
-        public static final String M = "添加失败！已存在重复的手机号码，请换一个！";
+        public static final String M = "失败！已存在重复的手机号码，请换一个！";
     }
 
     public static final class CODE_105 {
         public static final int C = 20105;
-        public static final String M = "添加失败！已存在重复的邮箱地址，请换一个！";
+        public static final String M = "失败！已存在重复的邮箱地址，请换一个！";
     }
 
     //============普通注册用户接口业务============
@@ -96,6 +106,11 @@ public class ErrorU {
     public static final class CODE_203 {
         public static final int C = 20203;
         public static final String M = "该手机号或者邮箱地址未注册或绑定过本系统！";
+    }
+
+    public static final class CODE_204 {
+        public static final int C = 20104;
+        public static final String M = "事务ID以失效，注册信息失效，请重新开始注册！";
     }
 
     public static final class CODE_205 {
@@ -126,6 +141,11 @@ public class ErrorU {
     public static final class CODE_210 {
         public static final int C = 20210;
         public static final String M = "重置失败！账户信息未做过任何修改！";
+    }
+
+    public static final class CODE_211 {
+        public static final int C = 20211;
+        public static final String M = "更新失败！存在同名账号名！";
     }
 
 }

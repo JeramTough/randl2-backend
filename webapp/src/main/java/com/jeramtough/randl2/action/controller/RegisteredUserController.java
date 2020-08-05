@@ -66,7 +66,7 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "注册时用户密码校验", notes = "注册时用户密码校验")
     @RequestMapping(value = "/verify/password", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = ErrorS.CODE_101.C, message = ErrorS.CODE_101.M),
+            @ApiResponse(code = ErrorU.CODE_204.C, message = ErrorU.CODE_204.M),
             @ApiResponse(code = ErrorU.CODE_205.C, message = ErrorU.CODE_205.M),
     })
     public CommonApiResponse<String> verifyPassword(@RequestBody VerifyPasswordParams params) {
@@ -76,7 +76,7 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "找回密码时用户密码校验", notes = "找回密码时用户密码校验")
     @RequestMapping(value = "/verify/passwordByForget", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = ErrorS.CODE_101.C, message = ErrorS.CODE_101.M),
+            @ApiResponse(code = ErrorU.CODE_204.C, message = ErrorU.CODE_204.M),
             @ApiResponse(code = ErrorU.CODE_205.C, message = ErrorU.CODE_205.M),
             @ApiResponse(code = ErrorU.CODE_206.C, message = ErrorU.CODE_206.M),
     })
@@ -88,7 +88,7 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "确定注册", notes = "注册该用户")
     @RequestMapping(value = "/register", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = ErrorS.CODE_101.C, message = ErrorS.CODE_101.M),
+            @ApiResponse(code = ErrorU.CODE_204.C, message = ErrorU.CODE_204.M),
             @ApiResponse(code = ErrorU.CODE_207.C, message = ErrorU.CODE_207.M),
             @ApiResponse(code = ErrorU.CODE_208.C, message = ErrorU.CODE_208.M),
     })
@@ -100,7 +100,7 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "确定重置", notes = "重置密码")
     @RequestMapping(value = "/reset", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = ErrorS.CODE_101.C, message = ErrorS.CODE_101.M),
+            @ApiResponse(code = ErrorU.CODE_204.C, message = ErrorU.CODE_204.M),
             @ApiResponse(code = ErrorU.CODE_208.C, message = ErrorU.CODE_208.M),
             @ApiResponse(code = ErrorU.CODE_209.C, message = ErrorU.CODE_209.M),
             @ApiResponse(code = ErrorU.CODE_210.C, message = ErrorU.CODE_210.M),
@@ -137,13 +137,9 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "更新", notes = "更新普通注册用户账号信息")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 7061, message = "密码长度范围在8-16位；只允许非空白任意字符"),
-            @ApiResponse(code = 7062, message = "更新失败！存在同名账号名"),
-            @ApiResponse(code = 7063, message = "用户名长度范围在5-12位；只能为数字或者字母；不能含有特殊字符"),
-            @ApiResponse(code = 7064, message = "手机号码格式错误"),
-            @ApiResponse(code = 7065, message = "邮箱地址格式错误"),
-            @ApiResponse(code = 7066, message = "已存在重复的手机号码，请换一个"),
-            @ApiResponse(code = 7067, message = "已存在重复的邮箱地址，请换一个"),
+            @ApiResponse(code = ErrorU.CODE_211.C, message = ErrorU.CODE_211.M),
+            @ApiResponse(code = ErrorU.CODE_104.C, message = ErrorU.CODE_104.M),
+            @ApiResponse(code = ErrorU.CODE_105.C, message = ErrorU.CODE_105.M),
     })
     public CommonApiResponse<String> updateRegisteredUser(
             @RequestBody UpdateRegisteredUserParams params) {

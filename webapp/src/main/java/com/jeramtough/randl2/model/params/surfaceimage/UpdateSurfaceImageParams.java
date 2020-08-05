@@ -22,7 +22,7 @@ public class UpdateSurfaceImageParams implements Serializable {
     @ApiModelProperty(value = "用户ID", example = "0", required = true)
     private Long uid;
 
-    @NotNull(message = "{'code':667,'placeholders':['更新失败','图片base64值']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiModelProperty(value = "图片base64格式的编码值", example = "0", required = true)
     private String surfaceImage;
 

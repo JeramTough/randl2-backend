@@ -135,7 +135,7 @@ public class AdminUserServiceImpl
 
         if (params.getRoleId() != null && roleMapper.selectById(params.getRoleId()) == null) {
             //该角色不存在
-            throw new ApiResponseException(ErrorS.CODE_1.C, "角色");
+            throw new ApiResponseException(ErrorU.CODE_7.C, "角色");
         }
 
         AdminUser adminUser = myUserFactory.getAdminUser(params);
@@ -222,7 +222,7 @@ public class AdminUserServiceImpl
     public AdminUserDto getOneAdminUser(Long uid) {
         AdminUser adminUser = getById(uid);
         if (adminUser == null) {
-            throw new ApiResponseException(ErrorS.CODE_1.C, "管理员用户");
+            throw new ApiResponseException(ErrorU.CODE_7.C, "管理员用户");
         }
         AdminUserDto adminUserDto = mapperFacade.map(adminUser, AdminUserDto.class);
         adminUserDto.setRole(roleMapper.selectById(adminUser.getRoleId()));
@@ -241,7 +241,7 @@ public class AdminUserServiceImpl
     public AdminUserDto getAdminUserByKeyword(String keyword) {
         AdminUser adminUser = getBaseMapper().selectByKeyword(keyword);
         if (adminUser == null) {
-            throw new ApiResponseException(ErrorS.CODE_2.C, "管理员用户");
+            throw new ApiResponseException(ErrorU.CODE_8.C, "管理员用户");
         }
         return getBaseDto(adminUser);
     }
@@ -251,7 +251,7 @@ public class AdminUserServiceImpl
         BeanValidator.verifyDto(params);
 
         if (UserHolder.isSuperAdmin()) {
-            throw new ApiResponseException(ErrorS.CODE_1.C, "管理员用户");
+            throw new ApiResponseException(ErrorU.CODE_7.C, "管理员用户");
         }
 
         AdminUser currentAdminUser = getMapperFacade().map(UserHolder.getSystemUser(),

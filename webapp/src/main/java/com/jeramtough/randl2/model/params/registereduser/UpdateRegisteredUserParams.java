@@ -22,7 +22,11 @@ public class UpdateRegisteredUserParams {
     @ApiModelProperty(value = "用户ID", example = "0", required = true)
     private Long uid;
 
-    @Pattern(regexp = "^[a-z0-9A-Z]{5,12}$", message = "7063")
+
+    @Pattern(regexp = "^[a-z0-9A-Z]{5,12}$",
+            message = "{'code':" + ErrorU.CODE_6.C + (",'placeholders':[" +
+                    "'用户名长度范围在5-12位；只能为数字或者字母；不能含有特殊字符'" +
+                    "]}"))
     @ApiModelProperty(value = "帐号名", example = "account", required = false)
     private String account;
 
@@ -37,11 +41,13 @@ public class UpdateRegisteredUserParams {
             false)
     @Pattern(
             regexp = "^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(166)|(17[0,1,3,5,6,7,8])|" +
-                    "(18[0-9])|(19[8|9]))\\d{8}$", message = "7064")
+                    "(18[0-9])|(19[8|9]))\\d{8}$"
+            , message = "{'code':" + ErrorU.CODE_2.C + ",'placeholders':[" +
+            "'例子:15289678164']}")
     private String phoneNumber;
 
     @ApiModelProperty(value = "邮箱地址", example = "1321312@qq.com", required = false)
-    @Email(message = "7065")
+    @Email(message = "{'code':" + ErrorU.CODE_2.C + ",'placeholders':['例子:1234@qq.com']}")
     private String emailAddress;
 
     @ApiModelProperty(value = "角色Id", example = "2", required = false)

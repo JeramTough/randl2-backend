@@ -3,6 +3,7 @@ package com.jeramtough.randl2.model.params.registereduser;
 import com.jeramtough.randl2.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -21,6 +22,8 @@ public class VerifyPasswordParams {
     private String transactionId;
 
     @NotNull(message = ErrorU.CODE_1.C + "")
+    @Range(min = 1, max = 2, message = "{'code':" + ErrorU.CODE_5.C + ",'placeholders':[" +
+            "'1:手机号码，2:邮箱地址']}")
     @ApiModelProperty(value = "注册方式，1:手机号码，2:邮箱地址", example = "1")
     private Integer way;
 

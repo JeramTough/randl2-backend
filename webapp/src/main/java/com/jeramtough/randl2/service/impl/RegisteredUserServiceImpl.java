@@ -126,7 +126,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         RegisteredUserBuilder builder = getRegisteredUserBuilder(params.getWay());
 
         builder.setPassword(params.getTransactionId(), params.getPassword(),
-                params.getRepeatedPassword(), ErrorU.CODE_205.C, ErrorS.CODE_101.C);
+                params.getRepeatedPassword(), ErrorU.CODE_205.C, ErrorU.CODE_204.C);
         return "密码校验通过";
     }
 
@@ -135,7 +135,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         BeanValidator.verifyDto(params);
         RegisteredUserRebuilder rebuilder = getRegisteredUserRebuilder();
         rebuilder.setPassword(params.getTransactionId(), params.getPassword(),
-                params.getRepeatedPassword(), ErrorU.CODE_205.C, ErrorS.CODE_101.C,
+                params.getRepeatedPassword(), ErrorU.CODE_205.C, ErrorU.CODE_204.C,
                 ErrorU.CODE_206.C);
         return "密码校验通过";
     }
@@ -147,7 +147,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         RegisteredUserBuilder builder = getRegisteredUserBuilder(params.getWay());
 
         RegisteredUser registeredUser = builder.build(params.getTransactionId(),
-                ErrorS.CODE_101.C, ErrorU.CODE_207.C);
+                ErrorU.CODE_204.C, ErrorU.CODE_207.C);
 
         String phoneOrEmailOrOther = null;
         switch (builder.getRegisterUserWay()) {
@@ -201,7 +201,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
     public String removeRegisteredUser(Long uid) {
         boolean isOk = removeById(uid);
         if (!isOk) {
-            throw new ApiResponseException(ErrorS.CODE_1.C, "普通注册用户");
+            throw new ApiResponseException(ErrorU.CODE_7.C, "普通注册用户");
         }
         return "移除普通注册用户成功";
     }
@@ -213,7 +213,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         RegisteredUser currentRegisteredUser = getById(params.getUid());
 
         if (currentRegisteredUser == null) {
-            throw new ApiResponseException(ErrorS.CODE_1.C,"普通注册用户");
+            throw new ApiResponseException(ErrorU.CODE_7.C, "普通注册用户");
         }
 
 
@@ -221,7 +221,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
             if (getBaseMapper().selectOne(new QueryWrapper<RegisteredUser>().eq("account",
                     params.getAccount())) != null) {
                 //存在同名用户
-                throw new ApiResponseException(7062);
+                throw new ApiResponseException(ErrorU.CODE_211.C);
             }
         }
 
@@ -231,7 +231,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
                         new QueryWrapper<RegisteredUser>().eq("phone_number",
                                 params.getPhoneNumber())) > 0)) {
                     //存在重复手机号码
-                    throw new ApiResponseException(7066);
+                    throw new ApiResponseException(ErrorU.CODE_104.C);
                 }
             }
         }
@@ -243,7 +243,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
                                 "email_address",
                                 params.getEmailAddress())) > 0)) {
                     //存在重复邮箱地址
-                    throw new ApiResponseException(7067);
+                    throw new ApiResponseException(ErrorU.CODE_105.C);
                 }
             }
         }
@@ -272,7 +272,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
                 "%" + keyword + "%").or().like("email_address", "%" + keyword + "%");
         List<RegisteredUser> registeredUserList = getBaseMapper().selectList(queryWrapper);
         if (registeredUserList == null || registeredUserList.size() == 0) {
-            throw new ApiResponseException(ErrorS.CODE_2.C,"普通注册用户");
+            throw new ApiResponseException(ErrorU.CODE_8.C, "普通注册用户");
         }
         return getDtoList(registeredUserList);
     }
