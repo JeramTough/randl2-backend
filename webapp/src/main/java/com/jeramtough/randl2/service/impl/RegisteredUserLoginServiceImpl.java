@@ -3,6 +3,7 @@ package com.jeramtough.randl2.service.impl;
 import com.jeramtough.jtcomponent.task.bean.TaskResult;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.registereduser.LoginByPasswordCredentials;
 import com.jeramtough.randl2.model.params.registereduser.LoginByVerificationCodeCredentials;
 import com.jeramtough.randl2.model.params.registereduser.LoginForVisitorCredentials;
@@ -103,7 +104,7 @@ public class RegisteredUserLoginServiceImpl implements RegisteredUserLoginServic
         SystemUser systemUser = userLoginer.login(credentials.getCredential());
 
         if (systemUser == null) {
-            throw new ApiResponseException(10003);
+            throw new ApiResponseException(ErrorU.CODE_303.C);
         }
         return processingLoginResult(systemUser);
     }
@@ -116,7 +117,7 @@ public class RegisteredUserLoginServiceImpl implements RegisteredUserLoginServic
         SystemUser systemUser = userLoginer.login(credentials);
 
         if (systemUser == null) {
-            throw new ApiResponseException(10008);
+            throw new ApiResponseException(ErrorU.CODE_302.C);
         }
         return processingLoginResult(systemUser);
     }

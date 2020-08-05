@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.permission.AddRoleParams;
 import com.jeramtough.randl2.model.params.permission.UpdateRoleParams;
 import com.jeramtough.randl2.model.entity.AdminUser;
@@ -53,7 +54,7 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role, RoleDto>
         BeanValidator.verifyDto(params);
         if (getBaseMapper().selectOne(
                 new QueryWrapper<Role>().eq("name", params.getName())) != null) {
-            throw new ApiResponseException(5001);
+            throw new ApiResponseException(ErrorU.CODE_9.C, "角色名");
         }
 
         Role role = getMapperFacade().map(params, Role.class);
@@ -66,7 +67,7 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role, RoleDto>
     public String deleteRole(Long fid) {
         Role role = getBaseMapper().selectById(fid);
         if (role == null) {
-            throw new ApiResponseException(5010);
+            throw new ApiResponseException(ErrorU.CODE_7.C, "角色");
         }
 
         QueryWrapper<AdminUser> queryWrapper = new QueryWrapper<>();
@@ -84,7 +85,7 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role, RoleDto>
         BeanValidator.verifyDto(params);
         Role role = getBaseMapper().selectById(params.getFid());
         if (role == null) {
-            throw new ApiResponseException(5021);
+            throw new ApiResponseException(ErrorU.CODE_7.C, "角色");
         }
 
         if (!params.getName().equalsIgnoreCase(role.getName())) {
@@ -106,7 +107,7 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role, RoleDto>
     public RoleDto getRole(Long fid) {
         Role role = getBaseMapper().selectById(fid);
         if (role == null) {
-            throw new ApiResponseException(5030);
+            throw new ApiResponseException(ErrorU.CODE_7.C, "角色");
         }
         return getBaseDto(role);
     }

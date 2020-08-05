@@ -1,6 +1,7 @@
 package com.jeramtough.randl2.action.controller;
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.personalinfo.UpdatePersonalInfoParams;
 import com.jeramtough.randl2.model.params.registereduser.*;
 import com.jeramtough.randl2.model.params.surfaceimage.UploadSurfaceImageParams;
@@ -49,16 +50,18 @@ public class RegisteredUserLoginedController extends BaseController {
     @ApiOperation(value = "游客登录", notes = "游客登录，授予游客身份令牌")
     @RequestMapping(value = "/login/visitor", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 10008, message = "游客身份账号密码不正确")
+            @ApiResponse(code = ErrorU.CODE_302.C, message = ErrorU.CODE_302.M),
     })
-    public CommonApiResponse<Map<String, Object>> loginForVisitor(LoginForVisitorCredentials credentials) {
+    public CommonApiResponse<Map<String, Object>> loginForVisitor(
+            LoginForVisitorCredentials credentials) {
         return getSuccessfulApiResponse(
                 registeredUserLoginService.loginForVisitor(credentials));
     }
 
     @ApiOperation(value = "登录1", notes = "普通注册用户通过密码登录")
     @RequestMapping(value = "/login/byPassword", method = {RequestMethod.POST})
-    public CommonApiResponse<Map<String, Object>> login1(LoginByPasswordCredentials credentials) {
+    public CommonApiResponse<Map<String, Object>> login1(
+            LoginByPasswordCredentials credentials) {
         return getSuccessfulApiResponse(
                 registeredUserLoginService.loginByPassword(credentials));
     }
@@ -67,9 +70,10 @@ public class RegisteredUserLoginedController extends BaseController {
     @ApiOperation(value = "登录2", notes = "普通注册用户通过验证码登录")
     @RequestMapping(value = "/login/byVerificationCode", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 10003, message = "登录失败，该账号或者密码并没有注册过本系统")
+            @ApiResponse(code = ErrorU.CODE_303.C, message = ErrorU.CODE_303.M)
     })
-    public CommonApiResponse<Map<String, Object>> login2(LoginByVerificationCodeCredentials credentials) {
+    public CommonApiResponse<Map<String, Object>> login2(
+            LoginByVerificationCodeCredentials credentials) {
         return getSuccessfulApiResponse(
                 registeredUserLoginService.loginByVerificationCode(credentials));
     }
@@ -86,7 +90,8 @@ public class RegisteredUserLoginedController extends BaseController {
     @RequestMapping(value = "/logined/updatePersonalInfo", method = {RequestMethod.POST})
     @ApiResponses(value = {
     })
-    public CommonApiResponse<String> updateAdminUser(@RequestBody UpdatePersonalInfoParams params) {
+    public CommonApiResponse<String> updateAdminUser(
+            @RequestBody UpdatePersonalInfoParams params) {
         return getSuccessfulApiResponse(
                 registeredUserLoginedService.updatePersonalInfo(params));
     }
@@ -94,8 +99,7 @@ public class RegisteredUserLoginedController extends BaseController {
     @ApiOperation(value = "重置密码", notes = "重置当前登录用户的密码")
     @RequestMapping(value = "/logined/resetPassword", method = RequestMethod.POST)
     @ApiResponses(value = {
-            @ApiResponse(code = 10004, message = "重置失败，旧密码不正确"),
-            @ApiResponse(code = 10005, message = "新密码和重复新密码不一致")
+            @ApiResponse(code = ErrorU.CODE_206.C, message = ErrorU.CODE_206.M),
     })
     public CommonApiResponse<String> resetPassword(
             @RequestBody ResetPasswordParams params) {
@@ -117,8 +121,8 @@ public class RegisteredUserLoginedController extends BaseController {
     @ApiOperation(value = "绑定", notes = "绑定账号的手机号码或者邮箱")
     @RequestMapping(value = "/logined/bindingPhoneOrEmail", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 10006, message = "绑定的号码或者地址不能与当前的重复"),
-            @ApiResponse(code = 10007, message = "绑定的号码或者地址已被其他账号所绑定")
+            @ApiResponse(code = ErrorU.CODE_207.C, message = ErrorU.CODE_207.M),
+            @ApiResponse(code = ErrorU.CODE_208.C, message = ErrorU.CODE_208.M),
     })
     public CommonApiResponse<String> bindingPhoneOrEmail(
             @RequestBody BindingPhoneOrEmailParams params) {

@@ -16,7 +16,11 @@ public class AddRoleParams {
 
     @ApiModelProperty(value = "角色名", example = "TEST", required = true)
     @NotNull(message = ErrorU.CODE_1.C + "")
-    @Pattern(regexp = "^([a-zA-Z]|[-]|[_])+$", message = "5002")
+
+    @Pattern(regexp = "^([a-zA-Z]|[-]|[_])+$",
+            message = "{'code':" + ErrorU.CODE_2.C + (",'placeholders':[" +
+                    "'角色名只允许输入英文字母或者下划线或减号'," +
+                    "]}"))
     private String name;
 
     @ApiModelProperty(value = "角色描述", example = "who", required = true)

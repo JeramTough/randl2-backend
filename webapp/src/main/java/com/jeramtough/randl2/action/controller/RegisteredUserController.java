@@ -2,7 +2,6 @@ package com.jeramtough.randl2.action.controller;
 
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
-import com.jeramtough.randl2.model.error.ErrorS;
 import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.QueryByPageParams;
 import com.jeramtough.randl2.model.params.registereduser.*;
@@ -55,7 +54,7 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "找回密码账号校验", notes = "校验手机号码或者邮箱")
     @RequestMapping(value = "/verify/phoneOrEmailByForget", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = ErrorU.CODE_203.C, message = ErrorU.CODE_203.M),
+            @ApiResponse(code = ErrorU.CODE_205.C, message = ErrorU.CODE_205.M),
     })
     public CommonApiResponse<Map<String, Object>> verifyPhoneOrEmailByForget(@RequestBody
                                                                                      VerifyPhoneOrEmailByForgetParams params) {
@@ -66,8 +65,8 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "注册时用户密码校验", notes = "注册时用户密码校验")
     @RequestMapping(value = "/verify/password", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = ErrorU.CODE_204.C, message = ErrorU.CODE_204.M),
-            @ApiResponse(code = ErrorU.CODE_205.C, message = ErrorU.CODE_205.M),
+            @ApiResponse(code = ErrorU.CODE_201.C, message = ErrorU.CODE_201.M),
+            @ApiResponse(code = ErrorU.CODE_101.C, message = ErrorU.CODE_101.M),
     })
     public CommonApiResponse<String> verifyPassword(@RequestBody VerifyPasswordParams params) {
         return getSuccessfulApiResponse(registeredUserService.verifyPassword(params));
@@ -76,9 +75,9 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "找回密码时用户密码校验", notes = "找回密码时用户密码校验")
     @RequestMapping(value = "/verify/passwordByForget", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = ErrorU.CODE_204.C, message = ErrorU.CODE_204.M),
-            @ApiResponse(code = ErrorU.CODE_205.C, message = ErrorU.CODE_205.M),
-            @ApiResponse(code = ErrorU.CODE_206.C, message = ErrorU.CODE_206.M),
+            @ApiResponse(code = ErrorU.CODE_201.C, message = ErrorU.CODE_201.M),
+            @ApiResponse(code = ErrorU.CODE_101.C, message = ErrorU.CODE_101.M),
+            @ApiResponse(code = ErrorU.CODE_209.C, message = ErrorU.CODE_209.M),
     })
     public CommonApiResponse<Object> verifyPasswordByForget(
             @RequestBody VerifyPasswordParams params) {
@@ -88,9 +87,9 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "确定注册", notes = "注册该用户")
     @RequestMapping(value = "/register", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = ErrorU.CODE_204.C, message = ErrorU.CODE_204.M),
-            @ApiResponse(code = ErrorU.CODE_207.C, message = ErrorU.CODE_207.M),
-            @ApiResponse(code = ErrorU.CODE_208.C, message = ErrorU.CODE_208.M),
+            @ApiResponse(code = ErrorU.CODE_201.C, message = ErrorU.CODE_201.M),
+            @ApiResponse(code = ErrorU.CODE_202.C, message = ErrorU.CODE_202.M),
+            @ApiResponse(code = ErrorU.CODE_401.C, message = ErrorU.CODE_401.M),
     })
     public CommonApiResponse<RegisteredUserDto> registerUser(
             @RequestBody DoRegisterOrResetParams params) {
@@ -100,10 +99,10 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "确定重置", notes = "重置密码")
     @RequestMapping(value = "/reset", method = {RequestMethod.POST})
     @ApiResponses(value = {
+            @ApiResponse(code = ErrorU.CODE_201.C, message = ErrorU.CODE_201.M),
+            @ApiResponse(code = ErrorU.CODE_401.C, message = ErrorU.CODE_401.M),
+            @ApiResponse(code = ErrorU.CODE_203.C, message = ErrorU.CODE_203.M),
             @ApiResponse(code = ErrorU.CODE_204.C, message = ErrorU.CODE_204.M),
-            @ApiResponse(code = ErrorU.CODE_208.C, message = ErrorU.CODE_208.M),
-            @ApiResponse(code = ErrorU.CODE_209.C, message = ErrorU.CODE_209.M),
-            @ApiResponse(code = ErrorU.CODE_210.C, message = ErrorU.CODE_210.M),
     })
     public CommonApiResponse<RegisteredUserDto> resetUser(
             @RequestBody DoRegisterOrResetParams params) {
@@ -137,9 +136,6 @@ public class RegisteredUserController extends BaseController {
     @ApiOperation(value = "更新", notes = "更新普通注册用户账号信息")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = ErrorU.CODE_211.C, message = ErrorU.CODE_211.M),
-            @ApiResponse(code = ErrorU.CODE_104.C, message = ErrorU.CODE_104.M),
-            @ApiResponse(code = ErrorU.CODE_105.C, message = ErrorU.CODE_105.M),
     })
     public CommonApiResponse<String> updateRegisteredUser(
             @RequestBody UpdateRegisteredUserParams params) {

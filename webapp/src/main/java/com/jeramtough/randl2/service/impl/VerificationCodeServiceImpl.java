@@ -4,6 +4,7 @@ import com.jeramtough.jtcomponent.task.bean.TaskResult;
 import com.jeramtough.jtcomponent.utils.ValidationUtil;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.verificationcode.SendVerificationCodeParams;
 import com.jeramtough.randl2.model.params.verificationcode.VerifyVerificationCodeParams;
 import com.jeramtough.randl2.component.verificationcode.RedisVerificationCodeHolder;
@@ -56,7 +57,7 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
                 sender.getLastSentVerificationCodeInterval(params.getPhoneOrEmail());
         if (lastSentVerificationCodeInterval < maxInterval) {
             int residualInterval = maxInterval - lastSentVerificationCodeInterval;
-            throw new ApiResponseException(8000, residualInterval + "");
+            throw new ApiResponseException(ErrorU.CODE_402.C, residualInterval + "");
         }
 
         String verificationCode =
@@ -66,7 +67,7 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
         TaskResult taskResult =
                 sender.send(params.getPhoneOrEmail(), verificationCode, isTest);
         if (!taskResult.isSuccessful()) {
-            throw new ApiResponseException(8001, taskResult.getMessage());
+            throw new ApiResponseException(ErrorU.CODE_403.C, taskResult.getMessage());
         }
         return "验证码" + (isTest ? verificationCode : "") + "以成功发送到【"
                 + params.getPhoneOrEmail() + "】,30分钟内有效";
@@ -81,7 +82,7 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
                 params.getPhoneOrEmail(),
                 params.getVerificationCode());
         if (!taskResult.isSuccessful()) {
-            throw new ApiResponseException(8002, taskResult.getMessage());
+            throw new ApiResponseException(ErrorU.CODE_404.C, taskResult.getMessage());
         }
         return "验证码校验成功";
     }

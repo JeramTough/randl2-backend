@@ -2,6 +2,7 @@ package com.jeramtough.randl2.service.impl;
 
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.personalinfo.UpdatePersonalInfoParams;
 import com.jeramtough.randl2.model.params.registereduser.BindingPhoneOrEmailParams;
 import com.jeramtough.randl2.model.params.registereduser.ResetPasswordParams;
@@ -98,11 +99,11 @@ public class RegisteredUserLoginedServiceImpl extends BaseServiceImpl<Registered
         boolean isPass = passwordEncoder.matches(params.getOldPassword(),
                 systemUser.getPassword());
         if (!isPass) {
-            throw new ApiResponseException(10004);
+            throw new ApiResponseException(ErrorU.CODE_206.C);
         }
 
         if (!params.getNewPassword().equals(params.getRepeatedNewPassword())) {
-            throw new ApiResponseException(10005);
+            throw new ApiResponseException(ErrorU.CODE_101.C);
         }
 
         systemUser.setPassword(passwordEncoder.encode(params.getNewPassword()));
@@ -121,10 +122,10 @@ public class RegisteredUserLoginedServiceImpl extends BaseServiceImpl<Registered
             case PHONE:
                 if (systemUser.getPhoneNumber() != null && systemUser.getPhoneNumber().equals(
                         params.getPhoneOrEmail())) {
-                    throw new ApiResponseException(10006);
+                    throw new ApiResponseException(ErrorU.CODE_207.C);
                 }
                 if (getBaseMapper().selectByPhoneNumber(params.getPhoneOrEmail()) != null) {
-                    throw new ApiResponseException(10007);
+                    throw new ApiResponseException(ErrorU.CODE_208.C);
                 }
                 verificationCodeService.verify(
                         new VerifyVerificationCodeParams(params.getVerificationCode(),
@@ -135,11 +136,12 @@ public class RegisteredUserLoginedServiceImpl extends BaseServiceImpl<Registered
                         systemUser.getPhoneNumber());
                 break;
             case EMAIL:
-                if (systemUser.getEmailAddress() != null &&systemUser.getEmailAddress().equals(params.getPhoneOrEmail())) {
-                    throw new ApiResponseException(10006);
+                if (systemUser.getEmailAddress() != null && systemUser.getEmailAddress().equals(
+                        params.getPhoneOrEmail())) {
+                    throw new ApiResponseException(ErrorU.CODE_207.C);
                 }
                 if (getBaseMapper().selectByEmailAddress(params.getPhoneOrEmail()) != null) {
-                    throw new ApiResponseException(10007);
+                    throw new ApiResponseException(ErrorU.CODE_208.C);
                 }
                 verificationCodeService.verify(
                         new VerifyVerificationCodeParams(params.getVerificationCode(),

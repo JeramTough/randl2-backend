@@ -21,8 +21,9 @@ import io.swagger.annotations.ApiResponses;
         @ApiResponse(code = ErrorU.CODE_6.C, message = ErrorU.CODE_6.M),
         @ApiResponse(code = ErrorU.CODE_7.C, message = ErrorU.CODE_7.M),
         @ApiResponse(code = ErrorU.CODE_8.C, message = ErrorU.CODE_8.M),
+        @ApiResponse(code = ErrorU.CODE_9.C, message = ErrorU.CODE_9.M),
 
-        @ApiResponse(code = ErrorU.CODE_7.C, message = ErrorS.CODE_1.M),
+        @ApiResponse(code = ErrorS.CODE_1.C, message = ErrorS.CODE_1.M),
 })
 public abstract class BaseController extends BaseSwaggerController {
 

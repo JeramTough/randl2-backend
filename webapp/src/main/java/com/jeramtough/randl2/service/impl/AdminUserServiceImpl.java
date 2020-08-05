@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.randl2.model.error.ErrorS;
 import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.QueryByPageParams;
 import com.jeramtough.randl2.model.params.adminuser.AdminUserCredentials;
@@ -82,7 +81,7 @@ public class AdminUserServiceImpl
         SystemUser systemUser = userLoginer.login(adminUserCredentials);
 
         if (systemUser == null) {
-            throw new ApiResponseException(ErrorU.CODE_101.C);
+            throw new ApiResponseException(ErrorU.CODE_301.C);
         }
 
         UserHolder.afterLogin(systemUser);
@@ -109,13 +108,13 @@ public class AdminUserServiceImpl
         if (!params.getPassword().equals(
                 params.getRepeatedPassword())) {
             //重复密码不一致
-            throw new ApiResponseException(ErrorU.CODE_102.C);
+            throw new ApiResponseException(ErrorU.CODE_101.C);
         }
 
         if (getBaseMapper().selectOne(new QueryWrapper<AdminUser>().eq("username",
                 params.getUsername())) != null) {
             //存在同名用户
-            throw new ApiResponseException(1013);
+            throw new ApiResponseException(ErrorU.CODE_9.C, "用户名");
         }
 
         if (params.getPhoneNumber() != null && (getBaseMapper().selectCount(

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.permission.AddApiParams;
 import com.jeramtough.randl2.model.params.permission.UpdateApiParams;
 import com.jeramtough.randl2.model.entity.Api;
@@ -48,12 +49,12 @@ public class ApiServiceImpl extends BaseServiceImpl<ApiMapper, Api, ApiDto>
 
         if (getBaseMapper().selectOne(
                 new QueryWrapper<Api>().eq("path", params.getPath())) != null) {
-            throw new ApiResponseException(4001);
+            throw new ApiResponseException(ErrorU.CODE_9.C, "接口路径");
         }
 
         if (getBaseMapper().selectOne(
                 new QueryWrapper<Api>().eq("alias", params.getAlias())) != null) {
-            throw new ApiResponseException(4002);
+            throw new ApiResponseException(ErrorU.CODE_9.C, "接口别名");
         }
 
         Api api = getMapperFacade().map(params, Api.class);
@@ -65,7 +66,7 @@ public class ApiServiceImpl extends BaseServiceImpl<ApiMapper, Api, ApiDto>
     public String delete(Long fid) {
         Api api = getBaseMapper().selectById(fid);
         if (api == null) {
-            throw new ApiResponseException(4010);
+            throw new ApiResponseException(ErrorU.CODE_7.C, "接口");
         }
         getBaseMapper().deleteById(fid);
         return "删除接口【" + api.getPath() + "】成功";
@@ -83,18 +84,18 @@ public class ApiServiceImpl extends BaseServiceImpl<ApiMapper, Api, ApiDto>
 
         Api api = getBaseMapper().selectById(params.getFid());
         if (api == null) {
-            throw new ApiResponseException(4021);
+            throw new ApiResponseException(ErrorU.CODE_7.C, "接口");
         }
         if (!api.getPath().equals(params.getPath())) {
             if (getBaseMapper().selectOne(
                     new QueryWrapper<Api>().eq("path", params.getPath())) != null) {
-                throw new ApiResponseException(4001);
+                throw new ApiResponseException(ErrorU.CODE_9.C, "接口路径");
             }
         }
         if (!api.getAlias().equals(params.getAlias())) {
             if (getBaseMapper().selectOne(
                     new QueryWrapper<Api>().eq("alias", params.getAlias())) != null) {
-                throw new ApiResponseException(4002);
+                throw new ApiResponseException(ErrorU.CODE_9.C, "接口别名");
             }
         }
         api = getMapperFacade().map(params, Api.class);
@@ -106,7 +107,7 @@ public class ApiServiceImpl extends BaseServiceImpl<ApiMapper, Api, ApiDto>
     public ApiDto getApi(Long fid) {
         Api api = getBaseMapper().selectById(fid);
         if (api == null) {
-            throw new ApiResponseException(4030);
+            throw new ApiResponseException(ErrorU.CODE_7.C, "接口");
         }
         return getBaseDto(api);
     }
@@ -124,7 +125,7 @@ public class ApiServiceImpl extends BaseServiceImpl<ApiMapper, Api, ApiDto>
                     .or().like("description", "%" + keyword + "%");
         List<Api> apiList = getBaseMapper().selectList(queryWrapper);
         if (apiList == null) {
-            throw new ApiResponseException(4040);
+            throw new ApiResponseException(ErrorU.CODE_8.C, "接口");
         }
         return getDtoList(apiList);
     }

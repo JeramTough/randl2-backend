@@ -47,7 +47,7 @@ public class AdminUserController extends BaseController {
             @ApiImplicitParam(name = "password", value = "密码", paramType = "query",
                     required = true, dataType = "String", defaultValue = "superadmin")})
     @ApiResponses(value = {
-            @ApiResponse(code = ErrorU.CODE_101.C, message = ErrorU.CODE_101.M),
+            @ApiResponse(code = ErrorU.CODE_301.C, message = ErrorU.CODE_301.M),
     })
     public CommonApiResponse<SystemUserDto> login(
             @RequestParam(required = false) String username,
@@ -61,9 +61,6 @@ public class AdminUserController extends BaseController {
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
     @ApiResponses(value = {
             @ApiResponse(code = ErrorU.CODE_102.C, message = ErrorU.CODE_102.M),
-            @ApiResponse(code = ErrorU.CODE_103.C, message = ErrorU.CODE_103.M),
-            @ApiResponse(code = ErrorU.CODE_104.C, message = ErrorU.CODE_103.M),
-            @ApiResponse(code = ErrorU.CODE_105.C, message = ErrorU.CODE_103.M),
     })
     public CommonApiResponse<String> addAdminUser1(
             @RequestBody RegisterAdminUserParams params) {

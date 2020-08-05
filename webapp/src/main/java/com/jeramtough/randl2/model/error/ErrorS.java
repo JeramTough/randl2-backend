@@ -18,7 +18,12 @@ public class ErrorS {
 
     public static final class CODE_1 {
         public static final int C = 10001;
-        public static final String M = "【系统公共错误码】系统执行出错，请联系";
+        public static final String M = "【系统公共错误码】系统执行超时。。。";
+    }
+
+    public static final class CODE_2 {
+        public static final int C = 10002;
+        public static final String M = "【系统公共错误码】系统读取资源失败！";
     }
 
     //=========================

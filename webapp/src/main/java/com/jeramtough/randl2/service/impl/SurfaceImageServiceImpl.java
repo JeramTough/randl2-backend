@@ -4,6 +4,7 @@ import com.jeramtough.jtcomponent.key.util.KeyUtil;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.surfaceimage.UpdateCurrentAdminSurfaceImageParams;
 import com.jeramtough.randl2.model.params.surfaceimage.UpdateSurfaceImageParams;
 import com.jeramtough.randl2.model.params.surfaceimage.UploadSurfaceImageParams;
@@ -59,17 +60,17 @@ public class SurfaceImageServiceImpl extends BaseServiceImpl<SurfaceImageMapper,
     public String addUpdateSurfaceImage(MultipartFile file) {
 //        String suffix = file.getContentType().split("/")[1].equals("png") ? "png" : "jpg";
         if (file.isEmpty()) {
-            throw new ApiResponseException(6000);
+            throw new ApiResponseException(ErrorU.CODE_601.C);
         }
-        //图片大小不允许超过100kb
+        //图片大小不允许超过500kb
         if (file.getSize() > 1024 * 500) {
-            throw new ApiResponseException(6001);
+            throw new ApiResponseException(ErrorU.CODE_602.C, "500kb");
         }
 
         boolean isImage = "image/jpeg".equals(file.getContentType()) || "image/png".equals(
                 file.getContentType());
         if (!isImage) {
-            throw new ApiResponseException(6002);
+            throw new ApiResponseException(ErrorU.CODE_603.C, "jpg或png");
         }
 
         try {
@@ -93,7 +94,7 @@ public class SurfaceImageServiceImpl extends BaseServiceImpl<SurfaceImageMapper,
     public String getUpdateSurfaceImageByUid(Long uid) {
         RegisteredUser registeredUser = registeredUserMapper.selectById(uid);
         if (registeredUser == null) {
-            throw new ApiResponseException(6010);
+            throw new ApiResponseException(ErrorU.CODE_7.C, "用户");
         }
         SurfaceImage surfaceImage = getById(registeredUser.getSurfaceImageId());
         return surfaceImage.getSurfaceImage();
@@ -103,7 +104,7 @@ public class SurfaceImageServiceImpl extends BaseServiceImpl<SurfaceImageMapper,
     public String getUpdateSurfaceImageById(Long fid) {
         SurfaceImage surfaceImage = getById(fid);
         if (surfaceImage == null) {
-            throw new ApiResponseException(6020);
+            throw new ApiResponseException(ErrorU.CODE_7.C, "图片");
         }
         return surfaceImage.getSurfaceImage();
     }
@@ -113,7 +114,7 @@ public class SurfaceImageServiceImpl extends BaseServiceImpl<SurfaceImageMapper,
 
         RegisteredUser registeredUser = registeredUserMapper.selectById(params.getUid());
         if (registeredUser == null) {
-            throw new ApiResponseException(6010);
+            throw new ApiResponseException(ErrorU.CODE_7.C, "用户");
         }
 
         UploadSurfaceImageParams uploadParams = new UploadSurfaceImageParams();
@@ -143,7 +144,7 @@ public class SurfaceImageServiceImpl extends BaseServiceImpl<SurfaceImageMapper,
 
         SystemUser systemUser = UserHolder.getSystemUser();
         if (UserHolder.isSuperAdmin()) {
-            throw new ApiResponseException(6030);
+            throw new ApiResponseException(ErrorU.CODE_604.C);
         }
 
         SurfaceImage surfaceImage = getMapperFacade().map(params,

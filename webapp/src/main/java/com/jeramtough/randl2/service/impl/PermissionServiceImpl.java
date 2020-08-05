@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.permission.PermissionParams;
 import com.jeramtough.randl2.component.userdetail.SuperAdmin;
 import com.jeramtough.randl2.model.entity.Api;
@@ -58,9 +59,9 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Per
     public List<PermissionDto> getPermissionListByRoleId(Long roleId) {
         if (roleId.equals(SuperAdmin.ROLE_ID)) {
             List<PermissionDto> permissionDtoList = new ArrayList<>();
-            List<Api> apiList=apiMapper.selectList(null);
+            List<Api> apiList = apiMapper.selectList(null);
             for (Api api : apiList) {
-                PermissionDto permissionDto=new PermissionDto();
+                PermissionDto permissionDto = new PermissionDto();
                 permissionDto.setApiDescription(api.getDescription());
                 permissionDto.setApiId(api.getFid());
                 permissionDto.setApiPath(api.getPath());
@@ -73,6 +74,9 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Per
             return permissionDtoList;
         }
         else {
+            if (roleMapper.selectById(roleId) == null) {
+                throw new ApiResponseException(ErrorU.CODE_7.C, "角色");
+            }
             return getBaseMapper().selectListPermissionDtoByRoleId(roleId);
         }
     }
@@ -83,7 +87,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Per
 
         Role role = roleMapper.selectById(permissionParams.getRoleId());
         if (role == null) {
-            throw new ApiResponseException(3001);
+            throw new ApiResponseException(ErrorU.CODE_7.C, "角色");
         }
 
         //先移除该角色的所有接口权限，然后在重新设置回去
@@ -107,7 +111,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Per
         BeanValidator.verifyDto(permissionParams);
 
         if (roleMapper.selectById(permissionParams.getRoleId()) == null) {
-            throw new ApiResponseException(3001);
+            throw new ApiResponseException(ErrorU.CODE_7.C, "角色");
         }
 
         for (Long apiId : permissionParams.getApiIds()) {

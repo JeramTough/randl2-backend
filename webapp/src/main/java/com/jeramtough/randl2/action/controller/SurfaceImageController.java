@@ -2,6 +2,7 @@ package com.jeramtough.randl2.action.controller;
 
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.surfaceimage.UpdateCurrentAdminSurfaceImageParams;
 import com.jeramtough.randl2.model.params.surfaceimage.UpdateSurfaceImageParams;
 import com.jeramtough.randl2.model.params.surfaceimage.UploadSurfaceImageParams;
@@ -39,9 +40,9 @@ public class SurfaceImageController extends BaseController {
                     allowMultiple = true,
                     required = true, paramType = "form")})
     @ApiResponses(value = {
-            @ApiResponse(code = 6000, message = "上传失败，上传数据为空"),
-            @ApiResponse(code = 6001, message = "上传失败，头像图片大小不允许超过500kb"),
-            @ApiResponse(code = 6002, message = "上传失败，图片格式只能为jpg或png")
+            @ApiResponse(code = ErrorU.CODE_601.C, message = ErrorU.CODE_601.M),
+            @ApiResponse(code = ErrorU.CODE_602.C, message = ErrorU.CODE_602.M),
+            @ApiResponse(code = ErrorU.CODE_603.C, message = ErrorU.CODE_603.M),
     })
     public CommonApiResponse<String> uploadAndUpdateUserSurfaceImage(
             @RequestParam("file") MultipartFile file) {
@@ -51,7 +52,7 @@ public class SurfaceImageController extends BaseController {
     @ApiOperation(value = "更新管理员", notes = "更新当前登录管理员账户的头像")
     @RequestMapping(value = "/updateCurrentAdmin", method = RequestMethod.POST)
     @ApiResponses(value = {
-            @ApiResponse(code = 6030, message = "管理员账户头像不允许被修改")
+            @ApiResponse(code = ErrorU.CODE_604.C, message = ErrorU.CODE_604.M),
     })
     public CommonApiResponse<SurfaceImageDto> updateAdminSurfaceImageByBase64(
             @RequestBody UpdateCurrentAdminSurfaceImageParams params) {
@@ -85,7 +86,6 @@ public class SurfaceImageController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "uid", value = "用户ID", required = true)})
     @ApiResponses(value = {
-            @ApiResponse(code = 6010, message = "该用户ID不存在")
     })
     public CommonApiResponse<String> getUserSurfaceImage(@RequestParam Long uid) {
         return getSuccessfulApiResponse(surfaceImageService.getUpdateSurfaceImageByUid(uid));
@@ -96,7 +96,6 @@ public class SurfaceImageController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "fid", value = "图片ID", required = true)})
     @ApiResponses(value = {
-            @ApiResponse(code = 6020, message = "该图片ID不存在")
     })
     public CommonApiResponse<String> getUserSurfaceImageById(@RequestParam Long fid) {
         return getSuccessfulApiResponse(surfaceImageService.getUpdateSurfaceImageById(fid));

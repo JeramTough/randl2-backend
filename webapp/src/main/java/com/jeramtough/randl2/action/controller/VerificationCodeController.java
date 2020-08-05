@@ -1,6 +1,7 @@
 package com.jeramtough.randl2.action.controller;
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.verificationcode.SendVerificationCodeParams;
 import com.jeramtough.randl2.model.params.verificationcode.VerifyVerificationCodeParams;
 import com.jeramtough.randl2.service.VerificationCodeService;
@@ -35,8 +36,8 @@ public class VerificationCodeController extends BaseController {
     @ApiOperation(value = "发送验证码", notes = "发送手机或邮箱验证码")
     @RequestMapping(value = "/send", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 8000, message = "发送频率限制，距离下次可发送验证码还有%s秒"),
-            @ApiResponse(code = 8001, message = "发送失败，因为%s")
+            @ApiResponse(code = ErrorU.CODE_402.C, message = ErrorU.CODE_402.M),
+            @ApiResponse(code = ErrorU.CODE_403.C, message = ErrorU.CODE_403.M),
     })
     public CommonApiResponse<String> send(SendVerificationCodeParams params) {
         return getSuccessfulApiResponse(verificationCodeService.send(params));
@@ -46,7 +47,7 @@ public class VerificationCodeController extends BaseController {
     @ApiOperation(value = "校验验证码", notes = "验收验证码是否正确")
     @RequestMapping(value = "/verify", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 8002, message = "验证码校验失败！[%s]"),
+            @ApiResponse(code = ErrorU.CODE_404.C, message = ErrorU.CODE_404.M),
     })
     public CommonApiResponse<String> verify(VerifyVerificationCodeParams params) {
         return getSuccessfulApiResponse(verificationCodeService.verify(params));

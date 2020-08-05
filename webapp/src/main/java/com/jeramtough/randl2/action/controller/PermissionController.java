@@ -36,8 +36,6 @@ public class PermissionController extends BaseSwaggerController {
     @ApiOperation(value = "设置", notes = "系统管理员增加API接口权限")
     @RequestMapping(value = "/set", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 3000, message = "roleId参数不能为空"),
-            @ApiResponse(code = 3001, message = "该角色roleId不存在")
     })
     public CommonApiResponse<String> addPermissions(
             @RequestBody PermissionParams permissionParams) {

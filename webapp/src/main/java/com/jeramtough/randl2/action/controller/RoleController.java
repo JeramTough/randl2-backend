@@ -3,6 +3,7 @@ package com.jeramtough.randl2.action.controller;
 
 import com.jeramtough.jtweb.action.controller.BaseSwaggerController;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.QueryByPageParams;
 import com.jeramtough.randl2.model.params.permission.AddRoleParams;
 import com.jeramtough.randl2.model.params.permission.UpdateRoleParams;
@@ -36,53 +37,47 @@ public class RoleController extends BaseSwaggerController {
         this.roleService = roleService;
     }
 
-    @ApiOperation(value = "新增", notes = "新增系统角色")
+    @ApiOperation(value = "新增", notes = "新增角色")
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 5000, message = "添加系统角色失败，[%s]参数不能为空"),
-            @ApiResponse(code = 5001, message = "该系统角色已存在"),
-            @ApiResponse(code = 5002, message = "角色名只允许输入英文字母或者下划线或减号")
     })
     public CommonApiResponse<String> addRole(@RequestBody AddRoleParams params) {
         return getSuccessfulApiResponse(roleService.addRole(params));
     }
 
-    @ApiOperation(value = "删除", notes = "删除系统角色")
+    @ApiOperation(value = "删除", notes = "删除角色")
     @RequestMapping(value = "/remove", method = {RequestMethod.POST, RequestMethod.GET})
     @ApiImplicitParams({
             @ApiImplicitParam(name = "fid", value = "ID", paramType = "query",
                     required = true, defaultValue = "1")})
     @ApiResponses(value = {
-            @ApiResponse(code = 5010, message = "删除系统角色失败！该系统角色不存在"),
-            @ApiResponse(code = 5011, message = "删除系统角色失败！因为还有管理员账号被赋予该角色，请修改后重试！"),
+            @ApiResponse(code = ErrorU.CODE_501.C, message =
+                    ErrorU.CODE_501.M),
     })
     public CommonApiResponse<String> deleteRole(Long fid) {
         return getSuccessfulApiResponse(roleService.deleteRole(fid));
     }
 
-    @ApiOperation(value = "更新", notes = "更新系统角色")
+    @ApiOperation(value = "更新", notes = "更新角色")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 5020, message = "更新系统角色失败，[%s]参数不能为空"),
-            @ApiResponse(code = 5021, message = "更新系统角色失败！该角色不存在")
     })
     public CommonApiResponse<String> updateRole(@RequestBody UpdateRoleParams params) {
         return getSuccessfulApiResponse(roleService.updateRole(params));
     }
 
-    @ApiOperation(value = "查询一个", notes = "查询一个系统角色")
+    @ApiOperation(value = "查询一个", notes = "查询一个角色")
     @RequestMapping(value = "/one", method = {RequestMethod.GET})
     @ApiImplicitParams({
             @ApiImplicitParam(name = "fid", value = "ID", paramType = "query",
                     required = true, defaultValue = "1")})
     @ApiResponses(value = {
-            @ApiResponse(code = 5030, message = "查询系统角色失败！该系统角色不存在"),
     })
     public CommonApiResponse<RoleDto> getRole(Long fid) {
         return getSuccessfulApiResponse(roleService.getRole(fid));
     }
 
-    @ApiOperation(value = "查询全部", notes = "查询全部系统角色")
+    @ApiOperation(value = "查询全部", notes = "查询全部角色")
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
     public CommonApiResponse<List<RoleDto>> getAllRole() {
         return getSuccessfulApiResponse(roleService.getAllRole());

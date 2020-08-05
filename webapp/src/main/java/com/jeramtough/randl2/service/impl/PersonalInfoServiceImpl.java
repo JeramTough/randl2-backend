@@ -3,6 +3,7 @@ package com.jeramtough.randl2.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.personalinfo.UpdatePersonalInfoParams;
 import com.jeramtough.randl2.model.entity.PersonalInfo;
 import com.jeramtough.randl2.dao.mapper.PersonalInfoMapper;
@@ -93,7 +94,7 @@ public class PersonalInfoServiceImpl extends BaseServiceImpl<PersonalInfoMapper,
         BeanValidator.verifyDto(params);
 
         if (params.getFid() == null && params.getUid() == null) {
-            throw new ApiResponseException(9001);
+            throw new ApiResponseException(ErrorU.CODE_102.C);
         }
         long fid = params.getFid();
 

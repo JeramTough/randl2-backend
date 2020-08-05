@@ -3,6 +3,7 @@ package com.jeramtough.randl2.action.controller;
 
 import com.jeramtough.jtweb.action.controller.BaseSwaggerController;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.QueryByPageParams;
 import com.jeramtough.randl2.model.params.permission.AddApiParams;
 import com.jeramtough.randl2.model.params.permission.UpdateApiParams;
@@ -38,9 +39,6 @@ public class ApiController extends BaseSwaggerController {
     @ApiOperation(value = "新增", notes = "新增系统接口")
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 4000, message = "添加接口信息失败，[%s]参数不能为空"),
-            @ApiResponse(code = 4001, message = "该接口已存在"),
-            @ApiResponse(code = 4002, message = "接口别名不能重复")
     })
     public CommonApiResponse<String> addApi(@RequestBody AddApiParams params) {
         return getSuccessfulApiResponse(apiService.addApi(params));
@@ -52,7 +50,6 @@ public class ApiController extends BaseSwaggerController {
             @ApiImplicitParam(name = "fid", value = "ID", paramType = "query",
                     required = true, defaultValue = "1")})
     @ApiResponses(value = {
-            @ApiResponse(code = 4010, message = "删除接口失败！该接口不存在"),
     })
     public CommonApiResponse<String> deleteApi(@RequestParam("fid") Long fid) {
         return getSuccessfulApiResponse(apiService.delete(fid));
@@ -61,8 +58,6 @@ public class ApiController extends BaseSwaggerController {
     @ApiOperation(value = "更新", notes = "更新系统接口")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 4020, message = "更新接口信息失败，[%s]参数不能为空"),
-            @ApiResponse(code = 4021, message = "更新接口失败！该接口不存在")
     })
     public CommonApiResponse<String> updateApi(@RequestBody UpdateApiParams params) {
         return getSuccessfulApiResponse(apiService.updateApi(params));
@@ -74,7 +69,6 @@ public class ApiController extends BaseSwaggerController {
             @ApiImplicitParam(name = "fid", value = "ID", paramType = "query",
                     required = true, defaultValue = "1")})
     @ApiResponses(value = {
-            @ApiResponse(code = 4030, message = "查询接口失败！该接口不存在"),
     })
     public CommonApiResponse<ApiDto> getApi(Long fid) {
         return getSuccessfulApiResponse(apiService.getApi(fid));
@@ -99,7 +93,8 @@ public class ApiController extends BaseSwaggerController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "keyword", value = "关键字", paramType = "query",
                     required = true, dataType = "String", defaultValue = "username")})
-    @ApiResponses(value = {@ApiResponse(code = 4040, message = "查询失败！该接口不存在")})
+    @ApiResponses(value = {
+    })
     @RequestMapping(value = "/byKeyword", method = {RequestMethod.GET})
     public CommonApiResponse<List<ApiDto>> getOneAdminUser(@RequestParam String keyword) {
         return getSuccessfulApiResponse(apiService.getApiListByKeyword(keyword));

@@ -2,6 +2,7 @@ package com.jeramtough.randl2.action.controller;
 
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.personalinfo.UpdatePersonalInfoParams;
 import com.jeramtough.randl2.model.dto.PersonalInfoDto;
 import com.jeramtough.randl2.service.PersonalInfoService;
@@ -47,9 +48,10 @@ public class PersonalInfoController extends BaseController {
     @ApiOperation(value = "更新", notes = "更新普通用户个人信息")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 9001, message = "FID参数或者UID参数必须填其中一个"),
+            @ApiResponse(code = ErrorU.CODE_102.C, message = ErrorU.CODE_102.M),
     })
-    public CommonApiResponse<String> updateAdminUser(@RequestBody UpdatePersonalInfoParams params) {
+    public CommonApiResponse<String> updateAdminUser(
+            @RequestBody UpdatePersonalInfoParams params) {
         return getSuccessfulApiResponse(personalInfoService.updatePersonalInfo(params));
     }
 

@@ -6,7 +6,6 @@ import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.dao.mapper.RoleMapper;
-import com.jeramtough.randl2.model.error.ErrorS;
 import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.registereduser.*;
 import com.jeramtough.randl2.component.registereduser.RegisterUserWay;
@@ -110,7 +109,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         RegisteredUser registeredUser =
                 getBaseMapper().selectByPhoneNumberOrEmailAddress(params.getPhoneOrEmail());
         if (registeredUser == null) {
-            throw new ApiResponseException(ErrorU.CODE_203.C);
+            throw new ApiResponseException(ErrorU.CODE_205.C);
         }
 
         String transactionId = rebuilder.rebuildRegisteredUser(registeredUser);
@@ -126,7 +125,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         RegisteredUserBuilder builder = getRegisteredUserBuilder(params.getWay());
 
         builder.setPassword(params.getTransactionId(), params.getPassword(),
-                params.getRepeatedPassword(), ErrorU.CODE_205.C, ErrorU.CODE_204.C);
+                params.getRepeatedPassword(), ErrorU.CODE_101.C, ErrorU.CODE_201.C);
         return "密码校验通过";
     }
 
@@ -135,8 +134,8 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         BeanValidator.verifyDto(params);
         RegisteredUserRebuilder rebuilder = getRegisteredUserRebuilder();
         rebuilder.setPassword(params.getTransactionId(), params.getPassword(),
-                params.getRepeatedPassword(), ErrorU.CODE_205.C, ErrorU.CODE_204.C,
-                ErrorU.CODE_206.C);
+                params.getRepeatedPassword(), ErrorU.CODE_101.C, ErrorU.CODE_201.C,
+                ErrorU.CODE_209.C);
         return "密码校验通过";
     }
 
@@ -147,7 +146,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
         RegisteredUserBuilder builder = getRegisteredUserBuilder(params.getWay());
 
         RegisteredUser registeredUser = builder.build(params.getTransactionId(),
-                ErrorU.CODE_204.C, ErrorU.CODE_207.C);
+                ErrorU.CODE_201.C, ErrorU.CODE_202.C);
 
         String phoneOrEmailOrOther = null;
         switch (builder.getRegisterUserWay()) {
@@ -161,7 +160,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
                 break;
         }
         if (!verificationCodeHolder.getVerificationResult(phoneOrEmailOrOther)) {
-            throw new ApiResponseException(ErrorU.CODE_208.C);
+            throw new ApiResponseException(ErrorU.CODE_401.C);
         }
 
         getBaseMapper().insert(registeredUser);
@@ -173,8 +172,8 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
     public synchronized RegisteredUserDto reset(DoRegisterOrResetParams params) {
         RegisteredUserRebuilder rebuilder = getRegisteredUserRebuilder();
         RegisteredUser registeredUser = rebuilder.reset(params.getTransactionId(),
-                ErrorU.CODE_209.C,
-                ErrorU.CODE_210.C);
+                ErrorU.CODE_203.C,
+                ErrorU.CODE_204.C);
 
         RegisterUserWay registerUserWay = RegisterUserWay.toRegisterUserWay(params.getWay());
         String phoneOrEmailOrOther = null;
@@ -189,7 +188,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
                 break;
         }
         if (!verificationCodeHolder.getVerificationResult(phoneOrEmailOrOther)) {
-            throw new ApiResponseException(ErrorU.CODE_208.C);
+            throw new ApiResponseException(ErrorU.CODE_401.C);
         }
 
         getBaseMapper().updateById(registeredUser);
@@ -221,7 +220,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
             if (getBaseMapper().selectOne(new QueryWrapper<RegisteredUser>().eq("account",
                     params.getAccount())) != null) {
                 //存在同名用户
-                throw new ApiResponseException(ErrorU.CODE_211.C);
+                throw new ApiResponseException(ErrorU.CODE_9.C, "帐号名");
             }
         }
 
@@ -231,7 +230,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
                         new QueryWrapper<RegisteredUser>().eq("phone_number",
                                 params.getPhoneNumber())) > 0)) {
                     //存在重复手机号码
-                    throw new ApiResponseException(ErrorU.CODE_104.C);
+                    throw new ApiResponseException(ErrorU.CODE_9.C, "手机号码");
                 }
             }
         }
@@ -243,7 +242,7 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RegisteredUserMap
                                 "email_address",
                                 params.getEmailAddress())) > 0)) {
                     //存在重复邮箱地址
-                    throw new ApiResponseException(ErrorU.CODE_105.C);
+                    throw new ApiResponseException(ErrorU.CODE_9.C, "邮箱地址");
                 }
             }
         }
