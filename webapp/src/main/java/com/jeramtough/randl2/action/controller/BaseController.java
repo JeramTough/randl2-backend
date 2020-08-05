@@ -15,8 +15,6 @@ import io.swagger.annotations.ApiResponses;
 @ApiResponses({
         @ApiResponse(code = ErrorU.CODE_1.C, message = ErrorU.CODE_1.M),
         @ApiResponse(code = ErrorU.CODE_2.C, message = ErrorU.CODE_2.M),
-        @ApiResponse(code = ErrorU.CODE_3.C, message = ErrorU.CODE_3.M),
-        @ApiResponse(code = ErrorU.CODE_4.C, message = ErrorU.CODE_4.M),
         @ApiResponse(code = ErrorU.CODE_5.C, message = ErrorU.CODE_5.M),
         @ApiResponse(code = ErrorU.CODE_6.C, message = ErrorU.CODE_6.M),
         @ApiResponse(code = ErrorU.CODE_7.C, message = ErrorU.CODE_7.M),

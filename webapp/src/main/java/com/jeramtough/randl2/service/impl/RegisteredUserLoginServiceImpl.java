@@ -57,7 +57,7 @@ public class RegisteredUserLoginServiceImpl implements RegisteredUserLoginServic
     @Override
     public void loginByExistingToken(String token) {
         if (token == null) {
-            throw new ApiResponseException(10000);
+            throw new ApiResponseException(ErrorU.CODE_3.C);
         }
 
         TaskResult taskResult = JwtTokenUtil.verifyToken(token,
@@ -70,7 +70,7 @@ public class RegisteredUserLoginServiceImpl implements RegisteredUserLoginServic
         }
         else {
             String errorMessage = taskResult.getMessage();
-            throw new ApiResponseException(10001, errorMessage);
+            throw new ApiResponseException(ErrorU.CODE_4.C, errorMessage);
         }
 
     }

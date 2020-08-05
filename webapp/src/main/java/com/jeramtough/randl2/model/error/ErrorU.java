@@ -35,7 +35,7 @@ public class ErrorU {
 
     public static final class CODE_4 {
         public static final int C = 20004;
-        public static final String M = "【系统公共错误码】JWT token验证失败！";
+        public static final String M = "【系统公共错误码】JWT token验证失败！[%s]";
     }
 
     public static final class CODE_5 {

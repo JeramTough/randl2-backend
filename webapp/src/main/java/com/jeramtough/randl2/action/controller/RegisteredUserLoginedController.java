@@ -30,8 +30,8 @@ import java.util.Map;
 @Api(tags = {"普通注册用户登录后接口"})
 @RequestMapping("/registeredUser")
 @ApiResponses({
-        @ApiResponse(code = 10000, message = "http头部信息没有Authorization或者格式不是‘Bearer token’"),
-        @ApiResponse(code = 10001, message = "token校验失败，[%s]’"),
+        @ApiResponse(code = ErrorU.CODE_3.C, message = ErrorU.CODE_3.M),
+        @ApiResponse(code = ErrorU.CODE_4.C, message = ErrorU.CODE_4.M),
 
 })
 public class RegisteredUserLoginedController extends BaseController {
