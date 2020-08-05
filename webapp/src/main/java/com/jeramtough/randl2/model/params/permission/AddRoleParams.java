@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.model.params.permission;
 
+import com.jeramtough.randl2.model.error.ErrorU;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotNull;
@@ -14,12 +15,12 @@ import javax.validation.constraints.Pattern;
 public class AddRoleParams {
 
     @ApiModelProperty(value = "角色名", example = "TEST", required = true)
-    @NotNull(message = "{'code':5000,'placeholders':['角色名']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @Pattern(regexp = "^([a-zA-Z]|[-]|[_])+$", message = "5002")
     private String name;
 
     @ApiModelProperty(value = "角色描述", example = "who", required = true)
-    @NotNull(message = "{'code':5000,'placeholders':['角色描述']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     private String description;
 
     public String getName() {

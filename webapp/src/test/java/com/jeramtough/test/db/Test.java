@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class Test {
 
     @org.junit.Test
-    public void test1(){
-        L.debug(Pattern.compile("^[a-z0-9A-Z]{8,16}$").matcher("userna").matches());
+    public void test1() {
+        String.format("【系统公共错误码】[%s]传参违背规则，应为[%s]！", "a", "d");
     }
 }

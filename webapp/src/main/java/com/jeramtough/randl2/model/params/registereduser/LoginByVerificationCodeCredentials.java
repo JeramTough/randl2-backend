@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.model.params.registereduser;
 
+import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.randl2.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -17,7 +18,7 @@ import javax.validation.constraints.Pattern;
 @ApiModel("通过验证码登录参数")
 public class LoginByVerificationCodeCredentials {
 
-    @NotNull(message = "{'code':" + ErrorU.CODE_1.C + ",'placeholders':['登录凭证']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @Pattern(
             regexp = "(^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$)|(^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$)",
             message = "{'code':668,'placeholders':['登录凭证','手机号码或者邮箱地址']}")

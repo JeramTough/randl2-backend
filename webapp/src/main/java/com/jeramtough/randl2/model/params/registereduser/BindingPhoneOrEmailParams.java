@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.model.params.registereduser;
 
+import com.jeramtough.randl2.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -15,11 +16,11 @@ import javax.validation.constraints.Pattern;
 @ApiModel("绑定手机或邮箱参数")
 public class BindingPhoneOrEmailParams {
 
-    @NotNull(message = "{'code':667,'placeholders':['发送失败','以手机1或邮箱方式2']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiModelProperty(value = "绑定方式，1:手机号码，2:邮箱地址", example = "1")
     private Integer way;
 
-    @NotNull(message = "{'code':667,'placeholders':['发送失败','以手机号码或邮箱地址']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiModelProperty(value = "手机号码或邮箱地址", example = "15289678163")
     @Pattern(
             regexp = "(^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$)|(^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$)",

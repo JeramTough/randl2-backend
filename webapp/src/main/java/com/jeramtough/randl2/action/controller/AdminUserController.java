@@ -48,10 +48,7 @@ public class AdminUserController extends BaseController {
                     required = true, dataType = "String", defaultValue = "superadmin")})
     @ApiResponses(value = {
             @ApiResponse(code = ErrorU.CODE_101.C, message = ErrorU.CODE_101.M),
-            @ApiResponse(code = 1004, message = "密码长度范围在8-16位；只允许非空白任意字符"),
-            @ApiResponse(code = 1003, message = "用户名长度范围在5-16位；只能为数字或者字母；不能含有特殊字符"),
     })
-
     public CommonApiResponse<SystemUserDto> login(
             @RequestParam(required = false) String username,
             @RequestParam(required = false) String password) {

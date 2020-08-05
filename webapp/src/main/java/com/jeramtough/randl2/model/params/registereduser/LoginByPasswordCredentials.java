@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.model.params.registereduser;
 
+import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.randl2.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiParam;
@@ -16,13 +17,15 @@ import javax.validation.constraints.Pattern;
 @ApiModel("通过账号密码登录参数")
 public class LoginByPasswordCredentials {
 
-    @NotNull(message = "{'code':" + ErrorU.CODE_1.C + ",'placeholders':['登录凭证']}")
-    @Pattern(regexp = "^[a-z0-9A-Z]{5,16}$", message = "1003")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiParam(value = "账号、手机号、邮箱地址", required = true)
     private String credential;
 
-    @NotNull(message = "{'code':" + ErrorU.CODE_1.C + ",'placeholders':['密码']}")
-    @Pattern(regexp = "^\\S{8,16}$", message = "1004")
+    @NotNull(message = ErrorU.CODE_1.C + "")
+    @Pattern(regexp = "^\\S{8,16}$",
+            message = "{'code':" + ErrorU.CODE_6.C + (",'placeholders':[" +
+                    "'密码长度范围在8-16位；只允许非空白任意字符'," +
+                    "]}"))
     @ApiParam(value = "密码", required = true)
     private String password;
 

@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.model.params.surfaceimage;
 
+import com.jeramtough.randl2.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -17,7 +18,7 @@ import java.io.Serializable;
 
 public class UpdateSurfaceImageParams implements Serializable {
 
-    @NotNull(message = "{'code':667,'placeholders':['更新失败','用户ID']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiModelProperty(value = "用户ID", example = "0", required = true)
     private Long uid;
 

@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.model.params.verificationcode;
 
+import com.jeramtough.randl2.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -15,13 +16,13 @@ import javax.validation.constraints.Pattern;
 @ApiModel("校验验证码参数")
 public class VerifyVerificationCodeParams {
 
-    @NotNull(message = "{'code':667,'placeholders':['登录失败','验证码']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @Pattern(regexp = "^[0-9]{6}$", message = "{'code':668,'placeholders':['验证码'," +
             "'6位长度正整数']}")
     @ApiModelProperty(value = "验证码", example = "108764")
     private String verificationCode;
 
-    @NotNull(message = "{'code':667,'placeholders':['发送失败','以手机号码或邮箱地址']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiModelProperty(value = "以手机号码或邮箱地址", example = "15289678163")
     private String phoneOrEmail;
 

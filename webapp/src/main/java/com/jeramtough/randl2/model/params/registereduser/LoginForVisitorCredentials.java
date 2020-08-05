@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.model.params.registereduser;
 
+import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.randl2.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiParam;
@@ -15,11 +16,11 @@ import javax.validation.constraints.NotNull;
 @ApiModel("游客登录参数")
 public class LoginForVisitorCredentials {
 
-    @NotNull(message = "{'code':" + ErrorU.CODE_1.C + ",'placeholders':['登录凭证']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiParam(value = "游客身份账号", required = true)
     private String credential;
 
-    @NotNull(message = "{'code':" + ErrorU.CODE_1.C + ",'placeholders':['密码']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiParam(value = "游客身份密码", required = true)
     private String password;
 

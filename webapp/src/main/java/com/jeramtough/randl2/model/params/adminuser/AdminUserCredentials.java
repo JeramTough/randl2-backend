@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.model.params.adminuser;
 
+import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.randl2.model.error.ErrorU;
 
 import javax.validation.constraints.NotNull;
@@ -14,14 +15,18 @@ import javax.validation.constraints.Pattern;
 public class AdminUserCredentials {
 
 
-    @NotNull(message = "{'code':" + ErrorU.CODE_1.C + ",'placeholders':['用户名']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @Pattern(regexp = "^[a-z0-9A-Z]{5,16}$",
-            message = "{'code':" + ErrorU.CODE_6.C + ",'placeholders':['用户名长度范围在5-16位；只能为数字或者字母；不能含有特殊字符']}")
+            message = "{'code':" + ErrorU.CODE_6.C + (",'placeholders':[" +
+                    "'用户名长度范围在5-16位；只能为数字或者字母；不能含有特殊字符'," +
+                    "]}"))
     private String username;
 
-    @NotNull(message = "{'code':" + ErrorU.CODE_1.C + ",'placeholders':['密码']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @Pattern(regexp = "^\\S{8,16}$",
-            message = "{'code':" + ErrorU.CODE_6.C + ",'placeholders':['密码长度范围在8-16位；只允许非空白任意字符']}")
+            message = "{'code':" + ErrorU.CODE_6.C + (",'placeholders':[" +
+                    "'密码长度范围在8-16位；只允许非空白任意字符'," +
+                    "]}"))
     private String password;
 
     public AdminUserCredentials() {

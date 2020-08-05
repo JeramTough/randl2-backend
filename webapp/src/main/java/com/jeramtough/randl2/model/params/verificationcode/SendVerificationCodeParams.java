@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.model.params.verificationcode;
 
+import com.jeramtough.randl2.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -14,11 +15,11 @@ import javax.validation.constraints.NotNull;
 @ApiModel("发送验证码参数")
 public class SendVerificationCodeParams {
 
-    @NotNull(message = "{'code':667,'placeholders':['发送失败','以手机1或邮箱方式2']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiModelProperty(value = "发送方式，1:手机号码，2:邮箱地址", example = "1")
     private Integer way;
 
-    @NotNull(message = "{'code':667,'placeholders':['发送失败','以手机号码或邮箱地址']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiModelProperty(value = "以手机号码或邮箱地址", example = "15289678163")
     private String phoneOrEmail;
 

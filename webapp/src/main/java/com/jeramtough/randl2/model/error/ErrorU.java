@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.model.error;
 
+import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.model.error.ErrorCodePrefix;
 import io.swagger.annotations.ApiResponse;
 
@@ -21,12 +22,12 @@ public class ErrorU {
     //上边为公用错误码
     public static final class CODE_1 {
         public static final int C = 20001;
-        public static final String M = "【系统公共错误码】用户传参异常! [%s]参数不能为空";
+        public static final String M = "【系统公共错误码】[%s]传参异常! 参数不能为空";
     }
 
     public static final class CODE_2 {
         public static final int C = 20002;
-        public static final String M = "【系统公共错误码】[%s]参数格式不正确! 应为[%s]";
+        public static final String M = "【系统公共错误码】[%s]传参格式不正确! 应为[%s]";
     }
 
     public static final class CODE_3 {
@@ -41,12 +42,12 @@ public class ErrorU {
 
     public static final class CODE_5 {
         public static final int C = 20005;
-        public static final String M = "【系统公共错误码】传递参数范围错误，应为[%s]！";
+        public static final String M = "【系统公共错误码】[%s]传参范围错误，应为[%s]！";
     }
 
     public static final class CODE_6 {
         public static final int C = 20006;
-        public static final String M = "【系统公共错误码】传递参数违背规则，[%s参数]应为[%s]！";
+        public static final String M = "【系统公共错误码】[%s]传参违背规则，应为[%s]！";
     }
 
     //****************************************************

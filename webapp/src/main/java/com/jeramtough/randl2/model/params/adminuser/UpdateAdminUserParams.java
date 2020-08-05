@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.model.params.adminuser;
 
+import com.jeramtough.randl2.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -14,32 +15,38 @@ import javax.validation.constraints.Pattern;
  * </pre>
  */
 @ApiModel("更新管理员用户参数")
-public class UpdateAdminUserParams  {
+public class UpdateAdminUserParams {
 
-    @NotNull(message = "{'code':1030,'placeholders':['用户Id']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiModelProperty(value = "用户ID", example = "0", required = true)
     private Long uid;
 
-    @Pattern(regexp = "^[a-z0-9A-Z]{5,16}$", message = "1034")
-    @ApiModelProperty(value = "用户名",example = "username",required = false)
+    @ApiModelProperty(value = "用户名", example = "username", required = false)
+    @Pattern(regexp = "^[a-z0-9A-Z]{5,16}$",
+            message = "{'code':" + ErrorU.CODE_6.C + (",'placeholders':[" +
+                    "'用户名长度范围在5-16位；只能为数字或者字母；不能含有特殊字符'," +
+                    "]}"))
     private String username;
 
-    @Pattern(regexp ="^\\S{8,16}$" , message = "1032")
-    @ApiModelProperty(value = "密码",example = "password",required = false)
+    @Pattern(regexp = "^\\S{8,16}$",
+            message = "{'code':" + ErrorU.CODE_6.C + ",'placeholders':['密码长度范围在8-16位；只允许非空白任意字符']}")
+    @ApiModelProperty(value = "密码", example = "password", required = false)
     private String password;
 
-    @ApiModelProperty(value = "手机号码",example = "15289678163",dataType = "String",required =
+    @ApiModelProperty(value = "手机号码", example = "15289678163", dataType = "String", required =
             false)
     @Pattern(
             regexp = "^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(166)|(17[0,1,3,5,6,7,8])|" +
-                    "(18[0-9])|(19[8|9]))\\d{8}$",message = "1035")
+                    "(18[0-9])|(19[8|9]))\\d{8}$"
+            , message = "{'code':" + ErrorU.CODE_2.C + ",'placeholders':["+
+            "'例子:15289678164']}")
     private String phoneNumber;
 
-    @ApiModelProperty(value = "邮箱地址",example = "1321312@qq.com",required = false)
-    @Email(message = "1036")
+    @ApiModelProperty(value = "邮箱地址", example = "1321312@qq.com", required = false)
+    @Email(message = "{'code':" + ErrorU.CODE_2.C + ",'placeholders':['例子:1234@qq.com']}")
     private String emailAddress;
 
-    @ApiModelProperty(value = "角色Id",example = "2",required = false)
+    @ApiModelProperty(value = "角色Id", example = "2", required = false)
     private Long roleId;
 
     public UpdateAdminUserParams() {

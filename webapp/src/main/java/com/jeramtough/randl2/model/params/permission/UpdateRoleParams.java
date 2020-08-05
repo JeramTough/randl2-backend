@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.model.params.permission;
 
+import com.jeramtough.randl2.model.error.ErrorU;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotNull;
@@ -14,7 +15,7 @@ import javax.validation.constraints.Pattern;
 public class UpdateRoleParams {
 
     @ApiModelProperty(value = "角色Id", example = "1", required = true)
-    @NotNull(message = "{'code':5020,'placeholders':['角色Id']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     private Long fid;
 
     @Pattern(regexp = "^([a-zA-Z]|[-]|[_])+$", message = "5002")

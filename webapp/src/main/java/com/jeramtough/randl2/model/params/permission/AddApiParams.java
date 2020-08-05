@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.model.params.permission;
 
+import com.jeramtough.randl2.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -15,13 +16,13 @@ import javax.validation.constraints.NotNull;
 public class AddApiParams {
 
     @ApiModelProperty(value = "路径", example = "/test/getSomething", required = true)
-    @NotNull(message = "{'code':4000,'placeholders':['API路径']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     private String path;
 
     @ApiModelProperty(value = "接口描述", example = "do something", required = false)
     private String description;
 
-    @NotNull(message = "{'code':667,'placeholders':['添加','API别名']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiModelProperty(value = "接口别名", example = "BM", required = true)
     private String alias;
 

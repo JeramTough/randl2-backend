@@ -17,7 +17,7 @@ import javax.validation.constraints.Pattern;
 public class ResetPasswordParams {
 
 
-    @NotNull(message = "{'code':667,'placeholders':['校验失败','密码']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiModelProperty(value = "旧密码", example = "12345678")
     @Pattern(regexp = "^\\S{8,16}$",
             message = "{'code':" + ErrorU.CODE_6.C + ",'placeholders':['oldPassword'," +

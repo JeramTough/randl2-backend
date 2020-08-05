@@ -16,22 +16,22 @@ import javax.validation.constraints.Pattern;
 @ApiModel("校验该密码是否可用")
 public class VerifyPasswordParams {
 
-    @NotNull(message = "{'code':667,'placeholders':['校验失败','事务ID']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiModelProperty(value = "事务ID", example = "aaaaaaaaa")
     private String transactionId;
 
-    @NotNull(message = "{'code':667,'placeholders':['校验失败','以手机1或邮箱方式注册2']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiModelProperty(value = "注册方式，1:手机号码，2:邮箱地址", example = "1")
     private Integer way;
 
-    @NotNull(message = "{'code':667,'placeholders':['校验失败','密码']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiModelProperty(value = "密码", example = "12345678")
     @Pattern(regexp = "^\\S{8,16}$",
             message = "{'code':" + ErrorU.CODE_6.C + ",'placeholders':['密码长度范围在8-16" +
                     "位；只允许非空白任意字符']}")
     private String password;
 
-    @NotNull(message = "{'code':667,'placeholders':['','重复密码']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiModelProperty(value = "重复密码", example = "12345678")
     private String repeatedPassword;
 

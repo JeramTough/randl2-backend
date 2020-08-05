@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.model.params.permission;
 
+import com.jeramtough.randl2.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @ApiModel("为角色设置接口权限参数")
 public class PermissionParams {
 
-    @NotNull(message = "3000")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiModelProperty(value = "角色Id", required = true, example = "1")
     private Long roleId;
 

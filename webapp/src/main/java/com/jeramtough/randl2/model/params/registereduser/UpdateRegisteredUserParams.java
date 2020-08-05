@@ -18,7 +18,7 @@ import javax.validation.constraints.Pattern;
 @ApiModel("更新普通注册用户参数")
 public class UpdateRegisteredUserParams {
 
-    @NotNull(message = "{'code':667,'placeholders':['更新失败','用户ID']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiModelProperty(value = "用户ID", example = "0", required = true)
     private Long uid;
 

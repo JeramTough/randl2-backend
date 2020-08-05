@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.model.params;
 
+import com.jeramtough.randl2.model.error.ErrorU;
 import io.swagger.annotations.ApiParam;
 
 import javax.validation.constraints.NotNull;
@@ -12,11 +13,11 @@ import javax.validation.constraints.NotNull;
  */
 public class QueryByPageParams {
 
-    @NotNull(message = "{'code':667,'placeholders':['获取数据','第几页']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiParam(value = "第几页",required = true,example = "1")
     private Long index;
 
-    @NotNull(message = "{'code':667,'placeholders':['获取数据','每页大小']}")
+    @NotNull(message = ErrorU.CODE_1.C + "")
     @ApiParam(value = "每页的大小",required = true,example = "10")
     private Long size;
 
