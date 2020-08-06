@@ -2,6 +2,7 @@ package com.jeramtough.randl2.action.controller;
 
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.randl2.component.logforoperation.annotation.LoggingOperation;
 import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.QueryByPageParams;
 import com.jeramtough.randl2.model.params.registereduser.*;
@@ -124,6 +125,7 @@ public class RegisteredUserController extends BaseController {
                 registeredUserService.getBaseDtoListByPage(queryByPageParams));
     }
 
+    @LoggingOperation
     @ApiOperation(value = "移除", notes = "移除系统管理员账号")
     @RequestMapping(value = "/remove", method = {RequestMethod.POST})
     @ApiImplicitParams({
@@ -133,6 +135,7 @@ public class RegisteredUserController extends BaseController {
         return getSuccessfulApiResponse(registeredUserService.removeRegisteredUser(uid));
     }
 
+    @LoggingOperation
     @ApiOperation(value = "更新", notes = "更新普通注册用户账号信息")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     @ApiResponses(value = {

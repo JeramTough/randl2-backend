@@ -2,6 +2,7 @@ package com.jeramtough.randl2.action.controller;
 
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.randl2.component.logforoperation.annotation.LoggingOperation;
 import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.QueryByPageParams;
 import com.jeramtough.randl2.model.params.adminuser.AdminUserCredentials;
@@ -38,7 +39,7 @@ public class AdminUserController extends BaseController {
         this.adminUserService = adminUserService;
     }
 
-
+    @LoggingOperation
     @ApiOperation(value = "登录", notes = "系统管理员登录")
     @RequestMapping(value = "/login", method = {RequestMethod.POST})
     @ApiImplicitParams({
@@ -57,6 +58,7 @@ public class AdminUserController extends BaseController {
         return getSuccessfulApiResponse(adminUserService.adminLogin(adminUserCredentials));
     }
 
+    @LoggingOperation
     @ApiOperation(value = "增加", notes = "添加一个管理员用户")
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
     @ApiResponses(value = {
@@ -101,7 +103,7 @@ public class AdminUserController extends BaseController {
         return getSuccessfulApiResponse(adminUserService.getAdminUserByKeyword(keyword));
     }
 
-
+    @LoggingOperation
     @ApiOperation(value = "移除", notes = "移除系统管理员账号")
     @RequestMapping(value = "/remove", method = {RequestMethod.POST})
     @ApiImplicitParams({
@@ -112,6 +114,7 @@ public class AdminUserController extends BaseController {
         return getSuccessfulApiResponse(adminUserService.removeAdminUser(uid));
     }
 
+    @LoggingOperation
     @ApiOperation(value = "更新", notes = "更新系统管理员账号信息")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     @ApiResponses(value = {
@@ -131,6 +134,7 @@ public class AdminUserController extends BaseController {
         return getSuccessfulApiResponse(adminUserService.updateAdminUser(params));
     }
 
+    @LoggingOperation
     @ApiOperation(value = "更新当前", notes = "更新当前登录的系统管理员账号信息")
     @RequestMapping(value = "/updateCurrent", method = {RequestMethod.POST})
     @ApiResponses(value = {
@@ -141,7 +145,7 @@ public class AdminUserController extends BaseController {
         return getSuccessfulApiResponse(adminUserService.updateCurrentAdminUser(params));
     }
 
-
+    @LoggingOperation
     @ApiOperation(value = "退出登录", notes = "系统管理员退出登录")
     @RequestMapping(value = "/logout", method = {RequestMethod.POST})
     public CommonApiResponse<String> logout() {

@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <pre>
@@ -16,12 +17,25 @@ import java.util.List;
  * </pre>
  */
 public class UserHolder {
+
+    public static boolean hasLogined() {
+        if ((SecurityContextHolder.getContext().getAuthentication() != null) &&
+                (SecurityContextHolder.getContext().getAuthentication().getDetails() instanceof SystemUser)) {
+            return true;
+        }
+        return false;
+    }
+
     public static SystemUser getSystemUser() {
         return (SystemUser) SecurityContextHolder.getContext().getAuthentication().getDetails();
     }
 
     public static boolean isSuperAdmin() {
         return SuperAdmin.UID.equals(getSystemUser().getUid());
+    }
+
+    public static boolean isAdminUser() {
+        return UserType.ADMIN.equals(getSystemUser().getUserType());
     }
 
     public static void afterLogin(SystemUser systemUser) {
@@ -55,7 +69,7 @@ public class UserHolder {
         token.setDetails(systemUser);
     }
 
-    public static void clear(){
+    public static void clear() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(null);
     }

@@ -14,6 +14,8 @@ public class Test {
 
     @org.junit.Test
     public void test1() {
-        String.format("【系统公共错误码】[%s]传参违背规则，应为[%s]！", "a", "d");
+        String returnString="dfsfsdf";
+        int length= Math.min(returnString.length(), 100);
+       "dasfdsafddddddd".substring(0,length);
     }
 }

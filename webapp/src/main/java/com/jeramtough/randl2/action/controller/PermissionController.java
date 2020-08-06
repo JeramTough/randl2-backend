@@ -3,6 +3,7 @@ package com.jeramtough.randl2.action.controller;
 
 import com.jeramtough.jtweb.action.controller.BaseSwaggerController;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.randl2.component.logforoperation.annotation.LoggingOperation;
 import com.jeramtough.randl2.model.params.permission.PermissionParams;
 import com.jeramtough.randl2.model.dto.PermissionDto;
 import com.jeramtough.randl2.service.PermissionService;
@@ -33,6 +34,7 @@ public class PermissionController extends BaseSwaggerController {
         this.permissionService = permissionService;
     }
 
+    @LoggingOperation
     @ApiOperation(value = "设置", notes = "系统管理员增加API接口权限")
     @RequestMapping(value = "/set", method = {RequestMethod.POST})
     @ApiResponses(value = {

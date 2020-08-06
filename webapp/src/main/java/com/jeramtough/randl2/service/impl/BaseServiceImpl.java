@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.model.error.ErrorS;
+import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.QueryByPageParams;
 import com.jeramtough.randl2.component.db.QueryPage;
 import com.jeramtough.randl2.model.dto.PageDto;
@@ -38,6 +40,17 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T, D>
 
     public MapperFacade getMapperFacade() {
         return mapperFacade;
+    }
+
+    @Override
+    public void add(T t) {
+        if (t == null) {
+            throw new ApiResponseException(ErrorU.CODE_1.C, "实体");
+        }
+        int result = getBaseMapper().insert(t);
+        if (result == 0) {
+            throw new ApiResponseException(ErrorS.CODE_3.C, "实体");
+        }
     }
 
     public D getBaseDto(T t) {

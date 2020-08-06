@@ -12,12 +12,14 @@ import java.util.List;
  * by @author JeramTough
  * </pre>
  */
-public interface BaseService<T,D> extends IService<T> {
+public interface BaseService<T, D> extends IService<T> {
 
-     PageDto<D> getBaseDtoListByPage(QueryByPageParams queryByPageParams);
+    PageDto<D> getBaseDtoListByPage(QueryByPageParams queryByPageParams);
 
     List<D> getAllBaseDto();
 
     D getBaseDtoById(Long id);
+
+    void add(T t);
 
 }

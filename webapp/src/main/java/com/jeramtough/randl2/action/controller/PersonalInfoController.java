@@ -2,6 +2,7 @@ package com.jeramtough.randl2.action.controller;
 
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.randl2.component.logforoperation.annotation.LoggingOperation;
 import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.personalinfo.UpdatePersonalInfoParams;
 import com.jeramtough.randl2.model.dto.PersonalInfoDto;
@@ -45,6 +46,7 @@ public class PersonalInfoController extends BaseController {
         return getSuccessfulApiResponse(personalInfoService.getPersonalInfoByUid(uid));
     }
 
+    @LoggingOperation
     @ApiOperation(value = "更新", notes = "更新普通用户个人信息")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     @ApiResponses(value = {

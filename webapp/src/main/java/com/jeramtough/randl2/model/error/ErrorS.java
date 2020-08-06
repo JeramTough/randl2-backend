@@ -26,6 +26,11 @@ public class ErrorS {
         public static final String M = "【系统公共错误码】系统读取资源失败！";
     }
 
+    public static final class CODE_3 {
+        public static final int C = 10003;
+        public static final String M = "【系统公共错误码】系统添加[%s]资源失败！";
+    }
+
     //=========================
 
 
