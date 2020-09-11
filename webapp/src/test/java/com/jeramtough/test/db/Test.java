@@ -1,5 +1,6 @@
 package com.jeramtough.test.db;
 
+import com.jeramtough.jtcomponent.key.util.KeyUtil;
 import com.jeramtough.jtlog.facade.L;
 
 import java.util.regex.Pattern;
@@ -14,8 +15,15 @@ public class Test {
 
     @org.junit.Test
     public void test1() {
-        String returnString="dfsfsdf";
-        int length= Math.min(returnString.length(), 100);
-       "dasfdsafddddddd".substring(0,length);
+        String returnString = "dfsfsdf";
+        String a = "a";
+        String b = "a";
+        String c = new String("a");
+        L.debugs(a == c, a.equals(c));
+    }
+
+    @org.junit.Test
+    public void test3() {
+        L.debugs(KeyUtil.encryptByMD5("12345678".getBytes()));
     }
 }

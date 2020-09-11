@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.model.dto.RegisteredUserDto;
 import com.jeramtough.randl2.model.error.ErrorS;
 import com.jeramtough.randl2.model.error.ErrorU;
 import com.jeramtough.randl2.model.params.QueryByPageParams;
@@ -13,6 +14,7 @@ import com.jeramtough.randl2.service.BaseService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,5 +100,10 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T, D>
     }
 
     protected abstract D toDto(T t);
+
+    protected D toDto1(T t, Class<D> dClass) {
+        D d = getMapperFacade().map(t, dClass);
+        return d;
+    }
 
 }
