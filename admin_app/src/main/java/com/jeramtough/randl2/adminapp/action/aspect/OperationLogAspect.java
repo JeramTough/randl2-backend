@@ -2,9 +2,9 @@ package com.jeramtough.randl2.adminapp.action.aspect;
 
 import com.alibaba.fastjson.JSON;
 import com.jeramtough.jtweb.util.IpAddrUtil;
-import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
-import com.jeramtough.randl2.adminapp.component.userdetail.UserHolder;
-import com.jeramtough.randl2.adminapp.component.userdetail.UserType;
+import com.jeramtough.randl2.common.component.userdetail.SystemUser;
+import com.jeramtough.randl2.common.component.userdetail.UserHolder;
+import com.jeramtough.randl2.common.component.userdetail.UserType;
 import com.jeramtough.randl2.common.model.entity.LogOperation;
 import com.jeramtough.randl2.adminapp.service.LogOperationService;
 import io.swagger.annotations.Api;

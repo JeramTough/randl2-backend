@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.adminapp.util;
+package com.jeramtough.randl2.common.util;
 
 /**
  * <pre>

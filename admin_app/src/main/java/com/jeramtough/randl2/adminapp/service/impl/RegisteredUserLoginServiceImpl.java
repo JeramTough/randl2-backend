@@ -8,15 +8,15 @@ import com.jeramtough.randl2.common.model.params.registereduser.LoginByPasswordC
 import com.jeramtough.randl2.common.model.params.registereduser.LoginByVerificationCodeCredentials;
 import com.jeramtough.randl2.common.model.params.registereduser.LoginForVisitorCredentials;
 import com.jeramtough.randl2.common.model.params.verificationcode.VerifyVerificationCodeParams;
-import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
-import com.jeramtough.randl2.adminapp.component.userdetail.UserHolder;
-import com.jeramtough.randl2.adminapp.component.userdetail.login.*;
+import com.jeramtough.randl2.common.component.userdetail.SystemUser;
+import com.jeramtough.randl2.common.component.userdetail.UserHolder;
+import com.jeramtough.randl2.common.component.userdetail.login.*;
 import com.jeramtough.randl2.adminapp.config.security.AuthTokenConfig;
 import com.jeramtough.randl2.common.mapper.SurfaceImageMapper;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
 import com.jeramtough.randl2.adminapp.service.RegisteredUserLoginService;
 import com.jeramtough.randl2.adminapp.service.VerificationCodeService;
-import com.jeramtough.randl2.adminapp.util.JwtTokenUtil;
+import com.jeramtough.randl2.common.util.JwtTokenUtil;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,7 +61,7 @@ public class RegisteredUserLoginServiceImpl implements RegisteredUserLoginServic
         }
 
         TaskResult taskResult = JwtTokenUtil.verifyToken(token,
-                authTokenConfig).getTaskResult();
+                authTokenConfig.getSigningKey(), AuthTokenConfig.ISSUER).getTaskResult();
         if (taskResult.isSuccessful()) {
             long uid = taskResult.getLongPayload("uid");
             UserLoginer userLoginer = getWC().getBean(RegisteredUserUidLoginer.class);
@@ -136,7 +136,9 @@ public class RegisteredUserLoginServiceImpl implements RegisteredUserLoginServic
         systemUserDto.setSurfaceImage(surfaceImage);
 
         //processing token
-        String token = JwtTokenUtil.createToken(systemUser, authTokenConfig);
+        String token = JwtTokenUtil.createToken(systemUser, authTokenConfig.getSigningKey(),
+                AuthTokenConfig.ISSUER,
+                authTokenConfig.getJwtTokenValidity());
 
         Map<String, Object> map = new HashMap<>(2);
         map.put("systemUser", systemUserDto);

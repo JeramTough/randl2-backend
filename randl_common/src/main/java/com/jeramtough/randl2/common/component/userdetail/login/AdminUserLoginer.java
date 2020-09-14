@@ -1,10 +1,10 @@
-package com.jeramtough.randl2.adminapp.component.userdetail.login;
+package com.jeramtough.randl2.common.component.userdetail.login;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.randl2.common.model.params.adminuser.AdminUserCredentials;
-import com.jeramtough.randl2.adminapp.component.userdetail.SuperAdmin;
-import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
-import com.jeramtough.randl2.adminapp.component.userdetail.UserType;
+import com.jeramtough.randl2.common.component.userdetail.SuperAdmin;
+import com.jeramtough.randl2.common.component.userdetail.SystemUser;
+import com.jeramtough.randl2.common.component.userdetail.UserType;
 import com.jeramtough.randl2.common.model.entity.AdminUser;
 import com.jeramtough.randl2.common.model.entity.Role;
 import com.jeramtough.randl2.common.mapper.AdminUserMapper;

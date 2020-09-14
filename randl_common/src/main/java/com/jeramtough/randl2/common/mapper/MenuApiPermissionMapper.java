@@ -1,7 +1,7 @@
 package com.jeramtough.randl2.common.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.jeramtough.randl2.common.model.entity.LogOperation;
+import com.jeramtough.randl2.common.model.entity.MenuApiPermission;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -11,10 +11,10 @@ import org.springframework.stereotype.Repository;
  * </p>
  *
  * @author JeramTough
- * @since 2020-08-06
+ * @since 2020-09-14
  */
 @Mapper
 @Repository
-public interface LogOperationMapper extends BaseMapper<LogOperation> {
+public interface MenuApiPermissionMapper extends BaseMapper<MenuApiPermission> {
 
 }

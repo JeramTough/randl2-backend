@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.adminapp.component.userdetail;
+package com.jeramtough.randl2.common.component.userdetail;
 
 
 import com.jeramtough.randl2.common.model.entity.Role;

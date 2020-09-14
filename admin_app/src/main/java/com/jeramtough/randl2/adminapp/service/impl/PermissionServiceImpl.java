@@ -6,7 +6,7 @@ import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.permission.PermissionParams;
-import com.jeramtough.randl2.adminapp.component.userdetail.SuperAdmin;
+import com.jeramtough.randl2.common.component.userdetail.SuperAdmin;
 import com.jeramtough.randl2.common.model.entity.Api;
 import com.jeramtough.randl2.common.model.entity.Permission;
 import com.jeramtough.randl2.common.model.entity.Role;

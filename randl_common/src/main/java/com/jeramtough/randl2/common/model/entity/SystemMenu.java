@@ -33,9 +33,6 @@ public class SystemMenu implements Serializable {
     @ApiModelProperty(value = "菜单路径")
     private String path;
 
-    @ApiModelProperty(value = "能访问菜单角色列表")
-    private String roldIds;
-
     @ApiModelProperty(value = "层级")
     private Integer level;
 
@@ -81,14 +78,6 @@ public class SystemMenu implements Serializable {
         this.path = path;
     }
 
-    public String getRoldIds() {
-        return roldIds;
-    }
-
-    public void setRoldIds(String roldIds) {
-        this.roldIds = roldIds;
-    }
-
     public Integer getLevel() {
         return level;
     }
@@ -128,7 +117,6 @@ public class SystemMenu implements Serializable {
         ", name=" + name +
         ", description=" + description +
         ", path=" + path +
-        ", roldIds=" + roldIds +
         ", level=" + level +
         ", order=" + menuOrder +
         ", icon=" + icon +

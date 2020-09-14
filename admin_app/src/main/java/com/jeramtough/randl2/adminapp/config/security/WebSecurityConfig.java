@@ -1,10 +1,11 @@
 package com.jeramtough.randl2.adminapp.config.security;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.randl2.adminapp.action.filter.JwtRequestFilter;
-import com.jeramtough.randl2.adminapp.component.userdetail.RegisteredUserRole;
-import com.jeramtough.randl2.adminapp.component.userdetail.SuperAdmin;
-import com.jeramtough.randl2.common.mapper.PermissionMapper;
-import com.jeramtough.randl2.common.model.dto.PermissionDto;
+import com.jeramtough.randl2.common.component.userdetail.RegisteredUserRole;
+import com.jeramtough.randl2.common.component.userdetail.SuperAdmin;
+import com.jeramtough.randl2.common.mapper.*;
+import com.jeramtough.randl2.common.model.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -68,16 +69,30 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/adminUser/remove",
     };
 
-    private final PermissionMapper permissionMapper;
+    private final SuperAdmin superAdmin;
     private final JwtRequestFilter jwtRequestFilter;
+    private final SystemMenuMapper systemMenuMapper;
+    private final MenuApiPermissionMapper menuApiPermissionMapper;
+    private final MenuRolePermissionMapper menuRolePermissionMapper;
+    private final ApiMapper apiMapper;
+    private final RoleMapper roleMapper;
 
 
     @Autowired
     public WebSecurityConfig(
-            PermissionMapper permissionMapper,
-            JwtRequestFilter jwtRequestFilter) {
-        this.permissionMapper = permissionMapper;
+            SuperAdmin superAdmin,
+            JwtRequestFilter jwtRequestFilter,
+            SystemMenuMapper systemMenuMapper,
+            MenuApiPermissionMapper menuApiPermissionMapper,
+            MenuRolePermissionMapper menuRolePermissionMapper,
+            ApiMapper apiMapper, RoleMapper roleMapper) {
+        this.superAdmin = superAdmin;
         this.jwtRequestFilter = jwtRequestFilter;
+        this.systemMenuMapper = systemMenuMapper;
+        this.menuApiPermissionMapper = menuApiPermissionMapper;
+        this.menuRolePermissionMapper = menuRolePermissionMapper;
+        this.apiMapper = apiMapper;
+        this.roleMapper = roleMapper;
     }
 
 
@@ -87,18 +102,34 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //添加jwt过滤
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
-        //从数据库读取角色权限
-        List<PermissionDto> permissionDtoList = permissionMapper.selectListPermissionDto();
-        Map<String, List<String>> apiUrlKeyPermissionMap = new HashMap<>();
-        for (PermissionDto permissionDto : permissionDtoList) {
-            List<String> roleList = apiUrlKeyPermissionMap.get(permissionDto.getApiPath());
-            if (roleList == null) {
-                roleList = new ArrayList<>();
-                //每一种api都有超级管理员的权限.
-                roleList.add(SuperAdmin.ROLE_NAME);
+        //取出menuId对应的api，这是个菜单里需要调用到的api接口的描述
+        List<MenuApiPermission> menuApiPermissionList = menuApiPermissionMapper.selectList(null);
+        Map<Long, List<Api>> menuIdKeyApiMap = new HashMap<>(24);
+        for (MenuApiPermission menuApiPermission : menuApiPermissionList) {
+            List<Api> apiList = menuIdKeyApiMap.get(menuApiPermission.getMenuId());
+            if (apiList == null) {
+                apiList = new ArrayList<>();
             }
-            roleList.add(permissionDto.getRoleName());
-            apiUrlKeyPermissionMap.put(permissionDto.getApiPath(), roleList);
+            apiList.add(apiMapper.selectById(menuApiPermission.getApiId()));
+            menuIdKeyApiMap.put(menuApiPermission.getMenuId(), apiList);
+        }
+
+        //取出menuId对应的角色
+        List<SystemMenu> systemMenuList = systemMenuMapper.selectList(null);
+        Map<Long, List<Role>> menuIdKeyRoleMap = new HashMap<>(systemMenuList.size());
+        for (SystemMenu systemMenu : systemMenuList) {
+            List<Role> roleList = new ArrayList<>();
+
+            //如果这个菜单有设置角色
+            List<Long> roleIdList = menuRolePermissionMapper.selectRoleIdsByMenuId(systemMenu.getFid());
+            if (roleIdList != null && roleIdList.size() > 0) {
+                roleList = roleMapper.selectBatchIds(roleIdList);
+            }
+
+            //每一个菜单都会添加超级管理员的角色
+            roleList.add(superAdmin.getSystemUser().getRole());
+
+            menuIdKeyRoleMap.put(systemMenu.getFid(), roleList);
         }
 
         //签权构造者对象
@@ -110,16 +141,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(SWAGGER_URLS).permitAll();
 
         //动态分配权限
-        for (Map.Entry<String, List<String>> entry : apiUrlKeyPermissionMap.entrySet()) {
-            String[] roles = entry.getValue().toArray(new String[]{});
-            authorizationConfigurer.antMatchers(entry.getKey()).hasAnyRole(roles);
+        for (Long menuId : menuIdKeyRoleMap.keySet()) {
+            List<Role> roleList = menuIdKeyRoleMap.get(menuId);
+            List<Api> apiList = menuIdKeyApiMap.get(menuId);
+            //如果这个菜单设置有API接口的话
+            if (apiList != null && apiList.size() > 0) {
+                for (Api api : apiList) {
+                    String[] roles = new String[roleList.size()];
+                    for (int i = 0; i < roleList.size(); i++) {
+                        roles[i] = roleList.get(i).getName();
+                    }
+                    authorizationConfigurer.antMatchers(api.getPath()).hasAnyRole(roles);
+                }
+            }
         }
 
         http.formLogin().loginPage("/unlogged.html").permitAll();
-        String[] accessOnlySuperAdminApiUrls = new String[]{"/adminUser/add"};
 
         //只有超级管理员才能访问的权限
-        authorizationConfigurer.antMatchers(accessOnlySuperAdminApiUrls).hasAnyRole(
+        authorizationConfigurer.antMatchers(ONLY_SUPER_ADMIN_API_URLS).hasAnyRole(
                 SuperAdmin.ROLE_NAME);
 
         //普通注册用户登录以后并且还要有普通注册用户的角色才能使用的接口
@@ -129,7 +169,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //开放登录接口
         authorizationConfigurer
                 .antMatchers(OPENED_ADI_URLS).permitAll()
-                .anyRequest().authenticated()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .cors()
                 .and()

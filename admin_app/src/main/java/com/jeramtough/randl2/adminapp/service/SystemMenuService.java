@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.adminapp.service;
 
+import com.jeramtough.jtcomponent.tree.structure.TreeNode;
 import com.jeramtough.randl2.common.model.dto.SystemMenuDto;
 import com.jeramtough.randl2.common.model.entity.SystemMenu;
 
@@ -15,8 +16,6 @@ import java.util.List;
  */
 public interface SystemMenuService extends BaseService<SystemMenu, SystemMenuDto> {
 
-    List<SystemMenu> getCurrentAdminUserSystemMenus();
-
-    List<SystemMenu> getCurrentAdminUserSystemMenuDtos();
+    TreeNode getCurrentAdminUserSystemMenuTree();
 
 }

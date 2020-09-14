@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.adminapp.util;
+package com.jeramtough.randl2.common.util;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -8,8 +8,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.jeramtough.jtcomponent.task.response.ResponseFactory;
 import com.jeramtough.jtcomponent.task.response.TaskResponse;
-import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
-import com.jeramtough.randl2.adminapp.config.security.AuthTokenConfig;
+import com.jeramtough.randl2.common.component.userdetail.SystemUser;
 
 import java.util.Date;
 
@@ -21,19 +20,20 @@ import java.util.Date;
  */
 public class JwtTokenUtil {
 
-    public static String createToken(SystemUser systemUser, AuthTokenConfig authTokenConfig) {
+    public static String createToken(SystemUser systemUser, String signingKey, String issuer,
+                                     long tokenValidity) {
         String token = null;
         try {
-            Algorithm algorithm = Algorithm.HMAC256(authTokenConfig.getSigningKey());
+            Algorithm algorithm = Algorithm.HMAC256(signingKey);
 
             String roleName = systemUser.getRole().getName();
 
             token = JWT.create()
-                       .withIssuer(AuthTokenConfig.ISSUER)
+                       .withIssuer(issuer)
                        .withClaim("uid", systemUser.getUid())
                        .withClaim("role", roleName)
                        .withExpiresAt(new Date(
-                               System.currentTimeMillis() + authTokenConfig.getJwtTokenValidity()))
+                               System.currentTimeMillis() + tokenValidity))
                        .sign(algorithm);
         }
         catch (JWTCreationException exception) {
@@ -42,12 +42,12 @@ public class JwtTokenUtil {
         return token;
     }
 
-    public static TaskResponse verifyToken(String token, AuthTokenConfig authTokenConfig) {
+    public static TaskResponse verifyToken(String token, String signingKey, String issuer) {
         return ResponseFactory.doing(preTaskResult -> {
             try {
-                Algorithm algorithm = Algorithm.HMAC256(authTokenConfig.getSigningKey());
+                Algorithm algorithm = Algorithm.HMAC256(signingKey);
                 JWTVerifier verifier = JWT.require(algorithm)
-                                          .withIssuer(AuthTokenConfig.ISSUER)
+                                          .withIssuer(issuer)
                                           .build(); //Reusable verifier instance
                 DecodedJWT jwt = verifier.verify(token);
                 Long uid = jwt.getClaim("uid").asLong();

@@ -1,8 +1,8 @@
-package com.jeramtough.randl2.adminapp.component.userdetail.login;
+package com.jeramtough.randl2.common.component.userdetail.login;
 
 import com.jeramtough.randl2.common.model.entity.Role;
-import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
-import com.jeramtough.randl2.adminapp.component.userdetail.UserType;
+import com.jeramtough.randl2.common.component.userdetail.SystemUser;
+import com.jeramtough.randl2.common.component.userdetail.UserType;
 import com.jeramtough.randl2.common.model.entity.RegisteredUser;
 import com.jeramtough.randl2.common.mapper.RegisteredUserMapper;
 import com.jeramtough.randl2.common.mapper.RoleMapper;

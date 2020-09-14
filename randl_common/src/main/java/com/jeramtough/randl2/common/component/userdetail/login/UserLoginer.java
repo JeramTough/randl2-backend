@@ -1,6 +1,6 @@
-package com.jeramtough.randl2.adminapp.component.userdetail.login;
+package com.jeramtough.randl2.common.component.userdetail.login;
 
-import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
+import com.jeramtough.randl2.common.component.userdetail.SystemUser;
 
 /**
  * <pre>
