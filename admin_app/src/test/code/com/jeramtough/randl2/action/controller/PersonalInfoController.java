@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.userapp.action.controller;
+package com.jeramtough.randl2.adminapp.action.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;

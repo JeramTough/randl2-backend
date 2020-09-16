@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.userapp.service;
+package com.jeramtough.randl2.adminapp.service;
 
 import com.jeramtough.randl2.common.model.entity.PermissionView;
 import com.baomidou.mybatisplus.extension.service.IService;

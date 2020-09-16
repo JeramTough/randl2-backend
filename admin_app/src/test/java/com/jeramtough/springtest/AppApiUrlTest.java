@@ -1,7 +1,7 @@
 package com.jeramtough.springtest;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.jeramtough.randl2.userapp.Randl2AdminApplication;
+import com.jeramtough.randl2.adminapp.Randl2AdminApplication;
 import com.jeramtough.randl2.common.mapper.SystemApiMapper;
 import com.jeramtough.randl2.common.model.entity.SystemApi;
 import com.jeramtough.test.ApiUrlUtil;
