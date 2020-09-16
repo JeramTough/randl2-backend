@@ -53,7 +53,7 @@ public class Api implements Serializable {
 
     @Override
     public String toString() {
-        return "ApiDto{" +
+        return "AppApiDto{" +
         "fid=" + fid +
         ", path=" + path +
         ", describe=" + describe +

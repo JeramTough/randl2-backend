@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.common.model.dto;
 
+import com.jeramtough.jtcomponent.tree.structure.TreeStructure;
 import com.jeramtough.randl2.common.model.entity.Role;
 
 /**
@@ -23,6 +24,8 @@ public class SystemUserDto {
     private Role role;
 
     private String surfaceImage;
+
+    private TreeStructure menu;
 
     public Long getUid() {
         return uid;
@@ -78,5 +81,13 @@ public class SystemUserDto {
 
     public void setSurfaceImage(String surfaceImage) {
         this.surfaceImage = surfaceImage;
+    }
+
+    public TreeStructure getMenu() {
+        return menu;
+    }
+
+    public void setMenu(TreeStructure menu) {
+        this.menu = menu;
     }
 }

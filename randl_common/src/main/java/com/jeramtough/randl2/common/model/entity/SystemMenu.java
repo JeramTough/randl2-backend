@@ -9,16 +9,16 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author JeramTough
  * @since 2020-09-11
  */
-@ApiModel(value="SystemMenu对象", description="")
+@ApiModel(value = "SystemMenu对象", description = "")
 public class SystemMenu implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "主键")
     @TableId(value = "fid", type = IdType.AUTO)
@@ -44,6 +44,9 @@ public class SystemMenu implements Serializable {
 
     @ApiModelProperty(value = "上级菜单Id")
     private Long parentId;
+
+    @ApiModelProperty(value = "是否可用")
+    private Boolean isAble;
 
 
     public Long getFid() {
@@ -110,17 +113,29 @@ public class SystemMenu implements Serializable {
         this.parentId = parentId;
     }
 
+    public Boolean getIsAble() {
+        return isAble;
+    }
+
+    public void isAble(Boolean isAble) {
+        this.isAble = isAble;
+    }
+
+    public void setIsAble(Boolean isAble) {
+        this.isAble = isAble;
+    }
+
     @Override
     public String toString() {
         return "SystemMenu{" +
-        "fid=" + fid +
-        ", name=" + name +
-        ", description=" + description +
-        ", path=" + path +
-        ", level=" + level +
-        ", order=" + menuOrder +
-        ", icon=" + icon +
-        ", parentId=" + parentId +
-        "}";
+                "fid=" + fid +
+                ", name=" + name +
+                ", description=" + description +
+                ", path=" + path +
+                ", level=" + level +
+                ", order=" + menuOrder +
+                ", icon=" + icon +
+                ", parentId=" + parentId +
+                "}";
     }
 }

@@ -1,8 +1,8 @@
-package com.jeramtough.randl2.adminapp.service.impl;
+package com.jeramtough.randl2.userapp.service.impl;
 
 import com.jeramtough.randl2.common.model.entity.SurfaceImage;
 import com.jeramtough.randl2.common.mapper.SurfaceImageMapper;
-import com.jeramtough.randl2.adminapp.service.SurfaceImageService;
+import com.jeramtough.randl2.userapp.service.SurfaceImageService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

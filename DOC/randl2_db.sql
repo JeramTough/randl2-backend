@@ -45,10 +45,10 @@ INSERT INTO `admin_user` VALUES (7, 'username2', '15289675163', '1329312@qq.com'
 INSERT INTO `admin_user` VALUES (10, 'username3', '13345454645', '2321321@qq.com', '{bcrypt}$2a$10$HUDeObUcTagQNSIJ6NCwI.7WrLhwyek2N0x1UzLW6qP6Jl0oXVCXG', '2020-02-10 23:13:52', NULL, 1, 5, 1);
 
 -- ----------------------------
--- Table structure for api
+-- Table structure for appApi
 -- ----------------------------
-DROP TABLE IF EXISTS `api`;
-CREATE TABLE `api`  (
+DROP TABLE IF EXISTS `appApi`;
+CREATE TABLE `appApi`  (
   `fid` int(11) NOT NULL AUTO_INCREMENT,
   `path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
@@ -57,14 +57,14 @@ CREATE TABLE `api`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of api
+-- Records of appApi
 -- ----------------------------
-INSERT INTO `api` VALUES (8, '/registeredUser/page', '【普通用户】分页查询', 'PUYH-FYCX');
-INSERT INTO `api` VALUES (9, '/registeredUser/byKeyword', '【普通用户】关键字查询', 'PUYH-GJZCX');
-INSERT INTO `api` VALUES (10, '/registeredUser/update', '【普通用户】账号信息修改', 'PUYH-ZHXXXG');
-INSERT INTO `api` VALUES (11, '/personalInfo/update', '【普通用户】个人信息修改', 'PUYH-GRXXXG');
-INSERT INTO `api` VALUES (12, '/personalInfo/oneByUid', '【普通用户】个人信息查询', 'PUYH-GRXXCX');
-INSERT INTO `api` VALUES (13, '/registeredUser/remove', '【普通用户】删除账号', 'PUYH-SCZH');
+INSERT INTO `appApi` VALUES (8, '/registeredUser/page', '【普通用户】分页查询', 'PUYH-FYCX');
+INSERT INTO `appApi` VALUES (9, '/registeredUser/byKeyword', '【普通用户】关键字查询', 'PUYH-GJZCX');
+INSERT INTO `appApi` VALUES (10, '/registeredUser/update', '【普通用户】账号信息修改', 'PUYH-ZHXXXG');
+INSERT INTO `appApi` VALUES (11, '/personalInfo/update', '【普通用户】个人信息修改', 'PUYH-GRXXXG');
+INSERT INTO `appApi` VALUES (12, '/personalInfo/oneByUid', '【普通用户】个人信息查询', 'PUYH-GRXXCX');
+INSERT INTO `appApi` VALUES (13, '/registeredUser/remove', '【普通用户】删除账号', 'PUYH-SCZH');
 
 -- ----------------------------
 -- Table structure for log_operation
@@ -88,14 +88,14 @@ CREATE TABLE `log_operation`  (
 -- ----------------------------
 -- Records of log_operation
 -- ----------------------------
-INSERT INTO `log_operation` VALUES (9, '192.168.56.1', 0, 'superadmin', 'login', '系统管理员登录', '{\"method\":\"com.jeramtough.randl2.adminapp.action.controller.AdminUserController\",\"return\":\"{\\\"isSuccessful\\\":true,\\\"responseBody\\\":{\\\"role\\\":{\\\"desc...\"}', '2020-08-06 23:07:35', '系统管理员接口', 1);
-INSERT INTO `log_operation` VALUES (10, '192.168.56.1', 0, 'superadmin', 'login', '系统管理员登录', '{\"method\":\"com.jeramtough.randl2.adminapp.action.controller.AdminUserController\",\"return\":\"{\\\"isSuccessful\\\":true,\\\"responseBody\\\":{\\\"role\\\":{\\\"desc...\"}', '2020-08-06 23:08:18', '系统管理员接口', 1);
-INSERT INTO `log_operation` VALUES (11, '192.168.56.1', 0, 'superadmin', 'login', '系统管理员登录', '{\"method\":\"com.jeramtough.randl2.adminapp.action.controller.AdminUserController\",\"return\":\"{\\\"isSuccessful\\\":true,\\\"responseBody\\\":{\\\"role\\\":{\\\"desc...\"}', '2020-08-06 23:11:06', '系统管理员接口', 1);
-INSERT INTO `log_operation` VALUES (12, '192.168.56.1', 0, 'superadmin', 'login', '系统管理员登录', '{\"method\":\"com.jeramtough.randl2.adminapp.action.controller.AdminUserController\",\"return\":\"{\\\"isSuccessful\\\":true,\\\"responseBody\\\":{\\\"role\\\":{\\\"desc...\"}', '2020-08-06 23:11:36', '系统管理员接口', 1);
-INSERT INTO `log_operation` VALUES (13, '192.168.56.1', 0, 'superadmin', 'login', '系统管理员登录', '{\"method\":\"com.jeramtough.randl2.adminapp.action.controller.AdminUserController\",\"return\":\"{\\\"isSuccessful\\\":true,\\\"responseBody\\\":{\\\"role\\\":{\\\"desc...\"}', '2020-08-06 23:12:53', '系统管理员接口', 1);
-INSERT INTO `log_operation` VALUES (14, '192.168.56.1', 0, 'superadmin', 'login', '系统管理员登录', '{\"method\":\"com.jeramtough.randl2.adminapp.action.controller.AdminUserController\",\"return\":\"{\\\"isSuccessful\\\":true,\\\"responseBody\\\":{\\\"role\\\":{\\\"desc...\"}', '2020-08-06 23:13:49', '系统管理员接口', 1);
-INSERT INTO `log_operation` VALUES (15, '192.168.56.1', 0, 'superadmin', 'login', '系统管理员登录', '{\"method\":\"com.jeramtough.randl2.adminapp.action.controller.AdminUserController\",\"return\":\"{\\\"isSuccessful\\\":true,\\\"responseBody\\\":{\\\"role\\\":{\\\"desc...\"}', '2020-08-06 23:15:13', '系统管理员接口', 1);
-INSERT INTO `log_operation` VALUES (16, '192.168.56.1', 0, 'superadmin', 'logout', '系统管理员退出登录', '{\"method\":\"com.jeramtough.randl2.adminapp.action.controller.AdminUserController\",\"args\":[],\"return\":\"{\\\"isSuccessful\\\":true,\\\"responseBody\\\":\\\"管理员退出登录成功！\\\",\\\"...\"}', '2020-08-06 23:15:20', '系统管理员接口', 1);
+INSERT INTO `log_operation` VALUES (9, '192.168.56.1', 0, 'superadmin', 'login', '系统管理员登录', '{\"method\":\"com.jeramtough.randl2.userapp.action.controller.AdminUserController\",\"return\":\"{\\\"isSuccessful\\\":true,\\\"responseBody\\\":{\\\"role\\\":{\\\"desc...\"}', '2020-08-06 23:07:35', '系统管理员接口', 1);
+INSERT INTO `log_operation` VALUES (10, '192.168.56.1', 0, 'superadmin', 'login', '系统管理员登录', '{\"method\":\"com.jeramtough.randl2.userapp.action.controller.AdminUserController\",\"return\":\"{\\\"isSuccessful\\\":true,\\\"responseBody\\\":{\\\"role\\\":{\\\"desc...\"}', '2020-08-06 23:08:18', '系统管理员接口', 1);
+INSERT INTO `log_operation` VALUES (11, '192.168.56.1', 0, 'superadmin', 'login', '系统管理员登录', '{\"method\":\"com.jeramtough.randl2.userapp.action.controller.AdminUserController\",\"return\":\"{\\\"isSuccessful\\\":true,\\\"responseBody\\\":{\\\"role\\\":{\\\"desc...\"}', '2020-08-06 23:11:06', '系统管理员接口', 1);
+INSERT INTO `log_operation` VALUES (12, '192.168.56.1', 0, 'superadmin', 'login', '系统管理员登录', '{\"method\":\"com.jeramtough.randl2.userapp.action.controller.AdminUserController\",\"return\":\"{\\\"isSuccessful\\\":true,\\\"responseBody\\\":{\\\"role\\\":{\\\"desc...\"}', '2020-08-06 23:11:36', '系统管理员接口', 1);
+INSERT INTO `log_operation` VALUES (13, '192.168.56.1', 0, 'superadmin', 'login', '系统管理员登录', '{\"method\":\"com.jeramtough.randl2.userapp.action.controller.AdminUserController\",\"return\":\"{\\\"isSuccessful\\\":true,\\\"responseBody\\\":{\\\"role\\\":{\\\"desc...\"}', '2020-08-06 23:12:53', '系统管理员接口', 1);
+INSERT INTO `log_operation` VALUES (14, '192.168.56.1', 0, 'superadmin', 'login', '系统管理员登录', '{\"method\":\"com.jeramtough.randl2.userapp.action.controller.AdminUserController\",\"return\":\"{\\\"isSuccessful\\\":true,\\\"responseBody\\\":{\\\"role\\\":{\\\"desc...\"}', '2020-08-06 23:13:49', '系统管理员接口', 1);
+INSERT INTO `log_operation` VALUES (15, '192.168.56.1', 0, 'superadmin', 'login', '系统管理员登录', '{\"method\":\"com.jeramtough.randl2.userapp.action.controller.AdminUserController\",\"return\":\"{\\\"isSuccessful\\\":true,\\\"responseBody\\\":{\\\"role\\\":{\\\"desc...\"}', '2020-08-06 23:15:13', '系统管理员接口', 1);
+INSERT INTO `log_operation` VALUES (16, '192.168.56.1', 0, 'superadmin', 'logout', '系统管理员退出登录', '{\"method\":\"com.jeramtough.randl2.userapp.action.controller.AdminUserController\",\"args\":[],\"return\":\"{\\\"isSuccessful\\\":true,\\\"responseBody\\\":\\\"管理员退出登录成功！\\\",\\\"...\"}', '2020-08-06 23:15:20', '系统管理员接口', 1);
 
 -- ----------------------------
 -- Table structure for oauth_approvals
@@ -159,7 +159,7 @@ CREATE TABLE `permission`  (
   PRIMARY KEY (`fid`) USING BTREE,
   INDEX `permission_ibfk_1`(`api_id`) USING BTREE,
   INDEX `permission_ibfk_2`(`role_id`) USING BTREE,
-  CONSTRAINT `permission_ibfk_1` FOREIGN KEY (`api_id`) REFERENCES `api` (`fid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `permission_ibfk_1` FOREIGN KEY (`api_id`) REFERENCES `appApi` (`fid`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `permission_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `role` (`fid`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 72 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -321,6 +321,6 @@ CREATE TABLE `system_menu`  (
 -- View structure for permission_view
 -- ----------------------------
 DROP VIEW IF EXISTS `permission_view`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `permission_view` AS select `a_tb`.`fid` AS `permission_id`,`b_tb`.`fid` AS `role_id`,`b_tb`.`name` AS `role_name`,`b_tb`.`description` AS `role_description`,`c_tb`.`fid` AS `api_id`,`c_tb`.`path` AS `api_path`,`c_tb`.`description` AS `api_description`,`c_tb`.`alias` AS `api_alias` from ((`permission` `a_tb` left join `role` `b_tb` on((`a_tb`.`role_id` = `b_tb`.`fid`))) left join `api` `c_tb` on((`a_tb`.`api_id` = `c_tb`.`fid`)));
+CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `permission_view` AS select `a_tb`.`fid` AS `permission_id`,`b_tb`.`fid` AS `role_id`,`b_tb`.`name` AS `role_name`,`b_tb`.`description` AS `role_description`,`c_tb`.`fid` AS `api_id`,`c_tb`.`path` AS `api_path`,`c_tb`.`description` AS `api_description`,`c_tb`.`alias` AS `api_alias` from ((`permission` `a_tb` left join `role` `b_tb` on((`a_tb`.`role_id` = `b_tb`.`fid`))) left join `appApi` `c_tb` on((`a_tb`.`api_id` = `c_tb`.`fid`)));
 
 SET FOREIGN_KEY_CHECKS = 1;
