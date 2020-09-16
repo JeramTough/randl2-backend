@@ -1,6 +1,5 @@
 package com.jeramtough.randl2.userapp.config.security;
 
-import com.jeramtough.randl2.userapp.action.filter.JwtRequestFilter;
 import com.jeramtough.randl2.common.component.userdetail.RegisteredUserRole;
 import com.jeramtough.randl2.common.component.userdetail.SuperAdmin;
 import com.jeramtough.randl2.common.mapper.*;
@@ -18,7 +17,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,7 +70,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     };
 
     private final SuperAdmin superAdmin;
-    private final JwtRequestFilter jwtRequestFilter;
     private final SystemMenuMapper systemMenuMapper;
     private final MenuApiPermissionMapper menuApiPermissionMapper;
     private final MenuRolePermissionMapper menuRolePermissionMapper;
@@ -83,14 +80,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public WebSecurityConfig(
             SuperAdmin superAdmin,
-            JwtRequestFilter jwtRequestFilter,
             SystemMenuMapper systemMenuMapper,
             MenuApiPermissionMapper menuApiPermissionMapper,
             MenuRolePermissionMapper menuRolePermissionMapper,
             SystemApiMapper systemApiMapper,
             RoleMapper roleMapper) {
         this.superAdmin = superAdmin;
-        this.jwtRequestFilter = jwtRequestFilter;
         this.systemMenuMapper = systemMenuMapper;
         this.menuApiPermissionMapper = menuApiPermissionMapper;
         this.menuRolePermissionMapper = menuRolePermissionMapper;
@@ -103,7 +98,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         //添加jwt过滤
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+//        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         //取出menuId对应的api，这是个菜单里需要调用到的api接口的描述
         List<MenuApiPermission> menuApiPermissionList = menuApiPermissionMapper.selectList(null);

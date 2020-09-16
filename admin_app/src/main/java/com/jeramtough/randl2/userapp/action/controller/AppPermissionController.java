@@ -6,7 +6,7 @@ import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.randl2.common.component.logforoperation.annotation.LoggingOperation;
 import com.jeramtough.randl2.common.model.params.permission.PermissionParams;
 import com.jeramtough.randl2.common.model.dto.PermissionDto;
-import com.jeramtough.randl2.userapp.service.PermissionService;
+import com.jeramtough.randl2.userapp.service.AppPermissionService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,15 +23,15 @@ import java.util.List;
  */
 @RestController
 @Api(tags = {"控制接口权限的接口"})
-@RequestMapping("/permission")
-public class PermissionController extends BaseSwaggerController {
+@RequestMapping("/appPermission")
+public class AppPermissionController extends BaseSwaggerController {
 
-    private final PermissionService permissionService;
+    private final AppPermissionService appPermissionService;
 
     @Autowired
-    public PermissionController(
-            PermissionService permissionService) {
-        this.permissionService = permissionService;
+    public AppPermissionController(
+            AppPermissionService appPermissionService) {
+        this.appPermissionService = appPermissionService;
     }
 
     @LoggingOperation
@@ -41,7 +41,7 @@ public class PermissionController extends BaseSwaggerController {
     })
     public CommonApiResponse<String> addPermissions(
             @RequestBody PermissionParams permissionParams) {
-        return getSuccessfulApiResponse(permissionService.setPermissions(permissionParams));
+        return getSuccessfulApiResponse(appPermissionService.setPermissions(permissionParams));
     }
 
 
@@ -53,13 +53,13 @@ public class PermissionController extends BaseSwaggerController {
     })
     public RestfulApiResponse removePermissions(
             @RequestBody PermissionParams permissionParams) {
-        return getSuccessfulApiResponse(permissionService.removePermissions(permissionParams));
+        return getSuccessfulApiResponse(appPermissionService.removePermissions(permissionParams));
     }*/
 
     @ApiOperation(value = "查询全部", notes = "查询全部角色的API接口权限信息")
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
     public CommonApiResponse<List<PermissionDto>> getAllPermissions() {
-        return getSuccessfulApiResponse(permissionService.getPermissions());
+        return getSuccessfulApiResponse(appPermissionService.getPermissions());
     }
 
     @ApiOperation(value = "根据角色ID查询", notes = "根据角色ID查询API接口权限信息")
@@ -69,7 +69,7 @@ public class PermissionController extends BaseSwaggerController {
                     required = true, defaultValue = "1")})
     public CommonApiResponse<List<PermissionDto>> getAllPermissions(@RequestParam Long roleId) {
 
-        return getSuccessfulApiResponse(permissionService.getPermissionListByRoleId(roleId));
+        return getSuccessfulApiResponse(appPermissionService.getPermissionListByRoleId(roleId));
     }
 
 }

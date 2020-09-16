@@ -1,7 +1,7 @@
 package com.jeramtough.springtest;
 
 import com.jeramtough.jtlog.facade.L;
-import com.jeramtough.randl2.userapp.Randl2Application;
+import com.jeramtough.randl2.userapp.Randl2AdminApplication;
 import com.jeramtough.randl2.common.mapper.PermissionMapper;
 import org.junit.After;
 import org.junit.Before;
@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * </pre>
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes={Randl2Application.class})// 指定启动类
+@SpringBootTest(classes={Randl2AdminApplication.class})// 指定启动类
 //@SpringApplicationConfiguration(classes = Application.class)// 1.4.0 前版本
 public class DaoTest {
 

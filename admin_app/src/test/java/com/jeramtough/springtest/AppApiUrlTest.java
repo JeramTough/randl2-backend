@@ -1,7 +1,7 @@
 package com.jeramtough.springtest;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.jeramtough.randl2.userapp.Randl2Application;
+import com.jeramtough.randl2.userapp.Randl2AdminApplication;
 import com.jeramtough.randl2.common.mapper.SystemApiMapper;
 import com.jeramtough.randl2.common.model.entity.SystemApi;
 import com.jeramtough.test.ApiUrlUtil;
@@ -21,7 +21,7 @@ import java.util.*;
  * </pre>
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {Randl2Application.class})// 指定启动类
+@SpringBootTest(classes = {Randl2AdminApplication.class})// 指定启动类
 //@SpringApplicationConfiguration(classes = Application.class)// 1.4.0 前版本
 public class AppApiUrlTest {
 

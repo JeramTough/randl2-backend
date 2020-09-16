@@ -16,7 +16,7 @@ import java.util.List;
  * @author JeramTough
  * @since 2020-01-26
  */
-public interface ApiService extends BaseService<AppApi, AppApiDto> {
+public interface AppApiService extends BaseService<AppApi, AppApiDto> {
 
     String addApi(AddApiParams params);
 

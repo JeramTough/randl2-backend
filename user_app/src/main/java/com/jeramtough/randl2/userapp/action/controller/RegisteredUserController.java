@@ -112,7 +112,7 @@ public class RegisteredUserController extends BaseSwaggerController {
     }
 
 
-    @ApiOperation(value = "查询全部", notes = "得到全部普通注册用户信息")
+   /* @ApiOperation(value = "查询全部", notes = "得到全部普通注册用户信息")
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
     public CommonApiResponse<List<RegisteredUserDto>> getAllAdminUser() {
         return getSuccessfulApiResponse(registeredUserService.getAllBaseDto());
@@ -155,7 +155,7 @@ public class RegisteredUserController extends BaseSwaggerController {
             @RequestParam String keyword) {
         return getSuccessfulApiResponse(
                 registeredUserService.getRegisteredUsersByKeyword(keyword));
-    }
+    }*/
 
 
 }

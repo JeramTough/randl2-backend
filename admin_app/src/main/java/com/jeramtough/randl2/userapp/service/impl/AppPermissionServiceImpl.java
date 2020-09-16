@@ -15,7 +15,7 @@ import com.jeramtough.randl2.common.mapper.PermissionMapper;
 import com.jeramtough.randl2.common.mapper.RoleMapper;
 import com.jeramtough.randl2.common.model.dto.PermissionDto;
 import com.jeramtough.randl2.common.service.impl.BaseServiceImpl;
-import com.jeramtough.randl2.userapp.service.PermissionService;
+import com.jeramtough.randl2.userapp.service.AppPermissionService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,18 +33,18 @@ import java.util.List;
  * @since 2020-01-26
  */
 @Service
-public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Permission,
+public class AppPermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Permission,
         PermissionDto> implements
-        PermissionService, WithLogger {
+        AppPermissionService, WithLogger {
 
     private final RoleMapper roleMapper;
     private final AppApiMapper appApiMapper;
 
     @Autowired
-    public PermissionServiceImpl(WebApplicationContext wc,
-                                 MapperFacade mapperFacade,
-                                 RoleMapper roleMapper,
-                                 AppApiMapper appApiMapper) {
+    public AppPermissionServiceImpl(WebApplicationContext wc,
+                                    MapperFacade mapperFacade,
+                                    RoleMapper roleMapper,
+                                    AppApiMapper appApiMapper) {
         super(wc, mapperFacade);
         this.roleMapper = roleMapper;
         this.appApiMapper = appApiMapper;

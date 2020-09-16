@@ -8,7 +8,7 @@ import com.jeramtough.randl2.common.model.dto.AppApiDto;
 import com.jeramtough.randl2.common.model.params.permission.AddApiParams;
 import com.jeramtough.randl2.common.model.params.permission.UpdateApiParams;
 import com.jeramtough.jtweb.model.dto.PageDto;
-import com.jeramtough.randl2.userapp.service.ApiService;
+import com.jeramtough.randl2.userapp.service.AppApiService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,15 +24,15 @@ import java.util.List;
  * @since 2020-01-26
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/appApi")
 @Api(tags = {"接口信息的接口"})
-public class ApiController extends BaseSwaggerController {
+public class AppApiController extends BaseSwaggerController {
 
-    private final ApiService apiService;
+    private final AppApiService appApiService;
 
     @Autowired
-    public ApiController(ApiService apiService) {
-        this.apiService = apiService;
+    public AppApiController(AppApiService appApiService) {
+        this.appApiService = appApiService;
     }
 
     @ApiOperation(value = "新增", notes = "新增系统接口")
@@ -40,7 +40,7 @@ public class ApiController extends BaseSwaggerController {
     @ApiResponses(value = {
     })
     public CommonApiResponse<String> addApi(@RequestBody AddApiParams params) {
-        return getSuccessfulApiResponse(apiService.addApi(params));
+        return getSuccessfulApiResponse(appApiService.addApi(params));
     }
 
     @ApiOperation(value = "删除", notes = "删除系统接口")
@@ -51,7 +51,7 @@ public class ApiController extends BaseSwaggerController {
     @ApiResponses(value = {
     })
     public CommonApiResponse<String> deleteApi(@RequestParam("fid") Long fid) {
-        return getSuccessfulApiResponse(apiService.delete(fid));
+        return getSuccessfulApiResponse(appApiService.delete(fid));
     }
 
     @ApiOperation(value = "更新", notes = "更新系统接口")
@@ -59,7 +59,7 @@ public class ApiController extends BaseSwaggerController {
     @ApiResponses(value = {
     })
     public CommonApiResponse<String> updateApi(@RequestBody UpdateApiParams params) {
-        return getSuccessfulApiResponse(apiService.updateApi(params));
+        return getSuccessfulApiResponse(appApiService.updateApi(params));
     }
 
     @ApiOperation(value = "查询一个", notes = "查询一个系统接口")
@@ -70,13 +70,13 @@ public class ApiController extends BaseSwaggerController {
     @ApiResponses(value = {
     })
     public CommonApiResponse<AppApiDto> getApi(Long fid) {
-        return getSuccessfulApiResponse(apiService.getApi(fid));
+        return getSuccessfulApiResponse(appApiService.getApi(fid));
     }
 
     @ApiOperation(value = "查询全部", notes = "查询全部系统接口")
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
     public CommonApiResponse<List<AppApiDto>> getAllApi() {
-        return getSuccessfulApiResponse(apiService.getAllApi());
+        return getSuccessfulApiResponse(appApiService.getAllApi());
     }
 
     @ApiOperation(value = "分页查询", notes = "分页查询API信息列表")
@@ -84,7 +84,7 @@ public class ApiController extends BaseSwaggerController {
     public CommonApiResponse<PageDto<AppApiDto>> getAdminUserByPage(
             QueryByPageParams queryByPageParams) {
         return getSuccessfulApiResponse(
-                apiService.getBaseDtoListByPage(queryByPageParams));
+                appApiService.getBaseDtoListByPage(queryByPageParams));
     }
 
 
@@ -96,7 +96,7 @@ public class ApiController extends BaseSwaggerController {
     })
     @RequestMapping(value = "/byKeyword", method = {RequestMethod.GET})
     public CommonApiResponse<List<AppApiDto>> getOneAdminUser(@RequestParam String keyword) {
-        return getSuccessfulApiResponse(apiService.getApiListByKeyword(keyword));
+        return getSuccessfulApiResponse(appApiService.getApiListByKeyword(keyword));
     }
 
 }

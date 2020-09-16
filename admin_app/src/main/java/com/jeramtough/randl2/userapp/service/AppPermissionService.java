@@ -15,7 +15,7 @@ import java.util.List;
  * @author JeramTough
  * @since 2020-01-26
  */
-public interface PermissionService extends BaseService<Permission,PermissionDto> {
+public interface AppPermissionService extends BaseService<Permission,PermissionDto> {
 
     String setPermissions(PermissionParams permissionParams);
 

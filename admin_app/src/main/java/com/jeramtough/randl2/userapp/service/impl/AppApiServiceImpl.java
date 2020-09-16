@@ -11,7 +11,7 @@ import com.jeramtough.randl2.common.model.params.permission.AddApiParams;
 import com.jeramtough.randl2.common.model.params.permission.UpdateApiParams;
 import com.jeramtough.randl2.common.mapper.AppApiMapper;
 import com.jeramtough.randl2.common.service.impl.BaseServiceImpl;
-import com.jeramtough.randl2.userapp.service.ApiService;
+import com.jeramtough.randl2.userapp.service.AppApiService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
@@ -27,13 +27,13 @@ import java.util.List;
  * @since 2020-01-26
  */
 @Service
-public class ApiServiceImpl extends BaseServiceImpl<AppApiMapper, AppApi, AppApiDto>
-        implements ApiService,
+public class AppApiServiceImpl extends BaseServiceImpl<AppApiMapper, AppApi, AppApiDto>
+        implements AppApiService,
         WithLogger {
 
 
-    public ApiServiceImpl(WebApplicationContext wc,
-                          MapperFacade mapperFacade) {
+    public AppApiServiceImpl(WebApplicationContext wc,
+                             MapperFacade mapperFacade) {
         super(wc, mapperFacade);
     }
 
