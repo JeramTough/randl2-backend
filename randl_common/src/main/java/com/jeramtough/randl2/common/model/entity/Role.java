@@ -8,16 +8,16 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author JeramTough
  * @since 2020-01-26
  */
-@ApiModel(value="Role对象", description="")
+@ApiModel(value = "Role对象", description = "")
 public class Role implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     @TableId(value = "fid", type = IdType.AUTO)
     private Long fid;
@@ -26,6 +26,7 @@ public class Role implements Serializable {
 
     private String description;
 
+    private Long appId;
 
     public Long getFid() {
         return fid;
@@ -51,12 +52,21 @@ public class Role implements Serializable {
         this.description = description;
     }
 
+    public Long getAppId() {
+        return appId;
+    }
+
+    public void setAppId(Long appId) {
+        this.appId = appId;
+    }
+
     @Override
     public String toString() {
-        return "RoleDto{" +
-        "fid=" + fid +
-        ", name=" + name +
-        ", description=" + description +
-        "}";
+        return "Role{" +
+                "fid=" + fid +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", appId=" + appId +
+                '}';
     }
 }

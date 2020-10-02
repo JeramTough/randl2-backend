@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.adminapp.service.impl;
+package com.jeramtough.randl2.userapp.service.impl;
 
 import com.jeramtough.randl2.common.model.entity.PersonalInfo;
 import com.jeramtough.randl2.common.mapper.PersonalInfoMapper;

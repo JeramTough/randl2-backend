@@ -23,6 +23,8 @@ public class RoleDto implements Serializable {
 
     private String description;
 
+    private Long appId;
+
 
     public Long getFid() {
         return fid;
@@ -46,6 +48,14 @@ public class RoleDto implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getAppId() {
+        return appId;
+    }
+
+    public void setAppId(Long appId) {
+        this.appId = appId;
     }
 
     @Override

@@ -3,6 +3,8 @@ package com.jeramtough.randl2.common.model.dto;
 import com.jeramtough.jtcomponent.tree.structure.TreeStructure;
 import com.jeramtough.randl2.common.model.entity.Role;
 
+import java.util.Map;
+
 /**
  * <pre>
  * Created on 2020/2/6 16:54
@@ -25,7 +27,7 @@ public class SystemUserDto {
 
     private String surfaceImage;
 
-    private TreeStructure menu;
+    private Map<String,Object> menuTree;
 
     public Long getUid() {
         return uid;
@@ -83,11 +85,12 @@ public class SystemUserDto {
         this.surfaceImage = surfaceImage;
     }
 
-    public TreeStructure getMenu() {
-        return menu;
+
+    public Map<String, Object> getMenuTree() {
+        return menuTree;
     }
 
-    public void setMenu(TreeStructure menu) {
-        this.menu = menu;
+    public void setMenuTree(Map<String, Object> menuTree) {
+        this.menuTree = menuTree;
     }
 }
