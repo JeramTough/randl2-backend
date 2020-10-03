@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.adminapp.service.impl;
 
+import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
 import com.jeramtough.randl2.common.model.params.adminuser.AdminUserCredentials;
 import com.jeramtough.randl2.adminapp.service.LoginService;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 public class LoginServiceImpl implements LoginService {
     @Override
     public SystemUserDto adminLogin(AdminUserCredentials adminUserCredentials) {
+        BeanValidator.verifyParams(adminUserCredentials);
+
         return null;
     }
 

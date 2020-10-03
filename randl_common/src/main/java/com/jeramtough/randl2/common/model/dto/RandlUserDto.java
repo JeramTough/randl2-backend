@@ -33,9 +33,6 @@ public class RandlUserDto implements Serializable{
     @ApiModelProperty(value = "邮箱地址")
     private String emailAddress;
 
-    @ApiModelProperty(value = "密码")
-    private String password;
-
     @ApiModelProperty(value = "注册时间")
     private LocalDateTime registrationTime;
 
@@ -84,13 +81,6 @@ public class RandlUserDto implements Serializable{
         this.emailAddress = emailAddress;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public LocalDateTime getRegistrationTime() {
         return registrationTime;
@@ -139,7 +129,6 @@ public class RandlUserDto implements Serializable{
         ", account=" + account +
         ", phoneNumber=" + phoneNumber +
         ", emailAddress=" + emailAddress +
-        ", password=" + password +
         ", registrationTime=" + registrationTime +
         ", registrationIp=" + registrationIp +
         ", accountStatus=" + accountStatus +
