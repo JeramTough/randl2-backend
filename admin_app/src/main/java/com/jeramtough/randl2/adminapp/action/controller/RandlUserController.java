@@ -40,6 +40,7 @@ public class RandlUserController extends BaseController {
     @ApiOperation(value = "增加", notes = "添加一个Randl用户")
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
     @ApiResponses(value = {
+            @ApiResponse(code = ErrorU.CODE_101.C, message = ErrorU.CODE_101.M),
     })
     public CommonApiResponse<RandlUserDto> addRandlUser(
             @RequestBody RegisterRandlUserParams params) {
@@ -109,7 +110,6 @@ public class RandlUserController extends BaseController {
             @RequestBody UpdateAdminUserParams params) {
         return getSuccessfulApiResponse(adminUserService.updateAdminUser(params));
     }*/
-
 
 
 }

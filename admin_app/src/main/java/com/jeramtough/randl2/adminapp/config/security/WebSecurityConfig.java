@@ -1,10 +1,7 @@
 package com.jeramtough.randl2.adminapp.config.security;
 
-import com.jeramtough.randl2.adminapp.component.userdetail.RegisteredUserRole;
 import com.jeramtough.randl2.adminapp.component.userdetail.SuperAdmin;
 import com.jeramtough.randl2.common.mapper.*;
-import com.jeramtough.randl2.common.model.entity.RandRole;
-import com.jeramtough.randl2.common.model.entity.RandlModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,11 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <pre>
@@ -158,8 +150,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 SuperAdmin.ROLE_NAME);
 
         //普通注册用户登录以后并且还要有普通注册用户的角色才能使用的接口
-        authorizationConfigurer.antMatchers("/registeredUserLogined/**")
-                               .hasRole(RegisteredUserRole.PrimaryRole.get().getName());
+       /* authorizationConfigurer.antMatchers("/registeredUserLogined/**")
+                               .hasRole(RegisteredUserRole.PrimaryRole.get().getName());*/
 
         //开放登录接口
         authorizationConfigurer

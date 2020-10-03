@@ -2,7 +2,7 @@ package com.jeramtough.randl2.adminapp.service;
 
 import com.jeramtough.jtweb.service.BaseDtoService;
 import com.jeramtough.randl2.common.model.dto.RandlRoleDto;
-import com.jeramtough.randl2.common.model.entity.RandRole;
+import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.params.permission.AddRoleParams;
 import com.jeramtough.randl2.common.model.params.permission.UpdateRoleParams;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * @author JeramTough
  * @since 2020-01-26
  */
-public interface RandlRoleService extends BaseDtoService<RandRole, RandlRoleDto> {
+public interface RandlRoleService extends BaseDtoService<RandlRole, RandlRoleDto> {
 
     String addRole(AddRoleParams params);
 

@@ -134,12 +134,17 @@ public class ErrorU {
 
     public static final class CODE_302 {
         public static final int C = 20302;
-        public static final String M = "游客身份账号密码不正确！";
+        public static final String M = "该APP应用不存在该账号！";
     }
 
     public static final class CODE_303 {
         public static final int C = 20303;
         public static final String M = "登录失败，该手机号码或者邮箱并没有注册过本系统";
+    }
+
+    public static final class CODE_304 {
+        public static final int C = 20304;
+        public static final String M = "用户账号状态当前不可用！";
     }
 
     //=================验证码业务===========================

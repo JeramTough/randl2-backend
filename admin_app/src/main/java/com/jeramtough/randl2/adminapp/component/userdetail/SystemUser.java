@@ -1,7 +1,5 @@
 package com.jeramtough.randl2.adminapp.component.userdetail;
 
-import com.jeramtough.randl2.common.model.entity.RandRole;
-
 import java.io.Serializable;
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -32,9 +30,15 @@ public class SystemUser implements Principal, Serializable {
 
     private UserType userType;
 
-    private RandRole randRole;
-
     private Long surfaceImageId;
+
+    private Long roleId;
+
+    private String roleName;
+
+    private String roleAliasName;
+
+    private Long appId;
 
     public Long getUid() {
         return uid;
@@ -100,14 +104,6 @@ public class SystemUser implements Principal, Serializable {
         this.accountStatus = accountStatus;
     }
 
-    public RandRole getRandRole() {
-        return randRole;
-    }
-
-    public void setRandRole(RandRole randRole) {
-        this.randRole = randRole;
-    }
-
     public UserType getUserType() {
         return userType;
     }
@@ -127,5 +123,37 @@ public class SystemUser implements Principal, Serializable {
 
     public void setSurfaceImageId(Long surfaceImageId) {
         this.surfaceImageId = surfaceImageId;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public String getRoleAliasName() {
+        return roleAliasName;
+    }
+
+    public void setRoleAliasName(String roleAliasName) {
+        this.roleAliasName = roleAliasName;
+    }
+
+    public Long getAppId() {
+        return appId;
+    }
+
+    public void setAppId(Long appId) {
+        this.appId = appId;
     }
 }

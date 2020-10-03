@@ -21,6 +21,12 @@ public class AppSetting {
     @Value(value = "${app.setting.jwt.issuer}")
     private String jwtIssuer;
 
+    @Value(value = "${app.setting.admin.defaultAppId}")
+    private Long adminDefaultAppId;
+
+    @Value(value = "${app.setting.admin.defaultRoleId}")
+    private Long adminDefaultRoleId;
+
     @Value(value = "${app.setting.user.defaultAppId}")
     private Long userDefaultAppId;
 
@@ -87,5 +93,21 @@ public class AppSetting {
 
     public void setUserDefaultRoleId(Long userDefaultRoleId) {
         this.userDefaultRoleId = userDefaultRoleId;
+    }
+
+    public Long getAdminDefaultAppId() {
+        return adminDefaultAppId;
+    }
+
+    public void setAdminDefaultAppId(Long adminDefaultAppId) {
+        this.adminDefaultAppId = adminDefaultAppId;
+    }
+
+    public Long getAdminDefaultRoleId() {
+        return adminDefaultRoleId;
+    }
+
+    public void setAdminDefaultRoleId(Long adminDefaultRoleId) {
+        this.adminDefaultRoleId = adminDefaultRoleId;
     }
 }

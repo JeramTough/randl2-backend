@@ -6,7 +6,7 @@ import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.service.impl.BaseDtoServiceImpl;
 import com.jeramtough.randl2.common.model.dto.RandlRoleDto;
-import com.jeramtough.randl2.common.model.entity.RandRole;
+import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.permission.AddRoleParams;
 import com.jeramtough.randl2.common.model.params.permission.UpdateRoleParams;
@@ -27,7 +27,7 @@ import java.util.List;
  * @since 2020-01-26
  */
 @Service
-public class RandlRoleServiceImpl extends BaseDtoServiceImpl<RandlRoleMapper, RandRole, RandlRoleDto>
+public class RandlRoleServiceImpl extends BaseDtoServiceImpl<RandlRoleMapper, RandlRole, RandlRoleDto>
         implements RandlRoleService,WithLogger {
 
 
@@ -37,8 +37,8 @@ public class RandlRoleServiceImpl extends BaseDtoServiceImpl<RandlRoleMapper, Ra
     }
 
     @Override
-    protected RandlRoleDto toDto(RandRole randRole) {
-        RandlRoleDto randlRoleDto = getMapperFacade().map(randRole, RandlRoleDto.class);
+    protected RandlRoleDto toDto(RandlRole randlRole) {
+        RandlRoleDto randlRoleDto = getMapperFacade().map(randlRole, RandlRoleDto.class);
         return randlRoleDto;
     }
 
@@ -47,13 +47,13 @@ public class RandlRoleServiceImpl extends BaseDtoServiceImpl<RandlRoleMapper, Ra
     public String addRole(AddRoleParams params) {
         BeanValidator.verifyParams(params);
         if (getBaseMapper().selectOne(
-                new QueryWrapper<RandRole>().eq("name", params.getName())) != null) {
+                new QueryWrapper<RandlRole>().eq("name", params.getName())) != null) {
             throw new ApiResponseException(ErrorU.CODE_9.C, "角色名");
         }
 
-        RandRole randRole = getMapperFacade().map(params, RandRole.class);
-        randRole.setName(randRole.getName().toUpperCase());
-        save(randRole);
+        RandlRole RandlRole = getMapperFacade().map(params, RandlRole.class);
+        RandlRole.setName(RandlRole.getName().toUpperCase());
+        save(RandlRole);
         return "添加新的系统角色成功";
     }
 
@@ -82,7 +82,7 @@ public class RandlRoleServiceImpl extends BaseDtoServiceImpl<RandlRoleMapper, Ra
 
     @Override
     public List<RandlRoleDto> getAllAdminRole() {
-        List<RandRole> list = getBaseMapper().selectList(new QueryWrapper<RandRole>().like("name",
+        List<RandlRole> list = getBaseMapper().selectList(new QueryWrapper<RandlRole>().like("name",
                 "%_ADMIN"));
         List<RandlRoleDto> randlRoleDtoList = getMapperFacade().mapAsList(list, RandlRoleDto.class);
         return randlRoleDtoList;
@@ -90,7 +90,7 @@ public class RandlRoleServiceImpl extends BaseDtoServiceImpl<RandlRoleMapper, Ra
 
     @Override
     public List<RandlRoleDto> getAllUserRole() {
-        List<RandRole> list = getBaseMapper().selectList(new QueryWrapper<RandRole>().like("name",
+        List<RandlRole> list = getBaseMapper().selectList(new QueryWrapper<RandlRole>().like("name",
                 "%_USER"));
         List<RandlRoleDto> randlRoleDtoList = getMapperFacade().mapAsList(list, RandlRoleDto.class);
         return randlRoleDtoList;
@@ -98,10 +98,10 @@ public class RandlRoleServiceImpl extends BaseDtoServiceImpl<RandlRoleMapper, Ra
 
     @Override
     public List<RandlRoleDto> getRoleListByKeyword(String keyword) {
-        QueryWrapper<RandRole> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<RandlRole> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("fid", keyword).or().like("name", "%" + keyword + "%")
                     .or().like("description", "%" + keyword + "%");
-        List<RandRole> apiList = getBaseMapper().selectList(queryWrapper);
+        List<RandlRole> apiList = getBaseMapper().selectList(queryWrapper);
         if (apiList == null) {
             throw new ApiResponseException(5040);
         }

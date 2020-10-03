@@ -41,7 +41,7 @@ public class UserHolder {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
         grantedAuthorityList.add(
-                new JaasGrantedAuthority("ROLE_" + systemUser.getRandRole().getName(),
+                new JaasGrantedAuthority("ROLE_" + systemUser.getRoleAliasName(),
                         systemUser));
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(systemUser.getUsername(),

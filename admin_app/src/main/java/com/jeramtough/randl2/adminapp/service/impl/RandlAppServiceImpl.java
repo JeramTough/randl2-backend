@@ -9,12 +9,11 @@ import com.jeramtough.randl2.common.mapper.RandlAppMapper;
 import com.jeramtough.randl2.common.mapper.RandlModuleMapper;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
 import com.jeramtough.randl2.common.model.dto.RandlAppDto;
-import com.jeramtough.randl2.common.model.entity.RandRole;
 import com.jeramtough.randl2.common.model.entity.RandlApp;
 import com.jeramtough.randl2.common.model.entity.RandlModule;
+import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.params.app.AddAppParams;
 import com.jeramtough.randl2.common.model.params.app.UpdateAppParams;
-import com.jeramtough.randl2.common.model.params.permission.UpdateApiParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
@@ -68,7 +67,7 @@ public class RandlAppServiceImpl extends BaseDtoServiceImpl<RandlAppMapper, Rand
     @Override
     public String removeOneById(Serializable id) {
         randlModuleMapper.delete(new QueryWrapper<RandlModule>().eq("app_id", id));
-        randlRoleMapper.delete(new QueryWrapper<RandRole>().eq("app_id", id));
+        randlRoleMapper.delete(new QueryWrapper<RandlRole>().eq("app_id", id));
         getBaseMapper().deleteById(id);
         return "删除App成功！";
     }

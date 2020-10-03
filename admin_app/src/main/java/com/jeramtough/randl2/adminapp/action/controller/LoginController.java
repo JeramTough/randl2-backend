@@ -42,6 +42,8 @@ public class LoginController extends BaseController {
                     required = true, dataType = "String", defaultValue = "superadmin")})
     @ApiResponses(value = {
             @ApiResponse(code = ErrorU.CODE_301.C, message = ErrorU.CODE_301.M),
+            @ApiResponse(code = ErrorU.CODE_302.C, message = ErrorU.CODE_302.M),
+            @ApiResponse(code = ErrorU.CODE_304.C, message = ErrorU.CODE_304.M),
     })
     public CommonApiResponse<SystemUserDto> adminLogin(
             @RequestParam(required = false) String username,

@@ -21,13 +21,6 @@ spring:
       charset: UTF-8
       enabled: true
       force: true
-  security:
-    user:
-      name: superadmin
-      password: '{noop}superadmin'
-    visitor:
-      name: visitor
-      password: '{noop}visitor'
 
 app:
   setting:
@@ -37,8 +30,10 @@ app:
       validity: 604800000
     admin:
       #管理员账号要尽量复杂，不和线上数据库里的账号重复
-      account: superadmin123
-      password: 12345678
+      account: superadmin
+      password: '{noop}superadmin'
+      defaultAppId: 1
+      defaultRoleId: 1
     user:
       defaultAppId: 2
       defaultRoleId: 2

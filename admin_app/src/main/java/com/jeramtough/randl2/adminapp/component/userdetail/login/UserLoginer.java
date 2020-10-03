@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.adminapp.component.userdetail.login;
 
+import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
 
 /**
@@ -10,5 +11,5 @@ import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
  */
 public interface UserLoginer {
 
-    SystemUser login(Object credentials);
+    SystemUser login(Object credentials) throws ApiResponseException;
 }

@@ -112,7 +112,8 @@ public class RegisteredUserLoginServiceImpl implements RegisteredUserLoginServic
     public Map<String, Object> loginForVisitor(LoginForVisitorCredentials credentials) {
         BeanValidator.verifyParams(credentials);
 
-        UserLoginer userLoginer = getWC().getBean(VisitorUserLoginer.class);
+//        UserLoginer userLoginer = getWC().getBean(VisitorUserLoginer.class);
+        UserLoginer userLoginer = null;
         SystemUser systemUser = userLoginer.login(credentials);
 
         if (systemUser == null) {

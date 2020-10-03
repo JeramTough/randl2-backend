@@ -1,6 +1,5 @@
 package com.jeramtough.randl2.adminapp.component.userdetail.login;
 
-import com.jeramtough.randl2.common.model.entity.RandRole;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
 import com.jeramtough.randl2.adminapp.component.userdetail.UserType;

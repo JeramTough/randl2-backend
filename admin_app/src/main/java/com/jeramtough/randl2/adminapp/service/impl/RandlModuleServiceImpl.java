@@ -64,7 +64,7 @@ public class RandlModuleServiceImpl extends BaseDtoServiceImpl<RandlModuleMapper
     //**********************
 
     private TreeNode getRootTreeNode() {
-        List<RandlModule> randlModuleList;
+       /* List<RandlModule> randlModuleList;
         if (UserHolder.isSuperAdmin()) {
             randlModuleList = randlModuleMapper.selectList(null);
         }
@@ -97,6 +97,7 @@ public class RandlModuleServiceImpl extends BaseDtoServiceImpl<RandlModuleMapper
                 parentTreeNode.addSub(treeNode);
             }
         }
-        return rootTreeNode;
+        return rootTreeNode;*/
+        return null;
     }
 }
