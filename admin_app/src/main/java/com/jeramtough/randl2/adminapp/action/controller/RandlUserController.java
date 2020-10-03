@@ -24,7 +24,7 @@ import java.util.List;
  * @author JeramTough
  * @since 2020-10-03
  */
-@Api(tags = {"RandlUserController"})
+@Api(tags = {"Randl用户接口"})
 @RestController
 @RequestMapping("/randlUser")
 public class RandlUserController extends BaseController {

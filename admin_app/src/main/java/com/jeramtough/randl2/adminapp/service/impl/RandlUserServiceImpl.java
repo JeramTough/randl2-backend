@@ -3,6 +3,7 @@ package com.jeramtough.randl2.adminapp.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.jtweb.service.impl.BaseDtoServiceImpl;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
 import com.jeramtough.randl2.common.mapper.RandlUserRoleMapMapper;
@@ -27,7 +28,7 @@ import com.jeramtough.randl2.adminapp.component.userdetail.MyUserFactory;
  * @since 2020-10-03
  */
 @Service
-public class RandlUserServiceImpl extends BaseServiceImpl<RandlUserMapper, RandlUser, RandlUserDto>
+public class RandlUserServiceImpl extends BaseDtoServiceImpl<RandlUserMapper, RandlUser, RandlUserDto>
         implements RandlUserService {
 
     private final AppSetting appSetting;
@@ -36,12 +37,11 @@ public class RandlUserServiceImpl extends BaseServiceImpl<RandlUserMapper, Randl
     private final MyUserFactory myUserFactory;
 
     public RandlUserServiceImpl(WebApplicationContext wc,
-                                MapperFacade mapperFacade,
                                 AppSetting appSetting,
                                 RandlRoleMapper roleMapper,
                                 RandlUserRoleMapMapper userRoleMapMapper,
                                 MyUserFactory myUserFactory) {
-        super(wc, mapperFacade);
+        super(wc);
         this.appSetting = appSetting;
         this.roleMapper = roleMapper;
         this.userRoleMapMapper = userRoleMapMapper;

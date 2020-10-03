@@ -20,7 +20,7 @@ import java.util.Objects;
  */
 public class ApiUrlUtil {
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         List<SystemApi> apiList = getAll();
         L.debug(apiList.size());
     }
@@ -67,5 +67,5 @@ public class ApiUrlUtil {
             }
         }
         return apiList;
-    }
+    }*/
 }

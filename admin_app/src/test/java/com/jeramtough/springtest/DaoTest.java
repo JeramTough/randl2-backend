@@ -21,12 +21,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 //@SpringApplicationConfiguration(classes = Application.class)// 1.4.0 前版本
 public class DaoTest {
 
-    @Autowired
-    PermissionMapper permissionMapper;
 
     @Test
     public void testOne(){
-        L.debug(permissionMapper.selectListPermissionDto().size());
     }
 
 

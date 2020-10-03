@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.adminapp.service;
 
+import com.jeramtough.jtweb.service.BaseDtoService;
 import com.jeramtough.randl2.common.model.dto.RandlOperationLogDto;
 import com.jeramtough.randl2.common.model.entity.RandlOperationLog;
 
@@ -11,7 +12,7 @@ import com.jeramtough.randl2.common.model.entity.RandlOperationLog;
  * @author JeramTough
  * @since 2020-08-06
  */
-public interface OperationLogService extends BaseService<RandlOperationLog, RandlOperationLogDto> {
+public interface RandlOperationLogService extends BaseDtoService<RandlOperationLog, RandlOperationLogDto> {
 
 
 }

@@ -6,7 +6,7 @@ import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
 import com.jeramtough.randl2.adminapp.component.userdetail.UserHolder;
 import com.jeramtough.randl2.adminapp.component.userdetail.UserType;
 import com.jeramtough.randl2.common.model.entity.RandlOperationLog;
-import com.jeramtough.randl2.adminapp.service.OperationLogService;
+import com.jeramtough.randl2.adminapp.service.RandlOperationLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -33,14 +33,14 @@ import java.util.Objects;
 @Component
 public class OperationLogAspect {
 
-    private final OperationLogService operationLogService;
+    private final RandlOperationLogService randlOperationLogService;
     private final HttpServletRequest request;
 
     @Autowired
     public OperationLogAspect(
-            OperationLogService operationLogService,
+            RandlOperationLogService randlOperationLogService,
             HttpServletRequest request) {
-        this.operationLogService = operationLogService;
+        this.randlOperationLogService = randlOperationLogService;
         this.request = request;
     }
 
@@ -100,7 +100,7 @@ public class OperationLogAspect {
         Object returnValue = null;
         try {
             returnValue = joinPoint.proceed();
-            randlOperationLog.setResult(true);
+            randlOperationLog.setResult(1);
             String returnString = JSON.toJSONString(returnValue);
             returnString = returnString.substring(0, Math.min(returnString.length(), 50));
             returnString = returnString + "...";
@@ -109,7 +109,7 @@ public class OperationLogAspect {
         catch (Throwable throwable) {
             if (throwable instanceof Exception) {
                 Exception exception = (Exception) throwable;
-                randlOperationLog.setResult(false);
+                randlOperationLog.setResult(0);
                 throw exception;
             }
         }
@@ -131,7 +131,7 @@ public class OperationLogAspect {
                 randlOperationLog.setAdminName(systemUser.getUsername());
                 String content = JSON.toJSONString(contentMap);
                 randlOperationLog.setContent(content);
-                operationLogService.add(randlOperationLog);
+                randlOperationLogService.save(randlOperationLog);
             }
 
         }

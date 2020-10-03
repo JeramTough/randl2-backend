@@ -24,7 +24,6 @@ public class AdminUserLoginer implements UserLoginer {
 
     private final PasswordEncoder passwordEncoder;
     private final SuperAdmin superAdmin;
-    private final AdminUserMapper adminUserMapper;
     private final RandlRoleMapper randlRoleMapper;
     private final MapperFacade mapperFacade;
 
@@ -32,18 +31,16 @@ public class AdminUserLoginer implements UserLoginer {
     public AdminUserLoginer(
             PasswordEncoder passwordEncoder,
             SuperAdmin superAdmin,
-            AdminUserMapper adminUserMapper,
             RandlRoleMapper randlRoleMapper, MapperFacade mapperFacade) {
         this.passwordEncoder = passwordEncoder;
         this.superAdmin = superAdmin;
-        this.adminUserMapper = adminUserMapper;
         this.randlRoleMapper = randlRoleMapper;
         this.mapperFacade = mapperFacade;
     }
 
     @Override
     public SystemUser login(Object credentials) {
-        AdminUserCredentials adminUserCredentials = (AdminUserCredentials) credentials;
+        /*AdminUserCredentials adminUserCredentials = (AdminUserCredentials) credentials;
 
         //如果是超级管理员登录
         if (superAdmin.getUsername().equals(
@@ -71,7 +68,7 @@ public class AdminUserLoginer implements UserLoginer {
 
                 return systemUser;
             }
-        }
+        }*/
 
         return null;
     }

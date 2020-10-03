@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.jtweb.service.impl.BaseDtoServiceImpl;
 import com.jeramtough.randl2.common.model.dto.RandlApiDto;
 import com.jeramtough.randl2.common.model.entity.RandlApi;
 import com.jeramtough.randl2.common.model.error.ErrorU;
@@ -26,14 +27,13 @@ import java.util.List;
  * @since 2020-01-26
  */
 @Service
-public class RandlApiServiceImpl extends BaseServiceImpl<RandlApiMapper, RandlApi, RandlApiDto>
+public class RandlApiServiceImpl extends BaseDtoServiceImpl<RandlApiMapper, RandlApi, RandlApiDto>
         implements RandlApiService,
         WithLogger {
 
 
-    public RandlApiServiceImpl(WebApplicationContext wc,
-                               MapperFacade mapperFacade) {
-        super(wc, mapperFacade);
+    public RandlApiServiceImpl(WebApplicationContext wc) {
+        super(wc);
     }
 
     @Override

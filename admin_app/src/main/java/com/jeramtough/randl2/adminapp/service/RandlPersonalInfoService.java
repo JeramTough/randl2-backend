@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.adminapp.service;
 
+import com.jeramtough.jtweb.service.BaseDtoService;
 import com.jeramtough.randl2.common.model.entity.RandlPersonalInfo;
 import com.jeramtough.randl2.common.model.params.personalinfo.UpdatePersonalInfoParams;
 import com.jeramtough.randl2.common.model.dto.RandlPersonalInfoDto;
@@ -12,7 +13,7 @@ import com.jeramtough.randl2.common.model.dto.RandlPersonalInfoDto;
  * @author JeramTough
  * @since 2020-01-26
  */
-public interface RandlPersonalInfoService extends BaseService<RandlPersonalInfo, RandlPersonalInfoDto> {
+public interface RandlPersonalInfoService extends BaseDtoService<RandlPersonalInfo, RandlPersonalInfoDto> {
 
     RandlPersonalInfoDto getPersonalInfoByUid(Long uid);
 

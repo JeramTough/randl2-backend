@@ -2,6 +2,7 @@ package com.jeramtough.springtest;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.randl2.adminapp.Randl2AdminApplication;
+import com.jeramtough.randl2.common.mapper.RandlModuleMapper;
 import com.jeramtough.test.ApiUrlUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +25,7 @@ import java.util.*;
 public class RandlApiUrlTest {
 
     @Autowired
-    SystemApiMapper systemApiMapper;
+    RandlModuleMapper moduleMapper;
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -32,18 +33,18 @@ public class RandlApiUrlTest {
     @Test
     public void insertSystemApi() {
 //        apiMapper.delete();
-        List<SystemApi> apiList = ApiUrlUtil.getAll();
+        /*List<SystemApi> apiList = ApiUrlUtil.getAll();
         for (SystemApi api : apiList) {
-            SystemApi hasSystemApi = systemApiMapper.selectOne(new QueryWrapper<SystemApi>().eq("path",
+            SystemApi hasSystemApi = moduleMapper.selectOne(new QueryWrapper<SystemApi>().eq("path",
                     api.getPath()));
             if (hasSystemApi != null) {
                 api.setFid(hasSystemApi.getFid());
-                systemApiMapper.updateById(api);
+                moduleMapper.updateById(api);
             }
             else {
-                systemApiMapper.insert(api);
+                moduleMapper.insert(api);
             }
-        }
+        }*/
     }
 
 

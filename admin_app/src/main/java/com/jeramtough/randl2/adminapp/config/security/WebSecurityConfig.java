@@ -39,6 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/registeredUser/login/**",
             "/verificationCode/**",
             "/test/**",
+            "/**",
     };
 
     private static final String[] SWAGGER_URLS = {
@@ -69,9 +70,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final SuperAdmin superAdmin;
     private final RandlModuleMapper randlModuleMapper;
-    private final MenuApiPermissionMapper menuApiPermissionMapper;
-    private final MenuRolePermissionMapper menuRolePermissionMapper;
-    private final SystemApiMapper systemApiMapper;
     private final RandlRoleMapper randlRoleMapper;
 
 
@@ -79,15 +77,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public WebSecurityConfig(
             SuperAdmin superAdmin,
             RandlModuleMapper randlModuleMapper,
-            MenuApiPermissionMapper menuApiPermissionMapper,
-            MenuRolePermissionMapper menuRolePermissionMapper,
-            SystemApiMapper systemApiMapper,
             RandlRoleMapper randlRoleMapper) {
         this.superAdmin = superAdmin;
         this.randlModuleMapper = randlModuleMapper;
-        this.menuApiPermissionMapper = menuApiPermissionMapper;
-        this.menuRolePermissionMapper = menuRolePermissionMapper;
-        this.systemApiMapper = systemApiMapper;
         this.randlRoleMapper = randlRoleMapper;
     }
 
@@ -98,8 +90,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //添加jwt过滤
 //        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
+        //签权构造者对象
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authorizationConfigurer = http
+                .authorizeRequests();
+
         //取出menuId对应的api，这是个菜单里需要调用到的api接口的描述
-        List<MenuApiPermission> menuApiPermissionList = menuApiPermissionMapper.selectList(null);
+        /*List<MenuApiPermission> menuApiPermissionList = menuApiPermissionMapper.selectList(null);
         Map<Long, List<SystemApi>> menuIdKeyApiMap = new HashMap<>(24);
         for (MenuApiPermission menuApiPermission : menuApiPermissionList) {
             List<SystemApi> appApiList = menuIdKeyApiMap.get(menuApiPermission.getMenuId());
@@ -128,9 +124,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             menuIdKeyRoleMap.put(randlModule.getFid(), randRoleList);
         }
 
-        //签权构造者对象
-        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authorizationConfigurer = http
-                .authorizeRequests();
+
 
         authorizationConfigurer
                 //放行Swagger的资源
@@ -155,7 +149,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         List<SystemApi> systemApiList = systemApiMapper.selectList(null);
         for (SystemApi systemApi : systemApiList) {
             authorizationConfigurer.antMatchers(systemApi.getPath()).hasRole(SuperAdmin.ROLE_NAME);
-        }
+        }*/
 
         http.formLogin().loginPage("/unlogged.html").permitAll();
 

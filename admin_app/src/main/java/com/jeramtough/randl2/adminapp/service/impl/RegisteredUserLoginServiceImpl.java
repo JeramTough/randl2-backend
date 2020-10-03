@@ -129,19 +129,19 @@ public class RegisteredUserLoginServiceImpl implements RegisteredUserLoginServic
 
     private Map<String, Object> processingLoginResult(SystemUser systemUser) {
         //processing SystemUserDto
-        SystemUserDto systemUserDto = mapperFacade.map(systemUser, SystemUserDto.class);
+      /*  SystemUserDto systemUserDto = mapperFacade.map(systemUser, SystemUserDto.class);
         String surfaceImage = sourceSurfaceImageMapper.selectById(
                 systemUser.getSurfaceImageId()).getSurfaceImage();
-        systemUserDto.setSurfaceImage(surfaceImage);
+        systemUserDto.setSurfaceImage(surfaceImage);*/
 
         //processing token
-        String token = JwtTokenUtil.createToken(systemUser, authTokenConfig.getSigningKey(),
+       /* String token = JwtTokenUtil.createToken(systemUser, authTokenConfig.getSigningKey(),
                 AuthTokenConfig.ISSUER,
                 authTokenConfig.getJwtTokenValidity());
 
         Map<String, Object> map = new HashMap<>(2);
         map.put("systemUser", systemUserDto);
-        map.put("token", token);
-        return map;
+        map.put("token", token);*/
+        return null;
     }
 }

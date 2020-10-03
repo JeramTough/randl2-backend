@@ -8,7 +8,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.jeramtough.jtcomponent.task.response.ResponseFactory;
 import com.jeramtough.jtcomponent.task.response.TaskResponse;
-import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
 
 import java.util.Date;
 
@@ -20,17 +19,16 @@ import java.util.Date;
  */
 public class JwtTokenUtil {
 
-    public static String createToken(SystemUser systemUser, String signingKey, String issuer,
+    public static String createToken(String userId, String roleName, String signingKey, String issuer,
                                      long tokenValidity) {
         String token = null;
         try {
             Algorithm algorithm = Algorithm.HMAC256(signingKey);
 
-            String roleName = systemUser.getRandRole().getName();
 
             token = JWT.create()
                        .withIssuer(issuer)
-                       .withClaim("uid", systemUser.getUid())
+                       .withClaim("uid", userId)
                        .withClaim("role", roleName)
                        .withExpiresAt(new Date(
                                System.currentTimeMillis() + tokenValidity))
@@ -50,9 +48,11 @@ public class JwtTokenUtil {
                                           .withIssuer(issuer)
                                           .build(); //Reusable verifier instance
                 DecodedJWT jwt = verifier.verify(token);
-                Long uid = jwt.getClaim("uid").asLong();
+                String uid = jwt.getClaim("uid").asString();
+                String roleId = jwt.getClaim("roleId").asString();
                 if (uid != null) {
                     preTaskResult.putPayload("uid", uid);
+                    preTaskResult.putPayload("roleId", roleId);
                     return true;
                 }
             }

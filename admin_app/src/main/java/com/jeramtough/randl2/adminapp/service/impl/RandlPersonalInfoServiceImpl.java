@@ -3,6 +3,7 @@ package com.jeramtough.randl2.adminapp.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.jtweb.service.impl.BaseDtoServiceImpl;
 import com.jeramtough.randl2.common.model.entity.RandlPersonalInfo;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.personalinfo.UpdatePersonalInfoParams;
@@ -26,7 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
  * @since 2020-01-26
  */
 @Service
-public class RandlPersonalInfoServiceImpl extends BaseServiceImpl<PersonalInfoMapper,
+public class RandlPersonalInfoServiceImpl extends BaseDtoServiceImpl<PersonalInfoMapper,
         RandlPersonalInfo, RandlPersonalInfoDto> implements
         RandlPersonalInfoService {
 
@@ -35,10 +36,9 @@ public class RandlPersonalInfoServiceImpl extends BaseServiceImpl<PersonalInfoMa
 
     @Autowired
     public RandlPersonalInfoServiceImpl(WebApplicationContext wc,
-                                        MapperFacade mapperFacade,
                                         SourceSurfaceImageMapper sourceSurfaceImageMapper,
                                         RandlUserMapper randlUserMapper) {
-        super(wc, mapperFacade);
+        super(wc);
         this.sourceSurfaceImageMapper = sourceSurfaceImageMapper;
         this.randlUserMapper = randlUserMapper;
     }

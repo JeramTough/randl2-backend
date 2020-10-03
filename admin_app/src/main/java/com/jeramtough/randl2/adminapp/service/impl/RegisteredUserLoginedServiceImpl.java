@@ -2,6 +2,7 @@ package com.jeramtough.randl2.adminapp.service.impl;
 
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.jtweb.service.impl.BaseDtoServiceImpl;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.personalinfo.UpdatePersonalInfoParams;
@@ -35,7 +36,7 @@ import java.util.Objects;
  * </pre>
  */
 @Service
-public class RegisteredUserLoginedServiceImpl extends BaseServiceImpl<RandlUserMapper,
+public class RegisteredUserLoginedServiceImpl extends BaseDtoServiceImpl<RandlUserMapper,
         RandlUser, RandlUserDto> implements RegisteredUserLoginedService {
 
     private final VerificationCodeService verificationCodeService;
@@ -46,12 +47,11 @@ public class RegisteredUserLoginedServiceImpl extends BaseServiceImpl<RandlUserM
     @Autowired
     public RegisteredUserLoginedServiceImpl(
             WebApplicationContext wc,
-            MapperFacade mapperFacade,
             VerificationCodeService verificationCodeService,
             RandlPersonalInfoService randlPersonalInfoService,
             SourceSurfaceImageService surfaceImageService,
             PasswordEncoder passwordEncoder) {
-        super(wc, mapperFacade);
+        super(wc);
         this.verificationCodeService = verificationCodeService;
 
         this.randlPersonalInfoService = randlPersonalInfoService;

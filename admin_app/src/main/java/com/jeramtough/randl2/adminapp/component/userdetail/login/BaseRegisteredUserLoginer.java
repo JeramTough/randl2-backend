@@ -37,9 +37,8 @@ public abstract class BaseRegisteredUserLoginer {
         systemUser.setUserType(UserType.REGISTERED);
         systemUser.setUsername(randlUser.getAccount());
 
-        //所有用户只能拥有一种角色
-        RandRole randRole = randlRoleMapper.selectById(randlUser.getRoleId());
-        systemUser.setRandRole(randRole);
+       /* RandRole randRole = randlRoleMapper.selectById(randlUser.getRoleId());
+        systemUser.setRandRole(randRole);*/
         return systemUser;
     }
 

@@ -1,10 +1,10 @@
 package com.jeramtough.randl2.adminapp.service.impl;
 
+import com.jeramtough.jtweb.service.impl.BaseDtoServiceImpl;
 import com.jeramtough.randl2.common.model.dto.RandlOperationLogDto;
 import com.jeramtough.randl2.common.model.entity.RandlOperationLog;
 import com.jeramtough.randl2.common.mapper.OperationLogMapper;
-import com.jeramtough.randl2.adminapp.service.OperationLogService;
-import ma.glasnost.orika.MapperFacade;
+import com.jeramtough.randl2.adminapp.service.RandlOperationLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
@@ -18,13 +18,12 @@ import org.springframework.web.context.WebApplicationContext;
  * @since 2020-08-06
  */
 @Service
-public class OperationLogServiceImpl extends BaseServiceImpl<OperationLogMapper,
-        RandlOperationLog, RandlOperationLogDto> implements OperationLogService {
+public class RandlOperationLogServiceImpl extends BaseDtoServiceImpl<OperationLogMapper,
+        RandlOperationLog, RandlOperationLogDto> implements RandlOperationLogService {
 
     @Autowired
-    public OperationLogServiceImpl(WebApplicationContext wc,
-                                   MapperFacade mapperFacade) {
-        super(wc, mapperFacade);
+    public RandlOperationLogServiceImpl(WebApplicationContext wc) {
+        super(wc);
     }
 
     @Override

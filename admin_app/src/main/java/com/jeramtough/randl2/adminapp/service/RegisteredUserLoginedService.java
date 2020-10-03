@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.adminapp.service;
 
+import com.jeramtough.jtweb.service.BaseDtoService;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.common.model.params.personalinfo.UpdatePersonalInfoParams;
 import com.jeramtough.randl2.common.model.params.registereduser.BindingPhoneOrEmailParams;
@@ -15,7 +16,7 @@ import com.jeramtough.randl2.common.model.dto.RandlUserDto;
  * by @author JeramTough
  * </pre>
  */
-public interface RegisteredUserLoginedService extends BaseService<RandlUser,
+public interface RegisteredUserLoginedService extends BaseDtoService<RandlUser,
         RandlUserDto> {
 
     RandlPersonalInfoDto getPersonalInfo();

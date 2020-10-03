@@ -1,6 +1,7 @@
 package com.jeramtough.randl2.adminapp.service;
 
 import com.jeramtough.jtcomponent.tree.structure.TreeStructure;
+import com.jeramtough.jtweb.service.BaseDtoService;
 import com.jeramtough.randl2.common.model.dto.RandlModuleDto;
 import com.jeramtough.randl2.common.model.entity.RandlModule;
 
@@ -14,7 +15,7 @@ import java.util.Map;
  * @author JeramTough
  * @since 2020-08-06
  */
-public interface RandlModuleService extends BaseService<RandlModule, RandlModuleDto> {
+public interface RandlModuleService extends BaseDtoService<RandlModule, RandlModuleDto> {
 
     TreeStructure getCurrentAdminUserSystemMenuTree();
 

@@ -5,6 +5,7 @@ import com.jeramtough.jtcomponent.utils.ValidationUtil;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.jtweb.service.impl.BaseDtoServiceImpl;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
 import com.jeramtough.randl2.common.model.dto.RandlUserDto;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
@@ -38,7 +39,7 @@ import java.util.Objects;
  * @since 2020-01-26
  */
 @Service
-public class RegisteredUserServiceImpl extends BaseServiceImpl<RandlUserMapper,
+public class RegisteredUserServiceImpl extends BaseDtoServiceImpl<RandlUserMapper,
         RandlUser, RandlUserDto> implements
         RegisteredUserService, WithLogger {
 
@@ -49,12 +50,11 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RandlUserMapper,
 
     @Autowired
     public RegisteredUserServiceImpl(WebApplicationContext wc,
-                                     MapperFacade mapperFacade,
                                      RedisVerificationCodeHolder verificationCodeHolder,
                                      PasswordEncoder passwordEncoder,
                                      SourceSurfaceImageMapper sourceSurfaceImageMapper,
                                      RandlRoleMapper randlRoleMapper) {
-        super(wc, mapperFacade);
+        super(wc);
         this.verificationCodeHolder = verificationCodeHolder;
         this.passwordEncoder = passwordEncoder;
         this.sourceSurfaceImageMapper = sourceSurfaceImageMapper;
@@ -65,7 +65,6 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RandlUserMapper,
     protected RandlUserDto toDto(RandlUser randlUser) {
         RandlUserDto randlUserDto = getMapperFacade().map(randlUser,
                 RandlUserDto.class);
-        randlUserDto.setRandRole(randlRoleMapper.selectById(randlUser.getRoleId()));
         return randlUserDto;
     }
 
@@ -247,12 +246,12 @@ public class RegisteredUserServiceImpl extends BaseServiceImpl<RandlUserMapper,
             }
         }
 
-        if (!currentRandlUser.getRoleId().equals(params.getRoleId())) {
+       /* if (!currentRandlUser.getRoleId().equals(params.getRoleId())) {
             if (randlRoleMapper.selectById(params.getRoleId()) == null) {
                 //该角色不存在
                 throw new ApiResponseException(1039);
             }
-        }
+        }*/
 
 
         RandlUser randlUser = getMapperFacade().map(params, RandlUser.class);

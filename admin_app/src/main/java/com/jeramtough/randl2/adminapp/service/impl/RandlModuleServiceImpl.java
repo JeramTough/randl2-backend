@@ -4,12 +4,13 @@ import com.jeramtough.jtcomponent.tree.structure.DefaultTreeNode;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
 import com.jeramtough.jtcomponent.tree.structure.TreeStructure;
 import com.jeramtough.jtcomponent.tree.util.TreeNodeUtils;
+import com.jeramtough.jtweb.service.impl.BaseDtoServiceImpl;
 import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
 import com.jeramtough.randl2.adminapp.component.userdetail.UserHolder;
+import com.jeramtough.randl2.adminapp.service.RandlModuleService;
+import com.jeramtough.randl2.common.mapper.RandlModuleMapper;
 import com.jeramtough.randl2.common.model.dto.RandlModuleDto;
 import com.jeramtough.randl2.common.model.entity.RandlModule;
-import com.jeramtough.randl2.common.mapper.RandlModuleMapper;
-import com.jeramtough.randl2.adminapp.service.RandlModuleService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,16 +29,15 @@ import java.util.Map;
  * @since 2020-08-06
  */
 @Service
-public class RandlModuleServiceImpl extends BaseServiceImpl<RandlModuleMapper, RandlModule, RandlModuleDto>
+public class RandlModuleServiceImpl extends BaseDtoServiceImpl<RandlModuleMapper, RandlModule, RandlModuleDto>
         implements RandlModuleService {
 
     private final RandlModuleMapper randlModuleMapper;
 
     @Autowired
     public RandlModuleServiceImpl(WebApplicationContext wc,
-                                  MapperFacade mapperFacade,
                                   RandlModuleMapper randlModuleMapper) {
-        super(wc, mapperFacade);
+        super(wc);
         this.randlModuleMapper = randlModuleMapper;
     }
 
