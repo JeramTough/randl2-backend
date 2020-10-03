@@ -1,7 +1,7 @@
 package com.jeramtough.randl2.common.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.jeramtough.randl2.common.model.entity.OperationLog;
+import com.jeramtough.randl2.common.model.entity.RandlOperationLog;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface OperationLogMapper extends BaseMapper<OperationLog> {
+public interface OperationLogMapper extends BaseMapper<RandlOperationLog> {
 
 }

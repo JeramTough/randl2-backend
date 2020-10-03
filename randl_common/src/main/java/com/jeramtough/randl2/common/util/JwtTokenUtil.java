@@ -8,7 +8,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.jeramtough.jtcomponent.task.response.ResponseFactory;
 import com.jeramtough.jtcomponent.task.response.TaskResponse;
-import com.jeramtough.randl2.common.component.userdetail.SystemUser;
+import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
 
 import java.util.Date;
 
@@ -26,7 +26,7 @@ public class JwtTokenUtil {
         try {
             Algorithm algorithm = Algorithm.HMAC256(signingKey);
 
-            String roleName = systemUser.getRole().getName();
+            String roleName = systemUser.getRandRole().getName();
 
             token = JWT.create()
                        .withIssuer(issuer)

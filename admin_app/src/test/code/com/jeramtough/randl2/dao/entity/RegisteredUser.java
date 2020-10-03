@@ -104,7 +104,7 @@ public class RegisteredUser implements Serializable {
 
     @Override
     public String toString() {
-        return "RegisteredUser{" +
+        return "RandlUser{" +
         "uid=" + uid +
         ", account=" + account +
         ", phoneNumber=" + phoneNumber +

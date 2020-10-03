@@ -163,7 +163,7 @@ public class PersonalInfo implements Serializable {
 
     @Override
     public String toString() {
-        return "PersonalInfo{" +
+        return "RandlPersonalInfo{" +
         "fid=" + fid +
         ", uid=" + uid +
         ", gender=" + gender +

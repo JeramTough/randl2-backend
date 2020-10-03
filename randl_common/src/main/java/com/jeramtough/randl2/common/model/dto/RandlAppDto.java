@@ -2,6 +2,7 @@ package com.jeramtough.randl2.common.model.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import java.time.LocalDateTime;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -12,7 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
  * </p>
  *
  * @author JeramTough
- * @since 2020-09-16
+ * @since 2020-10-02
  */
 @ApiModel(value="RandlApp对象", description="")
 public class RandlAppDto implements Serializable{
@@ -34,6 +35,9 @@ public class RandlAppDto implements Serializable{
 
     @ApiModelProperty(value = "是否可用")
     private Integer isAble;
+
+    @ApiModelProperty(value = "创建时间")
+    private LocalDateTime createTime;
 
 
     public Long getFid() {
@@ -76,6 +80,14 @@ public class RandlAppDto implements Serializable{
         this.isAble = isAble;
     }
 
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
     @Override
     public String toString() {
         return "RandlApp{" +
@@ -84,6 +96,7 @@ public class RandlAppDto implements Serializable{
         ", appCode=" + appCode +
         ", description=" + description +
         ", isAble=" + isAble +
+        ", createTime=" + createTime +
         "}";
     }
 }

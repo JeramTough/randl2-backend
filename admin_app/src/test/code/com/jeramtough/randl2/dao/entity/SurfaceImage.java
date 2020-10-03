@@ -63,7 +63,7 @@ public class SurfaceImage implements Serializable {
 
     @Override
     public String toString() {
-        return "SurfaceImage{" +
+        return "SourceSurfaceImage{" +
         "fid=" + fid +
         ", surfaceImageUrl=" + surfaceImageUrl +
         ", uid=" + uid +

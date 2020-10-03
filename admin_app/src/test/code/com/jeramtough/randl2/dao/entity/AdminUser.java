@@ -104,7 +104,7 @@ public class AdminUser implements Serializable {
 
     @Override
     public String toString() {
-        return "AdminUser{" +
+        return "RandlAdminUser{" +
         "uid=" + uid +
         ", username=" + username +
         ", phoneNumber=" + phoneNumber +

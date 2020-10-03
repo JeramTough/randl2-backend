@@ -1,9 +1,9 @@
 package com.jeramtough.randl2.common.model.dto;
 
-import io.swagger.annotations.ApiModel;
-
-import java.io.Serializable;
 import java.sql.Blob;
+import java.io.Serializable;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
@@ -11,39 +11,39 @@ import java.sql.Blob;
  * </p>
  *
  * @author JeramTough
- * @since 2020-08-06
+ * @since 2020-10-02
  */
-@ApiModel(value = "OauthCodeDTO对象", description = "")
+@ApiModel(value="OauthCode对象", description="")
 public class OauthCodeDto implements Serializable{
 
-private static final long serialVersionUID=1L;
+    private static final long serialVersionUID=1L;
 
-        private String code;
+    private String code;
 
-        private Blob authentication;
+    private Blob authentication;
 
 
-    public String getCode(){
-            return code;
-            }
+    public String getCode() {
+        return code;
+    }
 
-        public void setCode(String code) {
-            this.code = code;
-            }
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-    public Blob getAuthentication(){
-            return authentication;
-            }
+    public Blob getAuthentication() {
+        return authentication;
+    }
 
-        public void setAuthentication(Blob authentication) {
-            this.authentication = authentication;
-            }
-    
-@Override
-public String toString() {
+    public void setAuthentication(Blob authentication) {
+        this.authentication = authentication;
+    }
+
+    @Override
+    public String toString() {
         return "OauthCode{" +
-                "code=" + code +
-                ", authentication=" + authentication +
+        "code=" + code +
+        ", authentication=" + authentication +
         "}";
-        }
+    }
 }

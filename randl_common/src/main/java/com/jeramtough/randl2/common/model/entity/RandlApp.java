@@ -2,6 +2,7 @@ package com.jeramtough.randl2.common.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import java.time.LocalDateTime;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -12,28 +13,43 @@ import io.swagger.annotations.ApiModelProperty;
  * </p>
  *
  * @author JeramTough
- * @since 2020-09-16
+ * @since 2020-10-02
  */
 @ApiModel(value="RandlApp对象", description="")
 public class RandlApp implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @ApiModelProperty(value = "主键")
+  /**
+   * 主键
+   */
     @TableId(value = "fid", type = IdType.AUTO)
     private Long fid;
 
-    @ApiModelProperty(value = "客户端中文名称")
+  /**
+   * 客户端中文名称
+   */
     private String appName;
 
-    @ApiModelProperty(value = "客户端代码")
+  /**
+   * 客户端代码
+   */
     private String appCode;
 
-    @ApiModelProperty(value = "客户端描述")
+  /**
+   * 客户端描述
+   */
     private String description;
 
-    @ApiModelProperty(value = "是否可用")
+  /**
+   * 是否可用
+   */
     private Integer isAble;
+
+  /**
+   * 创建时间
+   */
+    private LocalDateTime createTime;
 
 
     public Long getFid() {
@@ -76,6 +92,14 @@ public class RandlApp implements Serializable {
         this.isAble = isAble;
     }
 
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
     @Override
     public String toString() {
         return "RandlApp{" +
@@ -84,6 +108,7 @@ public class RandlApp implements Serializable {
         ", appCode=" + appCode +
         ", description=" + description +
         ", isAble=" + isAble +
+        ", createTime=" + createTime +
         "}";
     }
 }

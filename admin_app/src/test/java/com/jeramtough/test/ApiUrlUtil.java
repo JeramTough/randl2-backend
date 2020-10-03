@@ -3,7 +3,6 @@ package com.jeramtough.test;
 import com.alibaba.fastjson.JSON;
 import com.jeramtough.jtcomponent.utils.ClassUtil;
 import com.jeramtough.jtlog.facade.L;
-import com.jeramtough.randl2.common.model.entity.SystemApi;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

@@ -53,7 +53,7 @@ public class Role implements Serializable {
 
     @Override
     public String toString() {
-        return "RoleDto{" +
+        return "RandlRoleDto{" +
         "fid=" + fid +
         ", name=" + name +
         ", describe=" + describe +

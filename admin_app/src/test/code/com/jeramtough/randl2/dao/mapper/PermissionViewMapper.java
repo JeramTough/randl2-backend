@@ -1,6 +1,5 @@
 package com.jeramtough.randl2.common.mapper;
 
-import com.jeramtough.randl2.common.model.entity.PermissionView;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

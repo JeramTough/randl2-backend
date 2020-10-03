@@ -1,7 +1,5 @@
-package com.jeramtough.randl2.userapp.service.impl;
+package com.jeramtough.randl2.adminapp.service.impl;
 
-import com.jeramtough.randl2.common.model.entity.Permission;
-import com.jeramtough.randl2.common.mapper.PermissionMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
