@@ -176,6 +176,11 @@ public class ErrorU {
         public static final String M = " 删除系统角色失败！因为还有管理员账号被赋予该角色，请修改后重试！";
     }
 
+    public static final class CODE_502 {
+        public static final int C = 20502;
+        public static final String M = "这个用户uid在这个appId应用中没有对应的角色！";
+    }
+
     //=================上传业务===========================
 
     public static final class CODE_601 {

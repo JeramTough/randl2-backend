@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
@@ -39,7 +38,7 @@ public class RandlModule implements Serializable {
   /**
    * 菜单路径
    */
-    private String url;
+    private String path;
 
   /**
    * 层级|最小是1|最大是2
@@ -49,7 +48,7 @@ public class RandlModule implements Serializable {
   /**
    * 排序
    */
-    private Integer order;
+    private Integer moduleOrder;
 
   /**
    * 菜单图标 默认为斜杠
@@ -95,12 +94,12 @@ public class RandlModule implements Serializable {
         this.description = description;
     }
 
-    public String getUrl() {
-        return url;
+    public String getPath() {
+        return path;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public Integer getLevel() {
@@ -111,12 +110,12 @@ public class RandlModule implements Serializable {
         this.level = level;
     }
 
-    public Integer getOrder() {
-        return order;
+    public Integer getModuleOrder() {
+        return moduleOrder;
     }
 
-    public void setOrder(Integer order) {
-        this.order = order;
+    public void setModuleOrder(Integer moduleOrder) {
+        this.moduleOrder = moduleOrder;
     }
 
     public String getIcon() {
@@ -165,9 +164,9 @@ public class RandlModule implements Serializable {
         "fid=" + fid +
         ", name=" + name +
         ", description=" + description +
-        ", url=" + url +
+        ", url=" + path +
         ", level=" + level +
-        ", order=" + order +
+        ", order=" + moduleOrder +
         ", icon=" + icon +
         ", parentId=" + parentId +
         ", isAble=" + isAble +

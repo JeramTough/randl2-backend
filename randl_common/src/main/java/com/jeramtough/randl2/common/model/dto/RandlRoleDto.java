@@ -2,27 +2,29 @@ package com.jeramtough.randl2.common.model.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author JeramTough
  * @since 2020-10-02
  */
-@ApiModel(value="RandlRole对象", description="")
-public class RandlRoleDto implements Serializable{
+@ApiModel(value = "RandlRole对象", description = "")
+public class RandlRoleDto implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "主键id")
     @TableId(value = "fid", type = IdType.AUTO)
-    private Integer fid;
+    private Long fid;
 
     @ApiModelProperty(value = "中文名")
     private String name;
@@ -40,11 +42,11 @@ public class RandlRoleDto implements Serializable{
     private String aliasName;
 
 
-    public Integer getFid() {
+    public Long getFid() {
         return fid;
     }
 
-    public void setFid(Integer fid) {
+    public void setFid(Long fid) {
         this.fid = fid;
     }
 
@@ -91,12 +93,12 @@ public class RandlRoleDto implements Serializable{
     @Override
     public String toString() {
         return "RandlRole{" +
-        "fid=" + fid +
-        ", name=" + name +
-        ", description=" + description +
-        ", appId=" + appId +
-        ", createTime=" + createTime +
-        ", aliasName=" + aliasName +
-        "}";
+                "fid=" + fid +
+                ", name=" + name +
+                ", description=" + description +
+                ", appId=" + appId +
+                ", createTime=" + createTime +
+                ", aliasName=" + aliasName +
+                "}";
     }
 }

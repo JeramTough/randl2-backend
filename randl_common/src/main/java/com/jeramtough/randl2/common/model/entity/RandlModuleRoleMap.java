@@ -12,7 +12,7 @@ import io.swagger.annotations.ApiModelProperty;
  * </p>
  *
  * @author JeramTough
- * @since 2020-10-02
+ * @since 2020-10-03
  */
 @ApiModel(value="RandlModuleRoleMap对象", description="")
 public class RandlModuleRoleMap implements Serializable {
@@ -26,7 +26,9 @@ public class RandlModuleRoleMap implements Serializable {
 
     private Long roleId;
 
-    private Integer isAble;
+    private Long appId;
+
+    private Long apiId;
 
 
     public Long getFid() {
@@ -53,12 +55,20 @@ public class RandlModuleRoleMap implements Serializable {
         this.roleId = roleId;
     }
 
-    public Integer getIsAble() {
-        return isAble;
+    public Long getAppId() {
+        return appId;
     }
 
-    public void setIsAble(Integer isAble) {
-        this.isAble = isAble;
+    public void setAppId(Long appId) {
+        this.appId = appId;
+    }
+
+    public Long getApiId() {
+        return apiId;
+    }
+
+    public void setApiId(Long apiId) {
+        this.apiId = apiId;
     }
 
     @Override
@@ -67,7 +77,8 @@ public class RandlModuleRoleMap implements Serializable {
         "fid=" + fid +
         ", moduleId=" + moduleId +
         ", roleId=" + roleId +
-        ", isAble=" + isAble +
+        ", appId=" + appId +
+        ", apiId=" + apiId +
         "}";
     }
 }

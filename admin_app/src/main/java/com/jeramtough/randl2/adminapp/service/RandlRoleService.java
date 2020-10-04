@@ -26,16 +26,16 @@ public interface RandlRoleService extends BaseDtoService<RandlRole, RandlRoleDto
 
     RandlRoleDto getRole(Long fid);
 
-    /**
-     * @deprecated 使用{}{@link #getAllAdminRole()}和#{@link #getAllUserRole()} 代替
-     * @return 返回角色对象列表
-     */
-    @Deprecated
     List<RandlRoleDto> getAllRole();
 
-    List<RandlRoleDto> getAllAdminRole();
-
-    List<RandlRoleDto> getAllUserRole();
-
     List<RandlRoleDto> getRoleListByKeyword(String keyword);
+
+    /**
+     * 每个用户在每个应用里，只允许是一个角色
+     *
+     * @param appId  应用Id
+     * @param uid 角色Id
+     * @return 如果没有则返回空
+     */
+    RandlRoleDto getRoleByAppIdAndUid(Long appId, Long uid);
 }

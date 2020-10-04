@@ -1,28 +1,19 @@
 package com.jeramtough.randl2.common.model.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.time.LocalDateTime;
+
 /**
- * <p>
- * 
- * </p>
- *
- * @author JeramTough
- * @since 2020-10-02
+ * <pre>
+ * Created on 2020/10/4 1:45
+ * by @author WeiBoWen
+ * </pre>
  */
-@ApiModel(value="RandlModule对象", description="")
-public class RandlModuleDto implements Serializable{
+public class RandlModuleAuthDto {
 
-    private static final long serialVersionUID=1L;
-
-    @ApiModelProperty(value = "主键")
-    @TableId(value = "fid", type = IdType.AUTO)
-    private Long fid;
+    @ApiModelProperty(value = "唯一id")
+    private Long mid;
 
     @ApiModelProperty(value = "菜单中文名")
     private String name;
@@ -30,35 +21,43 @@ public class RandlModuleDto implements Serializable{
     @ApiModelProperty(value = "菜单描述")
     private String description;
 
-    @ApiModelProperty(value = "菜单路径")
+    @ApiModelProperty(value = "菜单或则接口路径")
     private String path;
 
-    @ApiModelProperty(value = "层级|最小是1|最大是2")
+    @ApiModelProperty(value = "层级")
     private Integer level;
 
     @ApiModelProperty(value = "排序")
-    private Integer muduleOrder;
+    private Integer moduleOrder;
 
     @ApiModelProperty(value = "菜单图标 默认为斜杠")
     private String icon;
 
     @ApiModelProperty(value = "上级菜单Id")
-    private Long parentId;
+    private Long parentModuleId;
 
-    @ApiModelProperty(value = "是否可用")
+    @ApiModelProperty(value = "模块是否被管理员禁用")
     private Integer isAble;
+
+    @ApiModelProperty(value = "模块是否被授权")
+    private Integer isAuth;
 
     private Long appId;
 
     private LocalDateTime createTime;
 
+    @ApiModelProperty(value = "英文别名")
+    private String alias;
 
-    public Long getFid() {
-        return fid;
+    @ApiModelProperty(value = "模块种类，0:菜单 1:接口")
+    private Integer moduleType;
+
+    public Long getMid() {
+        return mid;
     }
 
-    public void setFid(Long fid) {
-        this.fid = fid;
+    public void setMid(Long mid) {
+        this.mid = mid;
     }
 
     public String getName() {
@@ -93,12 +92,12 @@ public class RandlModuleDto implements Serializable{
         this.level = level;
     }
 
-    public Integer getMuduleOrder() {
-        return muduleOrder;
+    public Integer getModuleOrder() {
+        return moduleOrder;
     }
 
-    public void setMuduleOrder(Integer muduleOrder) {
-        this.muduleOrder = muduleOrder;
+    public void setModuleOrder(Integer moduleOrder) {
+        this.moduleOrder = moduleOrder;
     }
 
     public String getIcon() {
@@ -109,12 +108,12 @@ public class RandlModuleDto implements Serializable{
         this.icon = icon;
     }
 
-    public Long getParentId() {
-        return parentId;
+    public Long getParentModuleId() {
+        return parentModuleId;
     }
 
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
+    public void setParentModuleId(Long parentModuleId) {
+        this.parentModuleId = parentModuleId;
     }
 
     public Integer getIsAble() {
@@ -141,20 +140,27 @@ public class RandlModuleDto implements Serializable{
         this.createTime = createTime;
     }
 
-    @Override
-    public String toString() {
-        return "RandlModule{" +
-        "fid=" + fid +
-        ", name=" + name +
-        ", description=" + description +
-        ", url=" + path +
-        ", level=" + level +
-        ", order=" + muduleOrder +
-        ", icon=" + icon +
-        ", parentId=" + parentId +
-        ", isAble=" + isAble +
-        ", appId=" + appId +
-        ", createTime=" + createTime +
-        "}";
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    public Integer getModuleType() {
+        return moduleType;
+    }
+
+    public void setModuleType(Integer moduleType) {
+        this.moduleType = moduleType;
+    }
+
+    public Integer getIsAuth() {
+        return isAuth;
+    }
+
+    public void setIsAuth(Integer isAuth) {
+        this.isAuth = isAuth;
     }
 }

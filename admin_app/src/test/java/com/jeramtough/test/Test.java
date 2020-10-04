@@ -3,6 +3,8 @@ package com.jeramtough.test;
 import com.jeramtough.jtcomponent.key.util.KeyUtil;
 import com.jeramtough.jtlog.facade.L;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -15,12 +17,12 @@ public class Test {
 
     @org.junit.Test
     public void test1() {
-        String returnString = "dfsfsdf";
-        String a = "a";
-        String b = "a";
-        String c = new String("a");
-        L.debugs(a == c, a.equals(c));
+        List list = null;
+        for (Object o : list) {
+            L.debug(o);
+        }
     }
+
 
     @org.junit.Test
     public void test3() {

@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -68,6 +69,8 @@ public class SystemUserDto implements Serializable {
     @ApiModelProperty(value = "头像base64编码")
     private String surfaceImage;
 
+    @ApiModelProperty(value = "模块授权列表")
+    private List<RandlModuleAuthDto> moduleAuthList;
 
     public Long getUid() {
         return uid;
@@ -187,6 +190,14 @@ public class SystemUserDto implements Serializable {
 
     public void setSurfaceImage(String surfaceImage) {
         this.surfaceImage = surfaceImage;
+    }
+
+    public List<RandlModuleAuthDto> getModuleAuthList() {
+        return moduleAuthList;
+    }
+
+    public void setModuleAuthList(List<RandlModuleAuthDto> moduleAuthList) {
+        this.moduleAuthList = moduleAuthList;
     }
 
     @Override

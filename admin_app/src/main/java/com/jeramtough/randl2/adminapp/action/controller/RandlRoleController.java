@@ -81,23 +81,27 @@ public class RandlRoleController extends BaseSwaggerController {
         return getSuccessfulApiResponse(randlRoleService.getRole(fid));
     }
 
+    @ApiOperation(value = "查询根据appId和uid", notes = "查询一个角色根据appId和uid")
+    @RequestMapping(value = "/oneByAppIdAndUid", method = {RequestMethod.GET})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "appId", value = "应用Id", paramType = "query",
+                    required = true, defaultValue = "1"),
+            @ApiImplicitParam(name = "uid", value = "用户Id", paramType = "query",
+                    required = true, defaultValue = "1")})
+    @ApiResponses(value = {
+            @ApiResponse(code = ErrorU.CODE_502.C, message =
+                    ErrorU.CODE_502.M),
+    })
+    public CommonApiResponse<RandlRoleDto> getRoleByAppIdAndUid(Long appId, Long uid) {
+        return getSuccessfulApiResponse(randlRoleService.getRoleByAppIdAndUid(appId, uid));
+    }
+
     @ApiOperation(value = "查询全部", notes = "查询全部角色")
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
     public CommonApiResponse<List<RandlRoleDto>> getAllRole() {
         return getSuccessfulApiResponse(randlRoleService.getAllRole());
     }
 
-    @ApiOperation(value = "管理员角色全部", notes = "查询全部系统管理员角色")
-    @RequestMapping(value = "/adminAll", method = {RequestMethod.GET})
-    public CommonApiResponse<List<RandlRoleDto>> getAllAdminRole() {
-        return getSuccessfulApiResponse(randlRoleService.getAllAdminRole());
-    }
-
-    @ApiOperation(value = "普通用户角色全部", notes = "查询全部普通用户角色")
-    @RequestMapping(value = "/userAll", method = {RequestMethod.GET})
-    public CommonApiResponse<List<RandlRoleDto>> getAllUserRole() {
-        return getSuccessfulApiResponse(randlRoleService.getAllUserRole());
-    }
 
     @ApiOperation(value = "分页查询", notes = "分页查询角色列表")
     @RequestMapping(value = "/page", method = {RequestMethod.GET})

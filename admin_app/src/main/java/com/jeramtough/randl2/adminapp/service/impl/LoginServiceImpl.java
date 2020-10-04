@@ -4,17 +4,22 @@ import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.service.impl.BaseServiceImpl;
+import com.jeramtough.randl2.adminapp.component.setting.AppSetting;
 import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
 import com.jeramtough.randl2.adminapp.component.userdetail.UserHolder;
 import com.jeramtough.randl2.adminapp.component.userdetail.login.AdminUserLoginer;
 import com.jeramtough.randl2.adminapp.component.userdetail.login.UserLoginer;
+import com.jeramtough.randl2.adminapp.service.RandlModuleAuthService;
 import com.jeramtough.randl2.common.mapper.SourceSurfaceImageMapper;
+import com.jeramtough.randl2.common.model.dto.RandlModuleAuthDto;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
 import com.jeramtough.randl2.common.model.params.adminuser.AdminUserCredentials;
 import com.jeramtough.randl2.adminapp.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.List;
 
 /**
  * <pre>
@@ -26,12 +31,18 @@ import org.springframework.web.context.WebApplicationContext;
 public class LoginServiceImpl extends BaseServiceImpl implements LoginService, WithLogger {
 
     private final SourceSurfaceImageMapper surfaceImageMapper;
+    private final RandlModuleAuthService randlModuleAuthService;
+    private final AppSetting appSetting;
 
     @Autowired
     public LoginServiceImpl(WebApplicationContext wc,
-                            SourceSurfaceImageMapper surfaceImageMapper) {
+                            SourceSurfaceImageMapper surfaceImageMapper,
+                            RandlModuleAuthService randlModuleAuthService,
+                            AppSetting appSetting) {
         super(wc);
         this.surfaceImageMapper = surfaceImageMapper;
+        this.randlModuleAuthService = randlModuleAuthService;
+        this.appSetting = appSetting;
     }
 
     @Override
@@ -57,6 +68,13 @@ public class LoginServiceImpl extends BaseServiceImpl implements LoginService, W
         String surfaceImage = surfaceImageMapper.selectById(
                 systemUser.getSurfaceImageId()).getSurfaceImage();
         systemUserDto.setSurfaceImage(surfaceImage);
+
+        getLogger().verbose("开始获取用户模块授权信息");
+        List<RandlModuleAuthDto> moduleAuthDtoList =
+                randlModuleAuthService.getRandlModuleAuthDtosByAppIdAndRoleId(appSetting.getAdminDefaultAppId(),
+                        systemUser.getRoleId());
+
+        systemUserDto.setModuleAuthList(moduleAuthDtoList);
 
         return systemUserDto;
     }

@@ -33,6 +33,10 @@ public class UserHolder {
         return SuperAdmin.UID.equals(getSystemUser().getUid());
     }
 
+    public static boolean isSuperAdmin(Long uid) {
+        return SuperAdmin.UID.equals(uid);
+    }
+
     public static boolean isAdminUser() {
         return UserType.ADMIN.equals(getSystemUser().getUserType());
     }

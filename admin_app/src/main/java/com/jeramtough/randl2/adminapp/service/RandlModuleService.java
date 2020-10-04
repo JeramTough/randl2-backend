@@ -17,8 +17,7 @@ import java.util.Map;
  */
 public interface RandlModuleService extends BaseDtoService<RandlModule, RandlModuleDto> {
 
-    TreeStructure getCurrentAdminUserSystemMenuTree();
 
-    Map<String, Object> getCurrentAdminUserSystemMenuTreeMap();
+    Map<String, Object> getRandlModuleTreeMap(Long appId,Long uid);
 
 }

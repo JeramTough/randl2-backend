@@ -1,6 +1,7 @@
 package com.jeramtough.randl2.common.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.entity.RandlUserRoleMap;
 import com.jeramtough.randl2.common.model.entity.RandlUserWithRole;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,4 +26,7 @@ public interface RandlUserRoleMapMapper extends BaseMapper<RandlUserRoleMap> {
     RandlUserWithRole selectOneRandlUserByAppIdAndAccount(@Param("appId") Long appId,
                                                           @Param("account") String account);
 
+    @SelectProvider(type = RandlUserRoleMapSqlProvider.class, method = "selectOneRandlRoleByAppIdAndUid")
+    RandlRole selectOneRandlRoleByAppIdAndUid(@Param("appId") Long appId,
+                                              @Param("uid") Long uid);
 }

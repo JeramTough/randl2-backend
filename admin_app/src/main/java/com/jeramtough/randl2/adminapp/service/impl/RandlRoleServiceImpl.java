@@ -5,6 +5,7 @@ import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.service.impl.BaseDtoServiceImpl;
+import com.jeramtough.randl2.common.mapper.RandlUserRoleMapMapper;
 import com.jeramtough.randl2.common.model.dto.RandlRoleDto;
 import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.error.ErrorU;
@@ -28,12 +29,15 @@ import java.util.List;
  */
 @Service
 public class RandlRoleServiceImpl extends BaseDtoServiceImpl<RandlRoleMapper, RandlRole, RandlRoleDto>
-        implements RandlRoleService,WithLogger {
+        implements RandlRoleService, WithLogger {
 
+    private final RandlUserRoleMapMapper randlUserRoleMapMapper;
 
     @Autowired
-    public RandlRoleServiceImpl(WebApplicationContext wc) {
+    public RandlRoleServiceImpl(WebApplicationContext wc,
+                                RandlUserRoleMapMapper randlUserRoleMapMapper) {
         super(wc);
+        this.randlUserRoleMapMapper = randlUserRoleMapMapper;
     }
 
     @Override
@@ -51,9 +55,9 @@ public class RandlRoleServiceImpl extends BaseDtoServiceImpl<RandlRoleMapper, Ra
             throw new ApiResponseException(ErrorU.CODE_9.C, "角色名");
         }
 
-        RandlRole RandlRole = getMapperFacade().map(params, RandlRole.class);
-        RandlRole.setName(RandlRole.getName().toUpperCase());
-        save(RandlRole);
+        RandlRole randlRole = getMapperFacade().map(params, RandlRole.class);
+        randlRole.setName(randlRole.getName().toUpperCase());
+        save(randlRole);
         return "添加新的系统角色成功";
     }
 
@@ -80,21 +84,6 @@ public class RandlRoleServiceImpl extends BaseDtoServiceImpl<RandlRoleMapper, Ra
         return randlRoleDtoList;
     }
 
-    @Override
-    public List<RandlRoleDto> getAllAdminRole() {
-        List<RandlRole> list = getBaseMapper().selectList(new QueryWrapper<RandlRole>().like("name",
-                "%_ADMIN"));
-        List<RandlRoleDto> randlRoleDtoList = getMapperFacade().mapAsList(list, RandlRoleDto.class);
-        return randlRoleDtoList;
-    }
-
-    @Override
-    public List<RandlRoleDto> getAllUserRole() {
-        List<RandlRole> list = getBaseMapper().selectList(new QueryWrapper<RandlRole>().like("name",
-                "%_USER"));
-        List<RandlRoleDto> randlRoleDtoList = getMapperFacade().mapAsList(list, RandlRoleDto.class);
-        return randlRoleDtoList;
-    }
 
     @Override
     public List<RandlRoleDto> getRoleListByKeyword(String keyword) {
@@ -106,5 +95,14 @@ public class RandlRoleServiceImpl extends BaseDtoServiceImpl<RandlRoleMapper, Ra
             throw new ApiResponseException(5040);
         }
         return getDtoList(apiList);
+    }
+
+    @Override
+    public RandlRoleDto getRoleByAppIdAndUid(Long appId, Long uid) {
+        RandlRole randlRole = randlUserRoleMapMapper.selectOneRandlRoleByAppIdAndUid(appId, uid);
+        if (randlRole == null) {
+            throw new ApiResponseException(ErrorU.CODE_502.C);
+        }
+        return toDto(randlRole);
     }
 }
