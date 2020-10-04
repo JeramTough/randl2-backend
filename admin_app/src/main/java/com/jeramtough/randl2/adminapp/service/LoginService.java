@@ -1,7 +1,7 @@
 package com.jeramtough.randl2.adminapp.service;
 
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
-import com.jeramtough.randl2.common.model.params.adminuser.AdminUserCredentials;
+import com.jeramtough.randl2.common.model.params.adminuser.UserCredentials;
 
 /**
  * <pre>
@@ -10,7 +10,8 @@ import com.jeramtough.randl2.common.model.params.adminuser.AdminUserCredentials;
  * </pre>
  */
 public interface LoginService {
-    SystemUserDto adminLogin(AdminUserCredentials adminUserCredentials);
+
+    SystemUserDto adminLogin(UserCredentials userCredentials);
 
     String adminLogout();
 }

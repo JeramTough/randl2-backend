@@ -1,7 +1,7 @@
 package com.jeramtough.test;
 
 import com.jeramtough.jtlog.facade.L;
-import com.jeramtough.randl2.common.model.params.adminuser.AdminUserCredentials;
+import com.jeramtough.randl2.common.model.params.adminuser.UserCredentials;
 import okhttp3.*;
 import org.junit.Test;
 
@@ -25,12 +25,12 @@ public class HttpTest {
         OkHttpClient client = new OkHttpClient();
 
         String url = "http://127.0.0.1:8088/randl2/adminUser/login";
-        AdminUserCredentials adminUserCredentials = new AdminUserCredentials("123", "2313");
+        UserCredentials userCredentials = new UserCredentials("123", "2313");
         url =
-                url + "?username=" + adminUserCredentials.getUsername() + "&password=" + adminUserCredentials.getPassword();
+                url + "?username=" + userCredentials.getUsername() + "&password=" + userCredentials.getPassword();
 
         RequestBody body = RequestBody.create(
-                com.alibaba.fastjson.JSON.toJSONString(adminUserCredentials), JSON);
+                com.alibaba.fastjson.JSON.toJSONString(userCredentials), JSON);
 
         Request request = new Request.Builder()
                 .post(okhttp3.internal.Util.EMPTY_REQUEST)

@@ -11,7 +11,7 @@ import javax.validation.constraints.Pattern;
  * by @author JeramTough
  * </pre>
  */
-public class AdminUserCredentials {
+public class UserCredentials {
 
 
     @NotNull(message = ErrorU.CODE_1.C + "")
@@ -28,10 +28,10 @@ public class AdminUserCredentials {
                     "]}"))
     private String password;
 
-    public AdminUserCredentials() {
+    public UserCredentials() {
     }
 
-    public AdminUserCredentials(String username, String password) {
+    public UserCredentials(String username, String password) {
         this.username = username;
         this.password = password;
     }
@@ -54,7 +54,7 @@ public class AdminUserCredentials {
 
     @Override
     public String toString() {
-        return "AdminUserCredentials{" +
+        return "UserCredentials{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';

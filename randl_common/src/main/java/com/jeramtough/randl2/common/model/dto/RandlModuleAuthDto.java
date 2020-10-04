@@ -163,4 +163,24 @@ public class RandlModuleAuthDto {
     public void setIsAuth(Integer isAuth) {
         this.isAuth = isAuth;
     }
+
+    @Override
+    public String toString() {
+        return "RandlModuleAuthDto{" +
+                "mid=" + mid +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", path='" + path + '\'' +
+                ", level=" + level +
+                ", moduleOrder=" + moduleOrder +
+                ", icon='" + icon + '\'' +
+                ", parentModuleId=" + parentModuleId +
+                ", isAble=" + isAble +
+                ", isAuth=" + isAuth +
+                ", appId=" + appId +
+                ", createTime=" + createTime +
+                ", alias='" + alias + '\'' +
+                ", moduleType=" + moduleType +
+                '}';
+    }
 }

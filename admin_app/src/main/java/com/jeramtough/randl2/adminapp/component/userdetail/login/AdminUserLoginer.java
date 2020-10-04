@@ -6,7 +6,7 @@ import com.jeramtough.randl2.adminapp.component.userdetail.AccountStatus;
 import com.jeramtough.randl2.common.mapper.RandlUserRoleMapMapper;
 import com.jeramtough.randl2.common.model.entity.RandlUserWithRole;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import com.jeramtough.randl2.common.model.params.adminuser.AdminUserCredentials;
+import com.jeramtough.randl2.common.model.params.adminuser.UserCredentials;
 import com.jeramtough.randl2.adminapp.component.userdetail.SuperAdmin;
 import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
 import com.jeramtough.randl2.adminapp.component.userdetail.UserType;
@@ -53,12 +53,12 @@ public class AdminUserLoginer implements UserLoginer {
 
     @Override
     public SystemUser login(Object credentials) {
-        AdminUserCredentials adminUserCredentials = (AdminUserCredentials) credentials;
+        UserCredentials userCredentials = (UserCredentials) credentials;
 
         //如果是超级管理员登录
         if (superAdmin.getUsername().equals(
-                adminUserCredentials.getUsername()) && passwordEncoder
-                .matches(adminUserCredentials.getPassword(),
+                userCredentials.getUsername()) && passwordEncoder
+                .matches(userCredentials.getPassword(),
                         superAdmin.getPassword())) {
             return superAdmin.getSystemUser();
         }
@@ -66,7 +66,7 @@ public class AdminUserLoginer implements UserLoginer {
         //如果是普通的系统管理员登录
         RandlUserWithRole randlUserWithRole =
                 userRoleMapMapper.selectOneRandlUserByAppIdAndAccount(appSetting.getAdminDefaultAppId(),
-                        adminUserCredentials.getUsername());
+                        userCredentials.getUsername());
 
         if (randlUserWithRole != null) {
             //判断当前用户的状态
@@ -75,7 +75,7 @@ public class AdminUserLoginer implements UserLoginer {
             }
 
             boolean passwordIsRight =
-                    passwordEncoder.matches(adminUserCredentials.getPassword(),
+                    passwordEncoder.matches(userCredentials.getPassword(),
                             randlUserWithRole.getPassword());
             if (passwordIsRight) {
 

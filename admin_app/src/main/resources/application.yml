@@ -7,7 +7,7 @@ mybatis:
 server:
   port: 8088
   servlet:
-    context-path: /randl2
+    context-path: /randl2/adminApp
   tomcat:
     uri-encoding: UTF-8
 spring:

@@ -5,7 +5,7 @@ import com.jeramtough.randl2.common.action.controller.BaseController;
 import com.jeramtough.randl2.common.component.logforoperation.annotation.LoggingOperation;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import com.jeramtough.randl2.common.model.params.adminuser.AdminUserCredentials;
+import com.jeramtough.randl2.common.model.params.adminuser.UserCredentials;
 import com.jeramtough.randl2.adminapp.service.LoginService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,20 +21,20 @@ import org.springframework.web.bind.annotation.RestController;
  * </pre>
  */
 @RestController
-@Api(tags = {"登录器接口"})
-@RequestMapping("/randl")
-public class LoginController extends BaseController {
+@Api(tags = {"管理端登录接口"})
+@RequestMapping("/access")
+public class AdminLoginController extends BaseController {
 
     private final LoginService loginService;
 
     @Autowired
-    public LoginController(LoginService loginService) {
+    public AdminLoginController(LoginService loginService) {
         this.loginService = loginService;
     }
 
     @LoggingOperation
     @ApiOperation(value = "登录", notes = "系统管理员登录")
-    @RequestMapping(value = "/adminLogin", method = {RequestMethod.POST})
+    @RequestMapping(value = "/login", method = {RequestMethod.POST})
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名", paramType = "query",
                     required = true, dataType = "String", defaultValue = "superadmin"),
@@ -48,14 +48,14 @@ public class LoginController extends BaseController {
     public CommonApiResponse<SystemUserDto> adminLogin(
             @RequestParam(required = false) String username,
             @RequestParam(required = false) String password) {
-        AdminUserCredentials adminUserCredentials = new AdminUserCredentials(username,
+        UserCredentials userCredentials = new UserCredentials(username,
                 password);
-        return getSuccessfulApiResponse(loginService.adminLogin(adminUserCredentials));
+        return getSuccessfulApiResponse(loginService.adminLogin(userCredentials));
     }
 
     @LoggingOperation
     @ApiOperation(value = "退出登录", notes = "系统管理员退出登录")
-    @RequestMapping(value = "/adminLogout", method = {RequestMethod.POST})
+    @RequestMapping(value = "/logout", method = {RequestMethod.POST})
     public CommonApiResponse<String> logout() {
         return getSuccessfulApiResponse(loginService.adminLogout());
     }
