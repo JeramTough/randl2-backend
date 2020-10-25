@@ -2,7 +2,7 @@ package com.jeramtough.randl2.adminapp.service.impl;
 
 import com.jeramtough.jtcomponent.utils.Base64Util;
 import com.jeramtough.jtlog.with.WithLogger;
-import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
+import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.service.impl.BaseDtoServiceImpl;
 import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
@@ -89,7 +89,7 @@ public class SourceSurfaceImageServiceImpl extends BaseDtoServiceImpl<SourceSurf
     public String getUpdateSurfaceImageByUid(Long uid) {
         RandlUser randlUser = randlUserMapper.selectById(uid);
         if (randlUser == null) {
-            throw new ApiResponseException(ErrorU.CODE_7.C, "用户");
+            throw new ApiResponseException(ErrorU.CODE_10.C, "用户");
         }
         SourceSurfaceImage sourceSurfaceImage = getById(randlUser.getSurfaceImageId());
         return sourceSurfaceImage.getSurfaceImage();
@@ -99,7 +99,7 @@ public class SourceSurfaceImageServiceImpl extends BaseDtoServiceImpl<SourceSurf
     public String getUpdateSurfaceImageById(Long fid) {
         SourceSurfaceImage sourceSurfaceImage = getById(fid);
         if (sourceSurfaceImage == null) {
-            throw new ApiResponseException(ErrorU.CODE_7.C, "图片");
+            throw new ApiResponseException(ErrorU.CODE_10.C, "图片");
         }
         return sourceSurfaceImage.getSurfaceImage();
     }
@@ -109,7 +109,7 @@ public class SourceSurfaceImageServiceImpl extends BaseDtoServiceImpl<SourceSurf
 
         RandlUser randlUser = randlUserMapper.selectById(params.getUid());
         if (randlUser == null) {
-            throw new ApiResponseException(ErrorU.CODE_7.C, "用户");
+            throw new ApiResponseException(ErrorU.CODE_10.C, "用户");
         }
 
         UploadSurfaceImageParams uploadParams = new UploadSurfaceImageParams();

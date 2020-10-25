@@ -23,12 +23,12 @@ public class AddAppParams implements Serializable{
 
     private static final long serialVersionUID=1L;
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
+   @NotNull(payload = ErrorU.CODE_1.class)
     @ApiModelProperty(value = "客户端中文名称")
     private String appName;
 
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
+   @NotNull(payload = ErrorU.CODE_1.class)
     @ApiModelProperty(value = "客户端描述")
     private String description;
 
@@ -53,7 +53,7 @@ public class AddAppParams implements Serializable{
 
     @Override
     public String toString() {
-        return "RandlApp{" +
+        return "RandlUserApp{" +
         ", appName=" + appName +
         ", description=" + description +
         "}";

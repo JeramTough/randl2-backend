@@ -14,18 +14,14 @@ import javax.validation.constraints.Pattern;
 public class UserCredentials {
 
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
-    @Pattern(regexp = "^[a-z0-9A-Z]{5,16}$",
-            message = "{'code':" + ErrorU.CODE_6.C + (",'placeholders':[" +
-                    "'用户名长度范围在5-16位；只能为数字或者字母；不能含有特殊字符'," +
-                    "]}"))
+   @NotNull(payload = ErrorU.CODE_1.class)
+   @Pattern(regexp = "^[a-z0-9A-Z_]{5,16}$",payload = ErrorU.CODE_8.class,
+            message = "帐号名长度范围在5-16位；只能为数字或者字母或者下划线_；不能含有特殊字符")
     private String username;
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
-    @Pattern(regexp = "^\\S{8,16}$",
-            message = "{'code':" + ErrorU.CODE_6.C + (",'placeholders':[" +
-                    "'密码长度范围在8-16位；只允许非空白任意字符'," +
-                    "]}"))
+   @NotNull(payload = ErrorU.CODE_1.class)
+   @Pattern(regexp = "^\\S{8,16}$",payload = ErrorU.CODE_8.class,
+           message = "密码长度范围在8-16位；只允许非空白任意字符")
     private String password;
 
     public UserCredentials() {

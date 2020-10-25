@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 public class UpdateApiParams {
 
     @ApiModelProperty(value = "接口Id", example = "1", required = true)
-    @NotNull(message = ErrorU.CODE_1.C + "")
+   @NotNull(payload = ErrorU.CODE_1.class)
     private Long fid;
 
     @ApiModelProperty(value = "路径", example = "/test/getSomething", required = false)

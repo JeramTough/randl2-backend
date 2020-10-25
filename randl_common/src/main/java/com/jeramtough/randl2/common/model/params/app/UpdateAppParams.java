@@ -23,7 +23,7 @@ public class UpdateAppParams implements Serializable{
 
     private static final long serialVersionUID=1L;
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
+   @NotNull(payload = ErrorU.CODE_1.class)
     @ApiModelProperty(value = "主键")
     @TableId(value = "fid", type = IdType.AUTO)
     private Long fid;
@@ -84,7 +84,7 @@ public class UpdateAppParams implements Serializable{
 
     @Override
     public String toString() {
-        return "RandlApp{" +
+        return "RandlUserApp{" +
         "fid=" + fid +
         ", appName=" + appName +
         ", appCode=" + appCode +

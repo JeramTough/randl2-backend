@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.adminapp.service.impl;
 
-import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
+import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.service.impl.BaseDtoServiceImpl;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
@@ -21,7 +21,6 @@ import com.jeramtough.randl2.adminapp.service.RandlPersonalInfoService;
 import com.jeramtough.randl2.adminapp.service.RegisteredUserLoginedService;
 import com.jeramtough.randl2.common.service.SourceSurfaceImageService;
 import com.jeramtough.randl2.common.service.VerificationCodeService;
-import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -155,7 +154,7 @@ public class RegisteredUserLoginedServiceImpl extends BaseDtoServiceImpl<RandlUs
         }
 
         return String.format("绑定%s[%s]到账号%s成功！", sendWay.getName(), params.getPhoneOrEmail(),
-                systemUser.getUsername());
+                systemUser.getAccount());
     }
 
     //******************

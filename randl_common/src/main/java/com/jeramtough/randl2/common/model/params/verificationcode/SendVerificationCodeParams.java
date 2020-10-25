@@ -17,17 +17,15 @@ import javax.validation.constraints.Pattern;
 @ApiModel("发送验证码参数")
 public class SendVerificationCodeParams {
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
-    @Range(min = 1, max = 2, message = "{'code':" + ErrorU.CODE_5.C + ",'placeholders':[" +
-            "'1:手机号码，2:邮箱地址']}")
+   @NotNull(payload = ErrorU.CODE_1.class)
+   @Range(min = 1, max = 2, payload = ErrorU.CODE_7.class, message = "手机号码，2:邮箱地址")
     @ApiModelProperty(value = "发送方式，1:手机号码，2:邮箱地址", example = "1")
     private Integer way;
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
+   @NotNull(payload = ErrorU.CODE_1.class)
     @Pattern(
             regexp = "(^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$)|(^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$)",
-            message = "{'code':" + ErrorU.CODE_2.C + ",'placeholders':[" +
-                    "'例子:15289678164或1154@qq.com']}")
+              payload = ErrorU.CODE_4.class,message = "例子:15289678164或1154@qq.com 或者 15289678169")
     @ApiModelProperty(value = "以手机号码或邮箱地址", example = "15289678163")
     private String phoneOrEmail;
 

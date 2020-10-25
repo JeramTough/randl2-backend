@@ -102,7 +102,7 @@ public class RandlApp implements Serializable {
 
     @Override
     public String toString() {
-        return "RandlApp{" +
+        return "RandlUserApp{" +
         "fid=" + fid +
         ", appName=" + appName +
         ", appCode=" + appCode +

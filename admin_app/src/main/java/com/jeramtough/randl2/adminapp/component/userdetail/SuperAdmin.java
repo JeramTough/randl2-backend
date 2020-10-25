@@ -60,7 +60,7 @@ public class SuperAdmin {
                 if (systemUser == null) {
                     systemUser = new SystemUser();
                     systemUser.setUid(UID);
-                    systemUser.setUsername(appSetting.getAdminAccount());
+                    systemUser.setAccount(appSetting.getAdminAccount());
                     systemUser.setPassword(appSetting.getAdminPassword());
                     systemUser.setUserType(UserType.ADMIN);
                     systemUser.setSurfaceImageId(SURFACE_IMAGE_ID);

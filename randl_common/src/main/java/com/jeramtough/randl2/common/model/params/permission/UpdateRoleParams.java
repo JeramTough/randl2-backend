@@ -15,7 +15,7 @@ import javax.validation.constraints.Pattern;
 public class UpdateRoleParams {
 
     @ApiModelProperty(value = "角色Id", example = "1", required = true)
-    @NotNull(message = ErrorU.CODE_1.C + "")
+   @NotNull(payload = ErrorU.CODE_1.class)
     private Long fid;
 
     @Pattern(regexp = "^([a-zA-Z]|[-]|[_])+$", message = "5002")

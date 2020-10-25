@@ -33,8 +33,10 @@ public class RedisConfig {
             LettuceConnectionFactory factory) {
         RedisTemplate<String, Object> redisTemplate = new <String, Object>RedisTemplate();
         redisTemplate.setConnectionFactory(factory);
+        //json存储格式
         GenericFastJsonRedisSerializer genericFastJsonRedisSerializer =
                 new GenericFastJsonRedisSerializer();
+        //string存储格式
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
         redisTemplate.setDefaultSerializer(stringRedisSerializer);
         return redisTemplate;

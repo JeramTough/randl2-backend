@@ -1,8 +1,14 @@
 package com.jeramtough.randl2.adminapp.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseBeanException;
+import com.jeramtough.jtweb.component.business.ToDtoProcess;
+import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.jtweb.model.QueryPage;
+import com.jeramtough.jtweb.model.dto.PageDto;
+import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.jtweb.service.impl.BaseDtoServiceImpl;
 import com.jeramtough.randl2.common.model.entity.RandlPersonalInfo;
 import com.jeramtough.randl2.common.model.error.ErrorU;
@@ -15,8 +21,12 @@ import com.jeramtough.randl2.common.model.dto.SourceSurfaceImageDto;
 import com.jeramtough.randl2.adminapp.service.RandlPersonalInfoService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -71,7 +81,7 @@ public class RandlPersonalInfoServiceImpl extends BaseDtoServiceImpl<PersonalInf
     @Override
     public RandlPersonalInfoDto getPersonalInfoDtoByUidWithoutSurfaceImage(Long uid) {
         if (randlUserMapper.selectById(uid) == null) {
-            throw new ApiResponseException(669);
+            throw new ApiResponseException(ErrorU.CODE_12.C, "用户信息");
         }
 
         RandlPersonalInfo randlPersonalInfo =
@@ -106,6 +116,14 @@ public class RandlPersonalInfoServiceImpl extends BaseDtoServiceImpl<PersonalInf
             if (randlPersonalInfo != null) {
                 fid = randlPersonalInfo.getFid();
             }
+            else {
+                throw new ApiResponseException(ErrorU.CODE_12.C);
+            }
+        }
+        else {
+            if (getBaseMapper().selectById(fid) == null) {
+                throw new ApiResponseException(ErrorU.CODE_10.C, "主键fid");
+            }
         }
 
         RandlPersonalInfo randlPersonalInfo = getMapperFacade().map(params, RandlPersonalInfo.class);
@@ -114,4 +132,14 @@ public class RandlPersonalInfoServiceImpl extends BaseDtoServiceImpl<PersonalInf
         updateById(randlPersonalInfo);
         return "更新普通用户个人资料成功";
     }
+
+    @Override
+    public PageDto<Map<String, Object>> getRandlPersonalInfoDtoListByPage(QueryByPageParams queryByPageParams) {
+        QueryPage<Map<String, Object>> queryPage =
+                getBaseMapper().selectPageWithUser(new QueryPage<>(queryByPageParams));
+        PageDto<Map<String, Object>> pageDto = toMapPageDto(queryPage);
+        return pageDto;
+    }
+
+
 }

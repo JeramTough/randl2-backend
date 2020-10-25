@@ -8,8 +8,10 @@ import com.jeramtough.randl2.common.action.controller.BaseController;
 import com.jeramtough.randl2.common.component.logforoperation.annotation.LoggingOperation;
 import com.jeramtough.randl2.common.model.dto.RandlUserDto;
 import com.jeramtough.randl2.common.model.error.ErrorU;
+import com.jeramtough.randl2.common.model.params.adminuser.ConditionUserParams;
 import com.jeramtough.randl2.common.model.params.adminuser.RegisterRandlUserParams;
 import com.jeramtough.randl2.adminapp.service.RandlUserService;
+import com.jeramtough.randl2.common.model.params.adminuser.UpdateRandlUserParams;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -71,14 +73,12 @@ public class RandlUserController extends BaseController {
         return getSuccessfulApiResponse(randlUserService.getBaseDtoById(uid));
     }
 
-    @ApiOperation(value = "关键字查询", notes = "根据关键字查询得到一个Randl用户信息")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "keyword", value = "关键字", paramType = "query",
-                    required = true, dataType = "String", defaultValue = "username")})
+    @ApiOperation(value = "条件查询", notes = "根据关键字等条件查询得到一个Randl用户信息")
     @ApiResponses(value = {})
-    @RequestMapping(value = "/byKeyword", method = {RequestMethod.GET})
-    public CommonApiResponse<RandlUserDto> getOneRandlUser(@RequestParam String keyword) {
-        return getSuccessfulApiResponse(randlUserService.getRandlUserByKeyword(keyword));
+    @RequestMapping(value = "/condition", method = {RequestMethod.GET})
+    public CommonApiResponse<PageDto<RandlUserDto>> getRandlUserByCondition(
+            QueryByPageParams queryByPageParams, ConditionUserParams params) {
+        return getSuccessfulApiResponse(randlUserService.pageByCondition(queryByPageParams,params));
     }
 
     @LoggingOperation
@@ -91,25 +91,15 @@ public class RandlUserController extends BaseController {
         return getSuccessfulApiResponse(randlUserService.removeRandUserById(uid));
     }
 
-    /*@LoggingOperation
+    @LoggingOperation
     @ApiOperation(value = "更新", notes = "更新系统管理员账号信息")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = 1030, message = "更新失败! [%s]参数不能为空"),
-            @ApiResponse(code = 1031, message = "更新失败！该Randl用户不存在！"),
-            @ApiResponse(code = 1032, message = "密码长度范围在8-16位；只允许非空白任意字符"),
-            @ApiResponse(code = 1033, message = "更新失败！存在同名用户名"),
-            @ApiResponse(code = 1034, message = "用户名长度范围在5-16位；只能为数字或者字母；不能含有特殊字符"),
-            @ApiResponse(code = 1035, message = "手机号码格式错误"),
-            @ApiResponse(code = 1036, message = "邮箱地址格式错误"),
-            @ApiResponse(code = 1037, message = "已存在重复的手机号码，请换一个"),
-            @ApiResponse(code = 1038, message = "已存在重复的邮箱地址，请换一个"),
-            @ApiResponse(code = 1039, message = "该角色Id不存在")
     })
-    public CommonApiResponse<String> updateAdminUser(
-            @RequestBody UpdateAdminUserParams params) {
-        return getSuccessfulApiResponse(adminUserService.updateAdminUser(params));
-    }*/
+    public CommonApiResponse<String> updateRandlUser(
+            @RequestBody UpdateRandlUserParams params) {
+        return getSuccessfulApiResponse(randlUserService.updateRandlUser(params));
+    }
 
 
 }

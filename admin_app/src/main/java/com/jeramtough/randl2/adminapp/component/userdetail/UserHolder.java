@@ -48,7 +48,7 @@ public class UserHolder {
                 new JaasGrantedAuthority("ROLE_" + systemUser.getRoleAliasName(),
                         systemUser));
         UsernamePasswordAuthenticationToken token =
-                new UsernamePasswordAuthenticationToken(systemUser.getUsername(),
+                new UsernamePasswordAuthenticationToken(systemUser.getAccount(),
                         systemUser.getPassword(), grantedAuthorityList);
         token.setDetails(systemUser);
         securityContext.setAuthentication(token);

@@ -1,8 +1,11 @@
 package com.jeramtough.randl2.common.model.params.personalinfo;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModel;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -24,7 +27,9 @@ public class UpdatePersonalInfoParams implements Serializable {
 
     private Integer age;
 
-    private LocalDateTime birthday;
+    @JSONField(format = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthday;
 
     private String nickname;
 
@@ -76,11 +81,11 @@ public class UpdatePersonalInfoParams implements Serializable {
         this.age = age;
     }
 
-    public LocalDateTime getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(LocalDateTime birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 

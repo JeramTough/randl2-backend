@@ -7,7 +7,12 @@ import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.randl2.adminapp.service.RandlAppService;
 import com.jeramtough.randl2.common.action.controller.BaseController;
 import com.jeramtough.randl2.common.model.dto.RandlAppDto;
+import com.jeramtough.randl2.common.model.dto.RandlUserDto;
+import com.jeramtough.randl2.common.model.error.ErrorS;
+import com.jeramtough.randl2.common.model.error.ErrorU;
+import com.jeramtough.randl2.common.model.params.adminuser.ConditionUserParams;
 import com.jeramtough.randl2.common.model.params.app.AddAppParams;
+import com.jeramtough.randl2.common.model.params.app.ConditionAppParams;
 import com.jeramtough.randl2.common.model.params.app.UpdateAppParams;
 import com.jeramtough.randl2.common.model.params.permission.AddApiParams;
 import com.jeramtough.randl2.common.model.params.permission.UpdateApiParams;
@@ -25,6 +30,9 @@ import java.util.List;
  * @author JeramTough
  * @since 2020-10-03
  */
+@ApiResponses({
+        @ApiResponse(code = ErrorU.CODE_701.C, message = ErrorU.CODE_701.M),
+})
 @Api(tags = {"APP应用接口"})
 @RestController
 @RequestMapping("/randlApp")
@@ -90,15 +98,12 @@ public class RandlAppController extends BaseController {
     }
 
 
-    @ApiOperation(value = "关键字查询", notes = "根据关键字查询得到一个api接口信息")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "keyword", value = "关键字", paramType = "query",
-                    required = true, dataType = "String", defaultValue = "username")})
-    @ApiResponses(value = {
-    })
-    @RequestMapping(value = "/byKeyword", method = {RequestMethod.GET})
-    public CommonApiResponse<List<RandlAppDto>> getOneAdminUser(@RequestParam String keyword) {
-        return getSuccessfulApiResponse(randlAppService.getListByKeyword(keyword));
+    @ApiOperation(value = "条件查询", notes = "根据关键字等条件查询得到一个Randl应用信息")
+    @ApiResponses(value = {})
+    @RequestMapping(value = "/condition", method = {RequestMethod.GET})
+    public CommonApiResponse<PageDto<RandlAppDto>> getRandlUserByCondition(
+            QueryByPageParams queryByPageParams, ConditionAppParams params) {
+        return getSuccessfulApiResponse(randlAppService.pageByCondition(queryByPageParams, params));
     }
 
 }

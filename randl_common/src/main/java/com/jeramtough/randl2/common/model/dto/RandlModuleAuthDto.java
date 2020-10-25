@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.common.model.dto;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.time.LocalDateTime;
@@ -44,6 +45,7 @@ public class RandlModuleAuthDto {
 
     private Long appId;
 
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
     @ApiModelProperty(value = "英文别名")

@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.common.model.dto;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 
@@ -35,6 +36,7 @@ public class RandlRoleDto implements Serializable {
     @ApiModelProperty(value = "所属app的id")
     private Long appId;
 
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 

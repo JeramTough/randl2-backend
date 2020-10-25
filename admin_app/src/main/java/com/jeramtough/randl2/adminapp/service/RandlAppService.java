@@ -1,12 +1,16 @@
 package com.jeramtough.randl2.adminapp.service;
 
+import com.jeramtough.jtweb.model.dto.PageDto;
+import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.jtweb.service.BaseDtoService;
 import com.jeramtough.randl2.common.model.dto.RandlAppDto;
 import com.jeramtough.randl2.common.model.entity.RandlApp;
 import com.jeramtough.randl2.common.model.params.app.AddAppParams;
+import com.jeramtough.randl2.common.model.params.app.ConditionAppParams;
 import com.jeramtough.randl2.common.model.params.app.UpdateAppParams;
 import com.jeramtough.randl2.common.model.params.permission.AddApiParams;
 import com.jeramtough.randl2.common.model.params.permission.UpdateApiParams;
+import com.jeramtough.randl2.common.service.MyBaseService;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,7 +23,7 @@ import java.util.List;
  * @author JeramTough
  * @since 2020-10-03
  */
-public interface RandlAppService extends BaseDtoService<RandlApp, RandlAppDto> {
+public interface RandlAppService extends MyBaseService<RandlApp, RandlAppDto> {
 
     String add(AddAppParams params);
 
@@ -28,4 +32,6 @@ public interface RandlAppService extends BaseDtoService<RandlApp, RandlAppDto> {
     String update(UpdateAppParams params);
 
     List<RandlAppDto> getListByKeyword(String keyword);
+
+    PageDto<RandlAppDto> pageByCondition(QueryByPageParams queryByPageParams, ConditionAppParams params);
 }

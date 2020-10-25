@@ -16,17 +16,15 @@ import javax.validation.constraints.Pattern;
 @ApiModel("校验验证码参数")
 public class VerifyVerificationCodeParams {
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
-    @Pattern(regexp = "^[0-9]{6}$", message = "{'code':668,'placeholders':['验证码'," +
-            "'6位长度正整数']}")
+    @NotNull(payload = ErrorU.CODE_1.class)
+    @Pattern(regexp = "^[0-9]{6}$", payload = ErrorU.CODE_4.class, message = "6位长度正整数")
     @ApiModelProperty(value = "验证码", example = "108764")
     private String verificationCode;
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
+    @NotNull(payload = ErrorU.CODE_1.class)
     @Pattern(
             regexp = "(^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$)|(^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$)",
-            message = "{'code':" + ErrorU.CODE_2.C + ",'placeholders':[" +
-                    "'例子:15289678164或1154@qq.com']}")
+            payload = ErrorU.CODE_4.class, message = "例子:15289678164或1154@qq.com 或者 15289678169")
     @ApiModelProperty(value = "以手机号码或邮箱地址", example = "15289678163")
     private String phoneOrEmail;
 

@@ -14,7 +14,7 @@ public class SystemUser implements Principal, Serializable {
 
     private Long uid;
 
-    private String username;
+    private String account;
 
     private String phoneNumber;
 
@@ -48,12 +48,12 @@ public class SystemUser implements Principal, Serializable {
         this.uid = uid;
     }
 
-    public String getUsername() {
-        return username;
+    public String getAccount() {
+        return account;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setAccount(String account) {
+        this.account = account;
     }
 
     public String getPhoneNumber() {
@@ -114,7 +114,7 @@ public class SystemUser implements Principal, Serializable {
 
     @Override
     public String getName() {
-        return getUsername();
+        return getAccount();
     }
 
     public Long getSurfaceImageId() {

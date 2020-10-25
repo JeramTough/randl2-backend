@@ -5,7 +5,7 @@ import com.jeramtough.jtcomponent.tree.processor.DefaultTreeProcessor;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
 import com.jeramtough.jtcomponent.tree.util.TreeNodeUtils;
 import com.jeramtough.jtlog.with.WithLogger;
-import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
+import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.service.impl.BaseServiceImpl;
 import com.jeramtough.randl2.adminapp.component.setting.AppSetting;
@@ -90,17 +90,17 @@ public class LoginServiceImpl extends BaseServiceImpl implements LoginService, W
                     randlModuleAuthDto);
             onceTreeNodeAdapterList.add(adapter);
         }
-        TreeNode rootTreeNode=new DefaultTreeProcessor().processing(onceTreeNodeAdapterList);
-        rootTreeNode=rootTreeNode.andPredicate(treeNode -> {
-            if (treeNode.getValue()!=null&&treeNode.getValue() instanceof RandlModuleAuthDto){
-                RandlModuleAuthDto moduleAuthDto= (RandlModuleAuthDto) treeNode.getValue();
+        TreeNode rootTreeNode = new DefaultTreeProcessor().processing(onceTreeNodeAdapterList);
+        rootTreeNode = rootTreeNode.andPredicate(treeNode -> {
+            if (treeNode.getValue() != null && treeNode.getValue() instanceof RandlModuleAuthDto) {
+                RandlModuleAuthDto moduleAuthDto = (RandlModuleAuthDto) treeNode.getValue();
                 //如果是菜单的话就留着
                 return moduleAuthDto.getModuleType() == 0;
             }
             return false;
         });
-        Map<String,Object>treeNodeMap= TreeNodeUtils.toTreeMap(rootTreeNode);
-        getLogger().verbose("处理为树形结构并且过滤出菜单模块完成");
+        Map<String, Object> treeNodeMap = TreeNodeUtils.toTreeMap(rootTreeNode);
+        getLogger().debug("处理为树形结构并且过滤出菜单模块完成: " + rootTreeNode.getDetail());
 
         systemUserDto.setModuleAuthList((List<Map<String, Object>>) treeNodeMap.get("children"));
 

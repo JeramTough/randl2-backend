@@ -17,15 +17,15 @@ import javax.validation.constraints.Pattern;
 @ApiModel("注册管理员用户参数")
 public class RegisterRandlUserParams {
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
-    @Pattern(regexp = "^[a-z0-9A-Z]{5,16}$",
-            message = "{'code':" + ErrorU.CODE_6.C + ",'placeholders':['帐号名长度范围在5-16位；只能为数字或者字母；不能含有特殊字符']}")
+    @NotNull(payload = ErrorU.CODE_1.class)
+    @Pattern(regexp = "^[a-z0-9A-Z_]{5,16}$",payload = ErrorU.CODE_8.class,
+            message = "帐号名长度范围在5-16位；只能为数字或者字母或者下划线_；不能含有特殊字符")
     @ApiModelProperty(value = "账号名", example = "account", required = true)
     private String account;
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
-    @Pattern(regexp = "^\\S{8,16}$",
-            message = "{'code':" + ErrorU.CODE_6.C + ",'placeholders':['密码长度范围在8-16位；只允许非空白任意字符']}")
+    @NotNull(payload = ErrorU.CODE_1.class)
+    @Pattern(regexp = "^\\S{8,16}$",payload = ErrorU.CODE_8.class,
+            message = "密码长度范围在8-16位；只允许非空白任意字符")
     @ApiModelProperty(value = "密码", example = "password", required = true)
     private String password;
 
@@ -34,15 +34,14 @@ public class RegisterRandlUserParams {
     @Pattern(
             regexp = "^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(166)|(17[0,1,3,5,6,7,8])|" +
                     "(18[0-9])|(19[8|9]))\\d{8}$"
-            , message = "{'code':" + ErrorU.CODE_2.C + ",'placeholders':["+
-            "'例子:15289678164']}")
+            , payload = ErrorU.CODE_4.class, message = "例子:15289678164")
     private String phoneNumber;
 
     @ApiModelProperty(value = "邮箱地址", example = "1321312@qq.com", required = false)
-    @Email(message = "{'code':" + ErrorU.CODE_2.C + ",'placeholders':['例子:1234@qq.com']}")
+    @Email(payload = ErrorU.CODE_4.class,message = "例子:1171867004@qq.com")
     private String emailAddress;
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
+    @NotNull(payload = ErrorU.CODE_1.class)
     @ApiModelProperty(value = "重复密码", example = "password", required = true)
     private String repeatedPassword;
 

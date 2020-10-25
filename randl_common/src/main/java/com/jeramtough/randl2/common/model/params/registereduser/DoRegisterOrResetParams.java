@@ -16,13 +16,12 @@ import javax.validation.constraints.NotNull;
 @ApiModel("确定注册或重置用户参数")
 public class DoRegisterOrResetParams {
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
+   @NotNull(payload = ErrorU.CODE_1.class)
     @ApiModelProperty(value = "事务ID", example = "aaaaaaaaa")
     private String transactionId;
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
-    @Range(min = 1, max = 2, message = "{'code':" + ErrorU.CODE_5.C + ",'placeholders':[" +
-            "'1:手机号码，2:邮箱地址']}")
+   @NotNull(payload = ErrorU.CODE_1.class)
+   @Range(min = 1, max = 2, payload = ErrorU.CODE_7.class, message = "手机号码，2:邮箱地址")
     @ApiModelProperty(value = "注册方式，1:手机号码，2:邮箱地址", example = "1")
     private Integer way;
 

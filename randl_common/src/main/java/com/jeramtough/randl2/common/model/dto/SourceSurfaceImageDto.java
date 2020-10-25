@@ -25,6 +25,9 @@ public class SourceSurfaceImageDto implements Serializable{
     @ApiModelProperty(value = "可以是url或者base64格式图片")
     private String surfaceImage;
 
+    @ApiModelProperty(value = "0:base64 || 1:url")
+    private Integer type;
+
 
     public Long getFid() {
         return fid;
@@ -40,6 +43,14 @@ public class SourceSurfaceImageDto implements Serializable{
 
     public void setSurfaceImage(String surfaceImage) {
         this.surfaceImage = surfaceImage;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     @Override

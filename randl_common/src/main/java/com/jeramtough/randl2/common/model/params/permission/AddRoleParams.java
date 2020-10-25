@@ -15,16 +15,14 @@ import javax.validation.constraints.Pattern;
 public class AddRoleParams {
 
     @ApiModelProperty(value = "角色名", example = "TEST", required = true)
-    @NotNull(message = ErrorU.CODE_1.C + "")
+   @NotNull(payload = ErrorU.CODE_1.class)
 
-    @Pattern(regexp = "^([a-zA-Z]|[-]|[_])+$",
-            message = "{'code':" + ErrorU.CODE_2.C + (",'placeholders':[" +
-                    "'角色名只允许输入英文字母或者下划线或减号'," +
-                    "]}"))
+    @Pattern(regexp = "^([a-zA-Z]|[-]|[_])+$",payload = ErrorU.CODE_4.class,
+            message = "角色名只允许输入英文字母或者下划线或减号")
     private String name;
 
     @ApiModelProperty(value = "角色描述", example = "who", required = true)
-    @NotNull(message = ErrorU.CODE_1.C + "")
+   @NotNull(payload = ErrorU.CODE_1.class)
     private String description;
 
     public String getName() {

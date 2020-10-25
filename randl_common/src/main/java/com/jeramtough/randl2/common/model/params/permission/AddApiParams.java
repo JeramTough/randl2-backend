@@ -16,13 +16,13 @@ import javax.validation.constraints.NotNull;
 public class AddApiParams {
 
     @ApiModelProperty(value = "路径", example = "/test/getSomething", required = true)
-    @NotNull(message = ErrorU.CODE_1.C + "")
+   @NotNull(payload = ErrorU.CODE_1.class)
     private String path;
 
     @ApiModelProperty(value = "接口描述", example = "do something", required = false)
     private String description;
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
+   @NotNull(payload = ErrorU.CODE_1.class)
     @ApiModelProperty(value = "接口别名", example = "BM", required = true)
     private String alias;
 

@@ -27,6 +27,11 @@ public class SourceSurfaceImage implements Serializable {
    */
     private String surfaceImage;
 
+    /**
+     * 0:base64 || 1:url
+     */
+    private Integer type;
+
 
     public Long getFid() {
         return fid;
@@ -42,6 +47,10 @@ public class SourceSurfaceImage implements Serializable {
 
     public void setSurfaceImage(String surfaceImage) {
         this.surfaceImage = surfaceImage;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.jeramtough.randl2.adminapp.service.impl;
 
 import com.jeramtough.jtcomponent.task.bean.TaskResult;
-import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
+import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.registereduser.LoginByPasswordCredentials;
@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -56,7 +55,7 @@ public class RegisteredUserLoginServiceImpl implements RegisteredUserLoginServic
     @Override
     public void loginByExistingToken(String token) {
         if (token == null) {
-            throw new ApiResponseException(ErrorU.CODE_3.C);
+            throw new ApiResponseException(ErrorU.CODE_5.C);
         }
 
         TaskResult taskResult = JwtTokenUtil.verifyToken(token,
@@ -69,7 +68,7 @@ public class RegisteredUserLoginServiceImpl implements RegisteredUserLoginServic
         }
         else {
             String errorMessage = taskResult.getMessage();
-            throw new ApiResponseException(ErrorU.CODE_4.C, errorMessage);
+            throw new ApiResponseException(ErrorU.CODE_6.C, errorMessage);
         }
 
     }

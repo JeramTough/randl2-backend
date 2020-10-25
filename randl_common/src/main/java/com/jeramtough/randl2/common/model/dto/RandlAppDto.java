@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.common.model.dto;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
@@ -36,6 +37,7 @@ public class RandlAppDto implements Serializable{
     @ApiModelProperty(value = "是否可用")
     private Integer isAble;
 
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 
@@ -90,7 +92,7 @@ public class RandlAppDto implements Serializable{
 
     @Override
     public String toString() {
-        return "RandlApp{" +
+        return "RandlUserApp{" +
         "fid=" + fid +
         ", appName=" + appName +
         ", appCode=" + appCode +

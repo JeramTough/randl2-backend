@@ -19,7 +19,7 @@ import java.io.Serializable;
 public class UpdateCurrentAdminSurfaceImageParams implements Serializable {
 
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
+   @NotNull(payload = ErrorU.CODE_1.class)
     @ApiModelProperty(value = "图片base64格式的编码值", example = "0", required = true)
     private String surfaceImage;
 

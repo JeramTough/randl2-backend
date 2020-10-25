@@ -2,7 +2,7 @@ package com.jeramtough.randl2.adminapp.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtlog.with.WithLogger;
-import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
+import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.service.impl.BaseDtoServiceImpl;
 import com.jeramtough.randl2.common.mapper.RandlUserRoleMapMapper;
@@ -52,7 +52,7 @@ public class RandlRoleServiceImpl extends BaseDtoServiceImpl<RandlRoleMapper, Ra
         BeanValidator.verifyParams(params);
         if (getBaseMapper().selectOne(
                 new QueryWrapper<RandlRole>().eq("name", params.getName())) != null) {
-            throw new ApiResponseException(ErrorU.CODE_9.C, "角色名");
+            throw new ApiResponseException(ErrorU.CODE_11.C, "角色名");
         }
 
         RandlRole randlRole = getMapperFacade().map(params, RandlRole.class);

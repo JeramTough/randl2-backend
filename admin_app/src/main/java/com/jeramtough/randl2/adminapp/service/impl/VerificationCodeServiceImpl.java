@@ -2,7 +2,7 @@ package com.jeramtough.randl2.adminapp.service.impl;
 
 import com.jeramtough.jtcomponent.task.bean.TaskResult;
 import com.jeramtough.jtcomponent.utils.ValidationUtil;
-import com.jeramtough.jtweb.component.apiresponse.BeanValidator;
+import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.verificationcode.SendVerificationCodeParams;

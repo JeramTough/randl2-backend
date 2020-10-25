@@ -16,15 +16,13 @@ import javax.validation.constraints.Pattern;
 @ApiModel("通过账号密码登录参数")
 public class LoginByPasswordCredentials {
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
+   @NotNull(payload = ErrorU.CODE_1.class)
     @ApiParam(value = "账号、手机号、邮箱地址", required = true)
     private String credential;
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
-    @Pattern(regexp = "^\\S{8,16}$",
-            message = "{'code':" + ErrorU.CODE_6.C + (",'placeholders':[" +
-                    "'密码长度范围在8-16位；只允许非空白任意字符'," +
-                    "]}"))
+   @NotNull(payload = ErrorU.CODE_1.class)
+   @Pattern(regexp = "^\\S{8,16}$",payload = ErrorU.CODE_8.class,
+           message = "密码长度范围在8-16位；只允许非空白任意字符")
     @ApiParam(value = "密码", required = true)
     private String password;
 

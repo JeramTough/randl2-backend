@@ -15,11 +15,11 @@ import javax.validation.constraints.NotNull;
 @ApiModel("游客登录参数")
 public class LoginForVisitorCredentials {
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
+   @NotNull(payload = ErrorU.CODE_1.class)
     @ApiParam(value = "游客身份账号", required = true)
     private String credential;
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
+   @NotNull(payload = ErrorU.CODE_1.class)
     @ApiParam(value = "游客身份密码", required = true)
     private String password;
 

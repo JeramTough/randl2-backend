@@ -128,7 +128,7 @@ public class OperationLogAspect {
 
             if (systemUser != null && systemUser.getUserType() == UserType.ADMIN) {
                 randlOperationLog.setAdminId(systemUser.getUid());
-                randlOperationLog.setAdminName(systemUser.getUsername());
+                randlOperationLog.setAdminName(systemUser.getAccount());
                 String content = JSON.toJSONString(contentMap);
                 randlOperationLog.setContent(content);
                 randlOperationLogService.save(randlOperationLog);

@@ -1,5 +1,6 @@
 package com.jeramtough.test;
 
+import com.alibaba.fastjson.JSON;
 import com.jeramtough.jtcomponent.key.util.KeyUtil;
 import com.jeramtough.jtlog.facade.L;
 
@@ -17,10 +18,7 @@ public class Test {
 
     @org.junit.Test
     public void test1() {
-        List list = null;
-        for (Object o : list) {
-            L.debug(o);
-        }
+        JSON.parseArray("fasfsa");
     }
 
 

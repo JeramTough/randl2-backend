@@ -34,7 +34,7 @@ public abstract class BaseRegisteredUserLoginer {
     protected SystemUser processSystemUser(RandlUser randlUser) {
         SystemUser systemUser = mapperFacade.map(randlUser, SystemUser.class);
         systemUser.setUserType(UserType.REGISTERED);
-        systemUser.setUsername(randlUser.getAccount());
+        systemUser.setAccount(randlUser.getAccount());
 
        /* RandRole randRole = randlRoleMapper.selectById(randlUser.getRoleId());
         systemUser.setRandRole(randRole);*/

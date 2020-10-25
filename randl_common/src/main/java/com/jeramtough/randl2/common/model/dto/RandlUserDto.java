@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.common.model.dto;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
@@ -33,6 +34,7 @@ public class RandlUserDto implements Serializable{
     @ApiModelProperty(value = "邮箱地址")
     private String emailAddress;
 
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "注册时间")
     private LocalDateTime registrationTime;
 

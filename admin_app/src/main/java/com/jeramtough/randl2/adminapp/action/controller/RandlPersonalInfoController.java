@@ -2,8 +2,12 @@ package com.jeramtough.randl2.adminapp.action.controller;
 
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.jtweb.model.dto.PageDto;
+import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.randl2.common.action.controller.BaseController;
 import com.jeramtough.randl2.common.component.logforoperation.annotation.LoggingOperation;
+import com.jeramtough.randl2.common.model.dto.RandlUserDto;
+import com.jeramtough.randl2.common.model.entity.RandlPersonalInfo;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.personalinfo.UpdatePersonalInfoParams;
 import com.jeramtough.randl2.common.model.dto.RandlPersonalInfoDto;
@@ -15,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * <p>
  * 前端控制器
@@ -25,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Api(tags = {"普通用户个人信息接口"})
-@RequestMapping("/randlRersonalInfo")
+@RequestMapping("/randlPersonalInfo")
 public class RandlPersonalInfoController extends BaseController {
 
     private final RandlPersonalInfoService randlPersonalInfoService;
@@ -56,6 +62,14 @@ public class RandlPersonalInfoController extends BaseController {
     public CommonApiResponse<String> updateAdminUser(
             @RequestBody UpdatePersonalInfoParams params) {
         return getSuccessfulApiResponse(randlPersonalInfoService.updatePersonalInfo(params));
+    }
+
+    @ApiOperation(value = "分页查询", notes = "分页查询Randl用户个人信息")
+    @RequestMapping(value = "/page", method = {RequestMethod.GET})
+    public CommonApiResponse<PageDto<Map<String, Object>>> getRandlUserByPage(
+            QueryByPageParams queryByPageParams) {
+        return getSuccessfulApiResponse(
+                randlPersonalInfoService.getRandlPersonalInfoDtoListByPage(queryByPageParams));
     }
 
 }

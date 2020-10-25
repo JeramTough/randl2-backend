@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @ApiModel("为角色设置接口权限参数")
 public class PermissionParams {
 
-    @NotNull(message = ErrorU.CODE_1.C + "")
+   @NotNull(payload = ErrorU.CODE_1.class)
     @ApiModelProperty(value = "角色Id", required = true, example = "1")
     private Long roleId;
 

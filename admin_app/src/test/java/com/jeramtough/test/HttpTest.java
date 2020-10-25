@@ -48,7 +48,23 @@ public class HttpTest {
     public void test2() {
         OkHttpClient client = new OkHttpClient();
 
-        String url = "https://www.gamersky.com/handbook/201806/1067140.shtml";
+        Request request = new Request.Builder()
+                .get()
+                .url("http://222.216.111.49:8888/gcis/downLoadApp.html")
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                L.debug(response.body());
+            }
+        });
 
     }
 
