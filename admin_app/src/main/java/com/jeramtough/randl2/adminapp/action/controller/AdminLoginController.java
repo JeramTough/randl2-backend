@@ -5,7 +5,7 @@ import com.jeramtough.randl2.common.action.controller.BaseController;
 import com.jeramtough.randl2.common.component.logforoperation.annotation.LoggingOperation;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import com.jeramtough.randl2.common.model.params.adminuser.UserCredentials;
+import com.jeramtough.randl2.common.model.params.user.UserCredentials;
 import com.jeramtough.randl2.adminapp.service.LoginService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;

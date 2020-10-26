@@ -1,7 +1,7 @@
 package com.jeramtough.test;
 
 import com.jeramtough.jtlog.facade.L;
-import com.jeramtough.randl2.common.model.params.adminuser.UserCredentials;
+import com.jeramtough.randl2.common.model.params.user.UserCredentials;
 import okhttp3.*;
 import org.junit.Test;
 

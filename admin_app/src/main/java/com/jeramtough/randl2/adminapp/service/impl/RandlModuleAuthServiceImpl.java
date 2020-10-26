@@ -5,16 +5,10 @@ import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException
 import com.jeramtough.jtweb.service.impl.BaseDtoServiceImpl;
 import com.jeramtough.randl2.adminapp.component.userdetail.SuperAdmin;
 import com.jeramtough.randl2.adminapp.service.RandlModuleAuthService;
-import com.jeramtough.randl2.common.mapper.RandlApiMapper;
-import com.jeramtough.randl2.common.mapper.RandlModuleMapper;
-import com.jeramtough.randl2.common.mapper.RandlModuleRoleMapMapper;
-import com.jeramtough.randl2.common.mapper.RandlUserRoleMapMapper;
+import com.jeramtough.randl2.common.mapper.*;
 import com.jeramtough.randl2.common.model.dto.RandlModuleAuthDto;
 import com.jeramtough.randl2.common.model.dto.RandlModuleRoleMapDto;
-import com.jeramtough.randl2.common.model.entity.RandlApi;
-import com.jeramtough.randl2.common.model.entity.RandlModule;
-import com.jeramtough.randl2.common.model.entity.RandlModuleRoleMap;
-import com.jeramtough.randl2.common.model.entity.RandlRole;
+import com.jeramtough.randl2.common.model.entity.*;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -42,18 +37,21 @@ public class RandlModuleAuthServiceImpl extends BaseDtoServiceImpl<RandlModuleRo
     private final RandlModuleRoleMapMapper randlModuleRoleMapMapper;
     private final RandlApiMapper randlApiMapper;
     private final RandlModuleMapper randlModuleMapper;
+    private final RandlModuleApiMapMapper randlModuleApiMapMapper;
 
     @Autowired
     public RandlModuleAuthServiceImpl(WebApplicationContext wc,
                                       RandlUserRoleMapMapper randlUserRoleMapMapper,
                                       RandlModuleRoleMapMapper randlModuleRoleMapMapper,
                                       RandlApiMapper randlApiMapper,
-                                      RandlModuleMapper randlModuleMapper) {
+                                      RandlModuleMapper randlModuleMapper,
+                                      RandlModuleApiMapMapper randlModuleApiMapMapper) {
         super(wc);
         this.randlUserRoleMapMapper = randlUserRoleMapMapper;
         this.randlModuleRoleMapMapper = randlModuleRoleMapMapper;
         this.randlApiMapper = randlApiMapper;
         this.randlModuleMapper = randlModuleMapper;
+        this.randlModuleApiMapMapper = randlModuleApiMapMapper;
     }
 
     @Override
@@ -84,15 +82,25 @@ public class RandlModuleAuthServiceImpl extends BaseDtoServiceImpl<RandlModuleRo
         //这个app下所有的接口
         List<RandlApi> apiList = randlApiMapper.selectList(new QueryWrapper<RandlApi>().eq("app_id",
                 appId));
+
+        //以appId为键值，保存接口
+        Map<Long, RandlApi> idKeyApiMap;
+        idKeyApiMap = apiList.stream().collect(Collectors.toMap(RandlApi::getFid, randlApi -> randlApi));
+
+        //这个app下的所有模块与接口的映射关系
+        List<RandlModuleApiMap> moduleApiMapList = randlModuleApiMapMapper.selectList(
+                new QueryWrapper<RandlModuleApiMap>().eq("app_id",
+                        appId));
+
         //以模块Id为键值，保存每个模块下面所有的接口
         Map<Long, List<RandlApi>> moduleIdKeyApisMap = new HashMap<>(10);
-        for (RandlApi randlApi : apiList) {
-            List<RandlApi> apis = moduleIdKeyApisMap.get(randlApi.getModuleId());
+        for (RandlModuleApiMap randlModuleApiMap : moduleApiMapList) {
+            List<RandlApi> apis = moduleIdKeyApisMap.get(randlModuleApiMap.getModuleId());
             if (apis == null) {
                 apis = new ArrayList<>();
             }
-            apis.add(randlApi);
-            moduleIdKeyApisMap.put(randlApi.getModuleId(), apis);
+            apis.add(idKeyApiMap.get(randlModuleApiMap.getApiId()));
+            moduleIdKeyApisMap.put(randlModuleApiMap.getModuleId(), apis);
         }
 
         //这个角色的授权情况

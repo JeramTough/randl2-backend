@@ -16,15 +16,19 @@ import javax.validation.constraints.NotNull;
 public class AddApiParams {
 
     @ApiModelProperty(value = "路径", example = "/test/getSomething", required = true)
-   @NotNull(payload = ErrorU.CODE_1.class)
+    @NotNull(payload = ErrorU.CODE_1.class)
     private String path;
 
     @ApiModelProperty(value = "接口描述", example = "do something", required = false)
     private String description;
 
-   @NotNull(payload = ErrorU.CODE_1.class)
+    @NotNull(payload = ErrorU.CODE_1.class)
     @ApiModelProperty(value = "接口别名", example = "BM", required = true)
     private String alias;
+
+    @NotNull(payload = ErrorU.CODE_1.class)
+    @ApiModelProperty(value = "属于哪个app的接口")
+    private Long appId;
 
     public String getPath() {
         return path;
@@ -48,5 +52,13 @@ public class AddApiParams {
 
     public void setAlias(String alias) {
         this.alias = alias;
+    }
+
+    public Long getAppId() {
+        return appId;
+    }
+
+    public void setAppId(Long appId) {
+        this.appId = appId;
     }
 }

@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.common.model.params.adminuser;
+package com.jeramtough.randl2.common.model.params.user;
 
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;

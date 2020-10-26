@@ -34,4 +34,6 @@ public interface RandlAppService extends MyBaseService<RandlApp, RandlAppDto> {
     List<RandlAppDto> getListByKeyword(String keyword);
 
     PageDto<RandlAppDto> pageByCondition(QueryByPageParams queryByPageParams, ConditionAppParams params);
+
+    List<RandlAppDto> getAllOnlyName();
 }

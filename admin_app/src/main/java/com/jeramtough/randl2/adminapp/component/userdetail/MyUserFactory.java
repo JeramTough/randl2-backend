@@ -2,7 +2,7 @@ package com.jeramtough.randl2.adminapp.component.userdetail;
 
 import com.jeramtough.jtweb.util.IpAddrUtil;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
-import com.jeramtough.randl2.common.model.params.adminuser.RegisterRandlUserParams;
+import com.jeramtough.randl2.common.model.params.user.RegisterRandlUserParams;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

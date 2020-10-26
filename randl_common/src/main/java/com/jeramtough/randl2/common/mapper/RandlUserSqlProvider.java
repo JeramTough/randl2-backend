@@ -1,11 +1,9 @@
 package com.jeramtough.randl2.common.mapper;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeramtough.jtweb.db.mapper.BaseSqlProvider;
 import com.jeramtough.jtweb.model.QueryPage;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
-import com.jeramtough.randl2.common.model.params.adminuser.ConditionUserParams;
+import com.jeramtough.randl2.common.model.params.user.ConditionUserParams;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 

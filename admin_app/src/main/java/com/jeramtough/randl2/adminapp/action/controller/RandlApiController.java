@@ -5,6 +5,9 @@ import com.jeramtough.jtweb.action.controller.BaseSwaggerController;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.randl2.common.model.dto.RandlApiDto;
+import com.jeramtough.randl2.common.model.dto.RandlAppDto;
+import com.jeramtough.randl2.common.model.params.api.ConditionApiParams;
+import com.jeramtough.randl2.common.model.params.app.ConditionAppParams;
 import com.jeramtough.randl2.common.model.params.permission.AddApiParams;
 import com.jeramtough.randl2.common.model.params.permission.UpdateApiParams;
 import com.jeramtough.jtweb.model.dto.PageDto;
@@ -97,6 +100,14 @@ public class RandlApiController extends BaseSwaggerController {
     @RequestMapping(value = "/byKeyword", method = {RequestMethod.GET})
     public CommonApiResponse<List<RandlApiDto>> getOneAdminUser(@RequestParam String keyword) {
         return getSuccessfulApiResponse(randlApiService.getApiListByKeyword(keyword));
+    }
+
+    @ApiOperation(value = "条件查询", notes = "根据关键字等条件查询得到一个Randl应用信息")
+    @ApiResponses(value = {})
+    @RequestMapping(value = "/condition", method = {RequestMethod.GET})
+    public CommonApiResponse<PageDto<RandlApiDto>> getRandlUserByCondition(
+            QueryByPageParams queryByPageParams, ConditionApiParams params) {
+        return getSuccessfulApiResponse(randlApiService.pageByCondition(queryByPageParams, params));
     }
 
 }

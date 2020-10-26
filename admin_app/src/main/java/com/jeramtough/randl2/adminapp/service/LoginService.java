@@ -1,7 +1,7 @@
 package com.jeramtough.randl2.adminapp.service;
 
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
-import com.jeramtough.randl2.common.model.params.adminuser.UserCredentials;
+import com.jeramtough.randl2.common.model.params.user.UserCredentials;
 
 /**
  * <pre>

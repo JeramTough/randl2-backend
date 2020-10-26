@@ -37,15 +37,9 @@ public class RandlApiDto implements Serializable{
     @ApiModelProperty(value = "属于哪个app的接口")
     private Long appId;
 
-    @ApiModelProperty(value = "接口方法json数组")
-    private String methods;
-
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
-
-    @ApiModelProperty(value = "模块Id")
-    private Long moduleId;
 
 
     public Long getFid() {
@@ -88,13 +82,6 @@ public class RandlApiDto implements Serializable{
         this.appId = appId;
     }
 
-    public String getMethods() {
-        return methods;
-    }
-
-    public void setMethods(String methods) {
-        this.methods = methods;
-    }
 
     public LocalDateTime getCreateTime() {
         return createTime;
@@ -104,13 +91,6 @@ public class RandlApiDto implements Serializable{
         this.createTime = createTime;
     }
 
-    public Long getModuleId() {
-        return moduleId;
-    }
-
-    public void setModuleId(Long moduleId) {
-        this.moduleId = moduleId;
-    }
 
     @Override
     public String toString() {
@@ -120,9 +100,7 @@ public class RandlApiDto implements Serializable{
         ", description=" + description +
         ", alias=" + alias +
         ", appId=" + appId +
-        ", methods=" + methods +
         ", createTime=" + createTime +
-        ", moduleId=" + moduleId +
         "}";
     }
 }

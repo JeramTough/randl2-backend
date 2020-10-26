@@ -7,15 +7,10 @@ import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.randl2.adminapp.service.RandlAppService;
 import com.jeramtough.randl2.common.action.controller.BaseController;
 import com.jeramtough.randl2.common.model.dto.RandlAppDto;
-import com.jeramtough.randl2.common.model.dto.RandlUserDto;
-import com.jeramtough.randl2.common.model.error.ErrorS;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import com.jeramtough.randl2.common.model.params.adminuser.ConditionUserParams;
 import com.jeramtough.randl2.common.model.params.app.AddAppParams;
 import com.jeramtough.randl2.common.model.params.app.ConditionAppParams;
 import com.jeramtough.randl2.common.model.params.app.UpdateAppParams;
-import com.jeramtough.randl2.common.model.params.permission.AddApiParams;
-import com.jeramtough.randl2.common.model.params.permission.UpdateApiParams;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -85,11 +80,17 @@ public class RandlAppController extends BaseController {
 
     @ApiOperation(value = "查询全部", notes = "查询全部RandlApp应用")
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
-    public CommonApiResponse<List<RandlAppDto>> getAllApi() {
+    public CommonApiResponse<List<RandlAppDto>> getAll() {
         return getSuccessfulApiResponse(randlAppService.getAllBaseDto());
     }
 
-    @ApiOperation(value = "分页查询", notes = "分页查询API信息列表")
+    @ApiOperation(value = "查询全部但只有name属性", notes = "查询全部RandlApp应用，但只有name属性")
+    @RequestMapping(value = "/allOnlyName", method = {RequestMethod.GET})
+    public CommonApiResponse<List<RandlAppDto>> getAllOnlyName() {
+        return getSuccessfulApiResponse(randlAppService.getAllOnlyName());
+    }
+
+    @ApiOperation(value = "分页查询", notes = "分页查询APP信息列表")
     @RequestMapping(value = "/page", method = {RequestMethod.GET})
     public CommonApiResponse<PageDto<RandlAppDto>> getAdminUserByPage(
             QueryByPageParams queryByPageParams) {

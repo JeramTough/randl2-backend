@@ -47,19 +47,9 @@ public class RandlApi implements Serializable {
     private Long appId;
 
   /**
-   * 接口方法json数组
-   */
-    private String methods;
-
-  /**
    * 创建时间
    */
     private LocalDateTime createTime;
-
-  /**
-   * 模块Id
-   */
-    private Long moduleId;
 
 
     public Long getFid() {
@@ -102,14 +92,6 @@ public class RandlApi implements Serializable {
         this.appId = appId;
     }
 
-    public String getMethods() {
-        return methods;
-    }
-
-    public void setMethods(String methods) {
-        this.methods = methods;
-    }
-
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -118,13 +100,6 @@ public class RandlApi implements Serializable {
         this.createTime = createTime;
     }
 
-    public Long getModuleId() {
-        return moduleId;
-    }
-
-    public void setModuleId(Long moduleId) {
-        this.moduleId = moduleId;
-    }
 
     @Override
     public String toString() {
@@ -134,9 +109,7 @@ public class RandlApi implements Serializable {
         ", description=" + description +
         ", alias=" + alias +
         ", appId=" + appId +
-        ", methods=" + methods +
         ", createTime=" + createTime +
-        ", moduleId=" + moduleId +
         "}";
     }
 }

@@ -72,6 +72,9 @@ public class RandlAppServiceImpl extends MyBaseServiceImpl<RandlAppMapper, Randl
 
         String appCode = IdUtil.getUUID();
         randlApp.setAppCode(appCode);
+
+        getBaseMapper().insert(randlApp);
+
         return "添加应用[" + appCode + "]成功！";
     }
 
@@ -109,6 +112,12 @@ public class RandlAppServiceImpl extends MyBaseServiceImpl<RandlAppMapper, Randl
                 new QueryPage<>(queryByPageParams), params);
 
         return toPageDto(randlUserQueryPage);
+    }
+
+    @Override
+    public List<RandlAppDto> getAllOnlyName() {
+        List<RandlAppDto> dtoList=getBaseMapper().selectAllOnlyName();
+        return dtoList;
     }
 
     //*************

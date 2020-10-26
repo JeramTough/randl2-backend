@@ -18,14 +18,13 @@ import com.jeramtough.randl2.common.component.moduletree.ModuleAuthDtoOnceTreeNo
 import com.jeramtough.randl2.common.mapper.SourceSurfaceImageMapper;
 import com.jeramtough.randl2.common.model.dto.RandlModuleAuthDto;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
-import com.jeramtough.randl2.common.model.params.adminuser.UserCredentials;
+import com.jeramtough.randl2.common.model.params.user.UserCredentials;
 import com.jeramtough.randl2.adminapp.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 /**
  * <pre>

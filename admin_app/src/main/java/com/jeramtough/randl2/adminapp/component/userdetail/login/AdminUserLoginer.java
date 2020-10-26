@@ -6,7 +6,7 @@ import com.jeramtough.randl2.adminapp.component.userdetail.AccountStatus;
 import com.jeramtough.randl2.common.mapper.RandlUserRoleMapMapper;
 import com.jeramtough.randl2.common.model.entity.RandlUserWithRole;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import com.jeramtough.randl2.common.model.params.adminuser.UserCredentials;
+import com.jeramtough.randl2.common.model.params.user.UserCredentials;
 import com.jeramtough.randl2.adminapp.component.userdetail.SuperAdmin;
 import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
 import com.jeramtough.randl2.adminapp.component.userdetail.UserType;
