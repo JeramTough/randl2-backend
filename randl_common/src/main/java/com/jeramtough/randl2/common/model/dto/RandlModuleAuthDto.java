@@ -51,9 +51,6 @@ public class RandlModuleAuthDto {
     @ApiModelProperty(value = "英文别名")
     private String alias;
 
-    @ApiModelProperty(value = "模块种类，0:菜单 1:接口")
-    private Integer moduleType;
-
     public Long getMid() {
         return mid;
     }
@@ -150,14 +147,6 @@ public class RandlModuleAuthDto {
         this.alias = alias;
     }
 
-    public Integer getModuleType() {
-        return moduleType;
-    }
-
-    public void setModuleType(Integer moduleType) {
-        this.moduleType = moduleType;
-    }
-
     public Integer getIsAuth() {
         return isAuth;
     }
@@ -182,7 +171,6 @@ public class RandlModuleAuthDto {
                 ", appId=" + appId +
                 ", createTime=" + createTime +
                 ", alias='" + alias + '\'' +
-                ", moduleType=" + moduleType +
                 '}';
     }
 }

@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.adminapp.service.impl;
 
-import com.jeramtough.jtcomponent.tree.adapter.OnceTreeNodeAdapter;
+import com.jeramtough.jtcomponent.tree.adapter.OneTreeNodeAdapter;
 import com.jeramtough.jtcomponent.tree.processor.DefaultTreeProcessor;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
 import com.jeramtough.jtcomponent.tree.util.TreeNodeUtils;
@@ -14,7 +14,7 @@ import com.jeramtough.randl2.adminapp.component.userdetail.UserHolder;
 import com.jeramtough.randl2.adminapp.component.userdetail.login.AdminUserLoginer;
 import com.jeramtough.randl2.adminapp.component.userdetail.login.UserLoginer;
 import com.jeramtough.randl2.adminapp.service.RandlModuleAuthService;
-import com.jeramtough.randl2.common.component.moduletree.ModuleAuthDtoOnceTreeNodeAdapter;
+import com.jeramtough.randl2.common.component.moduletree.ModuleAuthDtoOneTreeNodeAdapter;
 import com.jeramtough.randl2.common.mapper.SourceSurfaceImageMapper;
 import com.jeramtough.randl2.common.model.dto.RandlModuleAuthDto;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
@@ -83,21 +83,14 @@ public class LoginServiceImpl extends BaseServiceImpl implements LoginService, W
         getLogger().debug(Arrays.deepToString(moduleAuthDtoList.toArray(new RandlModuleAuthDto[0])));
 
         getLogger().verbose("开始处理用户模块授权信息作为树形结构");
-        List<OnceTreeNodeAdapter<RandlModuleAuthDto>> onceTreeNodeAdapterList = new ArrayList<>();
+        List<OneTreeNodeAdapter<RandlModuleAuthDto>> oneTreeNodeAdapterList = new ArrayList<>();
         for (RandlModuleAuthDto randlModuleAuthDto : moduleAuthDtoList) {
-            OnceTreeNodeAdapter<RandlModuleAuthDto> adapter = new ModuleAuthDtoOnceTreeNodeAdapter(
+            OneTreeNodeAdapter<RandlModuleAuthDto> adapter = new ModuleAuthDtoOneTreeNodeAdapter(
                     randlModuleAuthDto);
-            onceTreeNodeAdapterList.add(adapter);
+            oneTreeNodeAdapterList.add(adapter);
         }
-        TreeNode rootTreeNode = new DefaultTreeProcessor().processing(onceTreeNodeAdapterList);
-        rootTreeNode = rootTreeNode.andPredicate(treeNode -> {
-            if (treeNode.getValue() != null && treeNode.getValue() instanceof RandlModuleAuthDto) {
-                RandlModuleAuthDto moduleAuthDto = (RandlModuleAuthDto) treeNode.getValue();
-                //如果是菜单的话就留着
-                return moduleAuthDto.getModuleType() == 0;
-            }
-            return false;
-        });
+        TreeNode rootTreeNode = new DefaultTreeProcessor().processing(oneTreeNodeAdapterList);
+
         Map<String, Object> treeNodeMap = TreeNodeUtils.toTreeMap(rootTreeNode);
         getLogger().debug("处理为树形结构并且过滤出菜单模块完成: " + rootTreeNode.getDetail());
 

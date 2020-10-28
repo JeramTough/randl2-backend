@@ -5,6 +5,7 @@ import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.randl2.common.action.controller.BaseController;
 import com.jeramtough.randl2.common.model.dto.RandlModuleDto;
 import com.jeramtough.randl2.adminapp.service.RandlModuleService;
+import com.jeramtough.randl2.common.model.params.mudule.TreeModuleParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -39,6 +41,13 @@ public class RandlModuleController extends BaseController {
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
     public CommonApiResponse<List<RandlModuleDto>> getAll() {
         return getSuccessfulApiResponse(randlModuleService.getAllBaseDto());
+    }
+
+
+    @ApiOperation(value = "查询树形列表", notes = "通过条件查询系统模块列表")
+    @RequestMapping(value = "/tree", method = {RequestMethod.GET})
+    public CommonApiResponse<Map<String, Object>> getTreeModuleList(TreeModuleParams params) {
+        return getSuccessfulApiResponse(randlModuleService.getTreeModuleList(params));
     }
 
 }

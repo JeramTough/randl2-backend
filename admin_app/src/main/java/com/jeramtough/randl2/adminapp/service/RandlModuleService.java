@@ -1,9 +1,9 @@
 package com.jeramtough.randl2.adminapp.service;
 
-import com.jeramtough.jtcomponent.tree.structure.TreeStructure;
 import com.jeramtough.jtweb.service.BaseDtoService;
 import com.jeramtough.randl2.common.model.dto.RandlModuleDto;
 import com.jeramtough.randl2.common.model.entity.RandlModule;
+import com.jeramtough.randl2.common.model.params.mudule.TreeModuleParams;
 
 import java.util.Map;
 
@@ -20,4 +20,5 @@ public interface RandlModuleService extends BaseDtoService<RandlModule, RandlMod
 
     Map<String, Object> getRandlModuleTreeMap(Long appId,Long uid);
 
+    Map<String, Object> getTreeModuleList(TreeModuleParams params);
 }

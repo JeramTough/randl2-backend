@@ -84,8 +84,8 @@ public class RandlModuleAuthServiceImpl extends BaseDtoServiceImpl<RandlModuleRo
                 appId));
 
         //以appId为键值，保存接口
-        Map<Long, RandlApi> idKeyApiMap;
-        idKeyApiMap = apiList.stream().collect(Collectors.toMap(RandlApi::getFid, randlApi -> randlApi));
+        Map<Long, RandlApi> idKeyApiMap = apiList.stream().collect(
+                Collectors.toMap(RandlApi::getFid, randlApi -> randlApi));
 
         //这个app下的所有模块与接口的映射关系
         List<RandlModuleApiMap> moduleApiMapList = randlModuleApiMapMapper.selectList(
@@ -130,14 +130,14 @@ public class RandlModuleAuthServiceImpl extends BaseDtoServiceImpl<RandlModuleRo
             randlModuleAuthDtoList.add(moduleAuthDto);
 
             //接口授权
-            List<RandlApi> apis = moduleIdKeyApisMap.get(randlModule.getFid());
+            /*List<RandlApi> apis = moduleIdKeyApisMap.get(randlModule.getFid());
             if (apis != null) {
                 for (RandlApi api : apis) {
                     RandlModuleAuthDto moduleAuthDtoForApi = toRandlModuleAuthDtoForApi(apiIdKeyModuleRoleMap,
                             randlModule, api, roleId);
                     randlModuleAuthDtoList.add(moduleAuthDtoForApi);
                 }
-            }
+            }*/
         }
         return randlModuleAuthDtoList;
     }
@@ -151,7 +151,6 @@ public class RandlModuleAuthServiceImpl extends BaseDtoServiceImpl<RandlModuleRo
         RandlModuleAuthDto randlModuleAuthDto = getMapperFacade().map(randlModule, RandlModuleAuthDto.class);
         randlModuleAuthDto.setMid(randlModule.getFid());
         randlModuleAuthDto.setParentModuleId(randlModule.getParentId());
-        randlModuleAuthDto.setModuleType(0);
 
         //超级管理员角色，直接获得所有权限
         if (SuperAdmin.ROLE_ID.equals(roleId)) {
@@ -169,7 +168,7 @@ public class RandlModuleAuthServiceImpl extends BaseDtoServiceImpl<RandlModuleRo
         return randlModuleAuthDto;
     }
 
-    private RandlModuleAuthDto toRandlModuleAuthDtoForApi(
+   /* private RandlModuleAuthDto toRandlModuleAuthDtoForApi(
             Map<Long, RandlModuleRoleMap> apiIdKeyModuleRoleMap,
             RandlModule randlModule, RandlApi randlApi, Long roleId) {
 
@@ -179,7 +178,6 @@ public class RandlModuleAuthServiceImpl extends BaseDtoServiceImpl<RandlModuleRo
         randlModuleAuthDto.setParentModuleId(randlModule.getFid());
         randlModuleAuthDto.setLevel(randlModule.getLevel() + 1);
         randlModuleAuthDto.setIcon(randlModule.getIcon());
-        randlModuleAuthDto.setModuleType(1);
         randlModuleAuthDto.setIsAble(randlModule.getIsAble());
 
         //超级管理员角色，直接获得所有权限
@@ -195,5 +193,5 @@ public class RandlModuleAuthServiceImpl extends BaseDtoServiceImpl<RandlModuleRo
             }
         }
         return randlModuleAuthDto;
-    }
+    }*/
 }

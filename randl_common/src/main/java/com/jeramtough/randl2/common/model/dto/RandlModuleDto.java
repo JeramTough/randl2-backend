@@ -1,11 +1,13 @@
 package com.jeramtough.randl2.common.model.dto;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
@@ -37,7 +39,7 @@ public class RandlModuleDto implements Serializable{
     private Integer level;
 
     @ApiModelProperty(value = "排序")
-    private Integer muduleOrder;
+    private Integer moduleOrder;
 
     @ApiModelProperty(value = "菜单图标 默认为斜杠")
     private String icon;
@@ -48,9 +50,18 @@ public class RandlModuleDto implements Serializable{
     @ApiModelProperty(value = "是否可用")
     private Integer isAble;
 
+    @ApiModelProperty(value = "AppId")
     private Long appId;
 
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
+
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "创建时间(格式化后)")
+    private String myCreateTime;
 
 
     public Long getFid() {
@@ -93,12 +104,12 @@ public class RandlModuleDto implements Serializable{
         this.level = level;
     }
 
-    public Integer getMuduleOrder() {
-        return muduleOrder;
+    public Integer getModuleOrder() {
+        return moduleOrder;
     }
 
-    public void setMuduleOrder(Integer muduleOrder) {
-        this.muduleOrder = muduleOrder;
+    public void setModuleOrder(Integer mudoleOrder) {
+        this.moduleOrder = mudoleOrder;
     }
 
     public String getIcon() {
@@ -141,6 +152,14 @@ public class RandlModuleDto implements Serializable{
         this.createTime = createTime;
     }
 
+    public String getMyCreateTime() {
+        return myCreateTime;
+    }
+
+    public void setMyCreateTime(String myCreateTime) {
+        this.myCreateTime = myCreateTime;
+    }
+
     @Override
     public String toString() {
         return "RandlModule{" +
@@ -149,7 +168,7 @@ public class RandlModuleDto implements Serializable{
         ", description=" + description +
         ", url=" + path +
         ", level=" + level +
-        ", order=" + muduleOrder +
+        ", order=" + moduleOrder +
         ", icon=" + icon +
         ", parentId=" + parentId +
         ", isAble=" + isAble +
