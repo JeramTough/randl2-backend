@@ -28,8 +28,6 @@ public class RandlModuleRoleMap implements Serializable {
 
     private Long appId;
 
-    private Long apiId;
-
 
     public Long getFid() {
         return fid;
@@ -63,13 +61,6 @@ public class RandlModuleRoleMap implements Serializable {
         this.appId = appId;
     }
 
-    public Long getApiId() {
-        return apiId;
-    }
-
-    public void setApiId(Long apiId) {
-        this.apiId = apiId;
-    }
 
     @Override
     public String toString() {
@@ -78,7 +69,6 @@ public class RandlModuleRoleMap implements Serializable {
         ", moduleId=" + moduleId +
         ", roleId=" + roleId +
         ", appId=" + appId +
-        ", apiId=" + apiId +
         "}";
     }
 }

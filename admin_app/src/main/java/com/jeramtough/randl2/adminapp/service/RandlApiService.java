@@ -1,14 +1,10 @@
 package com.jeramtough.randl2.adminapp.service;
 
-import com.jeramtough.jtweb.model.dto.PageDto;
-import com.jeramtough.jtweb.model.params.QueryByPageParams;
-import com.jeramtough.jtweb.service.BaseDtoService;
 import com.jeramtough.randl2.common.model.dto.RandlApiDto;
 import com.jeramtough.randl2.common.model.entity.RandlApi;
-import com.jeramtough.randl2.common.model.params.api.ConditionApiParams;
-import com.jeramtough.randl2.common.model.params.app.ConditionAppParams;
-import com.jeramtough.randl2.common.model.params.permission.AddApiParams;
-import com.jeramtough.randl2.common.model.params.permission.UpdateApiParams;
+import com.jeramtough.randl2.common.model.params.api.AddApiParams;
+import com.jeramtough.randl2.common.model.params.api.UpdateApiParams;
+import com.jeramtough.randl2.common.service.MyBaseService;
 
 import java.util.List;
 
@@ -20,7 +16,7 @@ import java.util.List;
  * @author JeramTough
  * @since 2020-01-26
  */
-public interface RandlApiService extends BaseDtoService<RandlApi, RandlApiDto> {
+public interface RandlApiService extends MyBaseService<RandlApi, RandlApiDto> {
 
     String addApi(AddApiParams params);
 
@@ -34,5 +30,5 @@ public interface RandlApiService extends BaseDtoService<RandlApi, RandlApiDto> {
 
     List<RandlApiDto> getApiListByKeyword(String keyword);
 
-    PageDto<RandlApiDto> pageByCondition(QueryByPageParams queryByPageParams, ConditionApiParams params);
+    List<RandlApiDto> getAllByAppId(Long appId);
 }

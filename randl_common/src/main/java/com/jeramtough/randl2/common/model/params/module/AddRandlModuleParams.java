@@ -1,47 +1,46 @@
-package com.jeramtough.randl2.common.model.dto;
+package com.jeramtough.randl2.common.model.params.module;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import java.io.Serializable;
+import com.jeramtough.jtweb.component.validation.constraints.NotBlankButNull;
+import com.jeramtough.randl2.common.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author JeramTough
  * @since 2020-10-02
  */
-@ApiModel(value="RandlModule对象", description="")
-public class RandlModuleDto implements Serializable{
+@ApiModel(value = "RandlModule对象", description = "")
+public class AddRandlModuleParams implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "主键")
-    @TableId(value = "fid", type = IdType.AUTO)
-    private Long fid;
 
     @ApiModelProperty(value = "菜单中文名")
     private String name;
 
     @ApiModelProperty(value = "菜单描述")
+    @Length(max = 254, payload = ErrorU.CODE_7.class, message = "最长254个字符")
     private String description;
 
     @ApiModelProperty(value = "菜单路径")
     private String path;
 
-    @ApiModelProperty(value = "层级")
-    private Integer level;
 
     @ApiModelProperty(value = "排序")
+    @Range(payload = ErrorU.CODE_7.class, max = Integer.MAX_VALUE, message = "数字")
     private Integer moduleOrder;
 
     @ApiModelProperty(value = "菜单图标 默认为斜杠")
+    @NotBlankButNull(payload = ErrorU.CODE_2.class,isSetNullAuto = true)
     private String icon;
 
     @ApiModelProperty(value = "上级菜单Id")
@@ -51,26 +50,9 @@ public class RandlModuleDto implements Serializable{
     private Integer isAble;
 
     @ApiModelProperty(value = "AppId")
+    @NotNull(payload = ErrorU.CODE_1.class)
     private Long appId;
 
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createTime;
-
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(value = "创建时间(格式化后)")
-    private String myCreateTime;
-
-
-    public Long getFid() {
-        return fid;
-    }
-
-    public void setFid(Long fid) {
-        this.fid = fid;
-    }
 
     public String getName() {
         return name;
@@ -94,14 +76,6 @@ public class RandlModuleDto implements Serializable{
 
     public void setPath(String path) {
         this.path = path;
-    }
-
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
     }
 
     public Integer getModuleOrder() {
@@ -144,36 +118,17 @@ public class RandlModuleDto implements Serializable{
         this.appId = appId;
     }
 
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getMyCreateTime() {
-        return myCreateTime;
-    }
-
-    public void setMyCreateTime(String myCreateTime) {
-        this.myCreateTime = myCreateTime;
-    }
-
     @Override
     public String toString() {
         return "RandlModule{" +
-        "fid=" + fid +
-        ", name=" + name +
-        ", description=" + description +
-        ", url=" + path +
-        ", level=" + level +
-        ", order=" + moduleOrder +
-        ", icon=" + icon +
-        ", parentId=" + parentId +
-        ", isAble=" + isAble +
-        ", appId=" + appId +
-        ", createTime=" + createTime +
-        "}";
+                ", name=" + name +
+                ", description=" + description +
+                ", url=" + path +
+                ", order=" + moduleOrder +
+                ", icon=" + icon +
+                ", parentId=" + parentId +
+                ", isAble=" + isAble +
+                ", appId=" + appId +
+                "}";
     }
 }

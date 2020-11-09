@@ -15,11 +15,6 @@ public enum UserType {
     /**
      * 普通注册用户
      */
-    REGISTERED,
-
-    /**
-     * 游客
-     */
-    VISITOR;
+    REGISTERED;
 
 }

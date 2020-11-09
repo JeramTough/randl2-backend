@@ -37,7 +37,7 @@ public class RandlApi implements Serializable {
     private String description;
 
   /**
-   * 英文别名
+   * 别名
    */
     private String alias;
 

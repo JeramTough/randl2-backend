@@ -16,13 +16,13 @@ public class RandlModuleAuthDto {
     @ApiModelProperty(value = "唯一id")
     private Long mid;
 
-    @ApiModelProperty(value = "菜单中文名")
+    @ApiModelProperty(value = "模块中文名")
     private String name;
 
-    @ApiModelProperty(value = "菜单描述")
+    @ApiModelProperty(value = "模块描述")
     private String description;
 
-    @ApiModelProperty(value = "菜单或则接口路径")
+    @ApiModelProperty(value = "模块路径")
     private String path;
 
     @ApiModelProperty(value = "层级")
@@ -31,10 +31,10 @@ public class RandlModuleAuthDto {
     @ApiModelProperty(value = "排序")
     private Integer moduleOrder;
 
-    @ApiModelProperty(value = "菜单图标 默认为斜杠")
+    @ApiModelProperty(value = "模块图标 默认为斜杠")
     private String icon;
 
-    @ApiModelProperty(value = "上级菜单Id")
+    @ApiModelProperty(value = "上级模块Id")
     private Long parentModuleId;
 
     @ApiModelProperty(value = "模块是否被管理员禁用")
@@ -47,9 +47,6 @@ public class RandlModuleAuthDto {
 
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
-
-    @ApiModelProperty(value = "英文别名")
-    private String alias;
 
     public Long getMid() {
         return mid;
@@ -139,13 +136,6 @@ public class RandlModuleAuthDto {
         this.createTime = createTime;
     }
 
-    public String getAlias() {
-        return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
 
     public Integer getIsAuth() {
         return isAuth;
@@ -163,14 +153,13 @@ public class RandlModuleAuthDto {
                 ", description='" + description + '\'' +
                 ", path='" + path + '\'' +
                 ", level=" + level +
-                ", moduleOrder=" + moduleOrder +
+                ", moduleOrder=" + moduleOrder + 
                 ", icon='" + icon + '\'' +
                 ", parentModuleId=" + parentModuleId +
                 ", isAble=" + isAble +
                 ", isAuth=" + isAuth +
                 ", appId=" + appId +
                 ", createTime=" + createTime +
-                ", alias='" + alias + '\'' +
                 '}';
     }
 }

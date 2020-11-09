@@ -7,8 +7,9 @@ import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.randl2.common.component.logforoperation.annotation.LoggingOperation;
 import com.jeramtough.randl2.common.model.dto.RandlRoleDto;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import com.jeramtough.randl2.common.model.params.permission.AddRoleParams;
-import com.jeramtough.randl2.common.model.params.permission.UpdateRoleParams;
+import com.jeramtough.randl2.common.model.params.role.AddRoleParams;
+import com.jeramtough.randl2.common.model.params.role.ConditionRoleParams;
+import com.jeramtough.randl2.common.model.params.role.UpdateRoleParams;
 import com.jeramtough.jtweb.model.dto.PageDto;
 import com.jeramtough.randl2.adminapp.service.RandlRoleService;
 import io.swagger.annotations.*;
@@ -26,6 +27,9 @@ import java.util.List;
  * @since 2020-01-26
  */
 @RestController
+@ApiResponses({
+        @ApiResponse(code = ErrorU.CODE_504.C, message = ErrorU.CODE_504.M),
+})
 @Api(tags = {"角色信息的接口"})
 @RequestMapping("/randlRole")
 public class RandlRoleController extends BaseSwaggerController {
@@ -42,6 +46,8 @@ public class RandlRoleController extends BaseSwaggerController {
     @ApiOperation(value = "新增", notes = "新增角色")
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
     @ApiResponses(value = {
+            @ApiResponse(code = ErrorU.CODE_503.C, message =
+                    ErrorU.CODE_503.M),
     })
     public CommonApiResponse<String> addRole(@RequestBody AddRoleParams params) {
         return getSuccessfulApiResponse(randlRoleService.addRole(params));
@@ -65,6 +71,8 @@ public class RandlRoleController extends BaseSwaggerController {
     @ApiOperation(value = "更新", notes = "更新角色")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     @ApiResponses(value = {
+            @ApiResponse(code = ErrorU.CODE_503.C, message =
+                    ErrorU.CODE_503.M),
     })
     public CommonApiResponse<String> updateRole(@RequestBody UpdateRoleParams params) {
         return getSuccessfulApiResponse(randlRoleService.updateRole(params));
@@ -78,7 +86,7 @@ public class RandlRoleController extends BaseSwaggerController {
     @ApiResponses(value = {
     })
     public CommonApiResponse<RandlRoleDto> getRole(Long fid) {
-        return getSuccessfulApiResponse(randlRoleService.getRole(fid));
+        return getSuccessfulApiResponse(randlRoleService.getBaseDtoById(fid));
     }
 
     @ApiOperation(value = "查询根据appId和uid", notes = "查询一个角色根据appId和uid")
@@ -96,10 +104,20 @@ public class RandlRoleController extends BaseSwaggerController {
         return getSuccessfulApiResponse(randlRoleService.getRoleByAppIdAndUid(appId, uid));
     }
 
+    @ApiOperation(value = "查询集合根据appId", notes = "查询集合根据appId")
+    @RequestMapping(value = "/listByAppId", method = {RequestMethod.GET})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "appId", value = "应用Id", paramType = "query",
+                    required = true, defaultValue = "1")})
+    public CommonApiResponse<List<RandlRoleDto>> getListByAppId(
+            @RequestParam(value = "appId") Long appId) {
+        return getSuccessfulApiResponse(randlRoleService.getListByAppId(appId));
+    }
+
     @ApiOperation(value = "查询全部", notes = "查询全部角色")
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
     public CommonApiResponse<List<RandlRoleDto>> getAllRole() {
-        return getSuccessfulApiResponse(randlRoleService.getAllRole());
+        return getSuccessfulApiResponse(randlRoleService.getAllBaseDto());
     }
 
 
@@ -115,10 +133,17 @@ public class RandlRoleController extends BaseSwaggerController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "keyword", value = "关键字", paramType = "query",
                     required = true, dataType = "String", defaultValue = "username")})
-    @ApiResponses(value = {@ApiResponse(code = 5040, message = "查询失败！该角色不存在")})
     @RequestMapping(value = "/byKeyword", method = {RequestMethod.GET})
     public CommonApiResponse<List<RandlRoleDto>> getOneAdminUser(@RequestParam String keyword) {
         return getSuccessfulApiResponse(randlRoleService.getRoleListByKeyword(keyword));
+    }
+
+    @ApiOperation(value = "条件查询", notes = "根据关键字等条件查询得到一个Randl应用信息")
+    @ApiResponses(value = {})
+    @RequestMapping(value = "/condition", method = {RequestMethod.GET})
+    public CommonApiResponse<PageDto<RandlRoleDto>> getRandlUserByCondition(
+            QueryByPageParams queryByPageParams, ConditionRoleParams params) {
+        return getSuccessfulApiResponse(randlRoleService.pageByCondition(queryByPageParams, params));
     }
 
 }

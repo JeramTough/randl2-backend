@@ -1,15 +1,14 @@
 package com.jeramtough.randl2.adminapp.action.controller;
 
 
-import com.jeramtough.jtweb.action.controller.BaseSwaggerController;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
+//import com.jeramtough.randl2.common.action.controller.BaseController;
+import com.jeramtough.randl2.common.action.controller.BaseController;
 import com.jeramtough.randl2.common.model.dto.RandlApiDto;
-import com.jeramtough.randl2.common.model.dto.RandlAppDto;
 import com.jeramtough.randl2.common.model.params.api.ConditionApiParams;
-import com.jeramtough.randl2.common.model.params.app.ConditionAppParams;
-import com.jeramtough.randl2.common.model.params.permission.AddApiParams;
-import com.jeramtough.randl2.common.model.params.permission.UpdateApiParams;
+import com.jeramtough.randl2.common.model.params.api.AddApiParams;
+import com.jeramtough.randl2.common.model.params.api.UpdateApiParams;
 import com.jeramtough.jtweb.model.dto.PageDto;
 import com.jeramtough.randl2.adminapp.service.RandlApiService;
 import io.swagger.annotations.*;
@@ -29,7 +28,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/randlApi")
 @Api(tags = {"接口信息的接口"})
-public class RandlApiController extends BaseSwaggerController {
+public class RandlApiController extends BaseController {
 
     private final RandlApiService randlApiService;
 
@@ -80,6 +79,15 @@ public class RandlApiController extends BaseSwaggerController {
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
     public CommonApiResponse<List<RandlApiDto>> getAllApi() {
         return getSuccessfulApiResponse(randlApiService.getAllApi());
+    }
+
+    @ApiOperation(value = "查询应用下", notes = "查询指定RandlApp应用下的所有接口")
+    @RequestMapping(value = "/listByAppId", method = {RequestMethod.GET})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "appId", value = "Randl应用Id", paramType = "query",
+                    required = true, defaultValue = "1")})
+    public CommonApiResponse<List<RandlApiDto>> getAllByAppId(Long appId) {
+        return getSuccessfulApiResponse(randlApiService.getAllByAppId(appId));
     }
 
     @ApiOperation(value = "分页查询", notes = "分页查询API信息列表")

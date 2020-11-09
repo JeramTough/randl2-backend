@@ -1,10 +1,10 @@
 package com.jeramtough.randl2.adminapp.service;
 
-import com.jeramtough.jtweb.service.BaseDtoService;
 import com.jeramtough.randl2.common.model.dto.RandlRoleDto;
 import com.jeramtough.randl2.common.model.entity.RandlRole;
-import com.jeramtough.randl2.common.model.params.permission.AddRoleParams;
-import com.jeramtough.randl2.common.model.params.permission.UpdateRoleParams;
+import com.jeramtough.randl2.common.model.params.role.AddRoleParams;
+import com.jeramtough.randl2.common.model.params.role.UpdateRoleParams;
+import com.jeramtough.randl2.common.service.MyBaseService;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * @author JeramTough
  * @since 2020-01-26
  */
-public interface RandlRoleService extends BaseDtoService<RandlRole, RandlRoleDto> {
+public interface RandlRoleService extends MyBaseService<RandlRole, RandlRoleDto> {
 
     String addRole(AddRoleParams params);
 
@@ -24,9 +24,6 @@ public interface RandlRoleService extends BaseDtoService<RandlRole, RandlRoleDto
 
     String updateRole(UpdateRoleParams params);
 
-    RandlRoleDto getRole(Long fid);
-
-    List<RandlRoleDto> getAllRole();
 
     List<RandlRoleDto> getRoleListByKeyword(String keyword);
 
@@ -38,4 +35,6 @@ public interface RandlRoleService extends BaseDtoService<RandlRole, RandlRoleDto
      * @return 如果没有则返回空
      */
     RandlRoleDto getRoleByAppIdAndUid(Long appId, Long uid);
+
+    List<RandlRoleDto> getListByAppId(Long appId);
 }

@@ -1,6 +1,9 @@
 package com.jeramtough.randl2.common.service;
 
+import com.jeramtough.jtweb.model.dto.PageDto;
+import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.jtweb.service.BaseDtoService;
+import com.jeramtough.randl2.common.model.params.BaseConditionParams;
 
 /**
  * <pre>
@@ -11,4 +14,8 @@ import com.jeramtough.jtweb.service.BaseDtoService;
 public interface MyBaseService<T, D> extends BaseDtoService<T, D> {
 
     String updateByParams(Object params);
+
+    String removeOneById(Long fid);
+
+    PageDto<D> pageByCondition(QueryByPageParams queryByPageParams, BaseConditionParams params);
 }

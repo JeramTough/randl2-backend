@@ -12,6 +12,7 @@ import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
 import com.jeramtough.randl2.common.mapper.RandlUserRoleMapMapper;
 import com.jeramtough.randl2.common.model.dto.RandlUserDto;
+import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.common.model.entity.RandlUserRoleMap;
 import com.jeramtough.randl2.common.model.error.ErrorU;
@@ -24,6 +25,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 import com.jeramtough.randl2.adminapp.component.userdetail.MyUserFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -98,11 +103,11 @@ public class RandlUserServiceImpl extends BaseDtoServiceImpl<RandlUserMapper, Ra
         getBaseMapper().insert(randlUser);
 
         //注册的用户必定有Randl用户中心APP的角色
-        RandlUserRoleMap randlUserRoleMap = new RandlUserRoleMap();
-        randlUserRoleMap.setIsAble(1);
+        //2020.11.06想想还是在代码层面增加固定角色信息好了
+       /* RandlUserRoleMap randlUserRoleMap = new RandlUserRoleMap();
         randlUserRoleMap.setUid(randlUser.getUid());
         randlUserRoleMap.setRoleId(appSetting.getUserDefaultRoleId());
-        userRoleMapMapper.insert(randlUserRoleMap);
+        userRoleMapMapper.insert(randlUserRoleMap);*/
 
         return toDto(randlUser);
     }
@@ -110,6 +115,7 @@ public class RandlUserServiceImpl extends BaseDtoServiceImpl<RandlUserMapper, Ra
 
     @Override
     public String removeRandUserById(Long uid) {
+        //移除角色信息和用户一起
         userRoleMapMapper.delete(new QueryWrapper<RandlUserRoleMap>().eq("uid", uid));
         getBaseMapper().deleteById(uid);
         return "删除成功!";
@@ -123,7 +129,46 @@ public class RandlUserServiceImpl extends BaseDtoServiceImpl<RandlUserMapper, Ra
         QueryPage<RandlUser> randlUserQueryPage = getBaseMapper().selectByCondition(
                 new QueryPage<>(queryByPageParams), params);
 
-        return toPageDto(randlUserQueryPage);
+        PageDto<RandlUserDto> pageDto = toPageDto(randlUserQueryPage);
+
+        //是否要查询用户角色列表
+        if (params.getHasRoleIds() != null && params.getHasRoleIds()) {
+            List<RandlUserDto> randlUserDtoList = pageDto.getList();
+
+            //查询角色范围，主要是在该app下的角色
+            QueryWrapper<RandlRole> roleQueryWrapper = new QueryWrapper<>();
+            if (params.getAppId() != null) {
+                roleQueryWrapper.eq("app_id", params.getAppId());
+            }
+            List<RandlRole> randlRoleList = roleMapper.selectList(roleQueryWrapper);
+            //这个应用下所有的角色Id
+            List<Long> roleIdList = randlRoleList.parallelStream().map(RandlRole::getFid).collect(
+                    Collectors.toList());
+
+            //遍历每一个用户，查询他们的角色信息
+            randlUserDtoList.parallelStream().forEach(randlUserDto -> {
+                QueryWrapper<RandlUserRoleMap> queryWrapper = new QueryWrapper<>();
+                List<Long> roleIds;
+                if (roleIdList.size() > 0) {
+                    queryWrapper.in("role_id", roleIdList);
+                    queryWrapper.eq("uid", randlUserDto.getUid());
+                    List<RandlUserRoleMap> randlUserRoleMapList = userRoleMapMapper.selectList(queryWrapper);
+                    roleIds = randlUserRoleMapList.parallelStream().map(
+                            RandlUserRoleMap::getRoleId).collect(
+                            Collectors.toList());
+                }
+                else {
+                    roleIds = new ArrayList<>();
+                }
+
+                //每个用户都有Rand客户端角色
+                roleIds.add(appSetting.getDefaultUserRoleId());
+
+                randlUserDto.setRoleIds(roleIds);
+            });
+        }
+
+        return pageDto;
     }
 
     @Override
@@ -140,7 +185,7 @@ public class RandlUserServiceImpl extends BaseDtoServiceImpl<RandlUserMapper, Ra
             if (getBaseMapper().selectOne(new QueryWrapper<RandlUser>().eq("account",
                     params.getAccount())) != null) {
                 //存在同名用户
-                throw new ApiResponseException(ErrorU.CODE_11.C,"帐号名");
+                throw new ApiResponseException(ErrorU.CODE_11.C, "帐号名");
             }
         }
 
@@ -151,7 +196,7 @@ public class RandlUserServiceImpl extends BaseDtoServiceImpl<RandlUserMapper, Ra
                         new QueryWrapper<RandlUser>().eq("phone_number",
                                 params.getPhoneNumber())) > 0)) {
                     //存在重复手机号码
-                    throw new ApiResponseException(ErrorU.CODE_11.C,"手机号码");
+                    throw new ApiResponseException(ErrorU.CODE_11.C, "手机号码");
                 }
             }
         }
@@ -163,7 +208,7 @@ public class RandlUserServiceImpl extends BaseDtoServiceImpl<RandlUserMapper, Ra
                                 "email_address",
                                 params.getEmailAddress())) > 0)) {
                     //存在重复邮箱地址
-                    throw new ApiResponseException(ErrorU.CODE_11.C,"手机邮箱");
+                    throw new ApiResponseException(ErrorU.CODE_11.C, "手机邮箱");
                 }
             }
         }

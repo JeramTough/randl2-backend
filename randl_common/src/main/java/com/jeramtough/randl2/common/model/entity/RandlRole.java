@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
@@ -49,9 +48,9 @@ public class RandlRole implements Serializable {
     private LocalDateTime createTime;
 
     /**
-     * 英文别名
+     * 英文别名(不可重复值)
      */
-    private String aliasName;
+    private String alias;
 
 
     public Long getFid() {
@@ -94,12 +93,12 @@ public class RandlRole implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getAliasName() {
-        return aliasName;
+    public String getAlias() {
+        return alias;
     }
 
-    public void setAliasName(String aliasName) {
-        this.aliasName = aliasName;
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 
     @Override
@@ -110,7 +109,7 @@ public class RandlRole implements Serializable {
                 ", description=" + description +
                 ", appId=" + appId +
                 ", createTime=" + createTime +
-                ", aliasName=" + aliasName +
+                ", alias=" + alias +
                 "}";
     }
 }

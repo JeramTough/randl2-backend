@@ -65,7 +65,7 @@ public class AdminUserLoginer implements UserLoginer {
 
         //如果是普通的系统管理员登录
         RandlUserWithRole randlUserWithRole =
-                userRoleMapMapper.selectOneRandlUserByAppIdAndAccount(appSetting.getAdminDefaultAppId(),
+                userRoleMapMapper.selectOneRandlUserByAppIdAndAccount(appSetting.getDefaultAdminAppId(),
                         userCredentials.getUsername());
 
         if (randlUserWithRole != null) {

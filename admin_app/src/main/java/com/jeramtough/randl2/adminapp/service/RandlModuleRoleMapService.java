@@ -4,6 +4,7 @@ import com.jeramtough.jtweb.service.BaseDtoService;
 import com.jeramtough.randl2.common.model.dto.RandlModuleAuthDto;
 import com.jeramtough.randl2.common.model.dto.RandlModuleRoleMapDto;
 import com.jeramtough.randl2.common.model.entity.RandlModuleRoleMap;
+import com.jeramtough.randl2.common.service.MyBaseService;
 
 import java.util.List;
 
@@ -15,10 +16,12 @@ import java.util.List;
  * @author JeramTough
  * @since 2020-10-03
  */
-public interface RandlModuleAuthService extends BaseDtoService<RandlModuleRoleMap, RandlModuleRoleMapDto> {
+public interface RandlModuleRoleMapService extends MyBaseService<RandlModuleRoleMap, RandlModuleRoleMapDto> {
 
     List<RandlModuleAuthDto> getRandlModuleAuthDtosByAppIdAndUid(Long appId, Long uid);
 
     List<RandlModuleAuthDto> getRandlModuleAuthDtosByAppIdAndRoleId(Long appId, Long roleId);
+
+    List<RandlModuleAuthDto> getRandlModuleAuthDtosByAppIdAndRoleIds(Long appId, List<Long> roleIds);
 
 }

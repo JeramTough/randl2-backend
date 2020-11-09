@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -49,6 +51,8 @@ public class RandlUserDto implements Serializable{
 
     @ApiModelProperty(value = "用户来源渠道 0:管理员添加 | 1:用户注册 | 2:数据库直接添加")
     private Integer channel;
+
+    private List<Long> roleIds;
 
 
     public Long getUid() {
@@ -122,6 +126,14 @@ public class RandlUserDto implements Serializable{
 
     public void setChannel(Integer channel) {
         this.channel = channel;
+    }
+
+    public List<Long> getRoleIds() {
+        return roleIds;
+    }
+
+    public void setRoleIds(List<Long> roleIds) {
+        this.roleIds = roleIds;
     }
 
     @Override

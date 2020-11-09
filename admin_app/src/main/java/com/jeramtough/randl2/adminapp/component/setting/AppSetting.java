@@ -22,16 +22,16 @@ public class AppSetting {
     private String jwtIssuer;
 
     @Value(value = "${app.setting.admin.defaultAppId}")
-    private Long adminDefaultAppId;
+    private Long defaultAdminAppId;
 
     @Value(value = "${app.setting.admin.defaultRoleId}")
-    private Long adminDefaultRoleId;
+    private Long defaultAdminRoleId;
 
     @Value(value = "${app.setting.user.defaultAppId}")
-    private Long userDefaultAppId;
+    private Long defaultuserAppId;
 
     @Value(value = "${app.setting.user.defaultRoleId}")
-    private Long userDefaultRoleId;
+    private Long defaultUserRoleId;
 
     @Value(value = "${app.setting.admin.account}")
     private String adminAccount;
@@ -63,12 +63,12 @@ public class AppSetting {
         this.jwtIssuer = jwtIssuer;
     }
 
-    public Long getUserDefaultAppId() {
-        return userDefaultAppId;
+    public Long getDefaultuserAppId() {
+        return defaultuserAppId;
     }
 
-    public void setUserDefaultAppId(Long userDefaultAppId) {
-        this.userDefaultAppId = userDefaultAppId;
+    public void setDefaultuserAppId(Long defaultuserAppId) {
+        this.defaultuserAppId = defaultuserAppId;
     }
 
     public String getAdminAccount() {
@@ -87,27 +87,27 @@ public class AppSetting {
         this.adminPassword = adminPassword;
     }
 
-    public Long getUserDefaultRoleId() {
-        return userDefaultRoleId;
+    public Long getDefaultUserRoleId() {
+        return defaultUserRoleId;
     }
 
-    public void setUserDefaultRoleId(Long userDefaultRoleId) {
-        this.userDefaultRoleId = userDefaultRoleId;
+    public void setDefaultUserRoleId(Long defaultUserRoleId) {
+        this.defaultUserRoleId = defaultUserRoleId;
     }
 
-    public Long getAdminDefaultAppId() {
-        return adminDefaultAppId;
+    public Long getDefaultAdminAppId() {
+        return defaultAdminAppId;
     }
 
-    public void setAdminDefaultAppId(Long adminDefaultAppId) {
-        this.adminDefaultAppId = adminDefaultAppId;
+    public void setDefaultAdminAppId(Long defaultAdminAppId) {
+        this.defaultAdminAppId = defaultAdminAppId;
     }
 
-    public Long getAdminDefaultRoleId() {
-        return adminDefaultRoleId;
+    public Long getDefaultAdminRoleId() {
+        return defaultAdminRoleId;
     }
 
-    public void setAdminDefaultRoleId(Long adminDefaultRoleId) {
-        this.adminDefaultRoleId = adminDefaultRoleId;
+    public void setDefaultAdminRoleId(Long defaultAdminRoleId) {
+        this.defaultAdminRoleId = defaultAdminRoleId;
     }
 }

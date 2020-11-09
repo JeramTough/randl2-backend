@@ -1,9 +1,6 @@
 package com.jeramtough.randl2.adminapp.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseBeanException;
-import com.jeramtough.jtweb.component.business.ToDtoProcess;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.model.QueryPage;
@@ -19,13 +16,10 @@ import com.jeramtough.randl2.common.mapper.SourceSurfaceImageMapper;
 import com.jeramtough.randl2.common.model.dto.RandlPersonalInfoDto;
 import com.jeramtough.randl2.common.model.dto.SourceSurfaceImageDto;
 import com.jeramtough.randl2.adminapp.service.RandlPersonalInfoService;
-import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -122,7 +116,7 @@ public class RandlPersonalInfoServiceImpl extends BaseDtoServiceImpl<PersonalInf
         }
         else {
             if (getBaseMapper().selectById(fid) == null) {
-                throw new ApiResponseException(ErrorU.CODE_10.C, "主键fid");
+                throw new ApiResponseException(ErrorU.CODE_9.C, "主键fid");
             }
         }
 

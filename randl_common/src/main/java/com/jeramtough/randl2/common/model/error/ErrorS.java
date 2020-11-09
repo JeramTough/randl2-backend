@@ -23,21 +23,26 @@ public class ErrorS {
 
     public static final class CODE_2 {
         public static final int C = 10002;
-        public static final String M = "【系统公共错误码】系统读取资源失败！";
+        public static final String M = "【系统公共错误码】系统执行[%S]操作失败。。。";
     }
 
     public static final class CODE_3 {
         public static final int C = 10003;
-        public static final String M = "【系统公共错误码】系统添加[%s]资源失败！";
+        public static final String M = "【系统公共错误码】系统读取资源失败！";
     }
 
     public static final class CODE_4 {
         public static final int C = 10004;
-        public static final String M = "【系统公共错误码】系统更新[%s]资源失败！";
+        public static final String M = "【系统公共错误码】系统添加[%s]资源失败！";
     }
 
     public static final class CODE_5 {
         public static final int C = 10005;
+        public static final String M = "【系统公共错误码】系统更新[%s]资源失败！";
+    }
+
+    public static final class CODE_6 {
+        public static final int C = 10006;
         public static final String M = "【系统公共错误码】系统执行抄作超时。。。！";
     }
 

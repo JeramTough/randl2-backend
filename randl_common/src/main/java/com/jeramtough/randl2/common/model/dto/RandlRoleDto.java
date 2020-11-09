@@ -40,8 +40,8 @@ public class RandlRoleDto implements Serializable {
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "英文别名")
-    private String aliasName;
+    @ApiModelProperty(value = "英文别名(不可重复值)")
+    private String alias;
 
 
     public Long getFid() {
@@ -84,12 +84,12 @@ public class RandlRoleDto implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getAliasName() {
-        return aliasName;
+    public String getAlias() {
+        return alias;
     }
 
-    public void setAliasName(String aliasName) {
-        this.aliasName = aliasName;
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 
     @Override
@@ -100,7 +100,7 @@ public class RandlRoleDto implements Serializable {
                 ", description=" + description +
                 ", appId=" + appId +
                 ", createTime=" + createTime +
-                ", aliasName=" + aliasName +
+                ", aliasName=" + alias +
                 "}";
     }
 }

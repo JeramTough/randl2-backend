@@ -66,9 +66,14 @@ public class ErrorU {
         public static final String M = "【系统公共错误码】[%t]传参违背规则，应为[%s]！";
     }
 
+    public static final class CODE_9 implements Payload {
+        public static final int C = 20009;
+        public static final String M = "【系统公共错误码】执行失败，用户请求的 [%s]目标资源不存在！";
+    }
+
     public static final class CODE_10 implements Payload {
         public static final int C = 20010;
-        public static final String M = "【系统公共错误码】执行失败，用户请求的 [%s]目标资源不存在！";
+        public static final String M = "【系统公共错误码】执行失败，用户请求的[%t]对应的[%s]目标资源不存在！";
     }
 
     public static final class CODE_11 implements Payload {
@@ -191,7 +196,7 @@ public class ErrorU {
 
     public static final class CODE_501 implements Payload {
         public static final int C = 20501;
-        public static final String M = " 删除系统角色失败！因为还有管理员账号被赋予该角色，请修改后重试！";
+        public static final String M = " 删除系统角色失败！因为还有账号被赋予该角色，请修改后重试！";
     }
 
     public static final class CODE_502 implements Payload {
@@ -199,6 +204,15 @@ public class ErrorU {
         public static final String M = "这个用户uid在这个appId应用中没有对应的角色！";
     }
 
+    public static final class CODE_503 implements Payload {
+        public static final int C = 20503;
+        public static final String M = "[t]参数不能使用系统预设属性值！";
+    }
+
+    public static final class CODE_504 implements Payload {
+        public static final int C = 20504;
+        public static final String M = "操作失败！不能对Randl预设角色进行操作！";
+    }
     //=================上传业务===========================
 
     public static final class CODE_601 implements Payload {

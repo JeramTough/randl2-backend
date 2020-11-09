@@ -21,15 +21,14 @@ import java.util.Collections;
 @Configuration
 public class AuthTokenConfig {
 
+    @Value(value = "${app.setting.jwt.signingKey}")
+    private String jwtSigningKey;
 
-    @Value("${jwt_signing_key}")
-    private String signingKey;
+    @Value(value = "${app.setting.jwt.validity}")
+    private Long jwtValidity;
 
-
-    public static final String ISSUER = "JeramTough";
-
-    @Value("${jwt_token_validity}")
-    private long jwtTokenValidity;
+    @Value(value = "${app.setting.jwt.issuer}")
+    private String jwtIssuer;
 
     @Bean(name = "tokenStore")
     public TokenStore tokenStore() {
@@ -40,7 +39,7 @@ public class AuthTokenConfig {
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey(signingKey);
+        converter.setSigningKey(jwtSigningKey);
         return converter;
     }
 
@@ -63,11 +62,15 @@ public class AuthTokenConfig {
         return defaultTokenServices;
     }
 
-    public String getSigningKey() {
-        return signingKey;
+    public String getJwtSigningKey() {
+        return jwtSigningKey;
     }
 
     public long getJwtTokenValidity() {
-        return jwtTokenValidity;
+        return jwtValidity;
+    }
+
+    public String getJwtIssuer() {
+        return jwtIssuer;
     }
 }

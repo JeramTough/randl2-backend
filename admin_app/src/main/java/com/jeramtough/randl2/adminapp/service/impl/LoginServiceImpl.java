@@ -13,7 +13,7 @@ import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
 import com.jeramtough.randl2.adminapp.component.userdetail.UserHolder;
 import com.jeramtough.randl2.adminapp.component.userdetail.login.AdminUserLoginer;
 import com.jeramtough.randl2.adminapp.component.userdetail.login.UserLoginer;
-import com.jeramtough.randl2.adminapp.service.RandlModuleAuthService;
+import com.jeramtough.randl2.adminapp.service.RandlModuleRoleMapService;
 import com.jeramtough.randl2.common.component.moduletree.ModuleAuthDtoOneTreeNodeAdapter;
 import com.jeramtough.randl2.common.mapper.SourceSurfaceImageMapper;
 import com.jeramtough.randl2.common.model.dto.RandlModuleAuthDto;
@@ -36,17 +36,17 @@ import java.util.*;
 public class LoginServiceImpl extends BaseServiceImpl implements LoginService, WithLogger {
 
     private final SourceSurfaceImageMapper surfaceImageMapper;
-    private final RandlModuleAuthService randlModuleAuthService;
+    private final RandlModuleRoleMapService randlModuleRoleMapService;
     private final AppSetting appSetting;
 
     @Autowired
     public LoginServiceImpl(WebApplicationContext wc,
                             SourceSurfaceImageMapper surfaceImageMapper,
-                            RandlModuleAuthService randlModuleAuthService,
+                            RandlModuleRoleMapService randlModuleRoleMapService,
                             AppSetting appSetting) {
         super(wc);
         this.surfaceImageMapper = surfaceImageMapper;
-        this.randlModuleAuthService = randlModuleAuthService;
+        this.randlModuleRoleMapService = randlModuleRoleMapService;
         this.appSetting = appSetting;
     }
 
@@ -76,7 +76,7 @@ public class LoginServiceImpl extends BaseServiceImpl implements LoginService, W
 
         getLogger().verbose("开始获取用户模块授权信息");
         List<RandlModuleAuthDto> moduleAuthDtoList =
-                randlModuleAuthService.getRandlModuleAuthDtosByAppIdAndRoleId(appSetting.getAdminDefaultAppId(),
+                randlModuleRoleMapService.getRandlModuleAuthDtosByAppIdAndRoleId(appSetting.getDefaultAdminAppId(),
                         systemUser.getRoleId());
 
 

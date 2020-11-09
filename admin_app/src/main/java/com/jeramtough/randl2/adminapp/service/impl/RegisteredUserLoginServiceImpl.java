@@ -59,7 +59,7 @@ public class RegisteredUserLoginServiceImpl implements RegisteredUserLoginServic
         }
 
         TaskResult taskResult = JwtTokenUtil.verifyToken(token,
-                authTokenConfig.getSigningKey(), AuthTokenConfig.ISSUER).getTaskResult();
+                authTokenConfig.getJwtSigningKey(), authTokenConfig.getJwtIssuer()).getTaskResult();
         if (taskResult.isSuccessful()) {
             long uid = taskResult.getLongPayload("uid");
             UserLoginer userLoginer = getWC().getBean(RegisteredUserUidLoginer.class);

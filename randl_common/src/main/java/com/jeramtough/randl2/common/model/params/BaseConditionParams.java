@@ -1,9 +1,8 @@
-package com.jeramtough.randl2.common.model.params.user;
+package com.jeramtough.randl2.common.model.params;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.jeramtough.jtweb.component.validation.constraints.NotBlankButNull;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,15 +10,15 @@ import java.time.LocalDate;
 
 /**
  * <pre>
- * Created on 2020/10/12 21:50
+ * Created on 2020/10/30 16:56
  * by @author WeiBoWen
  * </pre>
  */
-@ApiModel("条件查询Randl用户参数")
-public class ConditionUserParams {
+public class BaseConditionParams {
+
 
     @ApiModelProperty(value = "关键词", example = "某某", required = false)
-    @NotBlankButNull(payload = ErrorU.CODE_2.class)
+    @NotBlankButNull(payload = ErrorU.CODE_2.class,isSetNullAuto = true)
     private String keyword;
 
     @JSONField(format = "yyyy-MM-dd")
@@ -29,7 +28,7 @@ public class ConditionUserParams {
 
     @JSONField(format = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @ApiModelProperty(value = "时间环查询的结束时间", example = "2020-02-23", required = false)
+    @ApiModelProperty(value = "时间环查询的结束时间", example = "2021-02-23", required = false)
     private LocalDate endDate;
 
 
@@ -57,4 +56,6 @@ public class ConditionUserParams {
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
+
+
 }

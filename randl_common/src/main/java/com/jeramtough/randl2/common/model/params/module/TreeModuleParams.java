@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.common.model.params.mudule;
+package com.jeramtough.randl2.common.model.params.module;
 
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
@@ -19,11 +19,22 @@ public class TreeModuleParams {
     @NotNull(payload = ErrorU.CODE_1.class)
     private Long appId;
 
+    @ApiModelProperty(value = "模块Id,设置则从这个module开始")
+    private Long moduleId;
+
     public Long getAppId() {
         return appId;
     }
 
     public void setAppId(Long appId) {
         this.appId = appId;
+    }
+
+    public Long getModuleId() {
+        return moduleId;
+    }
+
+    public void setModuleId(Long moduleId) {
+        this.moduleId = moduleId;
     }
 }

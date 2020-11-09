@@ -41,7 +41,7 @@ public class RandlModule implements Serializable {
     private String path;
 
   /**
-   * 层级|最小是1|最大是2
+   * 层级
    */
     private Integer level;
 

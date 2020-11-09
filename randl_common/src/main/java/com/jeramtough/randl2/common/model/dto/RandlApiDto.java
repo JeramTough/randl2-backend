@@ -31,7 +31,7 @@ public class RandlApiDto implements Serializable{
     @ApiModelProperty(value = "描述")
     private String description;
 
-    @ApiModelProperty(value = "英文别名")
+    @ApiModelProperty(value = "别名")
     private String alias;
 
     @ApiModelProperty(value = "属于哪个app的接口")

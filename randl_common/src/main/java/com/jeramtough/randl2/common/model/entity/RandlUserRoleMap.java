@@ -26,9 +26,6 @@ public class RandlUserRoleMap implements Serializable {
 
     private Long roleId;
 
-    private Integer isAble;
-
-
     public Long getFid() {
         return fid;
     }
@@ -53,13 +50,6 @@ public class RandlUserRoleMap implements Serializable {
         this.roleId = roleId;
     }
 
-    public Integer getIsAble() {
-        return isAble;
-    }
-
-    public void setIsAble(Integer isAble) {
-        this.isAble = isAble;
-    }
 
     @Override
     public String toString() {
@@ -67,7 +57,6 @@ public class RandlUserRoleMap implements Serializable {
         "fid=" + fid +
         ", uid=" + uid +
         ", roleId=" + roleId +
-        ", isAble=" + isAble +
         "}";
     }
 }

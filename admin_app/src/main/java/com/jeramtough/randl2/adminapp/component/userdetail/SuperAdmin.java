@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 
 /**
  * <pre>
+ *
+ * 超级管理员，硬编码写死得一个超级管理员对象
+ *
  * Created on 2020/1/27 21:22
  * by @author JeramTough
  * </pre>

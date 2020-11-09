@@ -1,28 +1,29 @@
 package com.jeramtough.randl2.adminapp.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jeramtough.jtlog.with.WithLogger;
+import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseBeanException;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.jtweb.model.QueryPage;
 import com.jeramtough.jtweb.model.dto.PageDto;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
-import com.jeramtough.jtweb.service.impl.BaseDtoServiceImpl;
+import com.jeramtough.randl2.common.mapper.RandlAppMapper;
 import com.jeramtough.randl2.common.model.dto.RandlApiDto;
 import com.jeramtough.randl2.common.model.entity.RandlApi;
-import com.jeramtough.randl2.common.model.entity.RandlApp;
 import com.jeramtough.randl2.common.model.error.ErrorU;
+import com.jeramtough.randl2.common.model.params.BaseConditionParams;
 import com.jeramtough.randl2.common.model.params.api.ConditionApiParams;
-import com.jeramtough.randl2.common.model.params.app.ConditionAppParams;
-import com.jeramtough.randl2.common.model.params.permission.AddApiParams;
-import com.jeramtough.randl2.common.model.params.permission.UpdateApiParams;
+import com.jeramtough.randl2.common.model.params.api.AddApiParams;
+import com.jeramtough.randl2.common.model.params.api.UpdateApiParams;
 import com.jeramtough.randl2.common.mapper.RandlApiMapper;
 import com.jeramtough.randl2.adminapp.service.RandlApiService;
+import com.jeramtough.randl2.common.service.impl.MyBaseServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,13 +35,18 @@ import java.util.List;
  * @since 2020-01-26
  */
 @Service
-public class RandlApiServiceImpl extends BaseDtoServiceImpl<RandlApiMapper, RandlApi, RandlApiDto>
+public class RandlApiServiceImpl extends MyBaseServiceImpl<RandlApiMapper, RandlApi, RandlApiDto>
         implements RandlApiService,
         WithLogger {
 
+    private final RandlAppMapper randlAppMapper;
 
-    public RandlApiServiceImpl(WebApplicationContext wc) {
+
+    @Autowired
+    public RandlApiServiceImpl(WebApplicationContext wc,
+                               RandlAppMapper randlAppMapper) {
         super(wc);
+        this.randlAppMapper = randlAppMapper;
     }
 
     @Override
@@ -55,13 +61,17 @@ public class RandlApiServiceImpl extends BaseDtoServiceImpl<RandlApiMapper, Rand
         params.setAlias(params.getAlias().trim());
 
         if (getBaseMapper().selectOne(
-                new QueryWrapper<RandlApi>().eq("path", params.getPath())) != null) {
-            throw new ApiResponseException(ErrorU.CODE_11.C, "接口路径");
+                new QueryWrapper<RandlApi>()
+                        .eq("app_id", params.getAppId())
+                        .eq("path", params.getPath())) != null) {
+            throw new ApiResponseException(ErrorU.CODE_11.C, "该应用的-接口路径");
         }
 
         if (getBaseMapper().selectOne(
-                new QueryWrapper<RandlApi>().eq("alias", params.getAlias())) != null) {
-            throw new ApiResponseException(ErrorU.CODE_11.C, "接口别名");
+                new QueryWrapper<RandlApi>()
+                        .eq("app_id", params.getAppId())
+                        .eq("alias", params.getAlias())) != null) {
+            throw new ApiResponseException(ErrorU.CODE_11.C, "该应用的-接口别名");
         }
 
         RandlApi randlApi = getMapperFacade().map(params, RandlApi.class);
@@ -74,7 +84,7 @@ public class RandlApiServiceImpl extends BaseDtoServiceImpl<RandlApiMapper, Rand
     public String delete(Long fid) {
         RandlApi randlApi = getBaseMapper().selectById(fid);
         if (randlApi == null) {
-            throw new ApiResponseException(ErrorU.CODE_10.C, "接口");
+            throw new ApiResponseException(ErrorU.CODE_9.C, "接口");
         }
         getBaseMapper().deleteById(fid);
         return "删除接口【" + randlApi.getPath() + "】成功";
@@ -92,18 +102,24 @@ public class RandlApiServiceImpl extends BaseDtoServiceImpl<RandlApiMapper, Rand
 
         RandlApi randlApi = getBaseMapper().selectById(params.getFid());
         if (randlApi == null) {
-            throw new ApiResponseException(ErrorU.CODE_10.C, "接口");
+            throw new ApiResponseException(ErrorU.CODE_9.C, "接口");
         }
         if (!randlApi.getPath().equals(params.getPath())) {
+
             if (getBaseMapper().selectOne(
-                    new QueryWrapper<RandlApi>().eq("path", params.getPath())) != null) {
-                throw new ApiResponseException(ErrorU.CODE_11.C, "接口路径");
+                    new QueryWrapper<RandlApi>()
+                            .eq("app_id", params.getAppId())
+                            .eq("path", params.getPath())) != null) {
+                throw new ApiResponseException(ErrorU.CODE_11.C, "该应用的-接口路径");
             }
+
         }
         if (!randlApi.getAlias().equals(params.getAlias())) {
             if (getBaseMapper().selectOne(
-                    new QueryWrapper<RandlApi>().eq("alias", params.getAlias())) != null) {
-                throw new ApiResponseException(ErrorU.CODE_11.C, "接口别名");
+                    new QueryWrapper<RandlApi>()
+                            .eq("app_id", params.getAppId())
+                            .eq("alias", params.getAlias())) != null) {
+                throw new ApiResponseException(ErrorU.CODE_11.C, "该应用的-接口别名");
             }
         }
         randlApi = getMapperFacade().map(params, RandlApi.class);
@@ -115,7 +131,7 @@ public class RandlApiServiceImpl extends BaseDtoServiceImpl<RandlApiMapper, Rand
     public RandlApiDto getApi(Long fid) {
         RandlApi randlApi = getBaseMapper().selectById(fid);
         if (randlApi == null) {
-            throw new ApiResponseException(ErrorU.CODE_10.C, "接口");
+            throw new ApiResponseException(ErrorU.CODE_9.C, "接口");
         }
         return getBaseDto(randlApi);
     }
@@ -133,33 +149,45 @@ public class RandlApiServiceImpl extends BaseDtoServiceImpl<RandlApiMapper, Rand
                     .or().like("description", "%" + keyword + "%");
         List<RandlApi> randlApiList = getBaseMapper().selectList(queryWrapper);
         if (randlApiList == null) {
-            throw new ApiResponseException(ErrorU.CODE_10.C, "接口");
+            throw new ApiResponseException(ErrorU.CODE_9.C, "接口");
         }
         return getDtoList(randlApiList);
     }
 
     @Override
-    public PageDto<RandlApiDto> pageByCondition(QueryByPageParams queryByPageParams, ConditionApiParams params) {
-        BeanValidator.verifyParams(params);
-
+    public List<RandlApiDto> getAllByAppId(Long appId) {
+        if (randlAppMapper.selectById(appId) == null) {
+            throw new ApiResponseBeanException(ErrorU.CODE_10.C, "appId", "Randl应用");
+        }
         QueryWrapper<RandlApi> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("app_id", appId);
 
-        queryWrapper.eq("app_id", params.getAppId());
+        List<RandlApi> randlApiList = getBaseMapper().selectList(queryWrapper);
+        if (randlApiList == null) {
+            randlApiList = new ArrayList<>();
+        }
+        return getDtoList(randlApiList);
+    }
+
+    @Override
+    public PageDto<RandlApiDto> pageByConditionTwo(QueryByPageParams queryByPageParams, BaseConditionParams params,
+                                                   QueryWrapper<RandlApi> queryWrapper) {
+        ConditionApiParams paramsForApi = (ConditionApiParams) params;
+
+        queryWrapper.nested(warpper -> warpper.eq("app_id", paramsForApi.getAppId()));
 
         if (params.getKeyword() != null) {
-            queryWrapper.eq("fid", params.getKeyword()).or().like("path", "%" + params.getKeyword() + "%")
-                        .or().like("description", "%" + params.getKeyword() + "%");
+            queryWrapper.and(wrapper ->
+                    wrapper.like("alias", params.getKeyword())
+                           .or()
+                           .eq("fid", params.getKeyword())
+                           .or()
+                           .like("path", params.getKeyword())
+                           .or()
+                           .like("description", params.getKeyword()));
         }
 
-        if (params.getStartDate() != null && params.getEndDate() != null) {
-            queryWrapper.between("create_time", params.getStartDate(), params.getEndDate());
-        }
-
-        QueryPage<RandlApi> randlApiQueryPage =
-                getBaseMapper().selectPage(new QueryPage<>(queryByPageParams),
-                        queryWrapper);
-
-        return toPageDto(randlApiQueryPage);
+        return super.pageByConditionThree(queryByPageParams, paramsForApi, queryWrapper);
     }
 
 
