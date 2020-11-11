@@ -23,7 +23,7 @@ public class ErrorS {
 
     public static final class CODE_2 {
         public static final int C = 10002;
-        public static final String M = "【系统公共错误码】系统执行[%S]操作失败。。。";
+        public static final String M = "【系统公共错误码】系统执行[%s]操作失败。。。";
     }
 
     public static final class CODE_3 {

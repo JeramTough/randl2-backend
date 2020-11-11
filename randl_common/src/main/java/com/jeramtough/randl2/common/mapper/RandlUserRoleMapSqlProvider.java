@@ -14,7 +14,7 @@ import org.apache.ibatis.jdbc.SQL;
 public class RandlUserRoleMapSqlProvider {
 
 
-    public String selectOneRandlUserByAppIdAndAccount(@Param("appId") Long appId,
+   /* public String selectOneRandlUserByAppIdAndAccount(@Param("appId") Long appId,
                                                       @Param("account") String account) {
         String sql = new SQL() {{
             SELECT("tb_1.uid");
@@ -40,9 +40,9 @@ public class RandlUserRoleMapSqlProvider {
             WHERE("tb_3.app_id = #{appId}");
         }}.toString();
         return sql;
-    }
+    }*/
 
-    public String selectOneRandlRoleByAppIdAndUid(@Param("appId") Long appId,
+   /* public String selectOneRandlRoleByAppIdAndUid(@Param("appId") Long appId,
                                                   @Param("uid") Long uid) {
         String sql = new SQL() {{
             SELECT("tb_1.fid");
@@ -60,6 +60,6 @@ public class RandlUserRoleMapSqlProvider {
         }}.toString();
 
         return sql;
-    }
+    }*/
 
 }

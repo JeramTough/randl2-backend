@@ -158,12 +158,12 @@ public class RandlRoleServiceImpl extends MyBaseServiceImpl<RandlRoleMapper, Ran
     }
 
     @Override
-    public RandlRoleDto getRoleByAppIdAndUid(Long appId, Long uid) {
-        RandlRole randlRole = randlUserRoleMapMapper.selectOneRandlRoleByAppIdAndUid(appId, uid);
-        if (randlRole == null) {
-            throw new ApiResponseException(ErrorU.CODE_502.C);
-        }
-        return toDto(randlRole);
+    public List<RandlRole> getRoleListByAppIdAndUid(Long appId, Long uid) {
+        List<RandlRole> randlRoleList = getBaseMapper().selectListByUid(uid, appId);
+        //每个用户都默认拥有RandlUser的角色
+        RandlRole defaultRandlUserRole = getBaseMapper().selectById(appSetting.getDefaultUserRoleId());
+        randlRoleList.add(defaultRandlUserRole);
+        return randlRoleList;
     }
 
     @Override
@@ -171,9 +171,6 @@ public class RandlRoleServiceImpl extends MyBaseServiceImpl<RandlRoleMapper, Ran
 
         this.intDefaultRole();
 
-        if (appId.equals(appSetting.getDefaultAdminAppId())) {
-            return getDtoList(Arrays.asList(defaultAdminRole, defaultUserRole));
-        }
 
         if (randlAppMapper.selectOne(
                 new QueryWrapper<RandlApp>().eq("fid", appId)) == null) {
@@ -184,7 +181,7 @@ public class RandlRoleServiceImpl extends MyBaseServiceImpl<RandlRoleMapper, Ran
                 new QueryWrapper<RandlRole>().eq("app_id", appId));
 
         //每个应用都有Randl客户端用户这个角色
-        if (!appId.equals(appSetting.getDefaultuserAppId())) {
+        if (!appId.equals(appSetting.getDefaultUserAppId())) {
             randlRoleList.add(defaultUserRole);
         }
 
@@ -196,7 +193,7 @@ public class RandlRoleServiceImpl extends MyBaseServiceImpl<RandlRoleMapper, Ran
                                                     BaseConditionParams params,
                                                     QueryWrapper<RandlRole> queryWrapper) {
         ConditionRoleParams paramsForApi = (ConditionRoleParams) params;
-        if (!paramsForApi.getAppId().equals(appSetting.getDefaultuserAppId()) && queryByPageParams.getSize() > 0) {
+        if (!paramsForApi.getAppId().equals(appSetting.getDefaultUserAppId()) && queryByPageParams.getSize() > 0) {
             queryByPageParams.setSize(queryByPageParams.getSize() - 1);
         }
 
@@ -217,7 +214,7 @@ public class RandlRoleServiceImpl extends MyBaseServiceImpl<RandlRoleMapper, Ran
 
         //所有的应用都有默认Randl用户这个角色
         PageDto<RandlRoleDto> pageDto = super.pageByConditionTwo(queryByPageParams, params, queryWrapper);
-        if (!paramsForApi.getAppId().equals(appSetting.getDefaultuserAppId())) {
+        if (!paramsForApi.getAppId().equals(appSetting.getDefaultUserAppId())) {
             List<RandlRoleDto> list = new ArrayList<>();
             list.add(toDto(defaultUserRole));
             list.addAll(pageDto.getList());

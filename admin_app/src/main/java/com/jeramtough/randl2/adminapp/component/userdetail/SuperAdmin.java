@@ -1,8 +1,14 @@
 package com.jeramtough.randl2.adminapp.component.userdetail;
 
 import com.jeramtough.randl2.adminapp.component.setting.AppSetting;
+import com.jeramtough.randl2.common.model.entity.RandlRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * <pre>
@@ -29,7 +35,11 @@ public class SuperAdmin {
 
     public static final String ROLE_NAME = "超级管理员";
 
+    public static final String ROLE_DESCRIPTION = "超级管理员，拥有一切后台管理员的权限";
+
     private SystemUser systemUser;
+
+    private RandlRole superAdminRole;
 
     private final AppSetting appSetting;
 
@@ -67,13 +77,28 @@ public class SuperAdmin {
                     systemUser.setPassword(appSetting.getAdminPassword());
                     systemUser.setUserType(UserType.ADMIN);
                     systemUser.setSurfaceImageId(SURFACE_IMAGE_ID);
-                    systemUser.setRoleId(ROLE_ID);
-                    systemUser.setRoleName(ROLE_NAME);
-                    systemUser.setRoleAliasName(ROLE_ALIAS_NAME);
+                    systemUser.setRoles(Collections.singletonList(getRole()));
                     systemUser.setAccountStatus(1);
                 }
             }
         }
         return systemUser;
+    }
+
+    public RandlRole getRole() {
+        if (superAdminRole == null) {
+            synchronized (this) {
+                if (superAdminRole == null) {
+                    superAdminRole = new RandlRole();
+                    superAdminRole.setCreateTime(LocalDateTime.now());
+                    superAdminRole.setAlias(ROLE_ALIAS_NAME);
+                    superAdminRole.setAppId(appSetting.getDefaultAdminAppId());
+                    superAdminRole.setFid(ROLE_ID);
+                    superAdminRole.setName(ROLE_NAME);
+                    superAdminRole.setDescription(ROLE_DESCRIPTION);
+                }
+            }
+        }
+        return superAdminRole;
     }
 }

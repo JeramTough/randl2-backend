@@ -28,7 +28,7 @@ public class AppSetting {
     private Long defaultAdminRoleId;
 
     @Value(value = "${app.setting.user.defaultAppId}")
-    private Long defaultuserAppId;
+    private Long defaultUserAppId;
 
     @Value(value = "${app.setting.user.defaultRoleId}")
     private Long defaultUserRoleId;
@@ -63,12 +63,12 @@ public class AppSetting {
         this.jwtIssuer = jwtIssuer;
     }
 
-    public Long getDefaultuserAppId() {
-        return defaultuserAppId;
+    public Long getDefaultUserAppId() {
+        return defaultUserAppId;
     }
 
-    public void setDefaultuserAppId(Long defaultuserAppId) {
-        this.defaultuserAppId = defaultuserAppId;
+    public void setDefaultUserAppId(Long defaultUserAppId) {
+        this.defaultUserAppId = defaultUserAppId;
     }
 
     public String getAdminAccount() {

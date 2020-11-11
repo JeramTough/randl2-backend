@@ -17,7 +17,9 @@ import com.jeramtough.randl2.adminapp.service.RandlModuleRoleMapService;
 import com.jeramtough.randl2.common.component.moduletree.ModuleAuthDtoOneTreeNodeAdapter;
 import com.jeramtough.randl2.common.mapper.SourceSurfaceImageMapper;
 import com.jeramtough.randl2.common.model.dto.RandlModuleAuthDto;
+import com.jeramtough.randl2.common.model.dto.RandlRoleDto;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
+import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.params.user.UserCredentials;
 import com.jeramtough.randl2.adminapp.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <pre>
@@ -74,27 +77,22 @@ public class LoginServiceImpl extends BaseServiceImpl implements LoginService, W
                 systemUser.getSurfaceImageId()).getSurfaceImage();
         systemUserDto.setSurfaceImage(surfaceImage);
 
+        //处理角色Dto
+        List<RandlRole> randlRoleList = systemUser.getRoles();
+        List<RandlRoleDto> randlRoleDtoList =
+                randlRoleList.stream()
+                             .map(randlRole -> getMapperFacade().map(randlRole, RandlRoleDto.class))
+                             .collect(Collectors.toList());
+        systemUserDto.setRoles(randlRoleDtoList);
+
         getLogger().verbose("开始获取用户模块授权信息");
-        List<RandlModuleAuthDto> moduleAuthDtoList =
-                randlModuleRoleMapService.getRandlModuleAuthDtosByAppIdAndRoleId(appSetting.getDefaultAdminAppId(),
-                        systemUser.getRoleId());
-
-
-        getLogger().debug(Arrays.deepToString(moduleAuthDtoList.toArray(new RandlModuleAuthDto[0])));
-
-        getLogger().verbose("开始处理用户模块授权信息作为树形结构");
-        List<OneTreeNodeAdapter<RandlModuleAuthDto>> oneTreeNodeAdapterList = new ArrayList<>();
-        for (RandlModuleAuthDto randlModuleAuthDto : moduleAuthDtoList) {
-            OneTreeNodeAdapter<RandlModuleAuthDto> adapter = new ModuleAuthDtoOneTreeNodeAdapter(
-                    randlModuleAuthDto);
-            oneTreeNodeAdapterList.add(adapter);
-        }
-        TreeNode rootTreeNode = new DefaultTreeProcessor().processing(oneTreeNodeAdapterList);
-
-        Map<String, Object> treeNodeMap = TreeNodeUtils.toTreeMap(rootTreeNode);
-        getLogger().debug("处理为树形结构并且过滤出菜单模块完成: " + rootTreeNode.getDetail());
-
-        systemUserDto.setModuleAuthList((List<Map<String, Object>>) treeNodeMap.get("children"));
+        List<Long> roleIdList = systemUser.getRoles().parallelStream()
+                                          .map(RandlRole::getFid)
+                                          .collect(Collectors.toList());
+        List<Map<String, Object>> moduleAuthList=
+                randlModuleRoleMapService.getRandlModuleAuthTreeByAppIdAndRoleIds(appSetting
+                .getDefaultAdminAppId(), roleIdList);
+        systemUserDto.setModuleAuthList(moduleAuthList);
 
         return systemUserDto;
     }

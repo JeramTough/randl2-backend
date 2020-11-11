@@ -89,20 +89,6 @@ public class RandlRoleController extends BaseSwaggerController {
         return getSuccessfulApiResponse(randlRoleService.getBaseDtoById(fid));
     }
 
-    @ApiOperation(value = "查询根据appId和uid", notes = "查询一个角色根据appId和uid")
-    @RequestMapping(value = "/oneByAppIdAndUid", method = {RequestMethod.GET})
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "appId", value = "应用Id", paramType = "query",
-                    required = true, defaultValue = "1"),
-            @ApiImplicitParam(name = "uid", value = "用户Id", paramType = "query",
-                    required = true, defaultValue = "1")})
-    @ApiResponses(value = {
-            @ApiResponse(code = ErrorU.CODE_502.C, message =
-                    ErrorU.CODE_502.M),
-    })
-    public CommonApiResponse<RandlRoleDto> getRoleByAppIdAndUid(Long appId, Long uid) {
-        return getSuccessfulApiResponse(randlRoleService.getRoleByAppIdAndUid(appId, uid));
-    }
 
     @ApiOperation(value = "查询集合根据appId", notes = "查询集合根据appId")
     @RequestMapping(value = "/listByAppId", method = {RequestMethod.GET})

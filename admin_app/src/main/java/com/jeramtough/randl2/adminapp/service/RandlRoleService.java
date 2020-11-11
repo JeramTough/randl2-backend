@@ -28,13 +28,13 @@ public interface RandlRoleService extends MyBaseService<RandlRole, RandlRoleDto>
     List<RandlRoleDto> getRoleListByKeyword(String keyword);
 
     /**
-     * 每个用户在每个应用里，只允许是一个角色
+     * 每个用户在每个应用里的角色
      *
      * @param appId  应用Id
      * @param uid 角色Id
      * @return 如果没有则返回空
      */
-    RandlRoleDto getRoleByAppIdAndUid(Long appId, Long uid);
+    List<RandlRole> getRoleListByAppIdAndUid(Long appId, Long uid);
 
     List<RandlRoleDto> getListByAppId(Long appId);
 }

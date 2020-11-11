@@ -157,7 +157,7 @@ public class ErrorU {
 
     public static final class CODE_302 implements Payload {
         public static final int C = 20302;
-        public static final String M = "该APP应用不存在该账号！";
+        public static final String M = "不存在该账号！";
     }
 
     public static final class CODE_303 implements Payload {
@@ -199,10 +199,10 @@ public class ErrorU {
         public static final String M = " 删除系统角色失败！因为还有账号被赋予该角色，请修改后重试！";
     }
 
-    public static final class CODE_502 implements Payload {
+    /*public static final class CODE_502 implements Payload {
         public static final int C = 20502;
         public static final String M = "这个用户uid在这个appId应用中没有对应的角色！";
-    }
+    }*/
 
     public static final class CODE_503 implements Payload {
         public static final int C = 20503;

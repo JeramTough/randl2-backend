@@ -71,4 +71,23 @@ public class RandlModuleRoleMap implements Serializable {
         ", appId=" + appId +
         "}";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        RandlModuleRoleMap that = (RandlModuleRoleMap) o;
+
+        return moduleId.equals(that.moduleId);
+    }
+
+    @Override
+    public int hashCode() {
+        return moduleId.hashCode();
+    }
 }

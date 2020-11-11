@@ -2,6 +2,7 @@ package com.jeramtough.randl2.common.model.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.jeramtough.randl2.common.model.entity.RandlRole;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -70,8 +71,13 @@ public class SystemUserDto implements Serializable {
     @ApiModelProperty(value = "头像base64编码")
     private String surfaceImage;
 
+    @ApiModelProperty(value = "用户拥有的角色信息")
+    private List<RandlRoleDto> roles;
+
+
     @ApiModelProperty(value = "模块授权列表")
     private List<Map<String, Object>> moduleAuthList;
+
 
     public Long getUid() {
         return uid;
@@ -199,6 +205,14 @@ public class SystemUserDto implements Serializable {
 
     public void setModuleAuthList(List<Map<String, Object>> moduleAuthList) {
         this.moduleAuthList = moduleAuthList;
+    }
+
+    public List<RandlRoleDto> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RandlRoleDto> roles) {
+        this.roles = roles;
     }
 
     @Override

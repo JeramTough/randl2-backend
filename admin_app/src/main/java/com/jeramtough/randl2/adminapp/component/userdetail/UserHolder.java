@@ -44,9 +44,12 @@ public class UserHolder {
     public static void afterLogin(SystemUser systemUser) {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
-        grantedAuthorityList.add(
-                new JaasGrantedAuthority("ROLE_" + systemUser.getRoleAliasName(),
-                        systemUser));
+        systemUser.getRoles().parallelStream().forEach(randlRole -> {
+            JaasGrantedAuthority jaasGrantedAuthority=
+                    new JaasGrantedAuthority("ROLE_" + randlRole.getAlias(),
+                    systemUser);
+            grantedAuthorityList.add(jaasGrantedAuthority);
+        });
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(systemUser.getAccount(),
                         systemUser.getPassword(), grantedAuthorityList);

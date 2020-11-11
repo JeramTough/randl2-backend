@@ -1,8 +1,11 @@
 package com.jeramtough.randl2.adminapp.component.userdetail;
 
+import com.jeramtough.randl2.common.model.entity.RandlRole;
+
 import java.io.Serializable;
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <pre>
@@ -32,11 +35,7 @@ public class SystemUser implements Principal, Serializable {
 
     private Long surfaceImageId;
 
-    private Long roleId;
-
-    private String roleName;
-
-    private String roleAliasName;
+    private List<RandlRole>roles;
 
     private Long appId;
 
@@ -125,29 +124,6 @@ public class SystemUser implements Principal, Serializable {
         this.surfaceImageId = surfaceImageId;
     }
 
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public String getRoleAliasName() {
-        return roleAliasName;
-    }
-
-    public void setRoleAliasName(String roleAliasName) {
-        this.roleAliasName = roleAliasName;
-    }
 
     public Long getAppId() {
         return appId;
@@ -155,5 +131,13 @@ public class SystemUser implements Principal, Serializable {
 
     public void setAppId(Long appId) {
         this.appId = appId;
+    }
+
+    public List<RandlRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RandlRole> roles) {
+        this.roles = roles;
     }
 }

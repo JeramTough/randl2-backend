@@ -22,11 +22,11 @@ import org.springframework.stereotype.Repository;
 public interface RandlUserRoleMapMapper extends BaseMapper<RandlUserRoleMap> {
 
 
-    @SelectProvider(type = RandlUserRoleMapSqlProvider.class, method = "selectOneRandlUserByAppIdAndAccount")
+    /*@SelectProvider(type = RandlUserRoleMapSqlProvider.class, method = "selectOneRandlUserByAppIdAndAccount")
     RandlUserWithRole selectOneRandlUserByAppIdAndAccount(@Param("appId") Long appId,
-                                                          @Param("account") String account);
+                                                          @Param("account") String account);*/
 
-    @SelectProvider(type = RandlUserRoleMapSqlProvider.class, method = "selectOneRandlRoleByAppIdAndUid")
+   /* @SelectProvider(type = RandlUserRoleMapSqlProvider.class, method = "selectOneRandlRoleByAppIdAndUid")
     RandlRole selectOneRandlRoleByAppIdAndUid(@Param("appId") Long appId,
-                                              @Param("uid") Long uid);
+                                              @Param("uid") Long uid);*/
 }
