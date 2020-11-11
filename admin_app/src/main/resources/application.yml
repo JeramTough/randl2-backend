@@ -9,12 +9,14 @@ server:
     context-path: /randl2/adminApp
   tomcat:
     uri-encoding: UTF-8
+
 spring:
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
     password: 123456
     url: jdbc:p6spy:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8
     username: root
+
   http:
     encoding:
       charset: UTF-8
