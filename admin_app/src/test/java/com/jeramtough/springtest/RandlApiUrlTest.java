@@ -1,17 +1,13 @@
 package com.jeramtough.springtest;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.randl2.adminapp.Randl2AdminApplication;
 import com.jeramtough.randl2.common.mapper.RandlModuleMapper;
-import com.jeramtough.test.ApiUrlUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.*;
 
 /**
  * <pre>

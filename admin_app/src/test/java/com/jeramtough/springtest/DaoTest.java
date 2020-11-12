@@ -1,12 +1,10 @@
 package com.jeramtough.springtest;
 
-import com.jeramtough.jtlog.facade.L;
 import com.jeramtough.randl2.adminapp.Randl2AdminApplication;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 

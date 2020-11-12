@@ -6,7 +6,6 @@ import com.jeramtough.randl2.adminapp.service.RandlModuleRoleMapService;
 import com.jeramtough.randl2.common.action.controller.BaseController;
 import com.jeramtough.randl2.common.model.dto.RandlModuleAuthDto;
 import com.jeramtough.randl2.common.model.params.module.SetModuleRoleMapParams;
-import com.jeramtough.randl2.common.model.params.user.SetUserRoleMapParams;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

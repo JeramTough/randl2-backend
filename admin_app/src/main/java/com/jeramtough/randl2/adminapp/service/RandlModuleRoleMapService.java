@@ -1,6 +1,5 @@
 package com.jeramtough.randl2.adminapp.service;
 
-import com.jeramtough.jtweb.service.BaseDtoService;
 import com.jeramtough.randl2.common.model.dto.RandlModuleAuthDto;
 import com.jeramtough.randl2.common.model.dto.RandlModuleRoleMapDto;
 import com.jeramtough.randl2.common.model.entity.RandlModuleRoleMap;

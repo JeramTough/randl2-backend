@@ -3,6 +3,8 @@ package com.jeramtough.randl2.adminapp.service.impl;
 import com.jeramtough.jtcomponent.task.bean.TaskResult;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.adminapp.component.userdetail.login.UserLoginer;
+import com.jeramtough.randl2.common.config.auth.AuthTokenConfig;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.registereduser.LoginByPasswordCredentials;
 import com.jeramtough.randl2.common.model.params.registereduser.LoginByVerificationCodeCredentials;
@@ -10,8 +12,6 @@ import com.jeramtough.randl2.common.model.params.registereduser.LoginForVisitorC
 import com.jeramtough.randl2.common.model.params.verificationcode.VerifyVerificationCodeParams;
 import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
 import com.jeramtough.randl2.adminapp.component.userdetail.UserHolder;
-import com.jeramtough.randl2.adminapp.component.userdetail.login.*;
-import com.jeramtough.randl2.adminapp.config.security.AuthTokenConfig;
 import com.jeramtough.randl2.common.mapper.SourceSurfaceImageMapper;
 import com.jeramtough.randl2.adminapp.service.RegisteredUserLoginService;
 import com.jeramtough.randl2.common.service.VerificationCodeService;
@@ -54,7 +54,7 @@ public class RegisteredUserLoginServiceImpl implements RegisteredUserLoginServic
 
     @Override
     public void loginByExistingToken(String token) {
-        if (token == null) {
+        /*if (token == null) {
             throw new ApiResponseException(ErrorU.CODE_5.C);
         }
 
@@ -62,14 +62,14 @@ public class RegisteredUserLoginServiceImpl implements RegisteredUserLoginServic
                 authTokenConfig.getJwtSigningKey(), authTokenConfig.getJwtIssuer()).getTaskResult();
         if (taskResult.isSuccessful()) {
             long uid = taskResult.getLongPayload("uid");
-            UserLoginer userLoginer = getWC().getBean(RegisteredUserUidLoginer.class);
+            com.jeramtough.randl2.userapp.component.userdetail.login.UserLoginer userLoginer = getWC().getBean(RegisteredUserUidLoginer.class);
             SystemUser systemUser = userLoginer.login(uid);
             UserHolder.afterLogin(systemUser);
         }
         else {
             String errorMessage = taskResult.getMessage();
             throw new ApiResponseException(ErrorU.CODE_6.C, errorMessage);
-        }
+        }*/
 
     }
 
@@ -77,13 +77,14 @@ public class RegisteredUserLoginServiceImpl implements RegisteredUserLoginServic
     public Map<String, Object> loginByPassword(LoginByPasswordCredentials credentials) {
         BeanValidator.verifyParams(credentials);
 
-        UserLoginer userLoginer = getWC().getBean(RegisteredUserLoginer.class);
+       /* UserLoginer userLoginer = getWC().getBean(RegisteredUserLoginer.class);
         SystemUser systemUser = userLoginer.login(credentials);
 
         if (systemUser == null) {
             throw new ApiResponseException(10002);
         }
-        return processingLoginResult(systemUser);
+        return processingLoginResult(systemUser);*/
+        return null;
     }
 
     @Override
@@ -96,15 +97,16 @@ public class RegisteredUserLoginServiceImpl implements RegisteredUserLoginServic
         params.setVerificationCode(credentials.getVerificationCode());
         verificationCodeService.verify(params);
 
-        //执行到这里，说明验证码已经校验成功
+        /*//执行到这里，说明验证码已经校验成功
         UserLoginer userLoginer = getWC().getBean(
-                RegisteredUserByPhoneOrEmailLoginer.class);
+                com.jeramtough.randl2.userapp.component.userdetail.login.RegisteredUserByPhoneOrEmailLoginer.class);
         SystemUser systemUser = userLoginer.login(credentials.getCredential());
 
         if (systemUser == null) {
             throw new ApiResponseException(ErrorU.CODE_303.C);
         }
-        return processingLoginResult(systemUser);
+        return processingLoginResult(systemUser);*/
+        return null;
     }
 
     @Override
