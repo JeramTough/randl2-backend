@@ -9,6 +9,7 @@
         <module>user_app</module>
         <module>randl_common</module>
         <module>auth_server</module>
+        <module>randl_resource</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

@@ -1,5 +1,5 @@
 server:
-  port: 8888
+  port: 9085
   servlet:
     context-path: /randl2/auth
   tomcat:

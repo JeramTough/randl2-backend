@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.userapp.config;
+package com.jeramtough.randl2.resource.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
