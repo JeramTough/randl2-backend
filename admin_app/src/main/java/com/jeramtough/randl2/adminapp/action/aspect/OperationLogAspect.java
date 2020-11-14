@@ -2,11 +2,10 @@ package com.jeramtough.randl2.adminapp.action.aspect;
 
 import com.alibaba.fastjson.JSON;
 import com.jeramtough.jtweb.util.IpAddrUtil;
-import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
-import com.jeramtough.randl2.adminapp.component.userdetail.UserHolder;
-import com.jeramtough.randl2.adminapp.component.userdetail.UserType;
+import com.jeramtough.randl2.common.component.userdetail.SystemUser;
+import com.jeramtough.randl2.common.component.userdetail.UserHolder;
 import com.jeramtough.randl2.common.model.entity.RandlOperationLog;
-import com.jeramtough.randl2.adminapp.service.RandlOperationLogService;
+import com.jeramtough.randl2.service.randl.RandlOperationLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -126,7 +125,7 @@ public class OperationLogAspect {
                 systemUser = beforeSystemUser;
             }
 
-            if (systemUser != null && systemUser.getUserType() == UserType.ADMIN) {
+            if (systemUser != null) {
                 randlOperationLog.setAdminId(systemUser.getUid());
                 randlOperationLog.setAdminName(systemUser.getAccount());
                 String content = JSON.toJSONString(contentMap);

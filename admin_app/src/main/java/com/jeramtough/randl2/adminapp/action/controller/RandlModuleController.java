@@ -6,7 +6,7 @@ import com.jeramtough.jtweb.model.dto.PageDto;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.randl2.common.action.controller.BaseController;
 import com.jeramtough.randl2.common.model.dto.RandlModuleDto;
-import com.jeramtough.randl2.adminapp.service.RandlModuleService;
+import com.jeramtough.randl2.service.randl.RandlModuleService;
 import com.jeramtough.randl2.common.model.params.module.AddRandlModuleParams;
 import com.jeramtough.randl2.common.model.params.module.ConditionModuleParams;
 import com.jeramtough.randl2.common.model.params.module.TreeModuleParams;

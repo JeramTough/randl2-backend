@@ -9,7 +9,7 @@ import com.jeramtough.randl2.common.component.logforoperation.annotation.Logging
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.personalinfo.UpdatePersonalInfoParams;
 import com.jeramtough.randl2.common.model.dto.RandlPersonalInfoDto;
-import com.jeramtough.randl2.adminapp.service.RandlPersonalInfoService;
+import com.jeramtough.randl2.service.randl.RandlPersonalInfoService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

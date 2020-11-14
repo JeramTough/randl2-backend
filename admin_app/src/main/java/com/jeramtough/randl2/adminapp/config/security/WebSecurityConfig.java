@@ -1,11 +1,11 @@
 package com.jeramtough.randl2.adminapp.config.security;
 
-import com.jeramtough.randl2.adminapp.component.userdetail.SuperAdmin;
-import com.jeramtough.randl2.common.mapper.*;
+import com.jeramtough.randl2.common.component.userdetail.SuperAdmin;
+import com.jeramtough.randl2.common.mapper.RandlModuleMapper;
+import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;

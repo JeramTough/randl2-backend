@@ -5,7 +5,7 @@ import com.jeramtough.randl2.common.action.controller.BaseController;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.verificationcode.SendVerificationCodeParams;
 import com.jeramtough.randl2.common.model.params.verificationcode.VerifyVerificationCodeParams;
-import com.jeramtough.randl2.common.service.VerificationCodeService;
+import com.jeramtough.randl2.service.other.VerificationCodeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

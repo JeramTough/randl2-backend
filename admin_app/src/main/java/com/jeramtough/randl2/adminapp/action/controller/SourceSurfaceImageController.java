@@ -9,7 +9,7 @@ import com.jeramtough.randl2.common.model.params.surfaceimage.UpdateCurrentAdmin
 import com.jeramtough.randl2.common.model.params.surfaceimage.UpdateSurfaceImageParams;
 import com.jeramtough.randl2.common.model.params.surfaceimage.UploadSurfaceImageParams;
 import com.jeramtough.randl2.common.model.dto.SourceSurfaceImageDto;
-import com.jeramtough.randl2.common.service.SourceSurfaceImageService;
+import com.jeramtough.randl2.service.source.SourceSurfaceImageService;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

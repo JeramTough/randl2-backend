@@ -10,7 +10,7 @@ import com.jeramtough.randl2.common.model.params.api.ConditionApiParams;
 import com.jeramtough.randl2.common.model.params.api.AddApiParams;
 import com.jeramtough.randl2.common.model.params.api.UpdateApiParams;
 import com.jeramtough.jtweb.model.dto.PageDto;
-import com.jeramtough.randl2.adminapp.service.RandlApiService;
+import com.jeramtough.randl2.service.randl.RandlApiService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

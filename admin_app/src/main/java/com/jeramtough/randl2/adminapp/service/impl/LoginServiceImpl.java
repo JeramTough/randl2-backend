@@ -4,18 +4,18 @@ import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.service.impl.BaseServiceImpl;
-import com.jeramtough.randl2.adminapp.component.setting.AppSetting;
-import com.jeramtough.randl2.adminapp.component.userdetail.SystemUser;
-import com.jeramtough.randl2.adminapp.component.userdetail.UserHolder;
-import com.jeramtough.randl2.adminapp.component.userdetail.login.AdminUserLoginer;
-import com.jeramtough.randl2.adminapp.component.userdetail.login.UserLoginer;
-import com.jeramtough.randl2.adminapp.service.RandlModuleRoleMapService;
+import com.jeramtough.randl2.adminapp.service.LoginService;
+import com.jeramtough.randl2.common.component.setting.AppSetting;
+import com.jeramtough.randl2.common.component.userdetail.SystemUser;
+import com.jeramtough.randl2.common.component.userdetail.UserHolder;
+import com.jeramtough.randl2.adminapp.component.login.AdminUserLoginer;
+import com.jeramtough.randl2.common.component.login.UserLoginer;
 import com.jeramtough.randl2.common.mapper.SourceSurfaceImageMapper;
 import com.jeramtough.randl2.common.model.dto.RandlRoleDto;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
 import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.params.user.UserCredentials;
-import com.jeramtough.randl2.adminapp.service.LoginService;
+import com.jeramtough.randl2.service.randl.RandlModuleRoleMapService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
@@ -83,9 +83,9 @@ public class LoginServiceImpl extends BaseServiceImpl implements LoginService, W
         List<Long> roleIdList = systemUser.getRoles().parallelStream()
                                           .map(RandlRole::getFid)
                                           .collect(Collectors.toList());
-        List<Map<String, Object>> moduleAuthList=
+        List<Map<String, Object>> moduleAuthList =
                 randlModuleRoleMapService.getRandlModuleAuthTreeByAppIdAndRoleIds(appSetting
-                .getDefaultAdminAppId(), roleIdList);
+                        .getDefaultAdminAppId(), roleIdList);
         systemUserDto.setModuleAuthList(moduleAuthList);
 
         return systemUserDto;
@@ -93,6 +93,8 @@ public class LoginServiceImpl extends BaseServiceImpl implements LoginService, W
 
     @Override
     public String adminLogout() {
-        return null;
+        UserHolder.clear();
+        return "退出登陆成功！";
     }
+
 }

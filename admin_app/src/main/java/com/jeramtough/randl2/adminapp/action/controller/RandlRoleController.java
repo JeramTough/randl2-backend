@@ -11,7 +11,7 @@ import com.jeramtough.randl2.common.model.params.role.AddRoleParams;
 import com.jeramtough.randl2.common.model.params.role.ConditionRoleParams;
 import com.jeramtough.randl2.common.model.params.role.UpdateRoleParams;
 import com.jeramtough.jtweb.model.dto.PageDto;
-import com.jeramtough.randl2.adminapp.service.RandlRoleService;
+import com.jeramtough.randl2.service.randl.RandlRoleService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

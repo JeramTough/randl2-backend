@@ -2,7 +2,7 @@ package com.jeramtough.randl2.adminapp.component.registereduser.builder;
 
 import com.jeramtough.jtcomponent.utils.IdUtil;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.randl2.adminapp.component.userdetail.UserChannel;
+import com.jeramtough.randl2.common.component.userdetail.UserChannel;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
 import org.springframework.data.redis.core.BoundHashOperations;

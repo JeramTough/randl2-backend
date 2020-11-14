@@ -2,7 +2,7 @@ package com.jeramtough.randl2.adminapp.action.controller;
 
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
-import com.jeramtough.randl2.adminapp.service.RandlUserRoleMapService;
+import com.jeramtough.randl2.service.randl.RandlUserRoleMapService;
 import com.jeramtough.randl2.common.action.controller.BaseController;
 import com.jeramtough.randl2.common.model.params.user.SetUserRoleMapParams;
 import io.swagger.annotations.*;

@@ -4,7 +4,7 @@ package com.jeramtough.randl2.adminapp.action.controller;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.jtweb.model.dto.PageDto;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
-import com.jeramtough.randl2.adminapp.service.RandlAppService;
+import com.jeramtough.randl2.service.randl.RandlAppService;
 import com.jeramtough.randl2.common.action.controller.BaseController;
 import com.jeramtough.randl2.common.model.dto.RandlAppDto;
 import com.jeramtough.randl2.common.model.error.ErrorU;

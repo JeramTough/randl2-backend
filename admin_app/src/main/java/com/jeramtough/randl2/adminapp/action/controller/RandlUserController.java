@@ -10,7 +10,7 @@ import com.jeramtough.randl2.common.model.dto.RandlUserDto;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.user.ConditionUserParams;
 import com.jeramtough.randl2.common.model.params.user.RegisterRandlUserParams;
-import com.jeramtough.randl2.adminapp.service.RandlUserService;
+import com.jeramtough.randl2.service.randl.RandlUserService;
 import com.jeramtough.randl2.common.model.params.user.UpdateRandlUserParams;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;

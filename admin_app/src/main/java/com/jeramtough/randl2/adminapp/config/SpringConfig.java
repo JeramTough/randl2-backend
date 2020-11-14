@@ -10,6 +10,9 @@ import org.springframework.context.annotation.Configuration;
  * </pre>
  */
 @Configuration
-@ComponentScan("com.jeramtough.randl2.common.config")
+@ComponentScan({
+        "com.jeramtough.randl2.common",
+        "com.jeramtough.randl2.service"
+})
 public class SpringConfig {
 }
