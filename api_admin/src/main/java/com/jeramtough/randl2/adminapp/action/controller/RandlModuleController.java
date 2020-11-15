@@ -4,7 +4,7 @@ package com.jeramtough.randl2.adminapp.action.controller;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.jtweb.model.dto.PageDto;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
-import com.jeramtough.randl2.common.action.controller.BaseController;
+import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.model.dto.RandlModuleDto;
 import com.jeramtough.randl2.service.randl.RandlModuleService;
 import com.jeramtough.randl2.common.model.params.module.AddRandlModuleParams;
@@ -29,7 +29,7 @@ import java.util.Map;
 @Api(tags = {"模块接口"})
 @RestController
 @RequestMapping("/randlModule")
-public class RandlModuleController extends BaseController {
+public class RandlModuleController extends MyBaseController {
 
     private final RandlModuleService randlModuleService;
 

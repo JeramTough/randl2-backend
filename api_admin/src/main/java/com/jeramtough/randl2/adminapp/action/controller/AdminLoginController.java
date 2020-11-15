@@ -3,11 +3,11 @@ package com.jeramtough.randl2.adminapp.action.controller;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 
 import com.jeramtough.randl2.adminapp.service.LoginService;
-import com.jeramtough.randl2.common.action.controller.BaseController;
+import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.component.logforoperation.annotation.LoggingOperation;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import com.jeramtough.randl2.common.model.params.user.UserCredentials;
+import com.jeramtough.randl2.common.model.params.login.UserCredentials;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Api(tags = {"管理端登录接口"})
 @RequestMapping("/access")
-public class AdminLoginController extends BaseController {
+public class AdminLoginController extends MyBaseController {
 
     private final LoginService loginService;
 

@@ -33,7 +33,7 @@ import io.swagger.annotations.ApiResponses;
         @ApiResponse(code = ErrorS.CODE_5.C, message = ErrorS.CODE_5.M),
         @ApiResponse(code = ErrorS.CODE_6.C, message = ErrorS.CODE_6.M),
 })
-public abstract class BaseController extends BaseSwaggerController {
+public abstract class MyBaseController extends BaseSwaggerController {
 
 
 }

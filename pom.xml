@@ -17,6 +17,11 @@
         <module>randl_common</module>
         <module>randl_service</module>
 
+        <!-- Oauth客户端-->
+        <module>oauth-clients-demo/client-password</module>
+        <module>oauth-clients-demo/client-authorization-code</module>
+        <module>oauth-clients-demo/client-credentials</module>
+
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -43,7 +48,14 @@
                 <artifactId>randl_common</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.jeramtough</groupId>
+                <artifactId>randl_service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
+
     </dependencyManagement>
 
 </project>

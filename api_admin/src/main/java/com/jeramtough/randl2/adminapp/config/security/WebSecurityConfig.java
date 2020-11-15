@@ -149,6 +149,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         authorizationConfigurer.antMatchers(ONLY_SUPER_ADMIN_API_URLS).hasAnyRole(
                 SuperAdmin.ROLE_NAME);
 
+        //放行Swagger的资源
+        authorizationConfigurer
+                .antMatchers(SWAGGER_URLS).permitAll();
+
         //普通注册用户登录以后并且还要有普通注册用户的角色才能使用的接口
        /* authorizationConfigurer.antMatchers("/registeredUserLogined/**")
                                .hasRole(RegisteredUserRole.PrimaryRole.get().getName());*/
@@ -162,16 +166,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
                 .and()
                 .csrf().disable();
-    }
-
-    /**
-     * 返回自适应的密码编码者
-     */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        PasswordEncoder passwordEncoder =
-                PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        return passwordEncoder;
     }
 
 }

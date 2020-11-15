@@ -55,19 +55,6 @@ public class SystemUserDto implements Serializable {
     @ApiModelProperty(value = "用户来源渠道 0:管理员添加 | 1:用户注册 | 2:数据库直接添加")
     private Integer channel;
 
-    @ApiModelProperty(value = "角色Id")
-    private Integer roleId;
-
-    @ApiModelProperty(value = "角色中文名")
-    private String roleName;
-
-
-    @ApiModelProperty(value = "所属app的id")
-    private Long appId;
-
-    @ApiModelProperty(value = "角色英文别名")
-    private String roleAliasName;
-
     @ApiModelProperty(value = "头像base64编码")
     private String surfaceImage;
 
@@ -157,38 +144,6 @@ public class SystemUserDto implements Serializable {
 
     public void setChannel(Integer channel) {
         this.channel = channel;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public Long getAppId() {
-        return appId;
-    }
-
-    public void setAppId(Long appId) {
-        this.appId = appId;
-    }
-
-    public String getRoleAliasName() {
-        return roleAliasName;
-    }
-
-    public void setRoleAliasName(String roleAliasName) {
-        this.roleAliasName = roleAliasName;
     }
 
     public String getSurfaceImage() {

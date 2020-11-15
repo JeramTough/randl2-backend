@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 import java.util.List;
 
+import com.jeramtough.randl2.common.model.entity.RandlRole;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -53,6 +54,8 @@ public class RandlUserDto implements Serializable{
     private Integer channel;
 
     private List<Long> roleIds;
+
+    private List<RandlRoleDto> roles;
 
 
     public Long getUid() {
@@ -134,6 +137,14 @@ public class RandlUserDto implements Serializable{
 
     public void setRoleIds(List<Long> roleIds) {
         this.roleIds = roleIds;
+    }
+
+    public List<RandlRoleDto> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RandlRoleDto> roles) {
+        this.roles = roles;
     }
 
     @Override

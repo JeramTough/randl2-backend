@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.common.model.params.user;
+package com.jeramtough.randl2.common.model.params.login;
 
 import com.jeramtough.randl2.common.model.error.ErrorU;
 

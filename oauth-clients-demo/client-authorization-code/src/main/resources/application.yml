@@ -1,0 +1,40 @@
+server:
+  port: 9070
+  servlet:
+    context-path: /randl2/client
+  tomcat:
+    uri-encoding: UTF-8
+
+
+
+logging:
+  level:
+    root: WARN
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.security.oauth2: INFO
+
+spring:
+  thymeleaf:
+    cache: false
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    password: 123456
+    url: jdbc:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8
+    username: root
+
+security:
+  oauth2:
+    client:
+      client-id: authorization-code-client
+      client-secret: 12345678
+      grant-type: authorization_code
+      #授权服务的域名地址不能和客户端的一样，所以分别为127.0.0.1和localhost
+      user-authorization-uri: http://localhost:9085/randl2/authserver/oauth/authorize
+      access-token-uri: http://localhost:9085/randl2/authserver/oauth/token
+      scope: user
+      #回调地址
+      pre-established-redirect-uri: http://127.0.0.1:9070/randl2/client/authorized
+      use-current-uri: false
+

@@ -35,7 +35,6 @@ public class SystemUser implements Principal, Serializable {
 
     private List<RandlRole>roles;
 
-    private Long appId;
 
     public Long getUid() {
         return uid;
@@ -114,14 +113,6 @@ public class SystemUser implements Principal, Serializable {
         this.surfaceImageId = surfaceImageId;
     }
 
-
-    public Long getAppId() {
-        return appId;
-    }
-
-    public void setAppId(Long appId) {
-        this.appId = appId;
-    }
 
     public List<RandlRole> getRoles() {
         return roles;

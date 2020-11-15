@@ -4,7 +4,7 @@ package com.jeramtough.randl2.adminapp.action.controller;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.jtweb.model.dto.PageDto;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
-import com.jeramtough.randl2.common.action.controller.BaseController;
+import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.component.logforoperation.annotation.LoggingOperation;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.personalinfo.UpdatePersonalInfoParams;
@@ -30,7 +30,7 @@ import java.util.Map;
 @RestController
 @Api(tags = {"普通用户个人信息接口"})
 @RequestMapping("/randlPersonalInfo")
-public class RandlPersonalInfoController extends BaseController {
+public class RandlPersonalInfoController extends MyBaseController {
 
     private final RandlPersonalInfoService randlPersonalInfoService;
 

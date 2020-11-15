@@ -3,7 +3,7 @@ package com.jeramtough.randl2.adminapp.action.controller;
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.randl2.service.randl.RandlModuleApiMapService;
-import com.jeramtough.randl2.common.action.controller.BaseController;
+import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.model.params.module.*;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.List;
 @Api(tags = {"模块与接口映射关系接口"})
 @RestController
 @RequestMapping("/randlModuleApiMap")
-public class RandlModuleApiMapController extends BaseController {
+public class RandlModuleApiMapController extends MyBaseController {
 
     private final RandlModuleApiMapService randlModuleApiMapService;
 

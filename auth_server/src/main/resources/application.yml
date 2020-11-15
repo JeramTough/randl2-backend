@@ -1,7 +1,7 @@
 server:
   port: 9085
   servlet:
-    context-path: /randl2/auth
+    context-path: /randl2/authserver
   tomcat:
     uri-encoding: UTF-8
 
@@ -23,5 +23,21 @@ spring:
     password: 123456
     port: 6379
     timeout: 1000
+
+app:
+  setting:
+    jwt:
+      signingKey: ABCD
+      issuer: SSD
+      validity: 604800000
+    admin:
+      #管理员账号要尽量复杂，不和线上数据库里的账号重复
+      account: superadmin
+      password: '{noop}superadmin'
+      defaultAppId: 1
+      defaultRoleId: 1
+    user:
+      defaultAppId: 2
+      defaultRoleId: 2
 
 

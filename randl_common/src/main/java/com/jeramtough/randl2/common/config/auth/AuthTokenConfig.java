@@ -43,24 +43,6 @@ public class AuthTokenConfig {
         return converter;
     }
 
-    @Bean(name = "defaultTokenServices")
-    public AuthorizationServerTokenServices configAuthorizationServerTokenServices() {
-        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-        defaultTokenServices.setTokenStore(tokenStore());
-        defaultTokenServices.setSupportRefreshToken(true);
-
-        //令牌增强设置
-        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        tokenEnhancerChain.setTokenEnhancers(
-                Collections.singletonList(jwtAccessTokenConverter()));
-        defaultTokenServices.setTokenEnhancer(tokenEnhancerChain);
-
-        //令牌有效时间
-        defaultTokenServices.setAccessTokenValiditySeconds(60 * 60 * 3);
-        //刷新令牌有效时间
-        defaultTokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 2);
-        return defaultTokenServices;
-    }
 
     public String getJwtSigningKey() {
         return jwtSigningKey;

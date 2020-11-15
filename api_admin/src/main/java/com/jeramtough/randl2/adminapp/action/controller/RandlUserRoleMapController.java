@@ -3,7 +3,7 @@ package com.jeramtough.randl2.adminapp.action.controller;
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.randl2.service.randl.RandlUserRoleMapService;
-import com.jeramtough.randl2.common.action.controller.BaseController;
+import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.model.params.user.SetUserRoleMapParams;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = {"Randl用户角色映射接口"})
 @RestController
 @RequestMapping("/randlUserRoleMap")
-public class RandlUserRoleMapController extends BaseController {
+public class RandlUserRoleMapController extends MyBaseController {
 
     private final RandlUserRoleMapService randlUserRoleMapService;
 

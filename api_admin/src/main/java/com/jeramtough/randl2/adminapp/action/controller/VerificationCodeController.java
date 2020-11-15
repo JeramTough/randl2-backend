@@ -1,7 +1,7 @@
 package com.jeramtough.randl2.adminapp.action.controller;
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
-import com.jeramtough.randl2.common.action.controller.BaseController;
+import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.verificationcode.SendVerificationCodeParams;
 import com.jeramtough.randl2.common.model.params.verificationcode.VerifyVerificationCodeParams;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Api(tags = {"验证码接口"})
 @RequestMapping("/verificationCode")
-public class VerificationCodeController extends BaseController {
+public class VerificationCodeController extends MyBaseController {
 
     private final VerificationCodeService verificationCodeService;
 

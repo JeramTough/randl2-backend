@@ -1,5 +1,6 @@
 package com.jeramtough.authserver.config.auth;
 
+import com.jeramtough.randl2.common.config.auth.AuthorizationGrantType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -9,26 +10,21 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.AuthorizationRequest;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.client.BaseClientDetails;
-import org.springframework.security.oauth2.provider.client.InMemoryClientDetailsService;
-import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 import javax.sql.DataSource;
-import java.util.Arrays;
-import java.util.Collections;
 
 /**
  * <pre>
+ *
+ *     授权服务适配的配置类
+ *
  * Created on 2020/3/18 13:23
  * by @author JeramTough
  * </pre>
@@ -36,12 +32,11 @@ import java.util.Collections;
 @Configuration
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-
     private final AuthenticationManager authenticationManager;
     private final JwtAccessTokenConverter jwtAccessTokenConverter;
     private final AuthorizationServerTokenServices authorizationServerTokenServices;
     private final DataSource dataSource;
-    private final PasswordEncoder passwordEncoder;
+    private final ClientDetailsService clientDetailsService;
 
     @Autowired
     public AuthorizationServerConfig(
@@ -50,12 +45,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
             @Qualifier("defaultTokenServices")
                     AuthorizationServerTokenServices authorizationServerTokenServices,
             DataSource dataSource,
-            PasswordEncoder passwordEncoder) {
+            ClientDetailsService clientDetailsService) {
         this.authenticationManager = authenticationManager;
         this.jwtAccessTokenConverter = jwtAccessTokenConverter;
         this.authorizationServerTokenServices = authorizationServerTokenServices;
         this.dataSource = dataSource;
-        this.passwordEncoder = passwordEncoder;
+        this.clientDetailsService = clientDetailsService;
     }
 
     /**
@@ -70,6 +65,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
 
+    /**
+     * 生成短时效的授权码
+     */
     @Bean
     public AuthorizationCodeServices authorizationCodeServices() {
         AuthorizationCodeServices authorizationCodeServices =
@@ -77,12 +75,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return authorizationCodeServices;
     }
 
-    @Bean(name = "jdbcClientDetailsService")
-    public ClientDetailsService clientDetailsService() {
-        JdbcClientDetailsService service = new JdbcClientDetailsService(dataSource);
-        service.setPasswordEncoder(passwordEncoder);
-        return service;
-    }
 
     /**
      * a configurer that defines the client details service. Client details can be initialized,
@@ -91,20 +83,19 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         //使用jdbc的方法注册clients
-        clients.withClientDetails(clientDetailsService());
-       /*
-       //使用内存的方法注册clients
-       clients.inMemory().withClient("first-client")
+//        clients.withClientDetails(clientDetailsService);
+        //使用内存的方法注册clients
+        clients.inMemory().withClient("authorization-code-client")
                .secret("{noop}12345678")
-               .scopes("somewhere")
+               .scopes("user")
                .authorizedGrantTypes(AuthorizationGrantType.AUTHORIZATION_CODE.getValue(),
                        AuthorizationGrantType.CLIENT_CREDENTIALS.getValue(),
                        AuthorizationGrantType.PASSWORD.getValue(),
                        AuthorizationGrantType.IMPLICIT.getValue(),
                        AuthorizationGrantType.REFRESH_TOKEN.getValue())
-               .redirectUris("http://baidu.com")
+               .redirectUris("http://127.0.0.1:9070/randl2/client/authorized")
                //是否自动批准授权
-               .autoApprove(false);*/
+               .autoApprove(false);
     }
 
     /**
@@ -113,10 +104,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.authenticationManager(authenticationManager);
-        endpoints.setClientDetailsService(clientDetailsService());
+        endpoints.setClientDetailsService(clientDetailsService);
         endpoints.tokenServices(authorizationServerTokenServices);
         endpoints.accessTokenConverter(jwtAccessTokenConverter);
         endpoints.authorizationCodeServices(authorizationCodeServices());
-        endpoints.allowedTokenEndpointRequestMethods(HttpMethod.POST);
+        endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
     }
 }

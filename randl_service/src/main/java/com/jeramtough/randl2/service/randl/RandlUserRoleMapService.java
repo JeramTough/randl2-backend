@@ -12,5 +12,7 @@ import com.jeramtough.randl2.service.base.MyBaseService;
  * </pre>
  */
 public interface RandlUserRoleMapService extends MyBaseService<RandlUserRoleMap, RandlUserRoleMapDto> {
+
     String setUserRoleMap(SetUserRoleMapParams params);
+
 }

@@ -5,7 +5,7 @@ import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.jtweb.model.dto.PageDto;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.randl2.service.randl.RandlAppService;
-import com.jeramtough.randl2.common.action.controller.BaseController;
+import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.model.dto.RandlAppDto;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.app.AddAppParams;
@@ -31,7 +31,7 @@ import java.util.List;
 @Api(tags = {"APP应用接口"})
 @RestController
 @RequestMapping("/randlApp")
-public class RandlAppController extends BaseController {
+public class RandlAppController extends MyBaseController {
 
     private final RandlAppService randlAppService;
 

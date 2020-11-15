@@ -11,7 +11,7 @@ import com.jeramtough.randl2.common.model.params.user.UpdateRandlUserParams;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author JeramTough
@@ -28,4 +28,8 @@ public interface RandlUserService extends BaseDtoService<RandlUser, RandlUserDto
             QueryByPageParams queryByPageParams, ConditionUserParams params);
 
     String updateRandlUser(UpdateRandlUserParams params);
+
+    RandlUserDto getWithRoleByCredentialsAndAppId(String credentials, Long appId);
+
+    RandlUser getByCredentials(String credentials);
 }

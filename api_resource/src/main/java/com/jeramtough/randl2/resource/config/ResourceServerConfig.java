@@ -26,13 +26,12 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
- * @author Joe Grandja
  */
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-    private static final String RESOURCE_ID = "messages-resource";
+    private static final String RESOURCE_ID = "randl-resource";
 
     private final TokenStore tokenStore;
 
@@ -54,12 +53,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         //所有资源都要授权访问
-        http.antMatcher("/messages/**")
+        http.antMatcher("/**")
             .authorizeRequests()
-            .antMatchers("/messages/two").hasRole("ADMIN")
+            .antMatchers("/user/**").hasRole("RANDL_USER")
             //这个资源需要拥有的范围访问资源
-            .antMatchers("/messages/one")
-            .access("#oauth2.hasScope('somewhere')")
+            .antMatchers("/app/**")
+            .access("#oauth2.hasScope('app')")
             .and()
             //基于token的话，session就不用缓存了
             .sessionManagement()

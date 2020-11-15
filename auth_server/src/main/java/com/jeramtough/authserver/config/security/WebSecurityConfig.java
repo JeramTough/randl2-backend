@@ -15,12 +15,15 @@
  */
 package com.jeramtough.authserver.config.security;
 
+import com.jeramtough.randl2.common.component.userdetail.SuperAdmin;
+import com.jeramtough.randl2.common.config.security.BaseWebSecurityConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -32,38 +35,54 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
  */
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends BaseWebSecurityConfig {
+
+
+    private static final String[] OPENED_API_URLS = {
+            "/oauth2/keys",
+            "/sso/login",
+            "/sso/logout",
+            "/unlogged.html"
+    };
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .antMatchers("/oauth2/keys").permitAll()
-                .anyRequest().authenticated()
+        //添加jwt过滤
+//        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
+        //签权构造者对象
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authorizationConfigurer = http
+                .authorizeRequests();
+
+        http.formLogin().loginPage("/unlogged.html").permitAll();
+
+        //放行Swagger的资源
+        authorizationConfigurer
+                .antMatchers(SWAGGER_URLS).permitAll();
+
+        //开放登录接口
+        authorizationConfigurer
+                .antMatchers(OPENED_API_URLS).permitAll()
+                .anyRequest()
+                .authenticated()
                 .and()
-                .formLogin();
+                .cors()
+                .and()
+                .csrf().disable();
     }
 
-    @Bean
+   /* @Bean
     public UserDetailsService users() throws Exception {
         User.UserBuilder users = User.withDefaultPasswordEncoder();
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager.createUser(
-                users.username("user1").password("password").roles("USER").build());
+                users.username("user1").password("password").roles("RANDL_USER").build());
         manager.createUser(
                 users.username("admin").password("password").roles("USER",
                         "ADMIN").build());
         return manager;
-    }
-
-    /**
-     * 返回自适应的密码编码者
-     */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
+    }*/
 
 
     @Bean

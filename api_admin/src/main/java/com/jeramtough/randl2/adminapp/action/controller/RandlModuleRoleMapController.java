@@ -3,7 +3,7 @@ package com.jeramtough.randl2.adminapp.action.controller;
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.randl2.service.randl.RandlModuleRoleMapService;
-import com.jeramtough.randl2.common.action.controller.BaseController;
+import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.model.dto.RandlModuleAuthDto;
 import com.jeramtough.randl2.common.model.params.module.SetModuleRoleMapParams;
 import io.swagger.annotations.Api;
@@ -27,7 +27,7 @@ import java.util.Map;
 @Api(tags = {"Randl模块角色映射接口"})
 @RestController
 @RequestMapping("/randlModuleRoleMap")
-public class RandlModuleRoleMapController extends BaseController {
+public class RandlModuleRoleMapController extends MyBaseController {
 
     private final RandlModuleRoleMapService randlModuleRoleMapService;
 

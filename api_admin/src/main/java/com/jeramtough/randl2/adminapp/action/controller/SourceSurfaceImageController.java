@@ -2,7 +2,7 @@ package com.jeramtough.randl2.adminapp.action.controller;
 
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
-import com.jeramtough.randl2.common.action.controller.BaseController;
+import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.component.logforoperation.annotation.LoggingOperation;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.surfaceimage.UpdateCurrentAdminSurfaceImageParams;
@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Api(tags = {"头像接口"})
 @RestController
 @RequestMapping("/sourceSurfaceImage")
-public class SourceSurfaceImageController extends BaseController {
+public class SourceSurfaceImageController extends MyBaseController {
 
     private final SourceSurfaceImageService surfaceImageService;
 

@@ -14,7 +14,7 @@ import com.jeramtough.randl2.common.mapper.SourceSurfaceImageMapper;
 import com.jeramtough.randl2.common.model.dto.RandlRoleDto;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
 import com.jeramtough.randl2.common.model.entity.RandlRole;
-import com.jeramtough.randl2.common.model.params.user.UserCredentials;
+import com.jeramtough.randl2.common.model.params.login.UserCredentials;
 import com.jeramtough.randl2.service.randl.RandlModuleRoleMapService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

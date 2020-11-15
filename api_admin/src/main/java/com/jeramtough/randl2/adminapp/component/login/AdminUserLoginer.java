@@ -10,7 +10,7 @@ import com.jeramtough.randl2.common.mapper.RandlUserMapper;
 import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import com.jeramtough.randl2.common.model.params.user.UserCredentials;
+import com.jeramtough.randl2.common.model.params.login.UserCredentials;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
 import com.jeramtough.randl2.service.randl.RandlRoleService;
 import ma.glasnost.orika.MapperFacade;
@@ -71,7 +71,7 @@ public class AdminUserLoginer implements UserLoginer {
         //如果是普通的系统管理员登录
         RandlUser randlUser = randlUserMapper.selectByAccount(((UserCredentials) credentials).getUsername());
         if (randlUser == null) {
-            //登录失败，管理员应用下不存在该用户
+            //登录失败，不存在该用户
             throw new ApiResponseException(ErrorU.CODE_302.C);
         }
 

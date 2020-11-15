@@ -4,7 +4,7 @@ package com.jeramtough.randl2.adminapp.action.controller;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
 //import com.jeramtough.randl2.common.action.controller.BaseController;
-import com.jeramtough.randl2.common.action.controller.BaseController;
+import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.model.dto.RandlApiDto;
 import com.jeramtough.randl2.common.model.params.api.ConditionApiParams;
 import com.jeramtough.randl2.common.model.params.api.AddApiParams;
@@ -28,7 +28,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/randlApi")
 @Api(tags = {"接口信息的接口"})
-public class RandlApiController extends BaseController {
+public class RandlApiController extends MyBaseController {
 
     private final RandlApiService randlApiService;
 
