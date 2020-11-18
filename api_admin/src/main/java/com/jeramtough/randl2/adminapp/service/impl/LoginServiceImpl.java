@@ -9,7 +9,7 @@ import com.jeramtough.randl2.common.component.setting.AppSetting;
 import com.jeramtough.randl2.common.component.userdetail.SystemUser;
 import com.jeramtough.randl2.common.component.userdetail.UserHolder;
 import com.jeramtough.randl2.adminapp.component.login.AdminUserLoginer;
-import com.jeramtough.randl2.common.component.login.UserLoginer;
+import com.jeramtough.randl2.common.component.login.user.UserLoginer;
 import com.jeramtough.randl2.common.mapper.SourceSurfaceImageMapper;
 import com.jeramtough.randl2.common.model.dto.RandlRoleDto;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;

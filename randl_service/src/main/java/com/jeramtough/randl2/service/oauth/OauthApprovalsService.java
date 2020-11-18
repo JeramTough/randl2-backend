@@ -13,4 +13,6 @@ import com.jeramtough.randl2.common.model.entity.OauthApprovals;
  */
 public interface OauthApprovalsService extends IService<OauthApprovals> {
 
+
+
 }

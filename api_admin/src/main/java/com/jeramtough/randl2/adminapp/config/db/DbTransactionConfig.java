@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.common.config.db;
+package com.jeramtough.randl2.adminapp.config.db;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.aop.Advisor;

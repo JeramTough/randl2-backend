@@ -15,20 +15,25 @@
  */
 package com.jeramtough.authserver.config.security;
 
-import com.jeramtough.randl2.common.component.userdetail.SuperAdmin;
+import com.jeramtough.authserver.action.filter.MyClientCredentialsTokenEndpointFilter;
+import com.jeramtough.jtlog.facade.L;
+import com.jeramtough.randl2.common.component.clientdetail.ClientDaoAuthenticationProvider;
 import com.jeramtough.randl2.common.config.security.BaseWebSecurityConfig;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
  * @author Joe Grandja
@@ -37,6 +42,9 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableWebSecurity
 public class WebSecurityConfig extends BaseWebSecurityConfig {
 
+    private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
+    private final ClientDaoAuthenticationProvider clientDaoAuthenticationProvider;
 
     private static final String[] OPENED_API_URLS = {
             "/oauth2/keys",
@@ -45,17 +53,49 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
             "/unlogged.html"
     };
 
+    @Autowired
+    public WebSecurityConfig(
+            @Qualifier("myUserDetailsServiceImpl")
+                    UserDetailsService userDetailsService,
+            PasswordEncoder passwordEncoder,
+            ClientDaoAuthenticationProvider clientDaoAuthenticationProvider) {
+        this.userDetailsService = userDetailsService;
+        this.passwordEncoder = passwordEncoder;
+        this.clientDaoAuthenticationProvider = clientDaoAuthenticationProvider;
+    }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //添加jwt过滤
-//        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        //添加ClientCredentialsToken过滤
+        MyClientCredentialsTokenEndpointFilter myClientCredentialsTokenEndpointFilter = new MyClientCredentialsTokenEndpointFilter(
+                clientAuthenticationManager());
+        http.addFilterBefore(myClientCredentialsTokenEndpointFilter, BasicAuthenticationFilter.class);
+//        http.addFilterAfter(myClientCredentialsTokenEndpointFilter, UsernamePasswordAuthenticationFilter.class);
+//        http.addFilterBefore(myClientCredentialsTokenEndpointFilter, UsernamePasswordAuthenticationFilter.class);
+
+        /*http.exceptionHandling().accessDeniedHandler(new AccessDeniedHandler() {
+            @Override
+            public void handle(HttpServletRequest request, HttpServletResponse response,
+                               AccessDeniedException accessDeniedException) throws IOException, ServletException {
+                L.arrive();
+            }
+        });
+
+        http.exceptionHandling().defaultAuthenticationEntryPointFor(new AuthenticationEntryPoint() {
+            @Override
+            public void commence(HttpServletRequest request, HttpServletResponse response,
+                                 AuthenticationException authException) throws IOException, ServletException {
+                L.arrive();
+            }
+        }, new AntPathRequestMatcher("/oauth/**"));*/
 
         //签权构造者对象
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authorizationConfigurer = http
                 .authorizeRequests();
 
         http.formLogin().loginPage("/unlogged.html").permitAll();
+
 
         //放行Swagger的资源
         authorizationConfigurer
@@ -67,12 +107,16 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
                 .anyRequest()
                 .authenticated()
                 .and()
+                //基于token的话，session就不用缓存了
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .cors()
                 .and()
                 .csrf().disable();
     }
 
-   /* @Bean
+    /*@Bean
     public UserDetailsService users() throws Exception {
         User.UserBuilder users = User.withDefaultPasswordEncoder();
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
@@ -85,9 +129,29 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
     }*/
 
 
-    @Bean
+   /* @Bean("authenticationManager")
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+        AuthenticationManager authenticationManager = super.authenticationManagerBean();
+        return authenticationManager;
+    }*/
+
+    @Bean("clientAuthenticationManager")
+    public AuthenticationManager clientAuthenticationManager() throws
+            Exception {
+        AuthenticationManagerBuilder builder = new AuthenticationManagerBuilder(new ObjectPostProcessor<Object>() {
+            @Override
+            public <O> O postProcess(O object) {
+                return object;
+            }
+        });
+        DaoAuthenticationProvider daoAuthenticationProvider=new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
+
+        builder.authenticationProvider(clientDaoAuthenticationProvider);
+        builder.authenticationProvider(daoAuthenticationProvider);
+        AuthenticationManager authenticationManager=builder.build();
+        return authenticationManager;
     }
 }

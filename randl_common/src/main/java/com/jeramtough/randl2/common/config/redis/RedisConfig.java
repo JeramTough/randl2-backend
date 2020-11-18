@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.common.config.db;
+package com.jeramtough.randl2.common.config.redis;
 
 import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
 import org.springframework.context.annotation.Bean;

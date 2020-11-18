@@ -1,7 +1,7 @@
 package com.jeramtough.randl2.adminapp.component.login;
 
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.randl2.common.component.login.UserLoginer;
+import com.jeramtough.randl2.common.component.login.user.UserLoginer;
 import com.jeramtough.randl2.common.component.setting.AppSetting;
 import com.jeramtough.randl2.common.component.userdetail.AccountStatus;
 import com.jeramtough.randl2.common.component.userdetail.SuperAdmin;

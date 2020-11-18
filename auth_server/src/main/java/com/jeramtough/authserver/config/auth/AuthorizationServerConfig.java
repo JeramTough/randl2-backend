@@ -1,22 +1,29 @@
 package com.jeramtough.authserver.config.auth;
 
-import com.jeramtough.randl2.common.config.auth.AuthorizationGrantType;
+import com.jeramtough.authserver.service.MyClientDetailsService;
+import com.jeramtough.jtlog.facade.L;
+import com.jeramtough.randl2.common.component.clientdetail.ClientDaoAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationManager;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.sql.DataSource;
 
@@ -34,23 +41,28 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     private final AuthenticationManager authenticationManager;
     private final JwtAccessTokenConverter jwtAccessTokenConverter;
-    private final AuthorizationServerTokenServices authorizationServerTokenServices;
+    private final AuthorizationServerTokenServices tokenServices;
     private final DataSource dataSource;
     private final ClientDetailsService clientDetailsService;
+
+    private final WebApplicationContext webApplicationContext;
 
     @Autowired
     public AuthorizationServerConfig(
             AuthenticationManager authenticationManager,
             JwtAccessTokenConverter jwtAccessTokenConverter,
-            @Qualifier("defaultTokenServices")
-                    AuthorizationServerTokenServices authorizationServerTokenServices,
+            @Qualifier("tokenServices")
+                    AuthorizationServerTokenServices tokenServices,
             DataSource dataSource,
-            ClientDetailsService clientDetailsService) {
+            @Qualifier("myClientDetailsService")
+                    ClientDetailsService clientDetailsService,
+            WebApplicationContext webApplicationContext) {
         this.authenticationManager = authenticationManager;
         this.jwtAccessTokenConverter = jwtAccessTokenConverter;
-        this.authorizationServerTokenServices = authorizationServerTokenServices;
+        this.tokenServices = tokenServices;
         this.dataSource = dataSource;
         this.clientDetailsService = clientDetailsService;
+        this.webApplicationContext = webApplicationContext;
     }
 
     /**
@@ -62,6 +74,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         //开放校验令牌接口
         security.checkTokenAccess("permitAll()");
         security.allowFormAuthenticationForClients();
+        security.accessDeniedHandler((request, response, accessDeniedException) -> {
+            L.arrive();
+        });
     }
 
 
@@ -83,11 +98,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         //使用jdbc的方法注册clients
-//        clients.withClientDetails(clientDetailsService);
+        clients.withClientDetails(clientDetailsService);
+
         //使用内存的方法注册clients
-        clients.inMemory().withClient("authorization-code-client")
+        /*clients.inMemory().withClient("authorization-code-client")
                .secret("{noop}12345678")
-               .scopes("user")
+               .scopes("user-resource")
                .authorizedGrantTypes(AuthorizationGrantType.AUTHORIZATION_CODE.getValue(),
                        AuthorizationGrantType.CLIENT_CREDENTIALS.getValue(),
                        AuthorizationGrantType.PASSWORD.getValue(),
@@ -95,7 +111,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                        AuthorizationGrantType.REFRESH_TOKEN.getValue())
                .redirectUris("http://127.0.0.1:9070/randl2/client/authorized")
                //是否自动批准授权
-               .autoApprove(false);
+               .autoApprove(false);*/
     }
 
     /**
@@ -105,9 +121,21 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.authenticationManager(authenticationManager);
         endpoints.setClientDetailsService(clientDetailsService);
-        endpoints.tokenServices(authorizationServerTokenServices);
+        endpoints.tokenServices(tokenServices);
         endpoints.accessTokenConverter(jwtAccessTokenConverter);
         endpoints.authorizationCodeServices(authorizationCodeServices());
         endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
+
+       /* endpoints.exceptionTranslator(new WebResponseExceptionTranslator() {
+            @Override
+            public ResponseEntity<OAuth2Exception> translate(Exception e) throws Exception {
+                L.arrive();
+                return null;
+            }
+        });*/
+
     }
+
+
+
 }

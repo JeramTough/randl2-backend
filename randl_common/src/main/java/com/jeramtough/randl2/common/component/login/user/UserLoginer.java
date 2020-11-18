@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.common.component.login;
+package com.jeramtough.randl2.common.component.login.user;
 
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.common.component.userdetail.SystemUser;

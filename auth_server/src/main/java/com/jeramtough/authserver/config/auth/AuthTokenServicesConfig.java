@@ -40,7 +40,7 @@ public class AuthTokenServicesConfig {
         this.jwtAccessTokenConverter = jwtAccessTokenConverter;
     }
 
-    @Bean(name = "defaultTokenServices")
+    @Bean(name = "tokenServices")
     public AuthorizationServerTokenServices configAuthorizationServerTokenServices() {
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
         defaultTokenServices.setTokenStore(tokenStore);

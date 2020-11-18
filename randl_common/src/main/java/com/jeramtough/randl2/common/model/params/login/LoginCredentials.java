@@ -31,6 +31,7 @@ public class LoginCredentials {
     private String password;
 
     @NotNull(payload = ErrorU.CODE_1.class)
+    @ApiModelProperty(value = "Rand应用Id", example = "1", required = true)
     private Long appId;
 
     public Long getAppId() {

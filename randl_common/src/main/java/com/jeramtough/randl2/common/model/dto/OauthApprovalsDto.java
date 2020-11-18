@@ -1,5 +1,7 @@
 package com.jeramtough.randl2.common.model.dto;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
@@ -11,12 +13,15 @@ import io.swagger.annotations.ApiModelProperty;
  * </p>
  *
  * @author JeramTough
- * @since 2020-10-02
+ * @since 2020-11-16
  */
 @ApiModel(value="OauthApprovals对象", description="")
 public class OauthApprovalsDto implements Serializable{
 
     private static final long serialVersionUID=1L;
+
+    @TableId(value = "fid", type = IdType.AUTO)
+    private Long fid;
 
     private String userId;
 
@@ -30,6 +35,14 @@ public class OauthApprovalsDto implements Serializable{
 
     private LocalDateTime lastModifiedAt;
 
+
+    public Long getFid() {
+        return fid;
+    }
+
+    public void setFid(Long fid) {
+        this.fid = fid;
+    }
 
     public String getUserId() {
         return userId;
@@ -82,7 +95,8 @@ public class OauthApprovalsDto implements Serializable{
     @Override
     public String toString() {
         return "OauthApprovals{" +
-        "userId=" + userId +
+        "fid=" + fid +
+        ", userId=" + userId +
         ", clientId=" + clientId +
         ", scope=" + scope +
         ", status=" + status +

@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
  * </p>
  *
  * @author JeramTough
- * @since 2020-10-02
+ * @since 2020-11-16
  */
 @ApiModel(value="OauthCode对象", description="")
 public class OauthCodeDto implements Serializable{

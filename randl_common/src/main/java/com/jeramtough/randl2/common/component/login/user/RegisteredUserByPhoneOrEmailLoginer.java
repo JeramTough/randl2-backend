@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.common.component.login;
+package com.jeramtough.randl2.common.component.login.user;
 
 import com.jeramtough.randl2.common.component.userdetail.SystemUser;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
@@ -12,29 +12,34 @@ import org.springframework.stereotype.Component;
 
 /**
  * <pre>
- * Created on 2020/3/23 18:29
+ * Created on 2020/3/22 21:00
  * by @author JeramTough
  * </pre>
  */
 @Component
 @Scope("request")
-public class RegisteredUserUidLoginer extends BaseRegisteredUserLoginer
+public class RegisteredUserByPhoneOrEmailLoginer extends BaseRegisteredUserLoginer
         implements UserLoginer {
 
+
     @Autowired
-    public RegisteredUserUidLoginer(
-            PasswordEncoder passwordEncoder,
-            MapperFacade mapperFacade,
-            RandlUserMapper randlUserMapper
-            , RandlRoleMapper randlRoleMapper) {
+    protected RegisteredUserByPhoneOrEmailLoginer(
+            PasswordEncoder passwordEncoder, MapperFacade mapperFacade,
+            RandlUserMapper randlUserMapper, RandlRoleMapper randlRoleMapper) {
         super(passwordEncoder, mapperFacade, randlUserMapper, randlRoleMapper);
     }
 
-
     @Override
     public SystemUser login(Object credentials) {
-        long uid = (long) credentials;
-        RandlUser randlUser = randlUserMapper.selectById(uid);
-        return processSystemUser(randlUser);
+        String phoneOrEmail = (String) credentials;
+        RandlUser randlUser =
+                randlUserMapper.selectByPhoneNumberOrEmailAddress(
+                        phoneOrEmail);
+        if (randlUser != null) {
+            return processSystemUser(randlUser);
+        }
+        return null;
     }
+
+
 }

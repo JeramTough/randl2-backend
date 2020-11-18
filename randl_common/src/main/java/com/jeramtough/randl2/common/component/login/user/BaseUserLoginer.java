@@ -1,13 +1,10 @@
-package com.jeramtough.randl2.common.component.login;
+package com.jeramtough.randl2.common.component.login.user;
 
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.common.component.userdetail.AccountStatus;
-import com.jeramtough.randl2.common.component.userdetail.SuperAdmin;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import com.jeramtough.randl2.common.model.params.login.UserCredentials;
-import ma.glasnost.orika.MapperFacade;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**

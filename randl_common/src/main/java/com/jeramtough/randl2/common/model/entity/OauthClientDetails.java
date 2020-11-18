@@ -1,5 +1,7 @@
 package com.jeramtough.randl2.common.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,12 +12,17 @@ import io.swagger.annotations.ApiModelProperty;
  * </p>
  *
  * @author JeramTough
- * @since 2020-10-02
+ * @since 2020-11-16
  */
 @ApiModel(value="OauthClientDetails对象", description="")
 public class OauthClientDetails implements Serializable {
 
     private static final long serialVersionUID=1L;
+
+    @TableId(value = "fid", type = IdType.AUTO)
+    private Long fid;
+
+    private Long appId;
 
     private String clientId;
 
@@ -23,22 +30,38 @@ public class OauthClientDetails implements Serializable {
 
     private String clientSecret;
 
-    private String scope;
+    private String scopes;
 
     private String authorizedGrantTypes;
 
-    private String webServerRedirectUri;
+    private String webServerRedirectUris;
 
     private String authorities;
 
-    private Integer accessTokenValidity;
+    private Long accessTokenValidity;
 
-    private Integer refreshTokenValidity;
+    private Long refreshTokenValidity;
 
-    private String additionalInformation;
+    private String additionalInformationContent;
 
-    private String autoapprove;
+    private Boolean autoApprove;
 
+
+    public Long getFid() {
+        return fid;
+    }
+
+    public void setFid(Long fid) {
+        this.fid = fid;
+    }
+
+    public Long getAppId() {
+        return appId;
+    }
+
+    public void setAppId(Long appId) {
+        this.appId = appId;
+    }
 
     public String getClientId() {
         return clientId;
@@ -64,12 +87,12 @@ public class OauthClientDetails implements Serializable {
         this.clientSecret = clientSecret;
     }
 
-    public String getScope() {
-        return scope;
+    public String getScopes() {
+        return scopes;
     }
 
-    public void setScope(String scope) {
-        this.scope = scope;
+    public void setScopes(String scopes) {
+        this.scopes = scopes;
     }
 
     public String getAuthorizedGrantTypes() {
@@ -80,12 +103,12 @@ public class OauthClientDetails implements Serializable {
         this.authorizedGrantTypes = authorizedGrantTypes;
     }
 
-    public String getWebServerRedirectUri() {
-        return webServerRedirectUri;
+    public String getWebServerRedirectUris() {
+        return webServerRedirectUris;
     }
 
-    public void setWebServerRedirectUri(String webServerRedirectUri) {
-        this.webServerRedirectUri = webServerRedirectUri;
+    public void setWebServerRedirectUris(String webServerRedirectUris) {
+        this.webServerRedirectUris = webServerRedirectUris;
     }
 
     public String getAuthorities() {
@@ -96,52 +119,54 @@ public class OauthClientDetails implements Serializable {
         this.authorities = authorities;
     }
 
-    public Integer getAccessTokenValidity() {
+    public Long getAccessTokenValidity() {
         return accessTokenValidity;
     }
 
-    public void setAccessTokenValidity(Integer accessTokenValidity) {
+    public void setAccessTokenValidity(Long accessTokenValidity) {
         this.accessTokenValidity = accessTokenValidity;
     }
 
-    public Integer getRefreshTokenValidity() {
+    public Long getRefreshTokenValidity() {
         return refreshTokenValidity;
     }
 
-    public void setRefreshTokenValidity(Integer refreshTokenValidity) {
+    public void setRefreshTokenValidity(Long refreshTokenValidity) {
         this.refreshTokenValidity = refreshTokenValidity;
     }
 
-    public String getAdditionalInformation() {
-        return additionalInformation;
+    public String getAdditionalInformationContent() {
+        return additionalInformationContent;
     }
 
-    public void setAdditionalInformation(String additionalInformation) {
-        this.additionalInformation = additionalInformation;
+    public void setAdditionalInformationContent(String additionalInformationContent) {
+        this.additionalInformationContent = additionalInformationContent;
     }
 
-    public String getAutoapprove() {
-        return autoapprove;
+    public Boolean getAutoApprove() {
+        return autoApprove;
     }
 
-    public void setAutoapprove(String autoapprove) {
-        this.autoapprove = autoapprove;
+    public void setAutoApprove(Boolean autoApprove) {
+        this.autoApprove = autoApprove;
     }
 
     @Override
     public String toString() {
         return "OauthClientDetails{" +
-        "clientId=" + clientId +
+        "fid=" + fid +
+        ", appId=" + appId +
+        ", clientId=" + clientId +
         ", resourceIds=" + resourceIds +
         ", clientSecret=" + clientSecret +
-        ", scope=" + scope +
+        ", scopes=" + scopes +
         ", authorizedGrantTypes=" + authorizedGrantTypes +
-        ", webServerRedirectUri=" + webServerRedirectUri +
+        ", webServerRedirectUris=" + webServerRedirectUris +
         ", authorities=" + authorities +
         ", accessTokenValidity=" + accessTokenValidity +
         ", refreshTokenValidity=" + refreshTokenValidity +
-        ", additionalInformation=" + additionalInformation +
-        ", autoapprove=" + autoapprove +
+        ", additionalInformationContent=" + additionalInformationContent +
+        ", autoApprove=" + autoApprove +
         "}";
     }
 }

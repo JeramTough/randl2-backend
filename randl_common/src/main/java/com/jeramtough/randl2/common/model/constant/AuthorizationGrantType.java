@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.common.config.auth;
+package com.jeramtough.randl2.common.model.constant;
 
 /**
  * <pre>

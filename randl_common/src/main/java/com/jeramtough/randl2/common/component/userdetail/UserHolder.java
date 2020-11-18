@@ -5,6 +5,7 @@ import org.springframework.security.authentication.jaas.JaasGrantedAuthority;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,8 @@ public class UserHolder {
     }
 
     public static SystemUser getSystemUser() {
-        return (SystemUser) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        return myUserDetails.getSystemUser();
     }
 
     public static boolean isSuperAdmin() {
@@ -41,16 +43,23 @@ public class UserHolder {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
         systemUser.getRoles().parallelStream().forEach(randlRole -> {
-            JaasGrantedAuthority jaasGrantedAuthority=
+            JaasGrantedAuthority jaasGrantedAuthority =
                     new JaasGrantedAuthority("ROLE_" + randlRole.getAlias(),
-                    systemUser);
+                            systemUser);
             grantedAuthorityList.add(jaasGrantedAuthority);
         });
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(systemUser.getAccount(),
                         systemUser.getPassword(), grantedAuthorityList);
-        token.setDetails(systemUser);
+
+        MyUserDetails myUserDetails = new MyUserDetails(systemUser);
+        token.setDetails(myUserDetails);
         securityContext.setAuthentication(token);
+    }
+
+    public static MyUserDetails getUserDetails() {
+        MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        return myUserDetails;
     }
 
     /**
@@ -75,4 +84,6 @@ public class UserHolder {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(null);
     }
+
+
 }
