@@ -3,7 +3,6 @@ package com.jeramtough.authserver.component.login;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.common.component.login.user.BaseUserLoginer;
 import com.jeramtough.randl2.common.component.login.user.UserLoginer;
-import com.jeramtough.randl2.common.component.setting.AppSetting;
 import com.jeramtough.randl2.common.component.userdetail.SystemUser;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
@@ -13,7 +12,6 @@ import com.jeramtough.randl2.common.model.params.login.LoginCredentials;
 import com.jeramtough.randl2.service.randl.RandlRoleService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +23,7 @@ import java.util.List;
  * by @author WeiBoWen
  * </pre>
  */
-@Component
+@Component("credentialsUserLoginer")
 public class CredentialsUserLoginer extends BaseUserLoginer implements UserLoginer {
 
     private final PasswordEncoder passwordEncoder;

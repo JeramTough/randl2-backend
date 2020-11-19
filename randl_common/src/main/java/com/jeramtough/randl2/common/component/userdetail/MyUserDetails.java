@@ -2,7 +2,6 @@ package com.jeramtough.randl2.common.component.userdetail;
 
 import com.jeramtough.jtlog.jtlogger.Logger;
 import com.jeramtough.jtlog.jtlogger.LoggerManager;
-import com.jeramtough.randl2.common.model.entity.RandlUser;
 import org.springframework.security.authentication.jaas.JaasGrantedAuthority;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;

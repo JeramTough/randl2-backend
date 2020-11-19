@@ -1,8 +1,5 @@
-package com.jeramtough.randl2.common.component.clientdetail;
+package com.jeramtough.authserver.component.oauth2.clientdetail;
 
-import com.jeramtough.randl2.common.component.userdetail.SystemUser;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;

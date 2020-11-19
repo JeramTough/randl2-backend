@@ -2,12 +2,8 @@ package com.jeramtough.authserver.component.login;
 
 import com.jeramtough.authserver.service.MyClientDetailsService;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.randl2.common.component.clientdetail.MyClientDetails;
-import com.jeramtough.randl2.common.component.login.client.ClientLoginer;
-import com.jeramtough.randl2.common.model.error.ErrorS;
+import com.jeramtough.authserver.component.oauth2.clientdetail.MyClientDetails;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import org.codehaus.janino.IClass;
-import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.stereotype.Component;
 
 /**

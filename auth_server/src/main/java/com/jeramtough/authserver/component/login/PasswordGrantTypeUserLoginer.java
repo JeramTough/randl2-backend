@@ -2,7 +2,7 @@ package com.jeramtough.authserver.component.login;
 
 import com.jeramtough.authserver.service.MyClientDetailsService;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.randl2.common.component.clientdetail.MyClientDetails;
+import com.jeramtough.authserver.component.oauth2.clientdetail.MyClientDetails;
 import com.jeramtough.randl2.common.component.userdetail.SystemUser;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
  * by @author WeiBoWen
  * </pre>
  */
-@Component
+@Component("passwordGrantTypeUserLoginer")
 public class PasswordGrantTypeUserLoginer extends CredentialsUserLoginer{
 
     private final MyClientDetailsService myClientDetailsService;

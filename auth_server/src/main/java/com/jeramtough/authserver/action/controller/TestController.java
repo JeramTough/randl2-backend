@@ -24,5 +24,17 @@ public class TestController {
         return "test";
     }
 
+    @ApiOperation(value = "测试登录成功否2", notes = "测试登录成功否")
+    @RequestMapping(value = "/testLogined2", method = RequestMethod.GET)
+    public String test2() {
+        return "test2";
+    }
+
+    @ApiOperation(value = "测试登录成功否3", notes = "测试登录成功否")
+    @RequestMapping(value = "/testLogined3", method = RequestMethod.GET)
+    public String test3() {
+        return "test3";
+    }
+
 
 }

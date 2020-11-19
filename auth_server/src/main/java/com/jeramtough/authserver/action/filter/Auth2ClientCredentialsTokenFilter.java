@@ -7,21 +7,23 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.jeramtough.randl2.common.component.clientdetail.ClientSecretAuthenticationToken;
+import com.jeramtough.jtweb.action.filter.BaseSwaggerFilter;
+import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.jtweb.component.validation.BeanValidator;
+import com.jeramtough.authserver.component.oauth2.token.ClientSecretAuthenticationToken;
+import com.jeramtough.randl2.common.model.params.oauth.OauthTokenParams;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.exceptions.BadClientCredentialsException;
-import org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.NullRememberMeServices;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 
 /**
  * A filter and authentication endpoint for the OAuth2 Token Endpoint. Allows clients to authenticate using request
@@ -51,41 +53,83 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
  * by @author WeiBoWen
  * </pre>
  */
-public class MyClientCredentialsTokenEndpointFilter extends AbstractAuthenticationProcessingFilter {
+public class Auth2ClientCredentialsTokenFilter extends AbstractAuthenticationProcessingFilter implements
+        BaseSwaggerFilter {
 
 
-    private AuthenticationEntryPoint authenticationEntryPoint = new OAuth2AuthenticationEntryPoint();
+    private final AuthenticationManager authenticationManager;
 
-    private final AuthenticationManager clientAuthenticationManager;
 
-    private boolean allowOnlyPost = false;
-
-    public MyClientCredentialsTokenEndpointFilter(
-            AuthenticationManager clientAuthenticationManager) {
-        this("/oauth/token1", clientAuthenticationManager);
+    public Auth2ClientCredentialsTokenFilter(
+            AuthenticationManager authenticationManager) {
+        this("/oauthV2/token", authenticationManager);
     }
 
-    public MyClientCredentialsTokenEndpointFilter(String path,
-                                                  AuthenticationManager clientAuthenticationManager) {
+    public Auth2ClientCredentialsTokenFilter(String path,
+                                             AuthenticationManager authenticationManager) {
         super(path);
-        this.clientAuthenticationManager = clientAuthenticationManager;
+        this.authenticationManager = authenticationManager;
         setRequiresAuthenticationRequestMatcher(
-                new MyClientCredentialsTokenEndpointFilter.ClientCredentialsRequestMatcher(
+                new Auth2ClientCredentialsTokenFilter.ClientCredentialsRequestMatcher(
                         path));
-        // If authentication fails the type is "Form"
-        ((OAuth2AuthenticationEntryPoint) authenticationEntryPoint).setTypeName("Form");
     }
 
-    public void setAllowOnlyPost(boolean allowOnlyPost) {
-        this.allowOnlyPost = allowOnlyPost;
+
+
+
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+            throws AuthenticationException, IOException, ServletException {
+        OauthTokenParams params = new OauthTokenParams(request);
+        try {
+            BeanValidator.verifyParams(params);
+        }
+        catch (ApiResponseException e) {
+            returnCommonApiResponse(getFailedApiResponse(e), response);
+        }
+
+
+        // If the request is already authenticated we can assume that this
+        // filter is not needed
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            return authentication;
+        }
+
+        String clientId = params.getClientId().trim();
+        ClientSecretAuthenticationToken authRequest = new ClientSecretAuthenticationToken(clientId,
+                params.getClientSecret());
+
+        //使用authenticationManager里的AuthenticationProvider进行校验
+        Authentication authenticationHasVerified=authenticationManager.authenticate(authRequest);
+        return authenticationHasVerified;
     }
 
-    /**
-     * @param authenticationEntryPoint the authentication entry point to set
-     */
-    public void setAuthenticationEntryPoint(AuthenticationEntryPoint authenticationEntryPoint) {
-        this.authenticationEntryPoint = authenticationEntryPoint;
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+                                            FilterChain chain, Authentication authResult) throws IOException,
+            ServletException {
+
+
+        //当授权通过，缓存授权令牌到Context
+//        super.successfulAuthentication(request, response, chain, authResult);
+
+        SecurityContextHolder.getContext().setAuthentication(authResult);
+
+        if (getRememberMeServices()!=null&&getRememberMeServices().getClass()!= NullRememberMeServices.class){
+            getRememberMeServices().loginSuccess(request, response, authResult);
+        }
+
+        // Fire event
+        if (this.eventPublisher != null) {
+            eventPublisher.publishEvent(new InteractiveAuthenticationSuccessEvent(
+                    authResult, this.getClass()));
+        }
+
+        //放行过滤器
+        chain.doFilter(request, response);
     }
+
 
     @Override
     public void afterPropertiesSet() {
@@ -99,7 +143,7 @@ public class MyClientCredentialsTokenEndpointFilter extends AbstractAuthenticati
                     exception = new BadCredentialsException(exception.getMessage(),
                             new BadClientCredentialsException());
                 }
-                authenticationEntryPoint.commence(request, response, exception);
+                returnCommonApiResponse(getFailedApiResponse(exception), response);
             }
         });
         setAuthenticationSuccessHandler(new AuthenticationSuccessHandler() {
@@ -112,48 +156,9 @@ public class MyClientCredentialsTokenEndpointFilter extends AbstractAuthenticati
         });
     }
 
-    @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-            throws AuthenticationException, IOException, ServletException {
-
-        if (allowOnlyPost && !"POST".equalsIgnoreCase(request.getMethod())) {
-            throw new HttpRequestMethodNotSupportedException(request.getMethod(), new String[]{"POST"});
-        }
-
-        String clientId = request.getParameter("client_id");
-        String clientSecret = request.getParameter("client_secret");
-
-        // If the request is already authenticated we can assume that this
-        // filter is not needed
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            return authentication;
-        }
-
-        if (clientId == null) {
-            throw new BadCredentialsException("No client credentials presented");
-        }
-
-        if (clientSecret == null) {
-            clientSecret = "";
-        }
-
-        clientId = clientId.trim();
-        ClientSecretAuthenticationToken authRequest = new ClientSecretAuthenticationToken(clientId,
-                clientSecret);
-
-        return clientAuthenticationManager.authenticate(authRequest);
-
-    }
-
-    @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-                                            FilterChain chain, Authentication authResult) throws IOException,
-            ServletException {
-        super.successfulAuthentication(request, response, chain, authResult);
-        chain.doFilter(request, response);
-    }
-
+    /**
+     * 授权模式匹配路径
+     */
     protected static class ClientCredentialsRequestMatcher implements RequestMatcher {
 
         private String path;

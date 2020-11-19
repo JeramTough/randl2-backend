@@ -2,15 +2,11 @@ package com.jeramtough.authserver.service.impl;
 
 import com.jeramtough.authserver.component.login.PasswordGrantTypeUserLoginer;
 import com.jeramtough.authserver.service.MyUserDetailsService;
-import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.service.impl.BaseServiceImpl;
 import com.jeramtough.randl2.common.component.login.user.UserLoginer;
 import com.jeramtough.randl2.common.component.userdetail.MyUserDetails;
 import com.jeramtough.randl2.common.component.userdetail.SystemUser;
-import com.jeramtough.randl2.common.component.userdetail.UserHolder;
-import com.jeramtough.randl2.common.model.entity.RandlUser;
-import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.oauth.PasswordGrantTypeParams;
 import com.jeramtough.randl2.service.randl.RandlRoleService;
 import com.jeramtough.randl2.service.randl.RandlUserService;

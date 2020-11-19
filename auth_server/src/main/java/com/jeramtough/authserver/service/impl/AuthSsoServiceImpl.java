@@ -4,13 +4,11 @@ import com.jeramtough.authserver.component.login.CredentialsUserLoginer;
 import com.jeramtough.authserver.service.AuthSsoService;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseBeanException;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
-import com.jeramtough.jtweb.service.impl.BaseDtoServiceImpl;
 import com.jeramtough.jtweb.service.impl.BaseServiceImpl;
 import com.jeramtough.randl2.common.component.userdetail.SystemUser;
 import com.jeramtough.randl2.common.component.userdetail.UserHolder;
 import com.jeramtough.randl2.common.mapper.RandlAppMapper;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
-import com.jeramtough.randl2.common.model.entity.RandlApp;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.login.LoginCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +40,7 @@ public class AuthSsoServiceImpl extends BaseServiceImpl implements AuthSsoServic
             throw new ApiResponseBeanException(ErrorU.CODE_10.C, "appId", "Randl应用");
         }
 
-        CredentialsUserLoginer userLoginer = getWC().getBean(CredentialsUserLoginer.class);
+        CredentialsUserLoginer userLoginer = (CredentialsUserLoginer) getWC().getBean("credentialsUserLoginer");
         SystemUser systemUser = userLoginer.login(params);
 
         UserHolder.afterLogin(systemUser);

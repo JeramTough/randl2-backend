@@ -31,7 +31,7 @@ public abstract class AbstractOauthController extends MyBaseController {
     private final ClientDetailsService clientDetailsService;
     private final AuthorizationServerTokenServices tokenServices;
     private final AuthorizationCodeServices authorizationCodeServices;
-    private final AuthenticationManager clientAuthenticationManager;
+    private final AuthenticationManager authenticationManager;
 
     private OAuth2RequestValidator requestValidator;
 
@@ -42,10 +42,10 @@ public abstract class AbstractOauthController extends MyBaseController {
             ClientDetailsService clientDetailsService,
             AuthorizationServerTokenServices tokenServices,
             AuthorizationCodeServices authorizationCodeServices,
-            @Qualifier("clientAuthenticationManager")
-            AuthenticationManager clientAuthenticationManager) {
+            @Qualifier("authenticationManager")
+                    AuthenticationManager authenticationManager) {
         this.tokenServices = tokenServices;
-        this.clientAuthenticationManager = clientAuthenticationManager;
+        this.authenticationManager = authenticationManager;
         this.clientDetailsService = clientDetailsService;
         this.authorizationCodeServices = authorizationCodeServices;
     }
@@ -104,8 +104,8 @@ public abstract class AbstractOauthController extends MyBaseController {
         tokenGranters.add(implicit);
         tokenGranters.add(new ClientCredentialsTokenGranter(tokenServices, clientDetails, requestFactory));
 
-        if (clientAuthenticationManager != null) {
-            tokenGranters.add(new ResourceOwnerPasswordTokenGranter(clientAuthenticationManager, tokenServices,
+        if (authenticationManager != null) {
+            tokenGranters.add(new ResourceOwnerPasswordTokenGranter(authenticationManager, tokenServices,
                     clientDetails, requestFactory));
         }
         return tokenGranters;

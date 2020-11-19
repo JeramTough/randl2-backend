@@ -15,14 +15,14 @@
  */
 package com.jeramtough.authserver.config.security;
 
-import com.jeramtough.authserver.action.filter.MyClientCredentialsTokenEndpointFilter;
-import com.jeramtough.jtlog.facade.L;
-import com.jeramtough.randl2.common.component.clientdetail.ClientDaoAuthenticationProvider;
+import com.jeramtough.authserver.action.filter.Auth2ClientCredentialsTokenFilter;
+import com.jeramtough.authserver.component.oauth2.provider.ClientDaoAuthenticationProvider;
 import com.jeramtough.randl2.common.config.security.BaseWebSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
@@ -34,12 +34,15 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.session.web.http.CookieSerializer;
+import org.springframework.session.web.http.DefaultCookieSerializer;
 
 /**
  * @author Joe Grandja
  */
 @Configuration
 @EnableWebSecurity
+@Order(999)
 public class WebSecurityConfig extends BaseWebSecurityConfig {
 
     private final UserDetailsService userDetailsService;
@@ -47,9 +50,12 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
     private final ClientDaoAuthenticationProvider clientDaoAuthenticationProvider;
 
     private static final String[] OPENED_API_URLS = {
+            "/",
             "/oauth2/keys",
             "/sso/login",
             "/sso/logout",
+            "/test/testLogined2",
+//            "/oauth3/token",
             "/unlogged.html"
     };
 
@@ -68,11 +74,12 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //添加ClientCredentialsToken过滤
-        MyClientCredentialsTokenEndpointFilter myClientCredentialsTokenEndpointFilter = new MyClientCredentialsTokenEndpointFilter(
-                clientAuthenticationManager());
-        http.addFilterBefore(myClientCredentialsTokenEndpointFilter, BasicAuthenticationFilter.class);
-//        http.addFilterAfter(myClientCredentialsTokenEndpointFilter, UsernamePasswordAuthenticationFilter.class);
-//        http.addFilterBefore(myClientCredentialsTokenEndpointFilter, UsernamePasswordAuthenticationFilter.class);
+        Auth2ClientCredentialsTokenFilter auth2ClientCredentialsTokenFilter = new Auth2ClientCredentialsTokenFilter(
+                authenticationManagerBean());
+        http.addFilterBefore(auth2ClientCredentialsTokenFilter, BasicAuthenticationFilter.class);
+//        http.addFilterAfter(auth2ClientCredentialsTokenFilter, UsernamePasswordAuthenticationFilter.class);
+       /* http.addFilterBefore(auth2ClientCredentialsTokenFilter,
+                SessionManagementFilter.class);*/
 
         /*http.exceptionHandling().accessDeniedHandler(new AccessDeniedHandler() {
             @Override
@@ -109,35 +116,61 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
                 .and()
                 //基于token的话，session就不用缓存了
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .cors()
                 .and()
                 .csrf().disable();
     }
 
-    /*@Bean
-    public UserDetailsService users() throws Exception {
-        User.UserBuilder users = User.withDefaultPasswordEncoder();
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(
-                users.username("user1").password("password").roles("RANDL_USER").build());
-        manager.createUser(
-                users.username("admin").password("password").roles("USER",
-                        "ADMIN").build());
-        return manager;
+    @Bean
+    public CookieSerializer cookieSerializer() {
+        DefaultCookieSerializer serializer = new DefaultCookieSerializer();
+        serializer.setCookieName("SESSIONID");
+        serializer.setCookiePath("/");
+        serializer.setDomainNamePattern("^.+?\\.(\\w+\\.[a-z]+)$");
+        return serializer;
+    }
+
+  /*  @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
+
+        auth.authenticationProvider(clientDaoAuthenticationProvider);
+        auth.authenticationProvider(daoAuthenticationProvider);
+        super.configure(auth);
     }*/
 
 
-   /* @Bean("authenticationManager")
+    @Bean("authenticationManager")
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
-        AuthenticationManager authenticationManager = super.authenticationManagerBean();
+        AuthenticationManagerBuilder builder = new AuthenticationManagerBuilder(new ObjectPostProcessor<Object>() {
+            @Override
+            public <O> O postProcess(O object) {
+                return object;
+            }
+        });
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
+
+        builder.authenticationProvider(clientDaoAuthenticationProvider);
+        builder.authenticationProvider(daoAuthenticationProvider);
+        AuthenticationManager authenticationManager = builder.build();
         return authenticationManager;
+    }
+
+    /*@Bean("authenticationManager")
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }*/
 
-    @Bean("clientAuthenticationManager")
-    public AuthenticationManager clientAuthenticationManager() throws
+    /*@Bean("clientAuthenticationManager")
+    public AuthenticationManager authenticationManager() throws
             Exception {
         AuthenticationManagerBuilder builder = new AuthenticationManagerBuilder(new ObjectPostProcessor<Object>() {
             @Override
@@ -145,13 +178,13 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
                 return object;
             }
         });
-        DaoAuthenticationProvider daoAuthenticationProvider=new DaoAuthenticationProvider();
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
 
         builder.authenticationProvider(clientDaoAuthenticationProvider);
         builder.authenticationProvider(daoAuthenticationProvider);
-        AuthenticationManager authenticationManager=builder.build();
+        AuthenticationManager authenticationManager = builder.build();
         return authenticationManager;
-    }
+    }*/
 }

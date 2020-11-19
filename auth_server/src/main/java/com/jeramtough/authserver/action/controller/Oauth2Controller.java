@@ -1,6 +1,9 @@
 package com.jeramtough.authserver.action.controller;
 
+import com.jeramtough.authserver.component.oauth2.token.ClientSecretAuthenticationToken;
+import com.jeramtough.jtlog.facade.L;
 import com.jeramtough.jtlog.with.WithLogger;
+import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -11,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
@@ -22,11 +26,9 @@ import org.springframework.security.oauth2.provider.code.AuthorizationCodeServic
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.util.StringUtils;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.Map;
@@ -43,12 +45,12 @@ import java.util.Map;
         @ApiResponse(code = ErrorU.CODE_304.C, message = ErrorU.CODE_304.M),
 })
 @RestController
-@RequestMapping("/oauth")
-public class OauthController extends AbstractOauthController implements WithLogger {
+@RequestMapping("/oauthV2")
+public class Oauth2Controller extends AbstractOauthController implements WithLogger {
 
 
     @Autowired
-    public OauthController(
+    public Oauth2Controller(
             ClientDetailsService clientDetailsService,
             AuthorizationCodeServices authorizationCodeServices,
             AuthorizationServerTokenServices tokenServices,
@@ -56,30 +58,25 @@ public class OauthController extends AbstractOauthController implements WithLogg
         super(clientDetailsService, tokenServices, authorizationCodeServices, authenticationManager);
     }
 
-    @RequestMapping(value = "/token1", method = {RequestMethod.GET, RequestMethod.POST})
-    public ResponseEntity<OAuth2AccessToken> getAccessToken(Principal principal, @RequestParam
+    @RequestMapping(value = "/token", method = {RequestMethod.GET, RequestMethod.POST})
+    public CommonApiResponse<OAuth2AccessToken> getAccessToken(Principal principal, @RequestParam
             Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
         if (!(principal instanceof Authentication)) {
             throw new InsufficientAuthenticationException(
                     "There is no client authentication. Try adding an appropriate authentication filter.");
         }
 
+
         String clientId = getClientId(principal);
-        ClientDetails authenticatedClient = getClientDetailsService().loadClientByClientId(clientId);
+//        String clientId = authenticationToken.getClientId();
 
-        TokenRequest tokenRequest = getOAuth2RequestFactory().createTokenRequest(parameters, authenticatedClient);
+        ClientDetails clientDetails = getClientDetailsService().loadClientByClientId(clientId);
 
-        if (clientId != null && !clientId.equals("")) {
-            // Only validate the client details if a client authenticated during this
-            // request.
-            if (!clientId.equals(tokenRequest.getClientId())) {
-                // double check to make sure that the client ID in the token request is the same as that in the
-                // authenticated client
-                throw new InvalidClientException("Given client ID does not match authenticated client");
-            }
-        }
-        if (authenticatedClient != null) {
-            getOAuth2RequestValidator().validateScope(tokenRequest, authenticatedClient);
+        TokenRequest tokenRequest = getOAuth2RequestFactory().createTokenRequest(parameters, clientDetails);
+
+
+        if (clientDetails != null) {
+            getOAuth2RequestValidator().validateScope(tokenRequest, clientDetails);
         }
         if (!StringUtils.hasText(tokenRequest.getGrantType())) {
             throw new InvalidRequestException("Missing grant type");
@@ -106,8 +103,15 @@ public class OauthController extends AbstractOauthController implements WithLogg
             throw new UnsupportedGrantTypeException("Unsupported grant type");
         }
 
-        return getResponse(token);
+        return getSuccessfulApiResponse(token);
     }
+    /*@RequestMapping(value = "/token", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public CommonApiResponse<String> getAccessToken123(HttpServletRequest request) throws
+            HttpRequestMethodNotSupportedException {
+//        String clientId = authenticationToken.getClientId();
+        return getSuccessfulApiResponse("sssssss");
+    }*/
 
 
     /**

@@ -2,7 +2,7 @@ package com.jeramtough.authserver.service.impl;
 
 import com.jeramtough.authserver.service.MyClientDetailsService;
 import com.jeramtough.jtweb.service.impl.BaseServiceImpl;
-import com.jeramtough.randl2.common.component.clientdetail.MyClientDetails;
+import com.jeramtough.authserver.component.oauth2.clientdetail.MyClientDetails;
 import com.jeramtough.randl2.common.model.entity.OauthClientDetails;
 import com.jeramtough.randl2.service.oauth.OauthClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;

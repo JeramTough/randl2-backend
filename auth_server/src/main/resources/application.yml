@@ -5,6 +5,8 @@ server:
   tomcat:
     uri-encoding: UTF-8
 
+debug: true
+
 spring:
 
   datasource:
@@ -24,6 +26,10 @@ spring:
     password: 123456
     port: 6379
     timeout: 1000
+
+logging:
+  level:
+    root: DEBUG #root日志以WARN级别输出
 
 app:
   setting:

@@ -15,6 +15,8 @@ import java.util.List;
  */
 public class SystemUser implements Principal, Serializable {
 
+    private static final long serialVersionUID = 4294153168310744176L;
+
     private Long uid;
 
     private String account;
