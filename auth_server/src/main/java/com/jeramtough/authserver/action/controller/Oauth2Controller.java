@@ -5,6 +5,8 @@ import com.jeramtough.jtlog.facade.L;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.randl2.common.model.error.ErrorU;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +26,17 @@ import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.util.StringUtils;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.Map;
@@ -39,6 +47,7 @@ import java.util.Map;
  * by @author WeiBoWen
  * </pre>
  */
+@Api(tags = {"OauthV2接口"})
 @ApiResponses(value = {
         @ApiResponse(code = ErrorU.CODE_301.C, message = ErrorU.CODE_301.M),
         @ApiResponse(code = ErrorU.CODE_302.C, message = ErrorU.CODE_302.M),
@@ -58,6 +67,7 @@ public class Oauth2Controller extends AbstractOauthController implements WithLog
         super(clientDetailsService, tokenServices, authorizationCodeServices, authenticationManager);
     }
 
+    @ApiOperation(value = "token令牌", notes = "申请token令牌")
     @RequestMapping(value = "/token", method = {RequestMethod.GET, RequestMethod.POST})
     public CommonApiResponse<OAuth2AccessToken> getAccessToken(Principal principal, @RequestParam
             Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
@@ -105,14 +115,78 @@ public class Oauth2Controller extends AbstractOauthController implements WithLog
 
         return getSuccessfulApiResponse(token);
     }
-    /*@RequestMapping(value = "/token", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public CommonApiResponse<String> getAccessToken123(HttpServletRequest request) throws
-            HttpRequestMethodNotSupportedException {
-//        String clientId = authenticationToken.getClientId();
-        return getSuccessfulApiResponse("sssssss");
-    }*/
 
+
+
+
+    protected String createTemplate(Map<String, Object> model, HttpServletRequest request) {
+        AuthorizationRequest authorizationRequest = (AuthorizationRequest) model.get("authorizationRequest");
+        String clientId = authorizationRequest.getClientId();
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("<html><body><h1>OAuth Approval</h1>");
+        builder.append("<p>Do you authorize 您是否授予 \"").append(HtmlUtils.htmlEscape(clientId));
+        builder.append("\" to access your protected resources 访问您的私密资源信息?</p>");
+        builder.append("<form id=\"confirmationForm\" name=\"confirmationForm\" action=\"");
+
+        String requestPath = ServletUriComponentsBuilder.fromContextPath(request).build().getPath();
+        if (requestPath == null) {
+            requestPath = "";
+        }
+
+        builder.append(requestPath).append("/oauth/authorize\" method=\"post\">");
+        builder.append("<input name=\"user_oauth_approval\" value=\"true\" type=\"hidden\"/>");
+
+        String csrfTemplate = null;
+        CsrfToken csrfToken = (CsrfToken) (model.containsKey("_csrf") ? model.get("_csrf") : request.getAttribute("_csrf"));
+        if (csrfToken != null) {
+            csrfTemplate = "<input type=\"hidden\" name=\"" + HtmlUtils.htmlEscape(csrfToken.getParameterName()) +
+                    "\" value=\"" + HtmlUtils.htmlEscape(csrfToken.getToken()) + "\" />";
+        }
+        if (csrfTemplate != null) {
+            builder.append(csrfTemplate);
+        }
+
+        String authorizeInputTemplate = "<label><input name=\"authorize\" value=\"Authorize\" type=\"submit\"/></label></form>";
+
+        if (model.containsKey("scopes") || request.getAttribute("scopes") != null) {
+            builder.append(createScopes(model, request));
+            builder.append(authorizeInputTemplate);
+        } else {
+            builder.append(authorizeInputTemplate);
+            builder.append("<form id=\"denialForm\" name=\"denialForm\" action=\"");
+            builder.append(requestPath).append("/oauth/authorize\" method=\"post\">");
+            builder.append("<input name=\"user_oauth_approval\" value=\"false\" type=\"hidden\"/>");
+            if (csrfTemplate != null) {
+                builder.append(csrfTemplate);
+            }
+            builder.append("<label><input name=\"deny\" value=\"Deny\" type=\"submit\"/></label></form>");
+        }
+
+        builder.append("</body></html>");
+
+        return builder.toString();
+    }
+
+    private CharSequence createScopes(Map<String, Object> model, HttpServletRequest request) {
+        StringBuilder builder = new StringBuilder("<ul>");
+        @SuppressWarnings("unchecked")
+        Map<String, String> scopes = (Map<String, String>) (model.containsKey("scopes") ?
+                model.get("scopes") : request.getAttribute("scopes"));
+        for (String scope : scopes.keySet()) {
+            String approved = "true".equals(scopes.get(scope)) ? " checked" : "";
+            String denied = !"true".equals(scopes.get(scope)) ? " checked" : "";
+            scope = HtmlUtils.htmlEscape(scope);
+
+            builder.append("<li><div class=\"form-group\">");
+            builder.append(scope).append(": <input type=\"radio\" name=\"");
+            builder.append(scope).append("\" value=\"true\"").append(approved).append(">Approve</input> ");
+            builder.append("<input type=\"radio\" name=\"").append(scope).append("\" value=\"false\"");
+            builder.append(denied).append(">Deny</input></div></li>");
+        }
+        builder.append("</ul>");
+        return builder.toString();
+    }
 
     /**
      * @param principal the currently authentication principal

@@ -67,9 +67,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         //开放校验令牌接口
         security.checkTokenAccess("permitAll()");
         security.allowFormAuthenticationForClients();
-        security.accessDeniedHandler((request, response, accessDeniedException) -> {
-            L.arrive();
-        });
     }
 
 
@@ -118,6 +115,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         endpoints.accessTokenConverter(jwtAccessTokenConverter);
         endpoints.authorizationCodeServices(authorizationCodeServices());
         endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
+
+        endpoints.pathMapping("/oauth/confirm_access","/oauthV2/confirmAccess");
+//        endpoints.pathMapping("/oauth/error","d.html");
 
        /* endpoints.exceptionTranslator(new WebResponseExceptionTranslator() {
             @Override

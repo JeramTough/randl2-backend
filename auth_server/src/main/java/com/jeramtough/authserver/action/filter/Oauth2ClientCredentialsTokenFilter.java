@@ -2,27 +2,18 @@ package com.jeramtough.authserver.action.filter;
 
 import java.io.IOException;
 
-import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.jeramtough.jtweb.action.filter.BaseSwaggerFilter;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.authserver.component.oauth2.token.ClientSecretAuthenticationToken;
 import com.jeramtough.randl2.common.model.params.oauth.OauthTokenParams;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.common.exceptions.BadClientCredentialsException;
-import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.NullRememberMeServices;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 /**
@@ -53,28 +44,25 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
  * by @author WeiBoWen
  * </pre>
  */
-public class Auth2ClientCredentialsTokenFilter extends AbstractAuthenticationProcessingFilter implements
-        BaseSwaggerFilter {
+public class Oauth2ClientCredentialsTokenFilter extends BaseCredentialsTokenFilter {
 
 
     private final AuthenticationManager authenticationManager;
 
 
-    public Auth2ClientCredentialsTokenFilter(
+    public Oauth2ClientCredentialsTokenFilter(
             AuthenticationManager authenticationManager) {
         this("/oauthV2/token", authenticationManager);
     }
 
-    public Auth2ClientCredentialsTokenFilter(String path,
-                                             AuthenticationManager authenticationManager) {
+    public Oauth2ClientCredentialsTokenFilter(String path,
+                                              AuthenticationManager authenticationManager) {
         super(path);
         this.authenticationManager = authenticationManager;
         setRequiresAuthenticationRequestMatcher(
-                new Auth2ClientCredentialsTokenFilter.ClientCredentialsRequestMatcher(
+                new Oauth2ClientCredentialsTokenFilter.ClientCredentialsRequestMatcher(
                         path));
     }
-
-
 
 
     @Override
@@ -101,60 +89,14 @@ public class Auth2ClientCredentialsTokenFilter extends AbstractAuthenticationPro
                 params.getClientSecret());
 
         //使用authenticationManager里的AuthenticationProvider进行校验
-        Authentication authenticationHasVerified=authenticationManager.authenticate(authRequest);
+        Authentication authenticationHasVerified = authenticationManager.authenticate(authRequest);
         return authenticationHasVerified;
     }
 
-    @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-                                            FilterChain chain, Authentication authResult) throws IOException,
-            ServletException {
 
 
-        //当授权通过，缓存授权令牌到Context
-//        super.successfulAuthentication(request, response, chain, authResult);
-
-        SecurityContextHolder.getContext().setAuthentication(authResult);
-
-        if (getRememberMeServices()!=null&&getRememberMeServices().getClass()!= NullRememberMeServices.class){
-            getRememberMeServices().loginSuccess(request, response, authResult);
-        }
-
-        // Fire event
-        if (this.eventPublisher != null) {
-            eventPublisher.publishEvent(new InteractiveAuthenticationSuccessEvent(
-                    authResult, this.getClass()));
-        }
-
-        //放行过滤器
-        chain.doFilter(request, response);
-    }
 
 
-    @Override
-    public void afterPropertiesSet() {
-        super.afterPropertiesSet();
-        setAuthenticationFailureHandler(new AuthenticationFailureHandler() {
-            @Override
-            public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-                                                AuthenticationException exception) throws IOException,
-                    ServletException {
-                if (exception instanceof BadCredentialsException) {
-                    exception = new BadCredentialsException(exception.getMessage(),
-                            new BadClientCredentialsException());
-                }
-                returnCommonApiResponse(getFailedApiResponse(exception), response);
-            }
-        });
-        setAuthenticationSuccessHandler(new AuthenticationSuccessHandler() {
-            @Override
-            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                                Authentication authentication) throws IOException,
-                    ServletException {
-                // no-op - just allow filter chain to continue to token endpoint
-            }
-        });
-    }
 
     /**
      * 授权模式匹配路径

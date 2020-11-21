@@ -50,5 +50,22 @@ public class OAuth2Constants {
     /**
      * client_secret
      */
-    public static final String CLIENT_SECRET ="client_secret";
+    public static final String CLIENT_SECRET = "client_secret";
+
+    /**
+     * Authorization请求头
+     */
+    public static final String AUTHORIZATION_HEADER = "Authorization";
+
+    /**
+     * Authorization参数
+     */
+    public static final String AUTHORIZATION_PARAMETER = "authorization";
+
+    /**
+     * Constant to use as a prefix for bearer
+     */
+    public static final String BEARER_PREFIX = "Bearer ";
+
+
 }

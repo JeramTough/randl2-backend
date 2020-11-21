@@ -19,7 +19,7 @@ import java.util.Date;
  */
 public class JwtTokenUtil {
 
-    public static String createToken(String userId, String roleName, String signingKey, String issuer,
+    public static String createToken(String userId, String signingKey, String issuer,
                                      long tokenValidity) {
         String token = null;
         try {
@@ -29,7 +29,6 @@ public class JwtTokenUtil {
             token = JWT.create()
                        .withIssuer(issuer)
                        .withClaim("uid", userId)
-                       .withClaim("role", roleName)
                        .withExpiresAt(new Date(
                                System.currentTimeMillis() + tokenValidity))
                        .sign(algorithm);
@@ -49,10 +48,8 @@ public class JwtTokenUtil {
                                           .build(); //Reusable verifier instance
                 DecodedJWT jwt = verifier.verify(token);
                 String uid = jwt.getClaim("uid").asString();
-                String roleId = jwt.getClaim("roleId").asString();
                 if (uid != null) {
                     preTaskResult.putPayload("uid", uid);
-                    preTaskResult.putPayload("roleId", roleId);
                     return true;
                 }
             }

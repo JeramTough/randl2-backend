@@ -55,8 +55,7 @@ public class ClientController extends BaseSwaggerController {
     public CommonApiResponse<String> goAuthorize() {
         L.arrive();
         return getSuccessfulApiResponse(
-                "http://127.0.0.1:9085/randl2/authserver/oauth/authorize?grant_type=authorization_code" +
-                        "&response_type=code&client_id=authorization-code-client&state=1234");
+                "http://127.0.0.1:9085/randl2/authserver/oauth/authorize?grant_type=authorization_code&response_type=code&client_id=authorization-code-client&state=1234");
     }
 
     @GetMapping("/authorized")        // registered redirect_uri for authorization_code

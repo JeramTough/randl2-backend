@@ -1,0 +1,23 @@
+<html lang="ch"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>haha</title>
+    </head>
+    <body><h1>Oauth2授权页面</h1>
+        <p>Do you authorize 您是否授予韦某访问应用下的私密资源信息?</p>
+        <form id="confirmationForm" name="confirmationForm" action="/randl2/authserver/oauth/authorize" method="post">
+            <input name="user_oauth_approval" value="true" type="hidden"/>
+            <input name="authorization" th:value="${token}" type="hidden"/>
+            <label>
+                <input name="authorize" value="授权"
+                       type="submit"/>
+            </label>
+        </form>
+        <form id="denialForm" name="denialForm" action="/randl2/authserver/oauth/authorize" method="post"><input
+                name="user_oauth_approval" value="false" type="hidden"/><label>
+            <input name="deny" value="拒绝"
+                   type="submit"/></label>
+        </form>
+    </body>
+</html>

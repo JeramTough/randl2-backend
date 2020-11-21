@@ -3,12 +3,12 @@ package com.jeramtough.authserver.component.login;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.common.component.login.user.BaseUserLoginer;
 import com.jeramtough.randl2.common.component.login.user.UserLoginer;
+import com.jeramtough.randl2.common.component.setting.AppSetting;
 import com.jeramtough.randl2.common.component.userdetail.SystemUser;
-import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
 import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
-import com.jeramtough.randl2.common.model.params.login.LoginCredentialsParams;
+import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.service.randl.RandlRoleService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,41 +19,38 @@ import java.util.List;
 
 /**
  * <pre>
- * Created on 2020/11/15 2:27
+ * Created on 2020/11/20 0:39
  * by @author WeiBoWen
  * </pre>
  */
-@Component("credentialsUserLoginer")
-public class CredentialsUserLoginer extends BaseUserLoginer implements UserLoginer {
+@Component
+public class UidUserLoginer extends BaseUserLoginer implements UserLoginer {
 
-    private final PasswordEncoder passwordEncoder;
-    private final RandlRoleMapper randlRoleMapper;
-    private final RandlUserMapper randlUserMapper;
-    private final MapperFacade mapperFacade;
     private final RandlRoleService randlRoleService;
+    private final AppSetting appSetting;
+    private final MapperFacade mapperFacade;
 
     @Autowired
-    public CredentialsUserLoginer(PasswordEncoder passwordEncoder,
-                                  RandlRoleMapper randlRoleMapper,
-                                  RandlUserMapper randlUserMapper, MapperFacade mapperFacade,
-                                  RandlRoleService randlRoleService) {
+    public UidUserLoginer(PasswordEncoder passwordEncoder,
+                          RandlUserMapper randlUserMapper,
+                          RandlRoleService randlRoleService,
+                          AppSetting appSetting, MapperFacade mapperFacade) {
         super(passwordEncoder, randlUserMapper);
-        this.passwordEncoder = passwordEncoder;
-        this.randlRoleMapper = randlRoleMapper;
-        this.randlUserMapper = randlUserMapper;
-        this.mapperFacade = mapperFacade;
         this.randlRoleService = randlRoleService;
+        this.appSetting = appSetting;
+        this.mapperFacade = mapperFacade;
     }
 
     @Override
     public SystemUser login(Object credentials) throws ApiResponseException {
-        LoginCredentialsParams loginCredentialsParams = (LoginCredentialsParams) credentials;
-        RandlUser randlUser = getRandlUserByAcOrPhOrEm(loginCredentialsParams.getCredentials(),
-                loginCredentialsParams.getPassword());
+        Long uid = (Long) credentials;
+
+        RandlUser randlUser = getRandlUserMapper().selectById(uid);
+        checkRandlUser(randlUser);
 
         //获取用户角色信息
         List<RandlRole> randlRoleList = randlRoleService.getRoleListByAppIdAndUid
-                (loginCredentialsParams.getAppId(), randlUser.getUid());
+                (appSetting.getDefaultUserAppId(), randlUser.getUid());
 
         SystemUser systemUser = mapperFacade.map(randlUser, SystemUser.class);
         systemUser.setRoles(randlRoleList);

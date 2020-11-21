@@ -81,10 +81,6 @@ public class ClientDaoAuthenticationProvider implements AuthenticationProvider {
 
         token.setDetails(clientDetails);
 
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        securityContext.setAuthentication(token);
-
-
         return token;
     }
 

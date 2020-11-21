@@ -15,8 +15,10 @@
  */
 package com.jeramtough.authserver.config.security;
 
-import com.jeramtough.authserver.action.filter.Auth2ClientCredentialsTokenFilter;
+import com.jeramtough.authserver.action.filter.Oauth2ClientCredentialsTokenFilter;
+import com.jeramtough.authserver.action.filter.SsoCredentialsTokenFilter;
 import com.jeramtough.authserver.component.oauth2.provider.ClientDaoAuthenticationProvider;
+import com.jeramtough.authserver.component.oauth2.provider.JwtAuthenticationProvider;
 import com.jeramtough.randl2.common.config.security.BaseWebSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -48,6 +50,7 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final ClientDaoAuthenticationProvider clientDaoAuthenticationProvider;
+    private final JwtAuthenticationProvider jwtAuthenticationProvider;
 
     private static final String[] OPENED_API_URLS = {
             "/",
@@ -56,7 +59,11 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
             "/sso/logout",
             "/test/testLogined2",
 //            "/oauth3/token",
-            "/unlogged.html"
+            "/unlogged.html",
+            "/abc.html",
+            "/d.html",
+            "/oauthV2/confirmAccess",
+            "/error",
     };
 
     @Autowired
@@ -64,21 +71,25 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
             @Qualifier("myUserDetailsServiceImpl")
                     UserDetailsService userDetailsService,
             PasswordEncoder passwordEncoder,
-            ClientDaoAuthenticationProvider clientDaoAuthenticationProvider) {
+            ClientDaoAuthenticationProvider clientDaoAuthenticationProvider,
+            JwtAuthenticationProvider jwtAuthenticationProvider) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
         this.clientDaoAuthenticationProvider = clientDaoAuthenticationProvider;
+        this.jwtAuthenticationProvider = jwtAuthenticationProvider;
     }
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //添加ClientCredentialsToken过滤
-        Auth2ClientCredentialsTokenFilter auth2ClientCredentialsTokenFilter = new Auth2ClientCredentialsTokenFilter(
+        Oauth2ClientCredentialsTokenFilter oauth2ClientCredentialsTokenFilter = new Oauth2ClientCredentialsTokenFilter(
                 authenticationManagerBean());
-        http.addFilterBefore(auth2ClientCredentialsTokenFilter, BasicAuthenticationFilter.class);
-//        http.addFilterAfter(auth2ClientCredentialsTokenFilter, UsernamePasswordAuthenticationFilter.class);
-       /* http.addFilterBefore(auth2ClientCredentialsTokenFilter,
+        SsoCredentialsTokenFilter ssoCredentialsTokenFilter =
+                new SsoCredentialsTokenFilter(authenticationManagerBean());
+        http.addFilterBefore(oauth2ClientCredentialsTokenFilter, BasicAuthenticationFilter.class);
+        http.addFilterBefore(ssoCredentialsTokenFilter, Oauth2ClientCredentialsTokenFilter.class);
+       /* http.addFilterBefore(oauth2ClientCredentialsTokenFilter,
                 SessionManagementFilter.class);*/
 
         /*http.exceptionHandling().accessDeniedHandler(new AccessDeniedHandler() {
@@ -116,7 +127,7 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
                 .and()
                 //基于token的话，session就不用缓存了
                 .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .cors()
                 .and()
@@ -144,34 +155,17 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
     }*/
 
 
-    @Bean("authenticationManager")
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        AuthenticationManagerBuilder builder = new AuthenticationManagerBuilder(new ObjectPostProcessor<Object>() {
-            @Override
-            public <O> O postProcess(O object) {
-                return object;
-            }
-        });
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
 
-        builder.authenticationProvider(clientDaoAuthenticationProvider);
-        builder.authenticationProvider(daoAuthenticationProvider);
-        AuthenticationManager authenticationManager = builder.build();
-        return authenticationManager;
-    }
 
     /*@Bean("authenticationManager")
     @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    public AuthenticationManager getAuthenticationManagerBean() throws Exception {
+        return super.getAuthenticationManagerBean();
     }*/
 
-    /*@Bean("clientAuthenticationManager")
-    public AuthenticationManager authenticationManager() throws
-            Exception {
+    @Bean("clientAuthenticationManager")
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
         AuthenticationManagerBuilder builder = new AuthenticationManagerBuilder(new ObjectPostProcessor<Object>() {
             @Override
             public <O> O postProcess(O object) {
@@ -182,9 +176,12 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
 
+        //添加三个令牌校验算法
         builder.authenticationProvider(clientDaoAuthenticationProvider);
+        builder.authenticationProvider(jwtAuthenticationProvider);
         builder.authenticationProvider(daoAuthenticationProvider);
+
         AuthenticationManager authenticationManager = builder.build();
         return authenticationManager;
-    }*/
+    }
 }

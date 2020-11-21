@@ -6,7 +6,7 @@ import com.jeramtough.authserver.component.oauth2.clientdetail.MyClientDetails;
 import com.jeramtough.randl2.common.component.userdetail.SystemUser;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
-import com.jeramtough.randl2.common.model.params.login.LoginCredentials;
+import com.jeramtough.randl2.common.model.params.login.LoginCredentialsParams;
 import com.jeramtough.randl2.common.model.params.oauth.PasswordGrantTypeParams;
 import com.jeramtough.randl2.service.randl.RandlRoleService;
 import ma.glasnost.orika.MapperFacade;
@@ -42,13 +42,13 @@ public class PasswordGrantTypeUserLoginer extends CredentialsUserLoginer{
         MyClientDetails myClientDetails=
                 (MyClientDetails) myClientDetailsService.loadClientByClientId(passwordGrantTypeParams.getClientId());
 
-        LoginCredentials loginCredentials=new LoginCredentials();
+        LoginCredentialsParams loginCredentialsParams =new LoginCredentialsParams();
 
         //每一个Oauth应用都有必须绑定appId
-        loginCredentials.setAppId(myClientDetails.getOauthClientDetails().getAppId());
-        loginCredentials.setCredentials(passwordGrantTypeParams.getUsername());
-        loginCredentials.setPassword(passwordGrantTypeParams.getPassword());
+        loginCredentialsParams.setAppId(myClientDetails.getOauthClientDetails().getAppId());
+        loginCredentialsParams.setCredentials(passwordGrantTypeParams.getUsername());
+        loginCredentialsParams.setPassword(passwordGrantTypeParams.getPassword());
 
-        return super.login(loginCredentials);
+        return super.login(loginCredentialsParams);
     }
 }

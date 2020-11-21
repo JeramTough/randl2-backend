@@ -28,6 +28,14 @@ public abstract class BaseUserLoginer implements UserLoginer {
 
         //获取用户对象
         RandlUser randlUser = randlUserMapper.selectByCredentials(acOrPhOrEm);
+
+        checkRandlUser(randlUser);
+        checkPassword(randlUser, password);
+
+        return randlUser;
+    }
+
+    public void checkRandlUser(RandlUser randlUser) {
         if (randlUser == null) {
             //登录失败，不存在该用户
             throw new ApiResponseException(ErrorU.CODE_302.C);
@@ -38,6 +46,15 @@ public abstract class BaseUserLoginer implements UserLoginer {
             throw new ApiResponseException(ErrorU.CODE_304.C);
         }
 
+    }
+
+    public void checkPassword(RandlUser randlUser, String password) {
+        if (randlUser == null) {
+            //登录失败，不存在该用户
+            throw new ApiResponseException(ErrorU.CODE_302.C);
+        }
+
+
         //如果密码不正确
         boolean passwordIsRight =
                 passwordEncoder.matches(password,
@@ -46,6 +63,15 @@ public abstract class BaseUserLoginer implements UserLoginer {
             throw new ApiResponseException(ErrorU.CODE_301.C);
         }
 
-        return randlUser;
     }
+
+    public PasswordEncoder getPasswordEncoder() {
+        return passwordEncoder;
+    }
+
+    public RandlUserMapper getRandlUserMapper() {
+        return randlUserMapper;
+    }
+
+
 }

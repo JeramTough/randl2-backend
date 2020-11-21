@@ -1,6 +1,7 @@
 package com.jeramtough.authserver.service.impl;
 
 import com.jeramtough.authserver.component.login.PasswordGrantTypeUserLoginer;
+import com.jeramtough.authserver.component.login.UidUserLoginer;
 import com.jeramtough.authserver.service.MyUserDetailsService;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.service.impl.BaseServiceImpl;
@@ -45,10 +46,24 @@ public class MyUserDetailsServiceImpl extends BaseServiceImpl implements MyUserD
 
         UserLoginer userLoginer = getWC().getBean(PasswordGrantTypeUserLoginer.class);
 
+
+        return getUserDetails(userLoginer,params);
+    }
+
+    @Override
+    public MyUserDetails loadUserById(Long uid) {
+        UserLoginer userLoginer = getWC().getBean(UidUserLoginer.class);
+        return getUserDetails(userLoginer,uid);
+    }
+
+//*********************
+
+    private MyUserDetails getUserDetails(UserLoginer userLoginer,
+                                         Object params) {
         SystemUser systemUser = userLoginer.login(params);
         MyUserDetails myUserDetails = new MyUserDetails(systemUser);
-
-
         return myUserDetails;
     }
+
+
 }

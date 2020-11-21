@@ -3,7 +3,10 @@ package com.jeramtough.randl2.common.model.params.login;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestAttribute;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -14,7 +17,7 @@ import javax.validation.constraints.Pattern;
  * </pre>
  */
 @ApiModel(value = "登陆凭证", description = "")
-public class LoginCredentials {
+public class LoginCredentialsParams {
 
     @NotNull(payload = ErrorU.CODE_1.class)
     @Pattern(regexp = "(^[a-z0-9A-Z_]{5,16}$)|" +
@@ -33,6 +36,7 @@ public class LoginCredentials {
     @NotNull(payload = ErrorU.CODE_1.class)
     @ApiModelProperty(value = "Rand应用Id", example = "1", required = true)
     private Long appId;
+
 
     public Long getAppId() {
         return appId;

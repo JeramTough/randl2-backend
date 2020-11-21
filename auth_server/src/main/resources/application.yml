@@ -15,6 +15,9 @@ spring:
     url: jdbc:p6spy:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8
     username: root
 
+  thymeleaf:
+    cache: false # 开发时关闭缓存,不然没法看到实时页面
+
   redis:
     host: 127.0.0.1
     jedis:
@@ -29,7 +32,7 @@ spring:
 
 logging:
   level:
-    root: DEBUG #root日志以WARN级别输出
+    root: WARN #root日志以WARN级别输出
 
 app:
   setting:
