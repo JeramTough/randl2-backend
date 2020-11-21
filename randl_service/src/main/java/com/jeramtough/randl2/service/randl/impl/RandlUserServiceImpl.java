@@ -8,7 +8,7 @@ import com.jeramtough.jtweb.model.dto.PageDto;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.jtweb.service.impl.BaseDtoServiceImpl;
 import com.jeramtough.randl2.common.component.setting.AppSetting;
-import com.jeramtough.randl2.common.component.userdetail.MyUserFactory;
+import com.jeramtough.randl2.common.component.attestation.userdetail.MyUserFactory;
 import com.jeramtough.randl2.common.model.dto.RandlRoleDto;
 import com.jeramtough.randl2.service.randl.RandlRoleService;
 import com.jeramtough.randl2.service.randl.RandlUserService;

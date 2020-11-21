@@ -1,29 +1,20 @@
-package com.jeramtough.authserver.component.oauth2.provider;
+package com.jeramtough.authserver.component.attestation.provider;
 
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.authserver.component.oauth2.clientdetail.MyClientDetails;
-import com.jeramtough.authserver.component.oauth2.token.ClientSecretAuthenticationToken;
-import com.jeramtough.randl2.common.component.userdetail.MyUserDetails;
-import com.jeramtough.randl2.common.component.userdetail.SuperAdmin;
-import com.jeramtough.randl2.common.component.userdetail.SystemUser;
-import com.jeramtough.randl2.common.component.userdetail.UserHolder;
+import com.jeramtough.randl2.common.component.attestation.clientdetail.MyClientDetails;
+import com.jeramtough.authserver.component.attestation.token.ClientSecretAuthenticationToken;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.jaas.JaasGrantedAuthority;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**

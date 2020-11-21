@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.adminapp.config.security;
 
-import com.jeramtough.randl2.common.component.userdetail.SuperAdmin;
+import com.jeramtough.randl2.common.component.attestation.userdetail.SuperAdmin;
 import com.jeramtough.randl2.common.mapper.RandlModuleMapper;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;

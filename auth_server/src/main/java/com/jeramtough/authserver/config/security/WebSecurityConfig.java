@@ -17,8 +17,8 @@ package com.jeramtough.authserver.config.security;
 
 import com.jeramtough.authserver.action.filter.Oauth2ClientCredentialsTokenFilter;
 import com.jeramtough.authserver.action.filter.SsoCredentialsTokenFilter;
-import com.jeramtough.authserver.component.oauth2.provider.ClientDaoAuthenticationProvider;
-import com.jeramtough.authserver.component.oauth2.provider.JwtAuthenticationProvider;
+import com.jeramtough.authserver.component.attestation.provider.ClientDaoAuthenticationProvider;
+import com.jeramtough.authserver.component.attestation.provider.JwtAuthenticationProvider;
 import com.jeramtough.randl2.common.config.security.BaseWebSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

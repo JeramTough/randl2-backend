@@ -1,12 +1,10 @@
-package com.jeramtough.authserver.component.oauth2.provider;
+package com.jeramtough.authserver.component.attestation.provider;
 
-import com.jeramtough.authserver.component.oauth2.token.ClientSecretAuthenticationToken;
-import com.jeramtough.authserver.component.oauth2.token.JwtAuthenticationToken;
+import com.jeramtough.authserver.component.attestation.token.JwtAuthenticationToken;
 import com.jeramtough.authserver.service.MyUserDetailsService;
 import com.jeramtough.jtcomponent.task.response.TaskResponse;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.common.component.setting.AppSetting;
-import com.jeramtough.randl2.common.component.userdetail.MyUserDetails;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

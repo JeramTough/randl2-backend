@@ -1,8 +1,8 @@
 package com.jeramtough.randl2.service.registeruser;
 
 import com.jeramtough.jtweb.component.validation.BeanValidator;
+import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
 import com.jeramtough.randl2.common.component.login.user.UserLoginer;
-import com.jeramtough.randl2.common.component.userdetail.SystemUser;
 import com.jeramtough.randl2.common.config.auth.AuthTokenConfig;
 import com.jeramtough.randl2.common.mapper.SourceSurfaceImageMapper;
 import com.jeramtough.randl2.common.model.params.registereduser.LoginByPasswordCredentials;

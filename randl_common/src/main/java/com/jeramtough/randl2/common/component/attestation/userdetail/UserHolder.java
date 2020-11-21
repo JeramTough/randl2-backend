@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.common.component.userdetail;
+package com.jeramtough.randl2.common.component.attestation.userdetail;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.jaas.JaasGrantedAuthority;

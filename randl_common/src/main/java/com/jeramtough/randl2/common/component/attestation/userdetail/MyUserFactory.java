@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.common.component.userdetail;
+package com.jeramtough.randl2.common.component.attestation.userdetail;
 
 import com.jeramtough.jtweb.util.IpAddrUtil;
 import com.jeramtough.randl2.common.model.entity.RandlUser;

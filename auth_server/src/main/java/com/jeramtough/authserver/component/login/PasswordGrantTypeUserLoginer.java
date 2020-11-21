@@ -2,8 +2,8 @@ package com.jeramtough.authserver.component.login;
 
 import com.jeramtough.authserver.service.MyClientDetailsService;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.authserver.component.oauth2.clientdetail.MyClientDetails;
-import com.jeramtough.randl2.common.component.userdetail.SystemUser;
+import com.jeramtough.randl2.common.component.attestation.clientdetail.MyClientDetails;
+import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
 import com.jeramtough.randl2.common.model.params.login.LoginCredentialsParams;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
  * </pre>
  */
 @Component("passwordGrantTypeUserLoginer")
-public class PasswordGrantTypeUserLoginer extends CredentialsUserLoginer{
+public class PasswordGrantTypeUserLoginer extends CredentialsUserLoginer {
 
     private final MyClientDetailsService myClientDetailsService;
 
@@ -38,11 +38,12 @@ public class PasswordGrantTypeUserLoginer extends CredentialsUserLoginer{
 
     @Override
     public SystemUser login(Object credentials) throws ApiResponseException {
-        PasswordGrantTypeParams passwordGrantTypeParams= (PasswordGrantTypeParams) credentials;
-        MyClientDetails myClientDetails=
-                (MyClientDetails) myClientDetailsService.loadClientByClientId(passwordGrantTypeParams.getClientId());
+        PasswordGrantTypeParams passwordGrantTypeParams = (PasswordGrantTypeParams) credentials;
+        MyClientDetails myClientDetails =
+                (MyClientDetails) myClientDetailsService.loadClientByClientId(
+                        passwordGrantTypeParams.getClientId());
 
-        LoginCredentialsParams loginCredentialsParams =new LoginCredentialsParams();
+        LoginCredentialsParams loginCredentialsParams = new LoginCredentialsParams();
 
         //每一个Oauth应用都有必须绑定appId
         loginCredentialsParams.setAppId(myClientDetails.getOauthClientDetails().getAppId());

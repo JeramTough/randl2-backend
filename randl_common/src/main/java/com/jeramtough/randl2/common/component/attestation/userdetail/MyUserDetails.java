@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.common.component.userdetail;
+package com.jeramtough.randl2.common.component.attestation.userdetail;
 
 import com.jeramtough.jtlog.jtlogger.Logger;
 import com.jeramtough.jtlog.jtlogger.LoggerManager;

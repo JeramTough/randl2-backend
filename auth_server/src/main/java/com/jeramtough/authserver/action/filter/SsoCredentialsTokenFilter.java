@@ -1,26 +1,15 @@
 package com.jeramtough.authserver.action.filter;
 
-import com.jeramtough.authserver.component.oauth2.token.JwtAuthenticationToken;
-import com.jeramtough.authserver.component.oauth2.token.JwtTokenRequestParser;
+import com.jeramtough.authserver.component.attestation.token.JwtAuthenticationToken;
+import com.jeramtough.authserver.component.attestation.token.JwtTokenRequestParser;
 import com.jeramtough.jtweb.action.filter.BaseSwaggerFilter;
-import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.randl2.common.model.constant.OAuth2Constants;
-import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.util.PathMatcherUtil;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.common.exceptions.BadClientCredentialsException;
-import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.NullRememberMeServices;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

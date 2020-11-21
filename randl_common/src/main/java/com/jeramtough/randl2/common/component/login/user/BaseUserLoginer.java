@@ -1,7 +1,7 @@
 package com.jeramtough.randl2.common.component.login.user;
 
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.randl2.common.component.userdetail.AccountStatus;
+import com.jeramtough.randl2.common.component.attestation.userdetail.AccountStatus;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.common.model.error.ErrorU;

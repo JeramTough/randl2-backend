@@ -1,9 +1,8 @@
 package com.jeramtough.randl2.common.component.token;
 
 import com.jeramtough.jtcomponent.task.bean.TaskResult;
-import com.jeramtough.randl2.common.component.userdetail.SystemUser;
+import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
 import com.jeramtough.randl2.common.model.dto.OauthTokenDto;
-import com.jeramtough.randl2.common.model.entity.RandlUser;
 
 /**
  * <pre>

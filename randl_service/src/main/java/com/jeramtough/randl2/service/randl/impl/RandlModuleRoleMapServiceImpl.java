@@ -10,7 +10,7 @@ import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseBeanExcep
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.randl2.common.component.moduletree.ModuleAuthDtoOneTreeNodeAdapter;
-import com.jeramtough.randl2.common.component.userdetail.SuperAdmin;
+import com.jeramtough.randl2.common.component.attestation.userdetail.SuperAdmin;
 import com.jeramtough.randl2.common.mapper.RandlAppMapper;
 import com.jeramtough.randl2.common.mapper.RandlModuleMapper;
 import com.jeramtough.randl2.common.mapper.RandlModuleRoleMapMapper;

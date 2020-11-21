@@ -1,6 +1,6 @@
 package com.jeramtough.authserver.service;
 
-import com.jeramtough.randl2.common.component.userdetail.MyUserDetails;
+import com.jeramtough.randl2.common.component.attestation.userdetail.MyUserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**

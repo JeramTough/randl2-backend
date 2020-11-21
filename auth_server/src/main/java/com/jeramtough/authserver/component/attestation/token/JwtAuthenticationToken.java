@@ -1,4 +1,4 @@
-package com.jeramtough.authserver.component.oauth2.token;
+package com.jeramtough.authserver.component.attestation.token;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;

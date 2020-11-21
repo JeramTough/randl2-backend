@@ -1,4 +1,4 @@
-package com.jeramtough.authserver.component.oauth2.clientdetail;
+package com.jeramtough.randl2.common.component.attestation.clientdetail;
 
 import com.jeramtough.randl2.common.model.entity.OauthClientDetails;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;

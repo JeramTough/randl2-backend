@@ -1,9 +1,9 @@
 package com.jeramtough.authserver.component.login;
 
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
 import com.jeramtough.randl2.common.component.login.user.BaseUserLoginer;
 import com.jeramtough.randl2.common.component.login.user.UserLoginer;
-import com.jeramtough.randl2.common.component.userdetail.SystemUser;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
 import com.jeramtough.randl2.common.model.entity.RandlRole;

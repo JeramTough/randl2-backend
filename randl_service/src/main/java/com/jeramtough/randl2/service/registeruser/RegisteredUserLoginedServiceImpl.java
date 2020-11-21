@@ -3,7 +3,7 @@ package com.jeramtough.randl2.service.registeruser;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.service.impl.BaseDtoServiceImpl;
-import com.jeramtough.randl2.common.component.userdetail.SystemUser;
+import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.personalinfo.UpdatePersonalInfoParams;
@@ -12,7 +12,7 @@ import com.jeramtough.randl2.common.model.params.registereduser.ResetPasswordPar
 import com.jeramtough.randl2.common.model.params.surfaceimage.UpdateSurfaceImageParams;
 import com.jeramtough.randl2.common.model.params.surfaceimage.UploadSurfaceImageParams;
 import com.jeramtough.randl2.common.model.params.verificationcode.VerifyVerificationCodeParams;
-import com.jeramtough.randl2.common.component.userdetail.UserHolder;
+import com.jeramtough.randl2.common.component.attestation.userdetail.UserHolder;
 import com.jeramtough.randl2.common.component.verificationcode.sender.SendWay;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
 import com.jeramtough.randl2.common.model.dto.RandlPersonalInfoDto;

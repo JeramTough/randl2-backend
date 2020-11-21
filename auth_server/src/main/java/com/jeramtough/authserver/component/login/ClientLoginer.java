@@ -1,6 +1,6 @@
 package com.jeramtough.authserver.component.login;
 
-import com.jeramtough.authserver.component.oauth2.clientdetail.MyClientDetails;
+import com.jeramtough.randl2.common.component.attestation.clientdetail.MyClientDetails;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 
 /**

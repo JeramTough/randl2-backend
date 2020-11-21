@@ -1,4 +1,4 @@
-package com.jeramtough.authserver.component.oauth2.clientdetail;
+package com.jeramtough.randl2.common.component.attestation.clientdetail;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

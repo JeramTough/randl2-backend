@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
-import com.jeramtough.authserver.component.oauth2.token.ClientSecretAuthenticationToken;
+import com.jeramtough.authserver.component.attestation.token.ClientSecretAuthenticationToken;
 import com.jeramtough.randl2.common.model.params.oauth.OauthTokenParams;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;

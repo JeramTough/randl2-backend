@@ -1,4 +1,4 @@
-package com.jeramtough.authserver.component.oauth2.token;
+package com.jeramtough.authserver.component.attestation.token;
 
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.randl2.common.model.constant.OAuth2Constants;

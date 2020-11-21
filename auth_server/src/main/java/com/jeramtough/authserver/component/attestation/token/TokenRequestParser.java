@@ -1,4 +1,4 @@
-package com.jeramtough.authserver.component.oauth2.token;
+package com.jeramtough.authserver.component.attestation.token;
 
 import javax.servlet.http.HttpServletRequest;
 
