@@ -9,6 +9,7 @@ import com.auth0.jwt.interfaces.JWTVerifier;
 import com.jeramtough.jtcomponent.task.response.ResponseFactory;
 import com.jeramtough.jtcomponent.task.response.TaskResponse;
 
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -19,7 +20,7 @@ import java.util.Date;
  */
 public class JwtTokenUtil {
 
-    public static String createToken(String userId, String signingKey, String issuer,
+    public static String createToken(String userId, String[] roleAlias, String signingKey, String issuer,
                                      long tokenValidity) {
         String token = null;
         try {
@@ -29,6 +30,7 @@ public class JwtTokenUtil {
             token = JWT.create()
                        .withIssuer(issuer)
                        .withClaim("uid", userId)
+                       .withArrayClaim("roleAlias",roleAlias)
                        .withExpiresAt(new Date(
                                System.currentTimeMillis() + tokenValidity))
                        .sign(algorithm);
@@ -50,14 +52,19 @@ public class JwtTokenUtil {
                 String uid = jwt.getClaim("uid").asString();
                 if (uid != null) {
                     preTaskResult.putPayload("uid", uid);
-                    return true;
                 }
+                String[] roleAlias=jwt.getClaim("roleAlias").asArray(String.class);
+                if (roleAlias==null){
+                    roleAlias=new String[0];
+                }
+                preTaskResult.putPayload("roleAlias", roleAlias);
+                return true;
+
             }
             catch (JWTVerificationException exception) {
                 preTaskResult.setMessage(exception.getMessage());
                 return false;
             }
-            return false;
         });
     }
 

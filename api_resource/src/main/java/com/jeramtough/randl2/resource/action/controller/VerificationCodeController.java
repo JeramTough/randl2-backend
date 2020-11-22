@@ -1,10 +1,10 @@
-package com.jeramtough.randl2.adminapp.action.controller;
+package com.jeramtough.randl2.resource.action.controller;
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.verificationcode.SendVerificationCodeParams;
-import com.jeramtough.randl2.common.model.params.verificationcode.VerifyVerificationCodeParams;
+import com.jeramtough.randl2.common.model.params.verificationcode.ConsumeVerificationCodeParams;
 import com.jeramtough.randl2.service.other.VerificationCodeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,23 +34,23 @@ public class VerificationCodeController extends MyBaseController {
         this.verificationCodeService = verificationCodeService;
     }
 
-    @ApiOperation(value = "发送验证码", notes = "发送手机或邮箱验证码")
-    @RequestMapping(value = "/send", method = {RequestMethod.POST})
+    @ApiOperation(value = "生产验证码", notes = "生产验证码并发送手机或邮箱验证码")
+    @RequestMapping(value = "/produce", method = {RequestMethod.POST})
     @ApiResponses(value = {
             @ApiResponse(code = ErrorU.CODE_402.C, message = ErrorU.CODE_402.M),
             @ApiResponse(code = ErrorU.CODE_403.C, message = ErrorU.CODE_403.M),
     })
     public CommonApiResponse<String> send(SendVerificationCodeParams params) {
-        return getSuccessfulApiResponse(verificationCodeService.send(params));
+        return getSuccessfulApiResponse(verificationCodeService.produceVerificationCode(params));
     }
 
 
-    @ApiOperation(value = "校验验证码", notes = "验收验证码是否正确")
-    @RequestMapping(value = "/verify", method = {RequestMethod.POST})
+    @ApiOperation(value = "消费验证码", notes = "验收验证码是否正确")
+    @RequestMapping(value = "/consume", method = {RequestMethod.POST})
     @ApiResponses(value = {
             @ApiResponse(code = ErrorU.CODE_404.C, message = ErrorU.CODE_404.M),
     })
-    public CommonApiResponse<String> verify(VerifyVerificationCodeParams params) {
-        return getSuccessfulApiResponse(verificationCodeService.verify(params));
+    public CommonApiResponse<String> verify(ConsumeVerificationCodeParams params) {
+        return getSuccessfulApiResponse(verificationCodeService.consumeVerificationCode(params));
     }
 }

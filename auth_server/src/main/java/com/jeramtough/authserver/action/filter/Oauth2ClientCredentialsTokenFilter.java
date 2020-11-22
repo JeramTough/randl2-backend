@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.authserver.component.attestation.token.ClientSecretAuthenticationToken;
+import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.oauth.OauthTokenParams;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -44,6 +47,9 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
  * by @author WeiBoWen
  * </pre>
  */
+@ApiResponses(value = {
+        @ApiResponse(code = ErrorU.CODE_802.C, message = ErrorU.CODE_802.M),
+})
 public class Oauth2ClientCredentialsTokenFilter extends BaseCredentialsTokenFilter {
 
 

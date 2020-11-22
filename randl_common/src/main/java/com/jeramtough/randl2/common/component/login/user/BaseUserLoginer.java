@@ -5,6 +5,7 @@ import com.jeramtough.randl2.common.component.attestation.userdetail.AccountStat
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.common.model.error.ErrorU;
+import ma.glasnost.orika.MapperFacade;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
@@ -17,11 +18,13 @@ public abstract class BaseUserLoginer implements UserLoginer {
 
     private final PasswordEncoder passwordEncoder;
     private final RandlUserMapper randlUserMapper;
+    private final MapperFacade mapperFacade;
 
     public BaseUserLoginer(PasswordEncoder passwordEncoder,
-                           RandlUserMapper randlUserMapper) {
+                           RandlUserMapper randlUserMapper, MapperFacade mapperFacade) {
         this.passwordEncoder = passwordEncoder;
         this.randlUserMapper = randlUserMapper;
+        this.mapperFacade = mapperFacade;
     }
 
     public RandlUser getRandlUserByAcOrPhOrEm(String acOrPhOrEm, String password) {
@@ -74,4 +77,7 @@ public abstract class BaseUserLoginer implements UserLoginer {
     }
 
 
+    public MapperFacade getMapperFacade() {
+        return mapperFacade;
+    }
 }

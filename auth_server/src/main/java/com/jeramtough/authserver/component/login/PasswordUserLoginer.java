@@ -8,7 +8,7 @@ import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
 import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
-import com.jeramtough.randl2.common.model.params.login.LoginCredentialsParams;
+import com.jeramtough.randl2.common.model.params.login.LoginByPasswordParams;
 import com.jeramtough.randl2.service.randl.RandlRoleService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +23,8 @@ import java.util.List;
  * by @author WeiBoWen
  * </pre>
  */
-@Component("credentialsUserLoginer")
-public class CredentialsUserLoginer extends BaseUserLoginer implements UserLoginer {
+@Component("passwordUserLoginer")
+public class PasswordUserLoginer extends BaseUserLoginer implements UserLoginer {
 
     private final PasswordEncoder passwordEncoder;
     private final RandlRoleMapper randlRoleMapper;
@@ -33,11 +33,11 @@ public class CredentialsUserLoginer extends BaseUserLoginer implements UserLogin
     private final RandlRoleService randlRoleService;
 
     @Autowired
-    public CredentialsUserLoginer(PasswordEncoder passwordEncoder,
-                                  RandlRoleMapper randlRoleMapper,
-                                  RandlUserMapper randlUserMapper, MapperFacade mapperFacade,
-                                  RandlRoleService randlRoleService) {
-        super(passwordEncoder, randlUserMapper);
+    public PasswordUserLoginer(PasswordEncoder passwordEncoder,
+                               RandlRoleMapper randlRoleMapper,
+                               RandlUserMapper randlUserMapper, MapperFacade mapperFacade,
+                               RandlRoleService randlRoleService) {
+        super(passwordEncoder, randlUserMapper, mapperFacade);
         this.passwordEncoder = passwordEncoder;
         this.randlRoleMapper = randlRoleMapper;
         this.randlUserMapper = randlUserMapper;
@@ -47,13 +47,13 @@ public class CredentialsUserLoginer extends BaseUserLoginer implements UserLogin
 
     @Override
     public SystemUser login(Object credentials) throws ApiResponseException {
-        LoginCredentialsParams loginCredentialsParams = (LoginCredentialsParams) credentials;
-        RandlUser randlUser = getRandlUserByAcOrPhOrEm(loginCredentialsParams.getCredentials(),
-                loginCredentialsParams.getPassword());
+        LoginByPasswordParams loginByPasswordParams = (LoginByPasswordParams) credentials;
+        RandlUser randlUser = getRandlUserByAcOrPhOrEm(loginByPasswordParams.getCredentials(),
+                loginByPasswordParams.getPassword());
 
         //获取用户角色信息
         List<RandlRole> randlRoleList = randlRoleService.getRoleListByAppIdAndUid
-                (loginCredentialsParams.getAppId(), randlUser.getUid());
+                (loginByPasswordParams.getAppId(), randlUser.getUid());
 
         SystemUser systemUser = mapperFacade.map(randlUser, SystemUser.class);
         systemUser.setRoles(randlRoleList);

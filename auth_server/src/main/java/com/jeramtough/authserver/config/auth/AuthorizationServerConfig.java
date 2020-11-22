@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
@@ -14,6 +16,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.web.context.WebApplicationContext;
@@ -116,7 +119,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         endpoints.authorizationCodeServices(authorizationCodeServices());
         endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
 
-        endpoints.pathMapping("/oauth/confirm_access","/oauthV2/confirmAccess");
+        endpoints.pathMapping("/oauth/confirm_access", "/oauthV2/confirmAccess");
+
+        //
+//
 //        endpoints.pathMapping("/oauth/error","d.html");
 
        /* endpoints.exceptionTranslator(new WebResponseExceptionTranslator() {
@@ -128,7 +134,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         });*/
 
     }
-
 
 
 }

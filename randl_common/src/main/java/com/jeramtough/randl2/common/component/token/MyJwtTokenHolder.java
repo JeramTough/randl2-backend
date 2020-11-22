@@ -5,9 +5,13 @@ import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
 import com.jeramtough.randl2.common.component.setting.AppSetting;
 import com.jeramtough.randl2.common.model.constant.OAuth2Constants;
 import com.jeramtough.randl2.common.model.dto.OauthTokenDto;
+import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * <pre>
@@ -32,8 +36,16 @@ public class MyJwtTokenHolder implements TokenHolder {
     @Override
     public OauthTokenDto getToken(SystemUser systemUser) {
         OauthTokenDto oauthTokenDto = new OauthTokenDto();
-        String token = JwtTokenUtil.createToken(systemUser.getUid().toString(), appSetting.getJwtSigningKey(),
+
+        String[] roleAlias = systemUser.getRoles()
+                                       .parallelStream()
+                                       .map(RandlRole::getAlias)
+                                       .toArray(String[]::new);
+
+        String token = JwtTokenUtil.createToken(systemUser.getUid().toString(), roleAlias,
+                appSetting.getJwtSigningKey(),
                 appSetting.getJwtIssuer(), appSetting.getJwtValidity());
+
         oauthTokenDto.setValue(token);
         oauthTokenDto.setTokenPrefix(OAuth2Constants.BEARER_PREFIX);
         oauthTokenDto.setExpiration(System.currentTimeMillis() + tempJwtValidity);

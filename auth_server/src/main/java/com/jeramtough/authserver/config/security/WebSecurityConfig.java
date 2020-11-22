@@ -55,8 +55,7 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
     private static final String[] OPENED_API_URLS = {
             "/",
             "/oauth2/keys",
-            "/sso/login",
-            "/sso/logout",
+            "/sso/**",
             "/test/testLogined2",
 //            "/oauth3/token",
             "/unlogged.html",
@@ -163,7 +162,7 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
         return super.getAuthenticationManagerBean();
     }*/
 
-    @Bean("clientAuthenticationManager")
+    @Bean("authenticationManager")
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         AuthenticationManagerBuilder builder = new AuthenticationManagerBuilder(new ObjectPostProcessor<Object>() {

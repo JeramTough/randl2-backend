@@ -3,6 +3,7 @@ package com.jeramtough.authserver.component.attestation.token;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.io.Serializable;
 import java.security.Principal;
 import java.util.Collection;
 
@@ -44,7 +45,9 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
         return new JwtPrincipal(jwtToken);
     }
 
-    public static class JwtPrincipal implements Principal {
+    public static class JwtPrincipal implements Principal, Serializable {
+
+        private static final long serialVersionUID = 1341724760719310341L;
 
         private final String jwtToken;
 

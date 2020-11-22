@@ -4,7 +4,11 @@ import com.jeramtough.authserver.component.attestation.token.JwtAuthenticationTo
 import com.jeramtough.authserver.service.MyUserDetailsService;
 import com.jeramtough.jtcomponent.task.response.TaskResponse;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.common.component.attestation.SimplePrincipal;
+import com.jeramtough.randl2.common.component.attestation.userdetail.MyUserDetails;
+import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
 import com.jeramtough.randl2.common.component.setting.AppSetting;
+import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +18,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * <pre>
@@ -55,17 +63,25 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
             throw new ApiResponseException(ErrorU.CODE_6.C, taskResponse.getTaskResult().getMessage());
         }
 
-        jwtAuthenticationToken.setAuthenticated(true);
         String uid = taskResponse.getTaskResult().getStringPayload("uid", "0");
+        String[] roleAlias = taskResponse.getTaskResult().getStringArrayPayload("roleAlias");
 
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(uid));
+
+       /* MyUserDetails myUserDetails = myUserDetailsService.loadUserById(Long.parseLong(uid));
+        SystemUser systemUser = myUserDetails.getSystemUser();*/
+
+        SimplePrincipal simplePrincipal = new SimplePrincipal(uid);
+
+        List<GrantedAuthority> authorities =
+                Arrays.asList(roleAlias)
+                      .parallelStream()
+                      .map(SimpleGrantedAuthority::new)
+                      .collect(Collectors.toList());
 
         // 构建返回的用户登录成功的UsernamePasswordAuthenticationToken，
         //为了跳过UserPasswordFileter的校验
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(jwtAuthenticationToken, token,
-                        authorities);
+                new UsernamePasswordAuthenticationToken(simplePrincipal, token, authorities);
 
         return usernamePasswordAuthenticationToken;
     }

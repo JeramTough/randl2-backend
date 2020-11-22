@@ -34,7 +34,7 @@ public class UidUserLoginer extends BaseUserLoginer implements UserLoginer {
                           RandlUserMapper randlUserMapper,
                           RandlRoleService randlRoleService,
                           AppSetting appSetting, MapperFacade mapperFacade) {
-        super(passwordEncoder, randlUserMapper);
+        super(passwordEncoder, randlUserMapper, mapperFacade);
         this.randlRoleService = randlRoleService;
         this.appSetting = appSetting;
         this.mapperFacade = mapperFacade;

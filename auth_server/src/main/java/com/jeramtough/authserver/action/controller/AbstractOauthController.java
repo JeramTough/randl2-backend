@@ -1,9 +1,18 @@
 package com.jeramtough.authserver.action.controller;
 
+import com.jeramtough.jtlog.facade.L;
+import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
+import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.common.action.controller.MyBaseController;
+import com.jeramtough.randl2.common.model.error.ErrorU;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
+import org.springframework.security.oauth2.common.exceptions.UnsupportedGrantTypeException;
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenGranter;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
@@ -15,6 +24,8 @@ import org.springframework.security.oauth2.provider.request.DefaultOAuth2Request
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestValidator;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +35,9 @@ import java.util.List;
  * by @author WeiBoWen
  * </pre>
  */
+@ApiResponses(value = {
+        @ApiResponse(code = ErrorU.CODE_801.C, message = ErrorU.CODE_801.M),
+})
 public abstract class AbstractOauthController extends MyBaseController {
 
 
@@ -50,6 +64,30 @@ public abstract class AbstractOauthController extends MyBaseController {
         this.authorizationCodeServices = authorizationCodeServices;
     }
 
+
+    @Override
+    protected CommonApiResponse<String> handleException(HttpServletRequest request, HttpServletResponse response,
+                                                        CommonApiResponse<String> failedApiResponse, Exception e) {
+        if (e instanceof InternalAuthenticationServiceException) {
+            InternalAuthenticationServiceException internalAuthenticationServiceException = (InternalAuthenticationServiceException) e;
+            if (internalAuthenticationServiceException.getCause() instanceof ApiResponseException) {
+                ApiResponseException apiResponseException = (ApiResponseException) internalAuthenticationServiceException.getCause();
+                return getFailedApiResponse(apiResponseException);
+            }
+            else {
+                ApiResponseException apiResponseException = new ApiResponseException(ErrorU.CODE_801.C,
+                        internalAuthenticationServiceException.getMessage());
+                return getFailedApiResponse(apiResponseException);
+
+            }
+        }
+        if (e instanceof OAuth2Exception) {
+            ApiResponseException apiResponseException = new ApiResponseException(ErrorU.CODE_801.C,
+                    e.getMessage());
+            return getFailedApiResponse(apiResponseException);
+        }
+        return super.handleException(request, response, failedApiResponse, e);
+    }
 
     public TokenGranter getTokenGranter() {
         if (tokenGranter == null) {

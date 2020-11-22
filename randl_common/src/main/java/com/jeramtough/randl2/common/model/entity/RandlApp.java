@@ -32,11 +32,6 @@ public class RandlApp implements Serializable {
     private String appName;
 
   /**
-   * 客户端代码
-   */
-    private String appCode;
-
-  /**
    * 客户端描述
    */
     private String description;
@@ -68,13 +63,6 @@ public class RandlApp implements Serializable {
         this.appName = appName;
     }
 
-    public String getAppCode() {
-        return appCode;
-    }
-
-    public void setAppCode(String appCode) {
-        this.appCode = appCode;
-    }
 
     public String getDescription() {
         return description;
@@ -105,7 +93,6 @@ public class RandlApp implements Serializable {
         return "RandlUserApp{" +
         "fid=" + fid +
         ", appName=" + appName +
-        ", appCode=" + appCode +
         ", description=" + description +
         ", isAble=" + isAble +
         ", createTime=" + createTime +

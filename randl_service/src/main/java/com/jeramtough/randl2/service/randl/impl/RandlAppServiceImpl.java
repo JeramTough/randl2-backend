@@ -67,12 +67,10 @@ public class RandlAppServiceImpl extends MyBaseServiceImpl<RandlAppMapper, Randl
         randlApp.setCreateTime(LocalDateTime.now());
         randlApp.setIsAble(1);
 
-        String appCode = IdUtil.getUUID();
-        randlApp.setAppCode(appCode);
 
         getBaseMapper().insert(randlApp);
 
-        return "添加应用[" + appCode + "]成功！";
+        return "添加应用[" + randlApp.getAppName() + "]成功！";
     }
 
     @Override

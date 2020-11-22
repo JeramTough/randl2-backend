@@ -8,7 +8,7 @@ import com.jeramtough.randl2.common.mapper.SourceSurfaceImageMapper;
 import com.jeramtough.randl2.common.model.params.registereduser.LoginByPasswordCredentials;
 import com.jeramtough.randl2.common.model.params.registereduser.LoginByVerificationCodeCredentials;
 import com.jeramtough.randl2.common.model.params.registereduser.LoginForVisitorCredentials;
-import com.jeramtough.randl2.common.model.params.verificationcode.VerifyVerificationCodeParams;
+import com.jeramtough.randl2.common.model.params.verificationcode.ConsumeVerificationCodeParams;
 import com.jeramtough.randl2.service.other.VerificationCodeService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,10 +86,10 @@ public class RegisteredUserLoginServiceImpl implements RegisteredUserLoginServic
             LoginByVerificationCodeCredentials credentials) {
         BeanValidator.verifyParams(credentials);
 
-        VerifyVerificationCodeParams params = new VerifyVerificationCodeParams();
+        ConsumeVerificationCodeParams params = new ConsumeVerificationCodeParams();
         params.setPhoneOrEmail(credentials.getCredential());
         params.setVerificationCode(credentials.getVerificationCode());
-        verificationCodeService.verify(params);
+        verificationCodeService.consumeVerificationCode(params);
 
         /*//执行到这里，说明验证码已经校验成功
         UserLoginer userLoginer = getWC().getBean(

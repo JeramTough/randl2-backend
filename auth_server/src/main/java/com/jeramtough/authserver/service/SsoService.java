@@ -1,7 +1,7 @@
 package com.jeramtough.authserver.service;
 
-import com.jeramtough.randl2.common.model.dto.SystemUserDto;
-import com.jeramtough.randl2.common.model.params.login.LoginCredentialsParams;
+import com.jeramtough.randl2.common.model.params.login.LoginByPasswordParams;
+import com.jeramtough.randl2.common.model.params.login.LoginByVerificationCodeParams;
 
 import java.util.Map;
 
@@ -13,7 +13,9 @@ import java.util.Map;
  */
 public interface SsoService {
 
-    Map<String,Object> login(LoginCredentialsParams params);
+    Map<String,Object> login(LoginByPasswordParams params);
 
     String logout();
+
+    Map<String,Object> loginByVerificationCode(LoginByVerificationCodeParams params);
 }

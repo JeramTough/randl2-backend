@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.common.model.params.verificationcode;
+package com.jeramtough.randl2.common.model.params.login;
 
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
@@ -9,12 +9,12 @@ import javax.validation.constraints.Pattern;
 
 /**
  * <pre>
- * Created on 2020/2/16 21:03
- * by @author JeramTough
+ * Created on 2020/11/15 0:50
+ * by @author WeiBoWen
  * </pre>
  */
-@ApiModel("校验验证码参数")
-public class VerifyVerificationCodeParams {
+@ApiModel(value = "验证码登陆凭证", description = "")
+public class LoginByVerificationCodeParams {
 
     @NotNull(payload = ErrorU.CODE_1.class)
     @Pattern(regexp = "^[0-9]{6}$", payload = ErrorU.CODE_4.class, message = "6位长度正整数")
@@ -28,17 +28,26 @@ public class VerifyVerificationCodeParams {
     @ApiModelProperty(value = "以手机号码或邮箱地址", example = "15289678163")
     private String phoneOrEmail;
 
-    public VerifyVerificationCodeParams() {
+    @NotNull(payload = ErrorU.CODE_1.class)
+    @ApiModelProperty(value = "Rand应用Id", example = "1", required = true)
+    private Long appId;
+
+
+    public Long getAppId() {
+        return appId;
     }
 
-    public VerifyVerificationCodeParams(@NotNull(
-            message = "{'code':667,'placeholders':['登录失败','验证码']}") @Pattern(
-            regexp = "^[0-9]{6}$", message = "{'code':668,'placeholders':['验证码'," +
-            "'6位长度正整数']}") String verificationCode,
-                                        @NotNull(
-                                                message = "{'code':667,'placeholders':['发送失败','以手机号码或邮箱地址']}") String phoneOrEmail) {
+    public void setAppId(Long appId) {
+        this.appId = appId;
+    }
+
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
         this.verificationCode = verificationCode;
-        this.phoneOrEmail = phoneOrEmail;
     }
 
     public String getPhoneOrEmail() {
@@ -47,13 +56,5 @@ public class VerifyVerificationCodeParams {
 
     public void setPhoneOrEmail(String phoneOrEmail) {
         this.phoneOrEmail = phoneOrEmail;
-    }
-
-    public String getVerificationCode() {
-        return verificationCode;
-    }
-
-    public void setVerificationCode(String verificationCode) {
-        this.verificationCode = verificationCode;
     }
 }

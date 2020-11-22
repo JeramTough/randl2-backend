@@ -3,23 +3,25 @@ package com.jeramtough.randl2.common.model.dto;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author JeramTough
  * @since 2020-10-02
  */
-@ApiModel(value="RandlApp对象", description="")
-public class RandlAppDto implements Serializable{
+@ApiModel(value = "RandlApp对象", description = "")
+public class RandlAppDto implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "主键")
     @TableId(value = "fid", type = IdType.AUTO)
@@ -27,9 +29,6 @@ public class RandlAppDto implements Serializable{
 
     @ApiModelProperty(value = "客户端中文名称")
     private String appName;
-
-    @ApiModelProperty(value = "客户端代码")
-    private String appCode;
 
     @ApiModelProperty(value = "客户端描述")
     private String description;
@@ -58,13 +57,6 @@ public class RandlAppDto implements Serializable{
         this.appName = appName;
     }
 
-    public String getAppCode() {
-        return appCode;
-    }
-
-    public void setAppCode(String appCode) {
-        this.appCode = appCode;
-    }
 
     public String getDescription() {
         return description;
@@ -93,12 +85,11 @@ public class RandlAppDto implements Serializable{
     @Override
     public String toString() {
         return "RandlUserApp{" +
-        "fid=" + fid +
-        ", appName=" + appName +
-        ", appCode=" + appCode +
-        ", description=" + description +
-        ", isAble=" + isAble +
-        ", createTime=" + createTime +
-        "}";
+                "fid=" + fid +
+                ", appName=" + appName +
+                ", description=" + description +
+                ", isAble=" + isAble +
+                ", createTime=" + createTime +
+                "}";
     }
 }

@@ -1,6 +1,8 @@
 package com.jeramtough.randl2.common.model.params.oauth;
 
+import com.jeramtough.jtweb.component.validation.constraints.NotBlankButNull;
 import com.jeramtough.randl2.common.model.error.ErrorU;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  * <pre>
@@ -27,11 +30,23 @@ public class PasswordGrantTypeParams {
     @NotNull(payload = ErrorU.CODE_1.class)
     private String clientSecret;
 
-    @NotNull(payload = ErrorU.CODE_1.class)
+    @NotBlankButNull(payload = ErrorU.CODE_2.class)
     private String username;
 
-    @NotNull(payload = ErrorU.CODE_1.class)
+    @NotBlankButNull(payload = ErrorU.CODE_2.class)
     private String password;
+
+    @NotBlankButNull(payload = ErrorU.CODE_2.class)
+    @Pattern(regexp = "^[0-9]{6}$", payload = ErrorU.CODE_4.class, message = "6位长度正整数")
+    @ApiModelProperty(value = "验证码", example = "108764")
+    private String verificationCode;
+
+    @NotBlankButNull(payload = ErrorU.CODE_2.class)
+    @Pattern(
+            regexp = "(^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$)|(^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$)",
+            payload = ErrorU.CODE_4.class, message = "例子:15289678164或1154@qq.com 或者 15289678169")
+    @ApiModelProperty(value = "以手机号码或邮箱地址", example = "15289678163")
+    private String phoneOrEmail;
 
     @Autowired
     public PasswordGrantTypeParams(HttpServletRequest request) {
@@ -41,6 +56,8 @@ public class PasswordGrantTypeParams {
         clientSecret = this.request.getParameter("client_secret");
         username = this.request.getParameter("username");
         password = this.request.getParameter("password");
+        verificationCode = this.request.getParameter("verificationCode");
+        phoneOrEmail = this.request.getParameter("phoneOrEmail");
 
         if (clientId != null) {
             clientId = clientId.trim();
@@ -50,6 +67,12 @@ public class PasswordGrantTypeParams {
         }
         if (password != null) {
             password = password.trim();
+        }
+        if (phoneOrEmail != null) {
+            phoneOrEmail = phoneOrEmail.trim();
+        }
+        if (verificationCode != null) {
+            verificationCode = verificationCode.trim();
         }
 
     }
@@ -84,5 +107,21 @@ public class PasswordGrantTypeParams {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public String getPhoneOrEmail() {
+        return phoneOrEmail;
+    }
+
+    public void setPhoneOrEmail(String phoneOrEmail) {
+        this.phoneOrEmail = phoneOrEmail;
     }
 }

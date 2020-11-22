@@ -1,13 +1,16 @@
 package com.jeramtough.authserver.service.impl;
 
-import com.jeramtough.authserver.component.login.PasswordGrantTypeUserLoginer;
+import com.jeramtough.authserver.component.login.PasswordGrantTypeByPasswordUserLoginer;
+import com.jeramtough.authserver.component.login.PasswordGrantTypeByVerificationCodeUserLoginer;
 import com.jeramtough.authserver.component.login.UidUserLoginer;
 import com.jeramtough.authserver.service.MyUserDetailsService;
+import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.service.impl.BaseServiceImpl;
 import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
 import com.jeramtough.randl2.common.component.login.user.UserLoginer;
 import com.jeramtough.randl2.common.component.attestation.userdetail.MyUserDetails;
+import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.oauth.PasswordGrantTypeParams;
 import com.jeramtough.randl2.service.randl.RandlRoleService;
 import com.jeramtough.randl2.service.randl.RandlUserService;
@@ -40,23 +43,39 @@ public class MyUserDetailsServiceImpl extends BaseServiceImpl implements MyUserD
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-
         PasswordGrantTypeParams params = getWC().getBean(PasswordGrantTypeParams.class);
         BeanValidator.verifyParams(params);
 
-        UserLoginer userLoginer = getWC().getBean(PasswordGrantTypeUserLoginer.class);
-
-
-        return getUserDetails(userLoginer,params);
+        if (params.getUsername() != null && params.getPassword() != null) {
+            return loadUserByPassword(params);
+        }
+        else if (params.getPhoneOrEmail() != null && params.getVerificationCode() != null) {
+            return loadUserByVerificationCode(params);
+        }
+        else {
+            throw new ApiResponseException(ErrorU.CODE_802.C);
+        }
     }
 
     @Override
     public MyUserDetails loadUserById(Long uid) {
         UserLoginer userLoginer = getWC().getBean(UidUserLoginer.class);
-        return getUserDetails(userLoginer,uid);
+        return getUserDetails(userLoginer, uid);
     }
 
 //*********************
+
+    public UserDetails loadUserByPassword(PasswordGrantTypeParams params) throws UsernameNotFoundException {
+        UserLoginer userLoginer = getWC().getBean(PasswordGrantTypeByPasswordUserLoginer.class);
+        return getUserDetails(userLoginer, params);
+    }
+
+    public UserDetails loadUserByVerificationCode(PasswordGrantTypeParams params) throws
+            UsernameNotFoundException {
+        UserLoginer userLoginer = getWC().getBean(PasswordGrantTypeByVerificationCodeUserLoginer.class);
+        return getUserDetails(userLoginer, params);
+    }
+
 
     private MyUserDetails getUserDetails(UserLoginer userLoginer,
                                          Object params) {

@@ -41,11 +41,6 @@ import java.util.Map;
  * </pre>
  */
 @Api(tags = {"OauthV2接口"})
-@ApiResponses(value = {
-        @ApiResponse(code = ErrorU.CODE_301.C, message = ErrorU.CODE_301.M),
-        @ApiResponse(code = ErrorU.CODE_302.C, message = ErrorU.CODE_302.M),
-        @ApiResponse(code = ErrorU.CODE_304.C, message = ErrorU.CODE_304.M),
-})
 @RestController
 @RequestMapping("/oauthV2")
 public class Oauth2Controller extends AbstractOauthController implements WithLogger {
@@ -62,6 +57,9 @@ public class Oauth2Controller extends AbstractOauthController implements WithLog
 
     @ApiOperation(value = "token令牌", notes = "申请token令牌")
     @RequestMapping(value = "/token", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiResponses(value = {
+            @ApiResponse(code = ErrorU.CODE_802.C, message = ErrorU.CODE_802.M),
+    })
     public CommonApiResponse<OAuth2AccessToken> getAccessToken(Principal principal, @RequestParam
             Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
         if (!(principal instanceof Authentication)) {
@@ -107,9 +105,8 @@ public class Oauth2Controller extends AbstractOauthController implements WithLog
         }
 
         return getSuccessfulApiResponse(token);
+
     }
-
-
 
 
     protected String createTemplate(Map<String, Object> model, HttpServletRequest request) {
@@ -131,7 +128,8 @@ public class Oauth2Controller extends AbstractOauthController implements WithLog
         builder.append("<input name=\"user_oauth_approval\" value=\"true\" type=\"hidden\"/>");
 
         String csrfTemplate = null;
-        CsrfToken csrfToken = (CsrfToken) (model.containsKey("_csrf") ? model.get("_csrf") : request.getAttribute("_csrf"));
+        CsrfToken csrfToken = (CsrfToken) (model.containsKey("_csrf") ? model.get("_csrf") : request.getAttribute(
+                "_csrf"));
         if (csrfToken != null) {
             csrfTemplate = "<input type=\"hidden\" name=\"" + HtmlUtils.htmlEscape(csrfToken.getParameterName()) +
                     "\" value=\"" + HtmlUtils.htmlEscape(csrfToken.getToken()) + "\" />";
@@ -145,7 +143,8 @@ public class Oauth2Controller extends AbstractOauthController implements WithLog
         if (model.containsKey("scopes") || request.getAttribute("scopes") != null) {
             builder.append(createScopes(model, request));
             builder.append(authorizeInputTemplate);
-        } else {
+        }
+        else {
             builder.append(authorizeInputTemplate);
             builder.append("<form id=\"denialForm\" name=\"denialForm\" action=\"");
             builder.append(requestPath).append("/oauth/authorize\" method=\"post\">");

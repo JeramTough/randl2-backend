@@ -174,7 +174,7 @@ public class ErrorU {
 
     public static final class CODE_401 implements Payload {
         public static final int C = 20401;
-        public static final String M = "验证码校验失败，或验证码未发送或以失效！";
+        public static final String M = "验证码校验结果获取失败！[%s]！";
     }
 
     public static final class CODE_402 implements Payload {
@@ -189,8 +189,9 @@ public class ErrorU {
 
     public static final class CODE_404 implements Payload {
         public static final int C = 20404;
-        public static final String M = "验证码校验失败！[%s]！";
+        public static final String M = "验证码消费失败！[%s]！";
     }
+
 
     //==============角色业务==============================
 
@@ -240,6 +241,18 @@ public class ErrorU {
     public static final class CODE_701 implements Payload {
         public static final int C = 20701;
         public static final String M = "操作失败！不能对Randl管理应用和Randl客户端应用进行操作！";
+    }
+
+    //=================Oauth2认证业务===========================
+
+    public static final class CODE_801 implements Payload {
+        public static final int C = 20801;
+        public static final String M = "oauth2授权认证错误！[%s]";
+    }
+
+    public static final class CODE_802 implements Payload {
+        public static final int C = 20802;
+        public static final String M = "密码认证模式缺失参数[用户名密码]或者[手机邮箱验证码]！";
     }
 
 }

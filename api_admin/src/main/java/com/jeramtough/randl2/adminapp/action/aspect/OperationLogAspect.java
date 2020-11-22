@@ -2,6 +2,7 @@ package com.jeramtough.randl2.adminapp.action.aspect;
 
 import com.alibaba.fastjson.JSON;
 import com.jeramtough.jtweb.util.IpAddrUtil;
+import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
 import com.jeramtough.randl2.common.component.attestation.userdetail.UserHolder;
 import com.jeramtough.randl2.common.model.entity.RandlOperationLog;
 import com.jeramtough.randl2.service.randl.RandlOperationLogService;

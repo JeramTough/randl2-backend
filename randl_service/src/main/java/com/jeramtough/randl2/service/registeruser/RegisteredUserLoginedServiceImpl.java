@@ -11,7 +11,7 @@ import com.jeramtough.randl2.common.model.params.registereduser.BindingPhoneOrEm
 import com.jeramtough.randl2.common.model.params.registereduser.ResetPasswordParams;
 import com.jeramtough.randl2.common.model.params.surfaceimage.UpdateSurfaceImageParams;
 import com.jeramtough.randl2.common.model.params.surfaceimage.UploadSurfaceImageParams;
-import com.jeramtough.randl2.common.model.params.verificationcode.VerifyVerificationCodeParams;
+import com.jeramtough.randl2.common.model.params.verificationcode.ConsumeVerificationCodeParams;
 import com.jeramtough.randl2.common.component.attestation.userdetail.UserHolder;
 import com.jeramtough.randl2.common.component.verificationcode.sender.SendWay;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
@@ -125,8 +125,8 @@ public class RegisteredUserLoginedServiceImpl extends BaseDtoServiceImpl<RandlUs
                 if (getBaseMapper().selectByPhoneNumber(params.getPhoneOrEmail()) != null) {
                     throw new ApiResponseException(ErrorU.CODE_208.C);
                 }
-                verificationCodeService.verify(
-                        new VerifyVerificationCodeParams(params.getVerificationCode(),
+                verificationCodeService.consumeVerificationCode(
+                        new ConsumeVerificationCodeParams(params.getVerificationCode(),
                                 params.getPhoneOrEmail()));
 
                 systemUser.setPhoneNumber(params.getPhoneOrEmail());
@@ -141,8 +141,8 @@ public class RegisteredUserLoginedServiceImpl extends BaseDtoServiceImpl<RandlUs
                 if (getBaseMapper().selectByEmailAddress(params.getPhoneOrEmail()) != null) {
                     throw new ApiResponseException(ErrorU.CODE_208.C);
                 }
-                verificationCodeService.verify(
-                        new VerifyVerificationCodeParams(params.getVerificationCode(),
+                verificationCodeService.consumeVerificationCode(
+                        new ConsumeVerificationCodeParams(params.getVerificationCode(),
                                 params.getPhoneOrEmail()));
 
                 systemUser.setEmailAddress(params.getPhoneOrEmail());

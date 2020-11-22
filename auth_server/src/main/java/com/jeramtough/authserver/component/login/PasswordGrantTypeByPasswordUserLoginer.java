@@ -6,7 +6,7 @@ import com.jeramtough.randl2.common.component.attestation.clientdetail.MyClientD
 import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
-import com.jeramtough.randl2.common.model.params.login.LoginCredentialsParams;
+import com.jeramtough.randl2.common.model.params.login.LoginByPasswordParams;
 import com.jeramtough.randl2.common.model.params.oauth.PasswordGrantTypeParams;
 import com.jeramtough.randl2.service.randl.RandlRoleService;
 import ma.glasnost.orika.MapperFacade;
@@ -20,18 +20,18 @@ import org.springframework.stereotype.Component;
  * by @author WeiBoWen
  * </pre>
  */
-@Component("passwordGrantTypeUserLoginer")
-public class PasswordGrantTypeUserLoginer extends CredentialsUserLoginer {
+@Component("passwordGrantTypeByPasswordUserLoginer")
+public class PasswordGrantTypeByPasswordUserLoginer extends PasswordUserLoginer {
 
     private final MyClientDetailsService myClientDetailsService;
 
     @Autowired
-    public PasswordGrantTypeUserLoginer(PasswordEncoder passwordEncoder,
-                                        RandlRoleMapper randlRoleMapper,
-                                        RandlUserMapper randlUserMapper,
-                                        MapperFacade mapperFacade,
-                                        RandlRoleService randlRoleService,
-                                        MyClientDetailsService myClientDetailsService) {
+    public PasswordGrantTypeByPasswordUserLoginer(PasswordEncoder passwordEncoder,
+                                                  RandlRoleMapper randlRoleMapper,
+                                                  RandlUserMapper randlUserMapper,
+                                                  MapperFacade mapperFacade,
+                                                  RandlRoleService randlRoleService,
+                                                  MyClientDetailsService myClientDetailsService) {
         super(passwordEncoder, randlRoleMapper, randlUserMapper, mapperFacade, randlRoleService);
         this.myClientDetailsService = myClientDetailsService;
     }
@@ -43,13 +43,13 @@ public class PasswordGrantTypeUserLoginer extends CredentialsUserLoginer {
                 (MyClientDetails) myClientDetailsService.loadClientByClientId(
                         passwordGrantTypeParams.getClientId());
 
-        LoginCredentialsParams loginCredentialsParams = new LoginCredentialsParams();
+        LoginByPasswordParams loginByPasswordParams = new LoginByPasswordParams();
 
         //每一个Oauth应用都有必须绑定appId
-        loginCredentialsParams.setAppId(myClientDetails.getOauthClientDetails().getAppId());
-        loginCredentialsParams.setCredentials(passwordGrantTypeParams.getUsername());
-        loginCredentialsParams.setPassword(passwordGrantTypeParams.getPassword());
+        loginByPasswordParams.setAppId(myClientDetails.getOauthClientDetails().getAppId());
+        loginByPasswordParams.setCredentials(passwordGrantTypeParams.getUsername());
+        loginByPasswordParams.setPassword(passwordGrantTypeParams.getPassword());
 
-        return super.login(loginCredentialsParams);
+        return super.login(loginByPasswordParams);
     }
 }

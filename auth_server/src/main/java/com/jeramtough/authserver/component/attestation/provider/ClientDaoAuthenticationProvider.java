@@ -51,7 +51,6 @@ public class ClientDaoAuthenticationProvider implements AuthenticationProvider {
 
         MyClientDetails clientDetails = (MyClientDetails) clientDetailsService.loadClientByClientId(
                 clientId);
-        // 这里调用我们的自己写的获取用户的方法
         Long appId = clientDetails.getOauthClientDetails().getAppId();
         if (appId == null) {
             throw new ApiResponseException(ErrorU.CODE_9.C, "Randl应用");

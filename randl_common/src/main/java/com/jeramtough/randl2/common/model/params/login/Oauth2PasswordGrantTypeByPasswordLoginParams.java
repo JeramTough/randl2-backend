@@ -1,10 +1,10 @@
 package com.jeramtough.randl2.common.model.params.login;
 
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
@@ -12,12 +12,17 @@ import javax.validation.constraints.Pattern;
 
 /**
  * <pre>
- * Created on 2020/11/15 0:50
+ *
+ *     密码授权模式根据密码登录参数
+ *
+ * Created on 2020/11/17 10:24
  * by @author WeiBoWen
  * </pre>
  */
-@ApiModel(value = "登陆凭证", description = "")
-public class LoginCredentialsParams {
+@Component
+@Scope(value = "request")
+public class Oauth2PasswordGrantTypeByPasswordLoginParams {
+
 
     @NotNull(payload = ErrorU.CODE_1.class)
     @Pattern(regexp = "(^[a-z0-9A-Z_]{5,16}$)|" +
@@ -32,19 +37,6 @@ public class LoginCredentialsParams {
             message = "密码长度范围在8-16位；只允许非空白任意字符")
     @ApiModelProperty(value = "密码", example = "12345678", required = true)
     private String password;
-
-    @NotNull(payload = ErrorU.CODE_1.class)
-    @ApiModelProperty(value = "Rand应用Id", example = "1", required = true)
-    private Long appId;
-
-
-    public Long getAppId() {
-        return appId;
-    }
-
-    public void setAppId(Long appId) {
-        this.appId = appId;
-    }
 
     public String getCredentials() {
         return credentials;
@@ -61,6 +53,4 @@ public class LoginCredentialsParams {
     public void setPassword(String password) {
         this.password = password;
     }
-
-
 }

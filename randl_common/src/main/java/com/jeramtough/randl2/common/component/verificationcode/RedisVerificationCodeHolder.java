@@ -1,7 +1,9 @@
 package com.jeramtough.randl2.common.component.verificationcode;
 
+import com.jeramtough.jtcomponent.task.bean.PreTaskResult;
 import com.jeramtough.jtcomponent.task.bean.TaskResult;
 import com.jeramtough.jtcomponent.task.response.ResponseFactory;
+import com.jeramtough.jtcomponent.task.runner.SimpleRunner;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundListOperations;
@@ -17,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  * by @author JeramTough
  * </pre>
  */
-@Component
+@Component("redisVerificationCodeHolder")
 public class RedisVerificationCodeHolder implements VerificationCodeHolder {
 
     private static final String VERIFICATION_CODES_KEY_PREFIX =
@@ -37,15 +39,10 @@ public class RedisVerificationCodeHolder implements VerificationCodeHolder {
         this.redisTemplate = redisTemplate;
     }
 
-    @Deprecated
-    @Override
-    public boolean verifyCode(String verificationCode) {
-        return false;
-    }
 
     @Override
-    public TaskResult verifyCode(final String phoneOrEmail,
-                                 final String verificationCode) {
+    public TaskResult consumeCode(final String phoneOrEmail,
+                                  final String verificationCode) {
         return ResponseFactory.doing(preTaskResult -> {
             BoundListOperations listOperations =
                     redisTemplate.boundListOps(getVerificationCodesKey(phoneOrEmail));
@@ -63,12 +60,13 @@ public class RedisVerificationCodeHolder implements VerificationCodeHolder {
                     isPassed = true;
                     preTaskResult.setMessage("验证码正确");
 
-                    //校验成功后将缓存的校验码清除掉
+                    //校验成功后将缓存的所有校验码清除掉
                     redisTemplate.delete(getVerificationCodesKey(phoneOrEmail));
                     break;
                 }
             }
 
+            //保存校验结果
             redisTemplate.boundValueOps(getVerificationResultKey(phoneOrEmail))
                          .set(isPassed, MAX_EXPIRE_TIME_SECONDS, TimeUnit.SECONDS);
             return isPassed;
@@ -76,7 +74,7 @@ public class RedisVerificationCodeHolder implements VerificationCodeHolder {
     }
 
     @Override
-    public String getAndRecordVerificationCode(String phoneOrEmail) {
+    public String produceAndSaveCode(String phoneOrEmail) {
         String verificationCode = RandomStringUtils.random(6, false, true);
 
         BoundListOperations listOperations =
@@ -91,16 +89,25 @@ public class RedisVerificationCodeHolder implements VerificationCodeHolder {
     }
 
     @Override
-    public boolean getVerificationResult(String phoneOrEmail) {
-        Boolean isPassed =
-                (Boolean) redisTemplate.boundValueOps(getVerificationResultKey(phoneOrEmail))
-                                       .get();
-        if (isPassed == null || !isPassed) {
-            return false;
-        }
-        else {
-            return true;
-        }
+    public TaskResult getVerificationResult(String phoneOrEmail) {
+        return ResponseFactory.doing(preTaskResult -> {
+            Boolean isPassed =
+                    (Boolean) redisTemplate.boundValueOps(getVerificationResultKey(phoneOrEmail))
+                                           .get();
+            if (isPassed == null) {
+                preTaskResult.setMessage("验证码未发送或者以失效");
+                return false;
+            }
+
+            if (!isPassed) {
+                preTaskResult.setMessage("验证码不正确！");
+                return false;
+            }
+            else {
+                return true;
+            }
+        }).getTaskResult();
+
     }
 
     //*************

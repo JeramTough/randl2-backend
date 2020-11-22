@@ -11,18 +11,21 @@ import com.jeramtough.jtcomponent.task.bean.TaskResult;
  */
 public interface VerificationCodeHolder {
 
-//    boolean verifySign(String sign);
 
-    boolean verifyCode(String verificationCode);
+    /**
+     * 消费验证码并保存校验结果
+     */
+    TaskResult consumeCode(String phoneOrEmail,
+                           String verificationCode);
 
-    TaskResult verifyCode(String phoneOrEmail,
-                          String verificationCode);
-
-    String getAndRecordVerificationCode(String phoneOrEmail);
+    /**
+     * 生产并持久化验证码
+     */
+    String produceAndSaveCode(String phoneOrEmail);
 
     /**
      * 返回验证码校验结果
      */
-    boolean getVerificationResult(String phoneOrEmail);
+    TaskResult getVerificationResult(String phoneOrEmail);
 
 }
