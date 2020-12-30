@@ -17,5 +17,6 @@ oauth客户端管理
 刷新令牌
 缓存client
 授权界面优化，并关闭session
+是否去掉appIdsso登录
 
 

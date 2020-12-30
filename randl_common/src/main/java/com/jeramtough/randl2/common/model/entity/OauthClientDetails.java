@@ -12,7 +12,7 @@ import io.swagger.annotations.ApiModelProperty;
  * </p>
  *
  * @author JeramTough
- * @since 2020-11-16
+ * @since 2020-11-27
  */
 @ApiModel(value="OauthClientDetails对象", description="")
 public class OauthClientDetails implements Serializable {
@@ -26,6 +26,9 @@ public class OauthClientDetails implements Serializable {
 
     private String clientId;
 
+  /**
+   * 所拥有的资源Ids
+   */
     private String resourceIds;
 
     private String clientSecret;

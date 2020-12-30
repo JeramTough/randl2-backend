@@ -1,7 +1,10 @@
 package com.jeramtough.randl2.common.component.setting;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <pre>
@@ -10,104 +13,100 @@ import org.springframework.stereotype.Component;
  * </pre>
  */
 @Component
+@ConfigurationProperties(prefix = "app.setting")
 public class AppSetting {
 
-    @Value(value = "${app.setting.jwt.signingKey}")
-    private String jwtSigningKey;
+    private Map<String, String> jwt;
 
-    @Value(value = "${app.setting.jwt.validity}")
-    private Long jwtValidity;
+    private Map<String, String> admin;
 
-    @Value(value = "${app.setting.jwt.issuer}")
-    private String jwtIssuer;
+    private Map<String, String> user;
 
-    @Value(value = "${app.setting.admin.defaultAppId}")
-    private Long defaultAdminAppId;
+    private Map<String, String> oauth;
 
-    @Value(value = "${app.setting.admin.defaultRoleId}")
-    private Long defaultAdminRoleId;
 
-    @Value(value = "${app.setting.user.defaultAppId}")
-    private Long defaultUserAppId;
-
-    @Value(value = "${app.setting.user.defaultRoleId}")
-    private Long defaultUserRoleId;
-
-    @Value(value = "${app.setting.admin.account}")
-    private String adminAccount;
-
-    @Value(value = "${app.setting.admin.password}")
-    private String adminPassword;
+    public AppSetting() {
+        jwt = new HashMap<>(6);
+        admin = new HashMap<>(6);
+        user = new HashMap<>(6);
+    }
 
     public String getJwtSigningKey() {
-        return jwtSigningKey;
+        return jwt.get("signingKey");
     }
 
-    public void setJwtSigningKey(String jwtSigningKey) {
-        this.jwtSigningKey = jwtSigningKey;
-    }
 
     public Long getJwtValidity() {
-        return jwtValidity;
+        return new Long(jwt.get("validity"));
     }
 
-    public void setJwtValidity(Long jwtValidity) {
-        this.jwtValidity = jwtValidity;
-    }
 
     public String getJwtIssuer() {
-        return jwtIssuer;
+        return jwt.get("issuer");
     }
 
-    public void setJwtIssuer(String jwtIssuer) {
-        this.jwtIssuer = jwtIssuer;
-    }
 
     public Long getDefaultUserAppId() {
-        return defaultUserAppId;
-    }
-
-    public void setDefaultUserAppId(Long defaultUserAppId) {
-        this.defaultUserAppId = defaultUserAppId;
+        return Long.parseLong(user.get("defaultAppId"));
     }
 
     public String getAdminAccount() {
-        return adminAccount;
-    }
-
-    public void setAdminAccount(String adminAccount) {
-        this.adminAccount = adminAccount;
+        return admin.get("account");
     }
 
     public String getAdminPassword() {
-        return adminPassword;
+        return admin.get("password");
     }
 
-    public void setAdminPassword(String adminPassword) {
-        this.adminPassword = adminPassword;
-    }
 
     public Long getDefaultUserRoleId() {
-        return defaultUserRoleId;
+        return Long.parseLong(user.get("defaultRoleId"));
     }
 
-    public void setDefaultUserRoleId(Long defaultUserRoleId) {
-        this.defaultUserRoleId = defaultUserRoleId;
-    }
 
     public Long getDefaultAdminAppId() {
-        return defaultAdminAppId;
+        return Long.parseLong(admin.get("defaultAppId"));
     }
 
-    public void setDefaultAdminAppId(Long defaultAdminAppId) {
-        this.defaultAdminAppId = defaultAdminAppId;
-    }
 
     public Long getDefaultAdminRoleId() {
-        return defaultAdminRoleId;
+        return Long.parseLong(admin.get("defaultRoleId"));
     }
 
-    public void setDefaultAdminRoleId(Long defaultAdminRoleId) {
-        this.defaultAdminRoleId = defaultAdminRoleId;
+
+    public Map<String, String> getJwt() {
+        return jwt;
+    }
+
+    public void setJwt(Map<String, String> jwt) {
+        this.jwt = jwt;
+    }
+
+    public Map<String, String> getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Map<String, String> admin) {
+        this.admin = admin;
+    }
+
+    public Map<String, String> getUser() {
+        return user;
+    }
+
+    public Map<String, String> getOauth() {
+        return oauth;
+    }
+
+    public void setOauth(Map<String, String> oauth) {
+        this.oauth = oauth;
+    }
+
+    public void setUser(Map<String, String> user) {
+        this.user = user;
+    }
+
+    public Long getOauthResourceId() {
+        return Long.parseLong(oauth.get("resource_id"));
     }
 }

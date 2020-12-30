@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.authserver.component.attestation.token.ClientSecretAuthenticationToken;
+import com.jeramtough.randl2.common.model.constant.OAuth2Constants;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.oauth.OauthTokenParams;
 import io.swagger.annotations.ApiResponse;
@@ -95,13 +96,16 @@ public class Oauth2ClientCredentialsTokenFilter extends BaseCredentialsTokenFilt
                 params.getClientSecret());
 
         //使用authenticationManager里的AuthenticationProvider进行校验
-        Authentication authenticationHasVerified = authenticationManager.authenticate(authRequest);
+        Authentication authenticationHasVerified = null;
+        try {
+            authenticationHasVerified = authenticationManager.authenticate(authRequest);
+        }
+        catch (Exception e) {
+            returnCommonApiResponse(getFailedApiResponse(e), response);
+        }
+
         return authenticationHasVerified;
     }
-
-
-
-
 
 
     /**
@@ -126,7 +130,10 @@ public class Oauth2ClientCredentialsTokenFilter extends BaseCredentialsTokenFilt
                 uri = uri.substring(0, pathParamIndex);
             }
 
-            String clientId = request.getParameter("client_id");
+            String clientId = request.getParameter(OAuth2Constants.CLIENT_ID);
+            if (clientId == null) {
+                clientId = request.getParameter(OAuth2Constants.CLIENT_ID_2);
+            }
 
             if (clientId == null) {
                 // Give basic auth a chance to work instead (it's preferred anyway)

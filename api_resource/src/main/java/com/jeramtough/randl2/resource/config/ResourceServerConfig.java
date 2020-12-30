@@ -15,6 +15,7 @@
  */
 package com.jeramtough.randl2.resource.config;
 
+import com.jeramtough.randl2.common.component.setting.AppSetting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
@@ -31,20 +32,21 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-    private static final String RESOURCE_ID = "randl-resource";
-
     private final TokenStore tokenStore;
+    private final AppSetting appSetting;
 
     @Autowired
     public ResourceServerConfig(
-            @Qualifier("tokenStore") TokenStore tokenStore) {
+            @Qualifier("tokenStore") TokenStore tokenStore,
+            AppSetting appSetting) {
         this.tokenStore = tokenStore;
+        this.appSetting = appSetting;
     }
 
     @Override
     public void configure(ResourceServerSecurityConfigurer security) throws Exception {
         security
-                .resourceId(RESOURCE_ID)
+                .resourceId(appSetting.getOauthResourceId().toString())
 //                不使用远程校验令牌的方法
 //                .tokenServices(tokenService())
                 .tokenStore(tokenStore);

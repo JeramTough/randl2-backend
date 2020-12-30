@@ -5,9 +5,11 @@ import com.jeramtough.authserver.service.MyUserDetailsService;
 import com.jeramtough.jtcomponent.task.response.TaskResponse;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.common.component.attestation.SimplePrincipal;
+import com.jeramtough.randl2.common.component.attestation.userdetail.AccountStatus;
 import com.jeramtough.randl2.common.component.attestation.userdetail.MyUserDetails;
 import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
 import com.jeramtough.randl2.common.component.setting.AppSetting;
+import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.util.JwtTokenUtil;
@@ -34,14 +36,14 @@ import java.util.stream.Stream;
  * </pre>
  */
 @Component
-public class JwtAuthenticationProvider implements AuthenticationProvider {
+public class SsoAuthenticationProvider implements AuthenticationProvider {
 
     private final AppSetting appSetting;
     private final MyUserDetailsService myUserDetailsService;
 
 
     @Autowired
-    public JwtAuthenticationProvider(AppSetting appSetting,
+    public SsoAuthenticationProvider(AppSetting appSetting,
                                      MyUserDetailsService myUserDetailsService) {
         this.appSetting = appSetting;
         this.myUserDetailsService = myUserDetailsService;
@@ -70,18 +72,32 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
        /* MyUserDetails myUserDetails = myUserDetailsService.loadUserById(Long.parseLong(uid));
         SystemUser systemUser = myUserDetails.getSystemUser();*/
 
-        SimplePrincipal simplePrincipal = new SimplePrincipal(uid);
+        //生成SystemUser
+        SystemUser systemUser = new SystemUser();
+        systemUser.setUid(Long.parseLong(uid));
+        systemUser.setAccount(uid);
+        systemUser.setAccountStatus(AccountStatus.ABLE.getNumber());
 
-        List<GrantedAuthority> authorities =
+        List<RandlRole> roleList =
                 Arrays.asList(roleAlias)
                       .parallelStream()
-                      .map(SimpleGrantedAuthority::new)
+                      .map((alias) -> {
+                          RandlRole randlRole = new RandlRole();
+                          randlRole.setAlias(alias);
+                          return randlRole;
+                      })
                       .collect(Collectors.toList());
+        systemUser.setRoles(roleList);
+
+        MyUserDetails myUserDetails = new MyUserDetails(systemUser);
+
 
         // 构建返回的用户登录成功的UsernamePasswordAuthenticationToken，
         //为了跳过UserPasswordFileter的校验
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(simplePrincipal, token, authorities);
+                new UsernamePasswordAuthenticationToken(systemUser, token, myUserDetails.getAuthorities());
+        usernamePasswordAuthenticationToken.setDetails(myUserDetails);
+
 
         return usernamePasswordAuthenticationToken;
     }

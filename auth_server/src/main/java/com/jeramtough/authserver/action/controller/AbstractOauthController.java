@@ -4,6 +4,7 @@ import com.jeramtough.jtlog.facade.L;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.common.action.controller.MyBaseController;
+import com.jeramtough.randl2.common.component.attestation.oauth2.RandlOAuth2RequestFactory;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -123,7 +124,7 @@ public abstract class AbstractOauthController extends MyBaseController {
         if (oAuth2RequestFactory != null) {
             return oAuth2RequestFactory;
         }
-        oAuth2RequestFactory = new DefaultOAuth2RequestFactory(clientDetailsService);
+        oAuth2RequestFactory = new RandlOAuth2RequestFactory(clientDetailsService);
         return oAuth2RequestFactory;
     }
 

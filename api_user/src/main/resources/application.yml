@@ -33,10 +33,16 @@ logging:
 
 security:
   oauth2:
-    resource:
-      filter-order: 3
-      jwk:
-        key-set-uri: http://auth-server:8090/oauth2/keys
+    client:
+      client_id: first-client
+      client_secret: 12345678
+      grant_type: authorization_code
+      #授权服务的域名地址不能和客户端的一样，所以分别为127.0.0.1和localhost
+      user_authorization_uri: http://localhost:8080/oauth/authorize
+      access_token_uri: http://localhost:8080/oauth/token
+      #SSO登录地址
+      sso_login_url-uri: http://127.0.0.1:8093/authorized
+
 
 app:
   setting:
@@ -44,3 +50,9 @@ app:
       signingKey: ABCD
       issuer: SSD
       validity: 604800000
+    admin:
+      defaultAppId: 1
+      defaultRoleId: 1
+    user:
+      defaultAppId: 2
+      defaultRoleId: 2

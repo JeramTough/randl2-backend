@@ -23,6 +23,12 @@
             <artifactId>randl_service</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.jeramtough</groupId>
+            <artifactId>randl2_client</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

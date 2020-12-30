@@ -31,25 +31,11 @@ logging:
     org.springframework.security: INFO
     org.springframework.security.oauth2: INFO
 
-security:
-  oauth2:
-    resource:
-      filter-order: 3
-      jwk:
-        key-set-uri: http://auth-server:8090/oauth2/keys
-
 app:
   setting:
     jwt:
       signingKey: ABCD
       issuer: SSD
       validity: 604800000
-    admin:
-      #管理员账号要尽量复杂，不和线上数据库里的账号重复
-      account: superadmin
-      password: '{noop}superadmin'
-      defaultAppId: 1
-      defaultRoleId: 1
-    user:
-      defaultAppId: 2
-      defaultRoleId: 2
+    oauth:
+      resource_id: 3

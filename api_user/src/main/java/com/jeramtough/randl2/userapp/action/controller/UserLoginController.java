@@ -2,6 +2,7 @@ package com.jeramtough.randl2.userapp.action.controller;
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.randl2.common.action.controller.MyBaseController;
+import com.jeramtough.randl2.common.component.setting.AppSetting;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.login.LoginByPasswordParams;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 /**
  * <pre>
@@ -38,7 +41,7 @@ public class UserLoginController extends MyBaseController {
             @ApiResponse(code = ErrorU.CODE_303.C, message = ErrorU.CODE_303.M),
             @ApiResponse(code = ErrorU.CODE_304.C, message = ErrorU.CODE_304.M),
     })
-    public CommonApiResponse<SystemUserDto> userLogin(LoginByPasswordParams params) {
+    public CommonApiResponse<Map<String, Object>> userLogin(LoginByPasswordParams params) {
         return getSuccessfulApiResponse(loginService.userLogin(params));
     }
 

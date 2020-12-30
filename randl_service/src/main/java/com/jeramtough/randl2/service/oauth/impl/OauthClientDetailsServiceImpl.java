@@ -10,6 +10,7 @@ import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.service.base.MyBaseService;
 import com.jeramtough.randl2.service.base.impl.MyBaseServiceImpl;
 import com.jeramtough.randl2.service.oauth.OauthClientDetailsService;
+import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -45,4 +46,5 @@ public class OauthClientDetailsServiceImpl extends MyBaseServiceImpl<OauthClient
         }
         return oauthClientDetails;
     }
+
 }

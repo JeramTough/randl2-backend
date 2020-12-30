@@ -13,7 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
  * </p>
  *
  * @author JeramTough
- * @since 2020-10-02
+ * @since 2020-11-27
  */
 @ApiModel(value="RandlApp对象", description="")
 public class RandlApp implements Serializable {
@@ -46,6 +46,11 @@ public class RandlApp implements Serializable {
    */
     private LocalDateTime createTime;
 
+  /**
+   * 0,1,2,3.....0=后台服务端，1=Web前端，2=安卓苹果端，3=小程序端
+   */
+    private String types;
+
 
     public Long getFid() {
         return fid;
@@ -62,7 +67,6 @@ public class RandlApp implements Serializable {
     public void setAppName(String appName) {
         this.appName = appName;
     }
-
 
     public String getDescription() {
         return description;
@@ -88,14 +92,23 @@ public class RandlApp implements Serializable {
         this.createTime = createTime;
     }
 
+    public String getTypes() {
+        return types;
+    }
+
+    public void setTypes(String types) {
+        this.types = types;
+    }
+
     @Override
     public String toString() {
-        return "RandlUserApp{" +
+        return "RandlApp{" +
         "fid=" + fid +
         ", appName=" + appName +
         ", description=" + description +
         ", isAble=" + isAble +
         ", createTime=" + createTime +
+        ", types=" + types +
         "}";
     }
 }

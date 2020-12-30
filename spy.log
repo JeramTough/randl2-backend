@@ -226,3 +226,11 @@
 1605542494439|0|commit|connection 0|url jdbc:p6spy:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8||
 1606062668479|7|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8|/* ping */ SELECT 1|/* ping */ SELECT 1
 1606063512467|11|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8|/* ping */ SELECT 1|/* ping */ SELECT 1
+1606135216150|8|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8|/* ping */ SELECT 1|/* ping */ SELECT 1
+1606135310051|9|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8|/* ping */ SELECT 1|/* ping */ SELECT 1
+1606137199811|9|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8|/* ping */ SELECT 1|/* ping */ SELECT 1
+1606137302487|9|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8|/* ping */ SELECT 1|/* ping */ SELECT 1
+1606137441128|10|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8|/* ping */ SELECT 1|/* ping */ SELECT 1
+1606137949947|8|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8|/* ping */ SELECT 1|/* ping */ SELECT 1
+1606138018064|9|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8|/* ping */ SELECT 1|/* ping */ SELECT 1
+1606138357748|8|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8|/* ping */ SELECT 1|/* ping */ SELECT 1

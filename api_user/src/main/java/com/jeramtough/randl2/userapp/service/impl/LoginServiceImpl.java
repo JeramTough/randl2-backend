@@ -2,12 +2,13 @@ package com.jeramtough.randl2.userapp.service.impl;
 
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.service.impl.BaseServiceImpl;
-import com.jeramtough.randl2.common.model.dto.SystemUserDto;
 import com.jeramtough.randl2.common.model.params.login.LoginByPasswordParams;
 import com.jeramtough.randl2.userapp.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.Map;
 
 /**
  * <pre>
@@ -25,7 +26,8 @@ public class LoginServiceImpl extends BaseServiceImpl implements LoginService, W
     }
 
     @Override
-    public SystemUserDto userLogin(LoginByPasswordParams params) {
+    public Map<String, Object> userLogin(LoginByPasswordParams params) {
+
         return null;
     }
 }

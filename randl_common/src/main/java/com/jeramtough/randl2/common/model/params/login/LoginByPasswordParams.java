@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.common.model.params.login;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -33,8 +34,10 @@ public class LoginByPasswordParams {
     @ApiModelProperty(value = "密码", example = "12345678", required = true)
     private String password;
 
-    @NotNull(payload = ErrorU.CODE_1.class)
-    @ApiModelProperty(value = "Rand应用Id", example = "1", required = true)
+    /**
+     * 用于业务需要字段
+     */
+    @JSONField(serialize = false)
     private Long appId;
 
 

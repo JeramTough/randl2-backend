@@ -69,14 +69,13 @@ public class MyUserDetails implements UserDetails, CredentialsContainer {
 
     public MyUserDetails(SystemUser systemUser) {
 
-        this.systemUser=systemUser;
+        this.systemUser = systemUser;
 
         List<GrantedAuthority> authorities = new ArrayList<>();
         systemUser.getRoles().parallelStream().forEach(randlRole -> {
-            JaasGrantedAuthority jaasGrantedAuthority =
-                    new JaasGrantedAuthority("ROLE_" + randlRole.getAlias(),
-                            systemUser);
-            authorities.add(jaasGrantedAuthority);
+            SimpleGrantedAuthority simpleGrantedAuthority =
+                    new SimpleGrantedAuthority("ROLE_" + randlRole.getAlias());
+            authorities.add(simpleGrantedAuthority);
         });
 
         this.username = systemUser.getAccount();

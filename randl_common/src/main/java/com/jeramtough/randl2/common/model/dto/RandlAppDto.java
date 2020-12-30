@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "RandlApp对象", description = "")
 public class RandlAppDto implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID=1L;
 
     @ApiModelProperty(value = "主键")
     @TableId(value = "fid", type = IdType.AUTO)
@@ -36,9 +36,11 @@ public class RandlAppDto implements Serializable {
     @ApiModelProperty(value = "是否可用")
     private Integer isAble;
 
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
+
+    @ApiModelProperty(value = "0,1,2,3.....0=后台服务端，1=Web前端，2=安卓苹果端，3=小程序端")
+    private String types;
 
 
     public Long getFid() {
@@ -56,7 +58,6 @@ public class RandlAppDto implements Serializable {
     public void setAppName(String appName) {
         this.appName = appName;
     }
-
 
     public String getDescription() {
         return description;
@@ -82,14 +83,23 @@ public class RandlAppDto implements Serializable {
         this.createTime = createTime;
     }
 
+    public String getTypes() {
+        return types;
+    }
+
+    public void setTypes(String types) {
+        this.types = types;
+    }
+
     @Override
     public String toString() {
-        return "RandlUserApp{" +
+        return "RandlApp{" +
                 "fid=" + fid +
                 ", appName=" + appName +
                 ", description=" + description +
                 ", isAble=" + isAble +
                 ", createTime=" + createTime +
+                ", types=" + types +
                 "}";
     }
 }

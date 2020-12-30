@@ -35,7 +35,14 @@ public class OauthTokenParams {
 
     void init() {
         this.clientId = request.getParameter(OAuth2Constants.CLIENT_ID);
+        if (clientId==null){
+            this.clientId = request.getParameter(OAuth2Constants.CLIENT_ID_2);
+        }
+
         this.clientSecret = request.getParameter(OAuth2Constants.CLIENT_SECRET);
+        if (this.clientSecret==null){
+            this.clientSecret=request.getParameter(OAuth2Constants.CLIENT_SECRET_2);
+        }
     }
 
     public String getClientId() {

@@ -18,7 +18,7 @@ package com.jeramtough.authserver.config.security;
 import com.jeramtough.authserver.action.filter.Oauth2ClientCredentialsTokenFilter;
 import com.jeramtough.authserver.action.filter.SsoCredentialsTokenFilter;
 import com.jeramtough.authserver.component.attestation.provider.ClientDaoAuthenticationProvider;
-import com.jeramtough.authserver.component.attestation.provider.JwtAuthenticationProvider;
+import com.jeramtough.authserver.component.attestation.provider.SsoAuthenticationProvider;
 import com.jeramtough.randl2.common.config.security.BaseWebSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,7 +50,7 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final ClientDaoAuthenticationProvider clientDaoAuthenticationProvider;
-    private final JwtAuthenticationProvider jwtAuthenticationProvider;
+    private final SsoAuthenticationProvider ssoAuthenticationProvider;
 
     private static final String[] OPENED_API_URLS = {
             "/",
@@ -71,11 +71,11 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
                     UserDetailsService userDetailsService,
             PasswordEncoder passwordEncoder,
             ClientDaoAuthenticationProvider clientDaoAuthenticationProvider,
-            JwtAuthenticationProvider jwtAuthenticationProvider) {
+            SsoAuthenticationProvider ssoAuthenticationProvider) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
         this.clientDaoAuthenticationProvider = clientDaoAuthenticationProvider;
-        this.jwtAuthenticationProvider = jwtAuthenticationProvider;
+        this.ssoAuthenticationProvider = ssoAuthenticationProvider;
     }
 
 
@@ -177,7 +177,7 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
 
         //添加三个令牌校验算法
         builder.authenticationProvider(clientDaoAuthenticationProvider);
-        builder.authenticationProvider(jwtAuthenticationProvider);
+        builder.authenticationProvider(ssoAuthenticationProvider);
         builder.authenticationProvider(daoAuthenticationProvider);
 
         AuthenticationManager authenticationManager = builder.build();

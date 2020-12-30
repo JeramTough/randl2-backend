@@ -13,7 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
  * </p>
  *
  * @author JeramTough
- * @since 2020-11-16
+ * @since 2020-11-27
  */
 @ApiModel(value="OauthApprovals对象", description="")
 public class OauthApprovals implements Serializable {

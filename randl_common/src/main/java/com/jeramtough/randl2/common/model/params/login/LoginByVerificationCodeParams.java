@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.common.model.params.login;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -28,19 +29,11 @@ public class LoginByVerificationCodeParams {
     @ApiModelProperty(value = "以手机号码或邮箱地址", example = "15289678163")
     private String phoneOrEmail;
 
-    @NotNull(payload = ErrorU.CODE_1.class)
-    @ApiModelProperty(value = "Rand应用Id", example = "1", required = true)
+    /**
+     * 用于业务需要字段
+     */
+    @JSONField(serialize = false)
     private Long appId;
-
-
-    public Long getAppId() {
-        return appId;
-    }
-
-    public void setAppId(Long appId) {
-        this.appId = appId;
-    }
-
 
     public String getVerificationCode() {
         return verificationCode;
@@ -56,5 +49,13 @@ public class LoginByVerificationCodeParams {
 
     public void setPhoneOrEmail(String phoneOrEmail) {
         this.phoneOrEmail = phoneOrEmail;
+    }
+
+    public Long getAppId() {
+        return appId;
+    }
+
+    public void setAppId(Long appId) {
+        this.appId = appId;
     }
 }
