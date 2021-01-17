@@ -5,7 +5,7 @@ import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.verificationcode.SendVerificationCodeParams;
 import com.jeramtough.randl2.common.model.params.verificationcode.ConsumeVerificationCodeParams;
-import com.jeramtough.randl2.service.other.VerificationCodeService;
+import com.jeramtough.randl2.service.resource.VerificationCodeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Api(tags = {"验证码接口"})
-@RequestMapping("/verificationCode")
+@RequestMapping("/api/verificationCode")
 public class VerificationCodeController extends MyBaseController {
 
     private final VerificationCodeService verificationCodeService;

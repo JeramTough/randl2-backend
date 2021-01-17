@@ -9,7 +9,7 @@ import com.jeramtough.randl2.common.model.params.surfaceimage.UpdateCurrentAdmin
 import com.jeramtough.randl2.common.model.params.surfaceimage.UpdateSurfaceImageParams;
 import com.jeramtough.randl2.common.model.params.surfaceimage.UploadSurfaceImageParams;
 import com.jeramtough.randl2.common.model.dto.SourceSurfaceImageDto;
-import com.jeramtough.randl2.service.source.SourceSurfaceImageService;
+import com.jeramtough.randl2.service.resource.ResourceSurfaceImageService;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,10 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/sourceSurfaceImage")
 public class SourceSurfaceImageController extends MyBaseController {
 
-    private final SourceSurfaceImageService surfaceImageService;
+    private final ResourceSurfaceImageService surfaceImageService;
 
     public SourceSurfaceImageController(
-            SourceSurfaceImageService surfaceImageService) {
+            ResourceSurfaceImageService surfaceImageService) {
         this.surfaceImageService = surfaceImageService;
     }
 

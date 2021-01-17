@@ -75,7 +75,7 @@ public class RandlPersonalInfoServiceImpl extends BaseDtoServiceImpl<PersonalInf
     @Override
     public RandlPersonalInfoDto getPersonalInfoDtoByUidWithoutSurfaceImage(Long uid) {
         if (randlUserMapper.selectById(uid) == null) {
-            throw new ApiResponseException(ErrorU.CODE_12.C, "用户信息");
+            throw new ApiResponseException(ErrorU.CODE_13.C, "用户信息");
         }
 
         RandlPersonalInfo randlPersonalInfo =
@@ -111,7 +111,7 @@ public class RandlPersonalInfoServiceImpl extends BaseDtoServiceImpl<PersonalInf
                 fid = randlPersonalInfo.getFid();
             }
             else {
-                throw new ApiResponseException(ErrorU.CODE_12.C);
+                throw new ApiResponseException(ErrorU.CODE_13.C);
             }
         }
         else {

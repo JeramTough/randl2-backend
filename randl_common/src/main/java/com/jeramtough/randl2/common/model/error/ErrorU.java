@@ -83,6 +83,11 @@ public class ErrorU {
 
     public static final class CODE_12 implements Payload {
         public static final int C = 20012;
+        public static final String M = "【系统公共错误码】执行失败，用户请求[%t]对应的[%s]目标资源以存在，请换一个！";
+    }
+
+    public static final class CODE_13 implements Payload {
+        public static final int C = 20013;
         public static final String M = "【系统公共错误码】执行失败，系统不存在该id对应的用户！";
     }
 
@@ -105,15 +110,21 @@ public class ErrorU {
 
     public static final class CODE_201 implements Payload {
         public static final int C = 20201;
-        public static final String M = "事务ID以失效，注册信息失效，请重新开始注册！";
+        public static final String M = "事务已失效，或信息已失效，请重新开始[注册/重置]！";
     }
 
     public static final class CODE_202 implements Payload {
         public static final int C = 20202;
-        public static final String M = "注册未完成或信息以失效，请重新注册！";
+        public static final String M = "未设置密码，注册流程未完成！";
     }
 
     public static final class CODE_203 implements Payload {
+        public static final int C = 20203;
+        public static final String M = "重置失败！账户信息未做过任何修改！";
+    }
+
+
+    /*public static final class CODE_203 implements Payload {
         public static final int C = 20203;
         public static final String M = "重置未完成或信息以失效，请重新开始重置流程！";
     }
@@ -126,7 +137,7 @@ public class ErrorU {
     public static final class CODE_205 implements Payload {
         public static final int C = 20205;
         public static final String M = "该手机号或者邮箱地址未注册或绑定过本系统！";
-    }
+    }*/
 
     public static final class CODE_206 implements Payload {
         public static final int C = 20206;

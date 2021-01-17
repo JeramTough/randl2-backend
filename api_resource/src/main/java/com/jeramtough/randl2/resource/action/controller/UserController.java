@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Api(tags = {"用户资源接口"})
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController extends MyBaseController {
 
     @ApiOperation(value = "查询一个", notes = "查询一个普通用户个人信息")

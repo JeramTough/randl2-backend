@@ -182,7 +182,7 @@ public class RandlUserServiceImpl extends BaseDtoServiceImpl<RandlUserMapper, Ra
         RandlUser currentRandlUser = getById(params.getUid());
 
         if (currentRandlUser == null) {
-            throw new ApiResponseException(ErrorU.CODE_12.C);
+            throw new ApiResponseException(ErrorU.CODE_13.C);
         }
 
         if (!currentRandlUser.getAccount().equals(params.getAccount())) {

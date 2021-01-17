@@ -234,3 +234,5 @@
 1606137949947|8|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8|/* ping */ SELECT 1|/* ping */ SELECT 1
 1606138018064|9|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8|/* ping */ SELECT 1|/* ping */ SELECT 1
 1606138357748|8|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8|/* ping */ SELECT 1|/* ping */ SELECT 1
+1610384075579|9|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8|/* ping */ SELECT 1|/* ping */ SELECT 1
+1610885082109|13|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8|/* ping */ SELECT 1|/* ping */ SELECT 1

@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>randl2_client</artifactId>
+    <artifactId>randl2_sdk</artifactId>
 
     <dependencies>
 

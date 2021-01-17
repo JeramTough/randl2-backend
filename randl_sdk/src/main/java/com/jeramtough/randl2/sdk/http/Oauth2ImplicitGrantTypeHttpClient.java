@@ -15,9 +15,9 @@ import java.util.Map;
  * by @author WeiBoWen
  * </pre>
  */
-public class Oauth2AuthorizationCodeGrantTypeHttpClient extends BaseOauth2HttpClient {
+public class Oauth2ImplicitGrantTypeHttpClient extends BaseOauth2HttpClient {
 
-    public Oauth2AuthorizationCodeGrantTypeHttpClient(
+    public Oauth2ImplicitGrantTypeHttpClient(
             Oauth2ClientConfig oauth2ClientConfig) {
         super(oauth2ClientConfig);
     }
@@ -48,9 +48,9 @@ public class Oauth2AuthorizationCodeGrantTypeHttpClient extends BaseOauth2HttpCl
         URLBuilder urlBuilder = getCommonRequestUrl(getOauth2ClientConfig().getUserAuthorizationUri());
 
         urlBuilder.appendParam("state", state);
-        urlBuilder.appendParam("grant_type", AuthorizationGrantType.AUTHORIZATION_CODE.getValue());
+        urlBuilder.appendParam("grant_type", AuthorizationGrantType.IMPLICIT.getValue());
         urlBuilder.appendParam("authorization", ssoToken);
-        urlBuilder.appendParam("response_type", "code");
+        urlBuilder.appendParam("response_type", "token");
 
         return urlBuilder.toString();
     }
@@ -60,31 +60,12 @@ public class Oauth2AuthorizationCodeGrantTypeHttpClient extends BaseOauth2HttpCl
         URLBuilder urlBuilder = getCommonRequestUrl(getOauth2ClientConfig().getUserAuthorizationUri());
 
         urlBuilder.appendParam("state", state);
-        urlBuilder.appendParam("grant_type", AuthorizationGrantType.AUTHORIZATION_CODE.getValue());
+        urlBuilder.appendParam("grant_type", AuthorizationGrantType.IMPLICIT.getValue());
         urlBuilder.appendParam("authorization", ssoToken);
-        urlBuilder.appendParam("response_type", "code");
+        urlBuilder.appendParam("response_type", "token");
 
         return doGet(urlBuilder);
     }
 
-    public ApiResponse obtainTokenByAuthorizationCode(String authorizationCode) throws IOException {
-
-        Map<String, Object> params = new HashMap<>(3);
-        params.put("code", authorizationCode);
-        params.put("redirectUris_url", getOauth2ClientConfig().getRedirectUrisUrl());
-        params.put("grant_type", AuthorizationGrantType.AUTHORIZATION_CODE.getValue());
-        RequestBody requestBody = getCommonRequestBody(params);
-
-        return doTokenPost(requestBody);
-    }
-
-    public ApiResponse obtainTokenByRefreshToken(String refreshToken) throws IOException {
-        Map<String, Object> params = new HashMap<>(3);
-        params.put("refresh_token", refreshToken);
-        params.put("grant_type", AuthorizationGrantType.REFRESH_TOKEN.getValue());
-        RequestBody requestBody = getCommonRequestBody(params);
-
-        return doTokenPost(requestBody);
-    }
 
 }

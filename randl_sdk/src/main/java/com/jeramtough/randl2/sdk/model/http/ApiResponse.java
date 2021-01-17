@@ -6,6 +6,7 @@ package com.jeramtough.randl2.sdk.model.http;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -14,7 +15,7 @@ import java.util.Map;
  * @author bejson.com (i@bejson.com)
  * @website http://www.bejson.com/java2pojo/
  */
-public class ApiResponse {
+public class ApiResponse implements Serializable {
 
     private boolean isSuccessful;
     private JSONObject responseBody;
@@ -57,4 +58,13 @@ public class ApiResponse {
         return timestamp;
     }
 
+    @Override
+    public String toString() {
+        return "ApiResponse{" +
+                "isSuccessful=" + isSuccessful +
+                ", responseBody=" + responseBody +
+                ", statusCode=" + statusCode +
+                ", timestamp=" + timestamp +
+                '}';
+    }
 }

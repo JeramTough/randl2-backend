@@ -27,10 +27,33 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
+ *
  */
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+
+    private static final String[] OPENED_ADI_URLS = {
+            "/api/verificationCode/**",
+    };
+
+    private static final String[] SWAGGER_URLS = {
+            "/swagger-resources",
+            "/v2/api-docs",
+            "/v2/api-docs-ext",
+            "/doc.html",
+            "/webjars",
+            "/swagger-ui.html",
+            "/swagger-resources/**",
+            "/images/**",
+            "/webjars/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/api-docs-ext",
+            "/api-docs",
+            "/swagger-resources/configuration/ui/**",
+            "/swagger-resources/configuration/security"
+    };
 
     private final TokenStore tokenStore;
     private final AppSetting appSetting;
@@ -57,10 +80,15 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         //所有资源都要授权访问
         http.antMatcher("/**")
             .authorizeRequests()
-            .antMatchers("/user/**").hasRole("RANDL_USER")
-            //这个资源需要拥有的范围访问资源
-            .antMatchers("/app/**")
-            .access("#oauth2.hasScope('app')")
+            //放行Swagger的资源
+            .antMatchers(SWAGGER_URLS).permitAll()
+            //放行开放的资源
+            .antMatchers(OPENED_ADI_URLS).permitAll()
+            //授权资源
+            .antMatchers("/api/app/**")
+            .access("#oauth2.hasScope('/api/app/**')")
+            .antMatchers("/api/user/**")
+            .access("#oauth2.hasScope('/api/user/**')")
             .and()
             //基于token的话，session就不用缓存了
             .sessionManagement()

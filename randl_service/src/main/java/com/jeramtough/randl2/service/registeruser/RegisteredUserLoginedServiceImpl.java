@@ -17,9 +17,9 @@ import com.jeramtough.randl2.common.component.verificationcode.sender.SendWay;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
 import com.jeramtough.randl2.common.model.dto.RandlPersonalInfoDto;
 import com.jeramtough.randl2.common.model.dto.RandlUserDto;
-import com.jeramtough.randl2.service.other.VerificationCodeService;
+import com.jeramtough.randl2.service.resource.VerificationCodeService;
 import com.jeramtough.randl2.service.randl.RandlPersonalInfoService;
-import com.jeramtough.randl2.service.source.SourceSurfaceImageService;
+import com.jeramtough.randl2.service.resource.ResourceSurfaceImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ public class RegisteredUserLoginedServiceImpl extends BaseDtoServiceImpl<RandlUs
 
     private final VerificationCodeService verificationCodeService;
     private final RandlPersonalInfoService randlPersonalInfoService;
-    private final SourceSurfaceImageService surfaceImageService;
+    private final ResourceSurfaceImageService surfaceImageService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -47,7 +47,7 @@ public class RegisteredUserLoginedServiceImpl extends BaseDtoServiceImpl<RandlUs
             WebApplicationContext wc,
             VerificationCodeService verificationCodeService,
             RandlPersonalInfoService randlPersonalInfoService,
-            SourceSurfaceImageService surfaceImageService,
+            ResourceSurfaceImageService surfaceImageService,
             PasswordEncoder passwordEncoder) {
         super(wc);
         this.verificationCodeService = verificationCodeService;

@@ -51,6 +51,11 @@ public class RandlUser implements Serializable {
    */
     private LocalDateTime registrationTime;
 
+    /**
+   * 修改时间
+   */
+    private LocalDateTime modifyTime;
+
   /**
    * 注册ip
    */
@@ -150,6 +155,14 @@ public class RandlUser implements Serializable {
 
     public void setChannel(Integer channel) {
         this.channel = channel;
+    }
+
+    public LocalDateTime getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(LocalDateTime modifyTime) {
+        this.modifyTime = modifyTime;
     }
 
     @Override

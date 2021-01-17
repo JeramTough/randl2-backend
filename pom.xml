@@ -6,11 +6,9 @@
     <modules>
         <!--三个API接口后台-->
         <module>api_admin</module>
-        <module>api_user</module>
         <module>api_resource</module>
-
-        <!--认证授权服务-->
-        <module>auth_server</module>
+        <!--登录注册授权服务-->
+        <module>api_sso</module>
 
         <!-- SDK，共享开发依赖-->
         <module>randl_sdk</module>

@@ -46,6 +46,15 @@ public class Oauth2PasswordGrantTypeHttpClient extends BaseOauth2HttpClient {
         return doTokenPost(requestBody);
     }
 
+    public ApiResponse obtainTokenByRefreshToken(String refreshToken) throws IOException {
+        Map<String, Object> params = new HashMap<>(3);
+        params.put("refresh_token", refreshToken);
+        params.put("grant_type", AuthorizationGrantType.REFRESH_TOKEN.getValue());
+        RequestBody requestBody = getCommonRequestBody(params);
+
+        return doTokenPost(requestBody);
+    }
+
     //************
 
 

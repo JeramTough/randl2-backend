@@ -9,7 +9,7 @@ import com.jeramtough.randl2.common.model.params.registereduser.LoginByPasswordC
 import com.jeramtough.randl2.common.model.params.registereduser.LoginByVerificationCodeCredentials;
 import com.jeramtough.randl2.common.model.params.registereduser.LoginForVisitorCredentials;
 import com.jeramtough.randl2.common.model.params.verificationcode.ConsumeVerificationCodeParams;
-import com.jeramtough.randl2.service.other.VerificationCodeService;
+import com.jeramtough.randl2.service.resource.VerificationCodeService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,7 +56,7 @@ public class RegisteredUserLoginServiceImpl implements RegisteredUserLoginServic
                 authTokenConfig.getJwtSigningKey(), authTokenConfig.getJwtIssuer()).getTaskResult();
         if (taskResult.isSuccessful()) {
             long uid = taskResult.getLongPayload("uid");
-            com.jeramtough.randl2.userapp.component.userdetail.login.UserLoginer userLoginer = getWC().getBean(RegisteredUserUidLoginer.class);
+            com.jeramtough.randl2.common.component.userdetail.login.UserLoginer userLoginer = getWC().getBean(RegisteredUserUidLoginer.class);
             SystemUser systemUser = userLoginer.login(uid);
             UserHolder.afterLogin(systemUser);
         }
@@ -93,7 +93,7 @@ public class RegisteredUserLoginServiceImpl implements RegisteredUserLoginServic
 
         /*//执行到这里，说明验证码已经校验成功
         UserLoginer userLoginer = getWC().getBean(
-                com.jeramtough.randl2.userapp.component.userdetail.login.RegisteredUserByPhoneOrEmailLoginer.class);
+                com.jeramtough.randl2.common.component.userdetail.login.RegisteredUserByPhoneOrEmailLoginer.class);
         SystemUser systemUser = userLoginer.login(credentials.getCredential());
 
         if (systemUser == null) {

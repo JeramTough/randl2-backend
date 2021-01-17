@@ -22,60 +22,33 @@ public class Oauth2ClientCredentialsGrantTypeHttpClient extends BaseOauth2HttpCl
         super(oauth2ClientConfig);
     }
 
-    public ApiResponse ssoLoginByPassword(String credentials, String password) throws IOException {
-        Map<String, Object> params = new HashMap<>(4);
-        params.put("credentials", credentials);
-        params.put("password", password);
-        params.put("grant_type", AuthorizationGrantType.AUTHORIZATION_CODE.getValue());
-        RequestBody requestBody = getCommonRequestBody(params);
 
-        return doPost(getOauth2ClientConfig().getSsoLoginUrl(), requestBody);
-    }
-
-    public ApiResponse ssoLoginByVerificationCode(String phoneOrEmail,
-                                                  String verificationCode) throws
+    /**
+     * 覆盖配置的clientId和clientSecret
+     */
+    public ApiResponse ssoLoginByClientSecret(String clientId,
+                                              String clientSecret) throws
             IOException {
-        Map<String, Object> params = new HashMap<>(3);
-        params.put("phoneOrEmail", phoneOrEmail);
-        params.put("verificationCode", verificationCode);
-        params.put("grant_type", AuthorizationGrantType.AUTHORIZATION_CODE.getValue());
+        Map<String, Object> params = new HashMap<>(2);
+        params.put("client_id", clientId);
+        params.put("client_secret", clientSecret);
+        params.put("grantType", AuthorizationGrantType.CLIENT_CREDENTIALS.getValue());
         RequestBody requestBody = getCommonRequestBody(params);
 
         return doTokenPost(requestBody);
     }
 
-    public String getAuthorizeUrl(String token, String state) {
-        URLBuilder urlBuilder = getCommonRequestUrl(getOauth2ClientConfig().getUserAuthorizationUri());
-
-        urlBuilder.appendParam("state", state);
-        urlBuilder.appendParam("grant_type", AuthorizationGrantType.AUTHORIZATION_CODE.getValue());
-        urlBuilder.appendParam("authorization", token);
-        urlBuilder.appendParam("response_type", "code");
-
-        return urlBuilder.toString();
-    }
-
-    public String goToAuthorizePage(String token, String state) throws
+    /**
+     * 使用配置的clientId和clientSecret
+     */
+    public ApiResponse ssoLoginByClientSecret() throws
             IOException {
-        URLBuilder urlBuilder = getCommonRequestUrl(getOauth2ClientConfig().getUserAuthorizationUri());
-
-        urlBuilder.appendParam("state", state);
-        urlBuilder.appendParam("grant_type", AuthorizationGrantType.AUTHORIZATION_CODE.getValue());
-        urlBuilder.appendParam("authorization", token);
-        urlBuilder.appendParam("response_type", "code");
-
-        return doGet(urlBuilder);
-    }
-
-    public ApiResponse obtainTokenByAuthorizationCode(String authorizationCode) throws IOException {
-
-        Map<String, Object> params = new HashMap<>(3);
-        params.put("code", authorizationCode);
-        params.put("redirectUris_url", getOauth2ClientConfig().getRedirectUrisUrl());
-        params.put("grant_type", AuthorizationGrantType.AUTHORIZATION_CODE.getValue());
+        Map<String, Object> params = new HashMap<>(1);
+        params.put("grantType", AuthorizationGrantType.CLIENT_CREDENTIALS.getValue());
         RequestBody requestBody = getCommonRequestBody(params);
 
         return doTokenPost(requestBody);
     }
+
 
 }
