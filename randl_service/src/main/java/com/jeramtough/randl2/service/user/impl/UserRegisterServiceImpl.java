@@ -1,16 +1,15 @@
-package com.jeramtough.authserver.service.impl;
+package com.jeramtough.randl2.service.user.impl;
 
-import com.jeramtough.authserver.component.userdetail.RegisterUserWay;
-import com.jeramtough.authserver.component.userdetail.builder.UserBuilderFactory;
-import com.jeramtough.authserver.component.userdetail.builder.exception.AccountFormatException;
-import com.jeramtough.authserver.component.userdetail.builder.exception.TransactionTimeoutExcaption;
-import com.jeramtough.authserver.component.userdetail.builder.news.NewUserBuilder;
-import com.jeramtough.authserver.component.userdetail.builder.reset.ResetUserBuilder;
-import com.jeramtough.authserver.service.UserRegisterService;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseBeanException;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.service.impl.BaseServiceImpl;
+import com.jeramtough.randl2.common.component.userdetail.RegisterUserWay;
+import com.jeramtough.randl2.common.component.userdetail.builder.UserBuilderFactory;
+import com.jeramtough.randl2.common.component.userdetail.builder.exception.AccountFormatException;
+import com.jeramtough.randl2.common.component.userdetail.builder.exception.TransactionTimeoutExcaption;
+import com.jeramtough.randl2.common.component.userdetail.builder.news.NewUserBuilder;
+import com.jeramtough.randl2.common.component.userdetail.builder.reset.ResetUserBuilder;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.common.model.error.ErrorU;
@@ -18,6 +17,7 @@ import com.jeramtough.randl2.common.model.params.registereduser.DoRegisterOrRese
 import com.jeramtough.randl2.common.model.params.registereduser.VerifyPasswordParams;
 import com.jeramtough.randl2.common.model.params.registereduser.VerifyPhoneOrEmailByForgetParams;
 import com.jeramtough.randl2.common.model.params.registereduser.VerifyPhoneOrEmailForNewParams;
+import com.jeramtough.randl2.service.user.UserRegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
@@ -108,7 +108,7 @@ public class UserRegisterServiceImpl extends BaseServiceImpl implements UserRegi
         Objects.requireNonNull(randlUser);
         ResetUserBuilder resetUserBuilder = UserBuilderFactory.getResetUserBuilder(getWC(), params.getWay());
         String transactionId = resetUserBuilder.start();
-        resetUserBuilder.rebuildRegisteredUser(transactionId,randlUser);
+        resetUserBuilder.rebuildRegisteredUser(transactionId, randlUser);
 
 
         Map<String, Object> map = new HashMap<>(2);
@@ -121,13 +121,13 @@ public class UserRegisterServiceImpl extends BaseServiceImpl implements UserRegi
     public String verifyPassword(VerifyPasswordParams params) {
         BeanValidator.verifyParams(params);
 
-        if (!params.getPassword().equals(params.getRepeatedPassword())){
+        if (!params.getPassword().equals(params.getRepeatedPassword())) {
             throw new ApiResponseException(ErrorU.CODE_101.C);
         }
 
         NewUserBuilder newBuilder = UserBuilderFactory.getNewUserBuilder(getWC(), params.getWay());
         try {
-            newBuilder.setPassword(params.getTransactionId(),params.getPassword());
+            newBuilder.setPassword(params.getTransactionId(), params.getPassword());
         }
         catch (TransactionTimeoutExcaption transactionTimeoutExcaption) {
             throw new ApiResponseException(ErrorU.CODE_201.C);
@@ -139,13 +139,13 @@ public class UserRegisterServiceImpl extends BaseServiceImpl implements UserRegi
     public Object verifyPasswordByForget(VerifyPasswordParams params) {
         BeanValidator.verifyParams(params);
 
-        if (!params.getPassword().equals(params.getRepeatedPassword())){
+        if (!params.getPassword().equals(params.getRepeatedPassword())) {
             throw new ApiResponseException(ErrorU.CODE_101.C);
         }
 
         ResetUserBuilder resetUserBuilder = UserBuilderFactory.getResetUserBuilder(getWC(), params.getWay());
         try {
-            resetUserBuilder.setPassword(params.getTransactionId(),params.getPassword());
+            resetUserBuilder.setPassword(params.getTransactionId(), params.getPassword());
         }
         catch (TransactionTimeoutExcaption transactionTimeoutExcaption) {
             throw new ApiResponseException(ErrorU.CODE_201.C);

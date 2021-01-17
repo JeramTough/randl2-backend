@@ -1,8 +1,8 @@
-package com.jeramtough.authserver.component.userdetail.builder.reset;
+package com.jeramtough.randl2.common.component.userdetail.builder.reset;
 
 import com.jeramtough.jtcomponent.utils.ValidationUtil;
-import com.jeramtough.authserver.component.userdetail.builder.exception.AccountFormatException;
-import com.jeramtough.authserver.component.userdetail.builder.exception.TransactionTimeoutExcaption;
+import com.jeramtough.randl2.common.component.userdetail.builder.exception.AccountFormatException;
+import com.jeramtough.randl2.common.component.userdetail.builder.exception.TransactionTimeoutExcaption;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

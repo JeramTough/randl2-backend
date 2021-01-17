@@ -1,7 +1,7 @@
 package com.jeramtough.authserver.action.controller;
 
 
-import com.jeramtough.authserver.service.UserRegisterService;
+import com.jeramtough.randl2.service.user.UserRegisterService;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.model.params.registereduser.DoRegisterOrResetParams;

@@ -1,4 +1,4 @@
-package com.jeramtough.authserver.component.userdetail.builder.exception;
+package com.jeramtough.randl2.common.component.userdetail.builder.exception;
 
 /**
  * <pre>

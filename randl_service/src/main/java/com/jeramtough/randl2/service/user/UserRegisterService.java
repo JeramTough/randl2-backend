@@ -1,4 +1,4 @@
-package com.jeramtough.authserver.service;
+package com.jeramtough.randl2.service.user;
 
 import com.jeramtough.randl2.common.model.params.registereduser.DoRegisterOrResetParams;
 import com.jeramtough.randl2.common.model.params.registereduser.VerifyPasswordParams;

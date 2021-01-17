@@ -1,7 +1,7 @@
-package com.jeramtough.authserver.component.userdetail.builder;
+package com.jeramtough.randl2.common.component.userdetail.builder;
 
 
-import com.jeramtough.authserver.component.userdetail.builder.exception.TransactionTimeoutExcaption;
+import com.jeramtough.randl2.common.component.userdetail.builder.exception.TransactionTimeoutExcaption;
 
 /**
  * <pre>

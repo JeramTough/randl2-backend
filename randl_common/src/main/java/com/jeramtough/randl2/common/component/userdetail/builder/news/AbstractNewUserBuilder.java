@@ -1,12 +1,12 @@
-package com.jeramtough.authserver.component.userdetail.builder.news;
+package com.jeramtough.randl2.common.component.userdetail.builder.news;
 
 import com.jeramtough.jtweb.util.IpAddrUtil;
 import com.jeramtough.randl2.common.component.attestation.userdetail.AccountStatus;
 import com.jeramtough.randl2.common.component.attestation.userdetail.UserChannel;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
-import com.jeramtough.authserver.component.userdetail.builder.AbstractUserBuilder;
-import com.jeramtough.authserver.component.userdetail.builder.exception.NotSetPasswordException;
-import com.jeramtough.authserver.component.userdetail.builder.exception.TransactionTimeoutExcaption;
+import com.jeramtough.randl2.common.component.userdetail.builder.AbstractUserBuilder;
+import com.jeramtough.randl2.common.component.userdetail.builder.exception.NotSetPasswordException;
+import com.jeramtough.randl2.common.component.userdetail.builder.exception.TransactionTimeoutExcaption;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

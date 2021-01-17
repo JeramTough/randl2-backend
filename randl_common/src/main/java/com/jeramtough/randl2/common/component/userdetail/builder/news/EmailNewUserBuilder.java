@@ -1,10 +1,9 @@
-package com.jeramtough.authserver.component.userdetail.builder.news;
+package com.jeramtough.randl2.common.component.userdetail.builder.news;
 
 import com.jeramtough.jtcomponent.utils.ValidationUtil;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
-import com.jeramtough.authserver.component.userdetail.RegisterUserWay;
-import com.jeramtough.authserver.component.userdetail.builder.exception.AccountFormatException;
-import com.jeramtough.authserver.component.userdetail.builder.exception.TransactionTimeoutExcaption;
+import com.jeramtough.randl2.common.component.userdetail.builder.exception.AccountFormatException;
+import com.jeramtough.randl2.common.component.userdetail.builder.exception.TransactionTimeoutExcaption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;

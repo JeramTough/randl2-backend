@@ -1,4 +1,4 @@
-package com.jeramtough.authserver.component.userdetail;
+package com.jeramtough.randl2.common.component.userdetail;
 
 /**
  * <pre>

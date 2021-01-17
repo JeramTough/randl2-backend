@@ -1,12 +1,11 @@
-package com.jeramtough.authserver.component.userdetail.builder;
+package com.jeramtough.randl2.common.component.userdetail.builder;
 
-import com.jeramtough.authserver.component.userdetail.RegisterUserWay;
-import com.jeramtough.authserver.component.userdetail.builder.news.EmailNewUserBuilder;
-import com.jeramtough.authserver.component.userdetail.builder.news.NewUserBuilder;
-import com.jeramtough.authserver.component.userdetail.builder.news.PhoneNewUserBuilder;
-import com.jeramtough.authserver.component.userdetail.builder.reset.EmailResetUserBuilder;
-import com.jeramtough.authserver.component.userdetail.builder.reset.PhoneResetUserBuilder;
-import com.jeramtough.authserver.component.userdetail.builder.reset.ResetUserBuilder;
+import com.jeramtough.randl2.common.component.userdetail.builder.news.EmailNewUserBuilder;
+import com.jeramtough.randl2.common.component.userdetail.builder.news.NewUserBuilder;
+import com.jeramtough.randl2.common.component.userdetail.builder.news.PhoneNewUserBuilder;
+import com.jeramtough.randl2.common.component.userdetail.builder.reset.EmailResetUserBuilder;
+import com.jeramtough.randl2.common.component.userdetail.builder.reset.PhoneResetUserBuilder;
+import com.jeramtough.randl2.common.component.userdetail.builder.reset.ResetUserBuilder;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Objects;

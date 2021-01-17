@@ -1,9 +1,9 @@
-package com.jeramtough.authserver.component.userdetail.builder;
+package com.jeramtough.randl2.common.component.userdetail.builder;
 
 import com.alibaba.fastjson.JSON;
 import com.jeramtough.jtcomponent.utils.IdUtil;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
-import com.jeramtough.authserver.component.userdetail.builder.exception.TransactionTimeoutExcaption;
+import com.jeramtough.randl2.common.component.userdetail.builder.exception.TransactionTimeoutExcaption;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
