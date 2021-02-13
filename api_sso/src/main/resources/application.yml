@@ -1,7 +1,7 @@
 server:
   port: 9085
   servlet:
-    context-path: /randl2/authserver
+    context-path: /randl2/ssoServer
   tomcat:
     uri-encoding: UTF-8
 
@@ -40,6 +40,7 @@ app:
       signingKey: ABCD
       issuer: SSD
       validity: 604800000
+      ssoValidity: 3600000
     admin:
       #管理员账号要尽量复杂，不和线上数据库里的账号重复
       account: superadmin
@@ -49,5 +50,7 @@ app:
     user:
       defaultAppId: 2
       defaultRoleId: 2
+    sso:
+      loginPageUrl: http://127.0.0.1:8088/randl2/sso/userLogin
 
 

@@ -34,4 +34,9 @@ public class PhoneResetUserBuilder extends AbstractResetUserBuilder implements R
         }
         getEntity(transactionId).setPhoneNumber(phoneOrEmailOrOther);
     }
+
+    @Override
+    public String getResetUserWayForPhoneOrEmail(String transactionId) throws TransactionTimeoutExcaption {
+        return getEntity(transactionId).getPhoneNumber();
+    }
 }

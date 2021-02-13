@@ -30,4 +30,5 @@ public interface ResetUserBuilder extends CommonUserBuilder {
     RandlUser reset(String transactionId) throws TransactionTimeoutExcaption, NoChangedException;
 
 
+    String getResetUserWayForPhoneOrEmail(String transactionId) throws TransactionTimeoutExcaption;
 }

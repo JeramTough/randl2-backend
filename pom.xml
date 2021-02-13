@@ -19,6 +19,7 @@
         <module>oauth-clients-demo/client-password</module>
         <module>oauth-clients-demo/client-authorization-code</module>
         <module>oauth-clients-demo/client-credentials</module>
+        <module>randl_web</module>
 
     </modules>
     <parent>

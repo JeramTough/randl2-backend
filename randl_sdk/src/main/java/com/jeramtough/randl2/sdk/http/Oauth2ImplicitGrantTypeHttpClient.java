@@ -29,7 +29,7 @@ public class Oauth2ImplicitGrantTypeHttpClient extends BaseOauth2HttpClient {
         params.put("grant_type", AuthorizationGrantType.AUTHORIZATION_CODE.getValue());
         RequestBody requestBody = getCommonRequestBody(params);
 
-        return doPost(getOauth2ClientConfig().getSsoLoginUrl(), requestBody);
+        return doPost(getOauth2ClientConfig().getSsoLoginUri(), requestBody);
     }
 
     public ApiResponse ssoLoginByVerificationCode(String phoneOrEmail,

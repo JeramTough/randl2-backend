@@ -45,7 +45,10 @@ public abstract class AbstractUserBuilder implements CommonUserBuilder {
 
     @Override
     public void setPassword(String transactionId, String password) throws TransactionTimeoutExcaption {
-        getEntity(transactionId).setPassword(password);
+        RandlUser randlUser = getEntity(transactionId);
+        password=passwordEncoder.encode(password);
+        randlUser.setPassword(password);
+        setEntity(transactionId, randlUser);
     }
 
     @Override
@@ -63,7 +66,7 @@ public abstract class AbstractUserBuilder implements CommonUserBuilder {
     }
 
     protected BoundHashOperations<String, String, Object> getHashOperations(
-            String transactionId) throws TransactionTimeoutExcaption{
+            String transactionId) throws TransactionTimeoutExcaption {
         Boolean isHasKey = redisTemplate.hasKey(getRegisteredUserKey(transactionId));
         if (isHasKey == null || !isHasKey) {
             throw new TransactionTimeoutExcaption();
@@ -77,8 +80,8 @@ public abstract class AbstractUserBuilder implements CommonUserBuilder {
         return BUILD_USER_KEY_PREFIX + "_" + transactionId;
     }
 
-    protected String getPassword(String transactionId) throws TransactionTimeoutExcaption{
-        return (String) getHashOperations(transactionId).get("password");
+    protected String getPassword(String transactionId) throws TransactionTimeoutExcaption {
+        return getEntity(transactionId).getPassword();
     }
 
     protected PasswordEncoder getPasswordEncoder() {
@@ -99,7 +102,7 @@ public abstract class AbstractUserBuilder implements CommonUserBuilder {
                 JSON.toJSONString(randlUser));
     }
 
-    protected RandlUser getEntity(String transactionId) throws TransactionTimeoutExcaption{
+    protected RandlUser getEntity(String transactionId) throws TransactionTimeoutExcaption {
         Object value = getHashOperations(transactionId).get("entityJsonStr");
         Objects.requireNonNull(value);
         String json = (String) value;
@@ -108,7 +111,7 @@ public abstract class AbstractUserBuilder implements CommonUserBuilder {
 
     protected void setEntity(String transactionId,
                              RandlUser randlUser)
-            throws TransactionTimeoutExcaption{
+            throws TransactionTimeoutExcaption {
         getHashOperations(transactionId).put("entityJsonStr",
                 JSON.toJSONString(randlUser));
         getHashOperations(transactionId).put("isChanged", "1");

@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
@@ -49,7 +48,7 @@ public class RandlApp implements Serializable {
   /**
    * 0,1,2,3.....0=后台服务端，1=Web前端，2=安卓苹果端，3=小程序端
    */
-    private String types;
+    private Integer type;
 
 
     public Long getFid() {
@@ -92,12 +91,12 @@ public class RandlApp implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getTypes() {
-        return types;
+    public Integer getType() {
+        return type;
     }
 
-    public void setTypes(String types) {
-        this.types = types;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     @Override
@@ -108,7 +107,7 @@ public class RandlApp implements Serializable {
         ", description=" + description +
         ", isAble=" + isAble +
         ", createTime=" + createTime +
-        ", types=" + types +
+        ", types=" + type +
         "}";
     }
 }

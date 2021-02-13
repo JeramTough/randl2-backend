@@ -52,7 +52,6 @@ public abstract class AbstractNewUserBuilder extends AbstractUserBuilder impleme
         if (password == null) {
             throw new NotSetPasswordException();
         }
-        randlUser.setPassword(getPasswordEncoder().encode(password));
 
         //设置不同类型的注册默认账号
         buildAccount(transactionId, randlUser);

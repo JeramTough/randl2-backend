@@ -1,13 +1,9 @@
 package com.jeramtough.randl2.common.model.params.login;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestAttribute;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -26,7 +22,7 @@ public class LoginByPasswordParams {
             "(^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$)",payload = ErrorU.CODE_8.class,
             message = "5-16位长度的账号名 || 手机号码13368696807  ||  邮箱32443@qq.com")
     @ApiModelProperty(value = "登陆凭证信息", example = "15289678163", required = true)
-    private String credentials;
+    private String credential;
 
     @NotNull(payload = ErrorU.CODE_1.class)
     @Pattern(regexp = "^\\S{8,16}$",payload = ErrorU.CODE_8.class,
@@ -35,26 +31,17 @@ public class LoginByPasswordParams {
     private String password;
 
     /**
-     * 用于业务需要字段
+     * 普通登录需要字段
      */
-    @JSONField(serialize = false)
     private Long appId;
 
 
-    public Long getAppId() {
-        return appId;
+    public String getCredential() {
+        return credential;
     }
 
-    public void setAppId(Long appId) {
-        this.appId = appId;
-    }
-
-    public String getCredentials() {
-        return credentials;
-    }
-
-    public void setCredentials(String credentials) {
-        this.credentials = credentials;
+    public void setCredential(String credential) {
+        this.credential = credential;
     }
 
     public String getPassword() {
@@ -65,5 +52,11 @@ public class LoginByPasswordParams {
         this.password = password;
     }
 
+    public Long getAppId() {
+        return appId;
+    }
 
+    public void setAppId(Long appId) {
+        this.appId = appId;
+    }
 }

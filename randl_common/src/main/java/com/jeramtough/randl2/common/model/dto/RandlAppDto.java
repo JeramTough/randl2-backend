@@ -1,6 +1,5 @@
 package com.jeramtough.randl2.common.model.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 
@@ -39,8 +38,8 @@ public class RandlAppDto implements Serializable {
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "0,1,2,3.....0=后台服务端，1=Web前端，2=安卓苹果端，3=小程序端")
-    private String types;
+    @ApiModelProperty(value = "0=后台服务端，1=Web前端，2=安卓苹果端，3=小程序端")
+    private Integer type;
 
 
     public Long getFid() {
@@ -83,12 +82,12 @@ public class RandlAppDto implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getTypes() {
-        return types;
+    public Integer getType() {
+        return type;
     }
 
-    public void setTypes(String types) {
-        this.types = types;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     @Override
@@ -99,7 +98,7 @@ public class RandlAppDto implements Serializable {
                 ", description=" + description +
                 ", isAble=" + isAble +
                 ", createTime=" + createTime +
-                ", types=" + types +
+                ", types=" + type +
                 "}";
     }
 }

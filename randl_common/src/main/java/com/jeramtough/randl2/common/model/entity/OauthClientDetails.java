@@ -12,7 +12,7 @@ import io.swagger.annotations.ApiModelProperty;
  * </p>
  *
  * @author JeramTough
- * @since 2020-11-27
+ * @since 2021-02-02
  */
 @ApiModel(value="OauthClientDetails对象", description="")
 public class OauthClientDetails implements Serializable {
@@ -33,8 +33,6 @@ public class OauthClientDetails implements Serializable {
 
     private String clientSecret;
 
-    private String scopes;
-
     private String authorizedGrantTypes;
 
     private String webServerRedirectUris;
@@ -44,8 +42,6 @@ public class OauthClientDetails implements Serializable {
     private Long accessTokenValidity;
 
     private Long refreshTokenValidity;
-
-    private String additionalInformationContent;
 
     private Boolean autoApprove;
 
@@ -90,14 +86,6 @@ public class OauthClientDetails implements Serializable {
         this.clientSecret = clientSecret;
     }
 
-    public String getScopes() {
-        return scopes;
-    }
-
-    public void setScopes(String scopes) {
-        this.scopes = scopes;
-    }
-
     public String getAuthorizedGrantTypes() {
         return authorizedGrantTypes;
     }
@@ -138,14 +126,6 @@ public class OauthClientDetails implements Serializable {
         this.refreshTokenValidity = refreshTokenValidity;
     }
 
-    public String getAdditionalInformationContent() {
-        return additionalInformationContent;
-    }
-
-    public void setAdditionalInformationContent(String additionalInformationContent) {
-        this.additionalInformationContent = additionalInformationContent;
-    }
-
     public Boolean getAutoApprove() {
         return autoApprove;
     }
@@ -162,13 +142,11 @@ public class OauthClientDetails implements Serializable {
         ", clientId=" + clientId +
         ", resourceIds=" + resourceIds +
         ", clientSecret=" + clientSecret +
-        ", scopes=" + scopes +
         ", authorizedGrantTypes=" + authorizedGrantTypes +
         ", webServerRedirectUris=" + webServerRedirectUris +
         ", authorities=" + authorities +
         ", accessTokenValidity=" + accessTokenValidity +
         ", refreshTokenValidity=" + refreshTokenValidity +
-        ", additionalInformationContent=" + additionalInformationContent +
         ", autoApprove=" + autoApprove +
         "}";
     }

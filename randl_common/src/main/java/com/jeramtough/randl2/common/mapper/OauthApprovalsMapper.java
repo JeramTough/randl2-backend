@@ -9,7 +9,7 @@ import com.jeramtough.randl2.common.model.entity.OauthApprovals;
  * </p>
  *
  * @author JeramTough
- * @since 2020-08-06
+ * @since 2021-02-02
  */
 public interface OauthApprovalsMapper extends BaseMapper<OauthApprovals> {
 

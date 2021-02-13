@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.common.component.userdetail.builder.news;
 
+import com.jeramtough.randl2.common.component.userdetail.RegisterUserWay;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.common.component.userdetail.builder.CommonUserBuilder;
 import com.jeramtough.randl2.common.component.userdetail.builder.exception.AccountFormatException;
@@ -29,5 +30,6 @@ public interface NewUserBuilder extends CommonUserBuilder {
 
     RegisterUserWay getRegisterUserWay();
 
+    String getRegisterUserWayForPhoneOrEmail(String transactionId) throws TransactionTimeoutExcaption;
 }
 

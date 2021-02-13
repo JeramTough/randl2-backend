@@ -49,7 +49,6 @@ public abstract class BaseOauth2HttpClient {
         URLBuilder urlBuilder = new URLBuilder();
         urlBuilder
                 .url(url)
-                .appendParam("grant_type", AuthorizationGrantType.PASSWORD.getValue())
                 .appendParam("client_id", oauth2ClientConfig.getClientId())
                 .appendParam("client_secret", oauth2ClientConfig.getClientSecret());
         return urlBuilder;

@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.common.component.userdetail.builder;
 
+import com.jeramtough.randl2.common.component.userdetail.RegisterUserWay;
 import com.jeramtough.randl2.common.component.userdetail.builder.news.EmailNewUserBuilder;
 import com.jeramtough.randl2.common.component.userdetail.builder.news.NewUserBuilder;
 import com.jeramtough.randl2.common.component.userdetail.builder.news.PhoneNewUserBuilder;

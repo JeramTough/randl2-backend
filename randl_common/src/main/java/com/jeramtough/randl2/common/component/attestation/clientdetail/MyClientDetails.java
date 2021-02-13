@@ -1,9 +1,13 @@
 package com.jeramtough.randl2.common.component.attestation.clientdetail;
 
 import com.jeramtough.randl2.common.model.entity.OauthClientDetails;
+import com.jeramtough.randl2.common.model.entity.OauthResourceDetails;
+import com.jeramtough.randl2.common.model.entity.OauthScopeDetails;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <pre>
@@ -16,9 +20,15 @@ public class MyClientDetails extends BaseClientDetails {
     private static final long serialVersionUID = -9076737364565791938L;
 
     private final OauthClientDetails oauthClientDetails;
+    private final List<OauthResourceDetails> oauthResourceDetailsList;
+    private final List<OauthScopeDetails> oauthScopeDetailsList;
 
-    public MyClientDetails(OauthClientDetails oauthClientDetails) {
+    public MyClientDetails(OauthClientDetails oauthClientDetails,
+                           List<OauthResourceDetails> oauthResourceDetailsList,
+                           List<OauthScopeDetails> oauthScopeDetailsList) {
         this.oauthClientDetails = oauthClientDetails;
+        this.oauthResourceDetailsList = oauthResourceDetailsList;
+        this.oauthScopeDetailsList = oauthScopeDetailsList;
         init();
     }
 
@@ -59,13 +69,16 @@ public class MyClientDetails extends BaseClientDetails {
 
     @Override
     public boolean isScoped() {
-        return oauthClientDetails.getScopes() != null;
+        return oauthScopeDetailsList.size() > 0;
     }
 
     @Override
     public Set<String> getScope() {
-        String scopeStr = oauthClientDetails.getScopes();
-        return splitByComma(scopeStr);
+        Set<String> scopes = oauthScopeDetailsList
+                .parallelStream()
+                .map(OauthScopeDetails::getScopeExpression)
+                .collect(Collectors.toSet());
+        return scopes;
     }
 
     @Override
@@ -113,8 +126,7 @@ public class MyClientDetails extends BaseClientDetails {
 
     @Override
     public Map<String, Object> getAdditionalInformation() {
-        Map<String, Object> infoMap = new HashMap<>(3);
-        infoMap.put("content", oauthClientDetails.getAdditionalInformationContent());
+        Map<String, Object> infoMap = new HashMap<>(2);
         infoMap.put("appId", oauthClientDetails.getAppId());
         infoMap.put("fid", oauthClientDetails.getFid());
 

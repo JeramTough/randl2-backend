@@ -20,7 +20,8 @@ import java.util.Date;
  */
 public class JwtTokenUtil {
 
-    public static String createToken(String userId, String[] roleAlias, String signingKey, String issuer,
+    public static String createToken(String userId, String account, String[] roleAlias, String signingKey,
+                                     String issuer,
                                      long tokenValidity) {
         String token = null;
         try {
@@ -30,7 +31,8 @@ public class JwtTokenUtil {
             token = JWT.create()
                        .withIssuer(issuer)
                        .withClaim("uid", userId)
-                       .withArrayClaim("roleAlias",roleAlias)
+                       .withClaim("account", account)
+                       .withArrayClaim("roleAlias", roleAlias)
                        .withExpiresAt(new Date(
                                System.currentTimeMillis() + tokenValidity))
                        .sign(algorithm);
@@ -53,9 +55,13 @@ public class JwtTokenUtil {
                 if (uid != null) {
                     preTaskResult.putPayload("uid", uid);
                 }
-                String[] roleAlias=jwt.getClaim("roleAlias").asArray(String.class);
-                if (roleAlias==null){
-                    roleAlias=new String[0];
+                String account = jwt.getClaim("account").asString();
+                if (account != null) {
+                    preTaskResult.putPayload("account", account);
+                }
+                String[] roleAlias = jwt.getClaim("roleAlias").asArray(String.class);
+                if (roleAlias == null) {
+                    roleAlias = new String[0];
                 }
                 preTaskResult.putPayload("roleAlias", roleAlias);
                 return true;

@@ -5,8 +5,6 @@ import com.jeramtough.randl2.sdk.http.Oauth2ClientCredentialsGrantTypeHttpClient
 import com.jeramtough.randl2.sdk.http.Oauth2ImplicitGrantTypeHttpClient;
 import com.jeramtough.randl2.sdk.http.Oauth2PasswordGrantTypeHttpClient;
 import com.jeramtough.randl2.sdk.model.http.ApiResponse;
-import com.jeramtough.randl2.sdk.model.http.LoginBody;
-import com.jeramtough.randl2.sdk.model.http.TokenBody;
 import com.jeramtough.randl2.sdk.model.oauth.Oauth2ClientConfig;
 
 import java.io.IOException;
@@ -25,6 +23,7 @@ public class Test {
         oauth2ClientConfig.setClientId("authorization-code-client");
         oauth2ClientConfig.setClientSecret("12345678");
         oauth2ClientConfig.setAccessTokenUri("http://127.0.0.1:9085/randl2/authserver/oauthV2/token");
+
         Oauth2PasswordGrantTypeHttpClient oauth2PasswordGrantTypeHttpClient =
                 new Oauth2PasswordGrantTypeHttpClient(oauth2ClientConfig);
         try {
@@ -42,26 +41,28 @@ public class Test {
     @org.junit.jupiter.api.Test
     public void test2_1() {
         Oauth2ClientConfig oauth2ClientConfig = new Oauth2ClientConfig();
-        oauth2ClientConfig.setClientId("authorization-code-client");
+        oauth2ClientConfig.setClientId("randl_user_client");
         oauth2ClientConfig.setClientSecret("12345678");
         oauth2ClientConfig.setAccessTokenUri("http://127.0.0.1:9085/randl2/authserver/oauthV2/token");
-        oauth2ClientConfig.setUserAuthorizationUri("http://127.0.0.1:9085/randl2/authserver/oauth/authorize");
-        oauth2ClientConfig.setSsoLoginUrl("http://127.0.0.1:9085/randl2/authserver/sso/login");
-        oauth2ClientConfig.setRedirectUrisUrl("http://127.0.0.1:9070/randl2/client/authorized");
+        oauth2ClientConfig.setUserAuthorizationUri("http://127.0.0.1:9085/randl2/ssoServer/oauth/authorize");
+        oauth2ClientConfig.setSsoLoginUri("http://127.0.0.1:9085/randl2/ssoServer/access/goLoginPage");
+        oauth2ClientConfig.setRedirectUri("http://127.0.0.1:9070/randl2/client/authorized");
 
         Oauth2AuthorizationCodeGrantTypeHttpClient client =
                 new Oauth2AuthorizationCodeGrantTypeHttpClient(oauth2ClientConfig);
-        try {
-            ApiResponse apiResponse = client.ssoLoginByPassword("15289678163", "12345678");
-            String token = apiResponse.getResponseBody().getJSONObject("tokenBody").getString("value");
 
-            String url = client.getAuthorizeUrl(token, "abcd");
+        String loginUrl=client.getSsoLoginUrl("abcd");
+        System.out.println("重定向到：" + loginUrl);
 
-            System.out.println("重定向到：" + url);
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+       /* //直接引导用户到登录页，登录页有token缓存的话直接访问Authorization页，不然先进行ssologin获取token
+        String ssoLoginUrl =client.getSsoLoginUrl("state");
+        System.out.println("请求转发到sso登录页：" + ssoLoginUrl);*/
+
+        /*ApiResponse apiResponse = client.ssoLoginByPassword("15289678163", "12345678");
+        String token = apiResponse.getResponseBody().getJSONObject("tokenBody").getString("value");*/
+
+
+
     }
 
     @org.junit.jupiter.api.Test
@@ -71,8 +72,8 @@ public class Test {
         oauth2ClientConfig.setClientSecret("12345678");
         oauth2ClientConfig.setAccessTokenUri("http://127.0.0.1:9085/randl2/authserver/oauthV2/token");
         oauth2ClientConfig.setUserAuthorizationUri("http://127.0.0.1:9085/randl2/authserver/oauth/authorize");
-        oauth2ClientConfig.setSsoLoginUrl("http://127.0.0.1:9085/randl2/authserver/sso/login");
-        oauth2ClientConfig.setRedirectUrisUrl("http://127.0.0.1:9070/randl2/client/authorized");
+        oauth2ClientConfig.setSsoLoginUri("http://127.0.0.1:9085/randl2/authserver/sso/login");
+        oauth2ClientConfig.setRedirectUri("http://127.0.0.1:9070/randl2/client/authorized");
 
         Oauth2AuthorizationCodeGrantTypeHttpClient client =
                 new Oauth2AuthorizationCodeGrantTypeHttpClient(oauth2ClientConfig);
@@ -110,8 +111,8 @@ public class Test {
         oauth2ClientConfig.setClientSecret("12345678");
         oauth2ClientConfig.setAccessTokenUri("http://127.0.0.1:9085/randl2/authserver/oauthV2/token");
         oauth2ClientConfig.setUserAuthorizationUri("http://127.0.0.1:9085/randl2/authserver/oauth/authorize");
-        oauth2ClientConfig.setSsoLoginUrl("http://127.0.0.1:9085/randl2/authserver/sso/login");
-        oauth2ClientConfig.setRedirectUrisUrl("http://127.0.0.1:9070/randl2/client/authorized");
+        oauth2ClientConfig.setSsoLoginUri("http://127.0.0.1:9085/randl2/authserver/sso/login");
+        oauth2ClientConfig.setRedirectUri("http://127.0.0.1:9070/randl2/client/authorized");
 
         Oauth2ImplicitGrantTypeHttpClient client =
                 new Oauth2ImplicitGrantTypeHttpClient(oauth2ClientConfig);

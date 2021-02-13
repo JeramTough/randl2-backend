@@ -29,7 +29,7 @@ public class Oauth2AuthorizationCodeGrantTypeHttpClient extends BaseOauth2HttpCl
         params.put("grant_type", AuthorizationGrantType.AUTHORIZATION_CODE.getValue());
         RequestBody requestBody = getCommonRequestBody(params);
 
-        return doPost(getOauth2ClientConfig().getSsoLoginUrl(), requestBody);
+        return doPost(getOauth2ClientConfig().getSsoLoginUri(), requestBody);
     }
 
     public ApiResponse ssoLoginByVerificationCode(String phoneOrEmail,
@@ -47,9 +47,17 @@ public class Oauth2AuthorizationCodeGrantTypeHttpClient extends BaseOauth2HttpCl
     public String getAuthorizeUrl(String ssoToken, String state) {
         URLBuilder urlBuilder = getCommonRequestUrl(getOauth2ClientConfig().getUserAuthorizationUri());
 
-        urlBuilder.appendParam("state", state);
+        if ((state != null) && state.trim().length() > 0) {
+            urlBuilder.appendParam("state", state);
+        }
+
+        if ((ssoToken != null) && ssoToken.trim().length() > 0) {
+            urlBuilder.appendParam("authorization", ssoToken);
+        }
+
         urlBuilder.appendParam("grant_type", AuthorizationGrantType.AUTHORIZATION_CODE.getValue());
-        urlBuilder.appendParam("authorization", ssoToken);
+
+
         urlBuilder.appendParam("response_type", "code");
 
         return urlBuilder.toString();
@@ -71,7 +79,7 @@ public class Oauth2AuthorizationCodeGrantTypeHttpClient extends BaseOauth2HttpCl
 
         Map<String, Object> params = new HashMap<>(3);
         params.put("code", authorizationCode);
-        params.put("redirectUris_url", getOauth2ClientConfig().getRedirectUrisUrl());
+        params.put("redirectUris_url", getOauth2ClientConfig().getRedirectUri());
         params.put("grant_type", AuthorizationGrantType.AUTHORIZATION_CODE.getValue());
         RequestBody requestBody = getCommonRequestBody(params);
 
@@ -87,4 +95,14 @@ public class Oauth2AuthorizationCodeGrantTypeHttpClient extends BaseOauth2HttpCl
         return doTokenPost(requestBody);
     }
 
+    public String getSsoLoginUrl(String state) {
+        URLBuilder urlBuilder = getCommonRequestUrl(getOauth2ClientConfig().getSsoLoginUri());
+
+        urlBuilder.appendParam("state", state);
+        urlBuilder.appendParam("grant_type", AuthorizationGrantType.AUTHORIZATION_CODE.getValue());
+        urlBuilder.appendParam("response_type", "code");
+        urlBuilder.appendParam("redirect_uri", getOauth2ClientConfig().getRedirectUri());
+
+        return urlBuilder.toString();
+    }
 }

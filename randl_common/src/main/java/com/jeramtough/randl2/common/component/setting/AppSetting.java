@@ -24,11 +24,15 @@ public class AppSetting {
 
     private Map<String, String> oauth;
 
+    private Map<String, String> sso;
+
 
     public AppSetting() {
         jwt = new HashMap<>(6);
         admin = new HashMap<>(6);
         user = new HashMap<>(6);
+        oauth = new HashMap<>(6);
+        sso = new HashMap<>(6);
     }
 
     public String getJwtSigningKey() {
@@ -38,6 +42,10 @@ public class AppSetting {
 
     public Long getJwtValidity() {
         return new Long(jwt.get("validity"));
+    }
+
+    public Long getJwtSsoValidity() {
+        return new Long(jwt.get("ssoValidity"));
     }
 
 
@@ -108,5 +116,17 @@ public class AppSetting {
 
     public Long getOauthResourceId() {
         return Long.parseLong(oauth.get("resource_id"));
+    }
+
+    public void setSso(Map<String, String> sso) {
+        this.sso = sso;
+    }
+
+    public Map<String, String> getSso() {
+        return sso;
+    }
+
+    public String getLoginPageUrl() {
+        return sso.get("loginPageUrl");
     }
 }

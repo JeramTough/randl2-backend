@@ -18,9 +18,9 @@ public class Oauth2ClientConfig {
 
     private String accessTokenUri;
 
-    private String ssoLoginUrl;
+    private String ssoLoginUri;
 
-    private String redirectUrisUrl;
+    private String redirectUri;
 
     public String getClientId() {
         return clientId;
@@ -62,19 +62,19 @@ public class Oauth2ClientConfig {
         this.accessTokenUri = accessTokenUri;
     }
 
-    public String getSsoLoginUrl() {
-        return ssoLoginUrl;
+    public String getSsoLoginUri() {
+        return ssoLoginUri;
     }
 
-    public void setSsoLoginUrl(String ssoLoginUrl) {
-        this.ssoLoginUrl = ssoLoginUrl;
+    public void setSsoLoginUri(String ssoLoginUri) {
+        this.ssoLoginUri = ssoLoginUri;
     }
 
-    public String getRedirectUrisUrl() {
-        return redirectUrisUrl;
+    public String getRedirectUri() {
+        return redirectUri;
     }
 
-    public void setRedirectUrisUrl(String redirectUrisUrl) {
-        this.redirectUrisUrl = redirectUrisUrl;
+    public void setRedirectUri(String redirectUri) {
+        this.redirectUri = redirectUri;
     }
 }

@@ -10,9 +10,6 @@ import com.jeramtough.randl2.common.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
 /**
  * <pre>
  * Created on 2020/11/20 15:47
@@ -23,8 +20,6 @@ import java.util.stream.Collectors;
 public class MyJwtTokenHolder implements TokenHolder {
 
     private final AppSetting appSetting;
-
-    private final long tempJwtValidity = 1000 * 60 * 5;
 
 
     @Autowired
@@ -42,14 +37,15 @@ public class MyJwtTokenHolder implements TokenHolder {
                                        .map(RandlRole::getAlias)
                                        .toArray(String[]::new);
 
-        String token = JwtTokenUtil.createToken(systemUser.getUid().toString(), roleAlias,
+        String token = JwtTokenUtil.createToken(systemUser.getUid().toString(), systemUser.getAccount(), roleAlias,
                 appSetting.getJwtSigningKey(),
                 appSetting.getJwtIssuer(), appSetting.getJwtValidity());
 
         oauthTokenDto.setValue(token);
         oauthTokenDto.setTokenPrefix(OAuth2Constants.BEARER_PREFIX);
-        oauthTokenDto.setExpiration(System.currentTimeMillis() + tempJwtValidity);
-        oauthTokenDto.setInfo("sso登录令牌有效时间为5分钟，请使用sso登录令牌去换取oauth2令牌或者前往用户授权页");
+        oauthTokenDto.setExpiration(System.currentTimeMillis() + appSetting.getJwtSsoValidity());
+        long minutes = appSetting.getJwtSsoValidity() / 1000 / 60;
+        oauthTokenDto.setInfo("sso登录令牌有效时间为" + minutes + "分钟，请使用sso登录令牌去换取oauth2令牌或者前往用户授权页");
 
         return oauthTokenDto;
     }

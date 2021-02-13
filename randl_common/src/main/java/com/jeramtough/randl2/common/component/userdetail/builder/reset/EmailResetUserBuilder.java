@@ -33,4 +33,9 @@ public class EmailResetUserBuilder extends AbstractResetUserBuilder implements R
         }
         getEntity(transactionId).setEmailAddress(phoneOrEmailOrOther);
     }
+
+    @Override
+    public String getResetUserWayForPhoneOrEmail(String transactionId) throws TransactionTimeoutExcaption {
+        return getEntity(transactionId).getEmailAddress();
+    }
 }

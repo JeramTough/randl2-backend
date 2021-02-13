@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.service.user;
 
+import com.jeramtough.randl2.common.model.dto.RandlUserDto;
 import com.jeramtough.randl2.common.model.params.registereduser.DoRegisterOrResetParams;
 import com.jeramtough.randl2.common.model.params.registereduser.VerifyPasswordParams;
 import com.jeramtough.randl2.common.model.params.registereduser.VerifyPhoneOrEmailByForgetParams;
@@ -23,10 +24,10 @@ public interface UserRegisterService {
 
     String verifyPassword(VerifyPasswordParams params);
 
-    Object verifyPasswordByForget(VerifyPasswordParams params);
+    String verifyPasswordByForget(VerifyPasswordParams params);
 
-    Object register(DoRegisterOrResetParams params);
+    RandlUserDto register(DoRegisterOrResetParams params);
 
-    Object reset(DoRegisterOrResetParams params);
+    RandlUserDto reset(DoRegisterOrResetParams params);
 
 }

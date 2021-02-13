@@ -123,23 +123,7 @@ public class ErrorU {
         public static final String M = "重置失败！账户信息未做过任何修改！";
     }
 
-
-    /*public static final class CODE_203 implements Payload {
-        public static final int C = 20203;
-        public static final String M = "重置未完成或信息以失效，请重新开始重置流程！";
-    }
-
-    public static final class CODE_204 implements Payload {
-        public static final int C = 20204;
-        public static final String M = "重置失败！账户信息未做过任何修改！";
-    }
-
-    public static final class CODE_205 implements Payload {
-        public static final int C = 20205;
-        public static final String M = "该手机号或者邮箱地址未注册或绑定过本系统！";
-    }*/
-
-    public static final class CODE_206 implements Payload {
+    /*public static final class CODE_206 implements Payload {
         public static final int C = 20206;
         public static final String M = "重置失败，旧密码不正确！";
     }
@@ -152,12 +136,8 @@ public class ErrorU {
     public static final class CODE_208 implements Payload {
         public static final int C = 20208;
         public static final String M = "绑定的号码或者地址已被其他账号所绑定！";
-    }
+    }*/
 
-    public static final class CODE_209 implements Payload {
-        public static final int C = 20209;
-        public static final String M = "新密码不能和旧密码一致！";
-    }
 
     //=================登录业务===========================
 
@@ -264,6 +244,16 @@ public class ErrorU {
     public static final class CODE_802 implements Payload {
         public static final int C = 20802;
         public static final String M = "密码认证模式缺失参数[用户名密码]或者[手机邮箱验证码]！";
+    }
+
+    public static final class CODE_803 implements Payload {
+        public static final int C = 20803;
+        public static final String M = "OAuth2请求认证信息已失效！";
+    }
+
+    public static final class CODE_804 implements Payload {
+        public static final int C = 20804;
+        public static final String M = "OAuth2客户端的Secret不匹配！";
     }
 
 }

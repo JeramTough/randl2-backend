@@ -3,6 +3,7 @@ package com.jeramtough.randl2.common.component.userdetail.builder.news;
 import com.jeramtough.jtcomponent.utils.ValidationUtil;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseBeanException;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.common.component.userdetail.RegisterUserWay;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.component.userdetail.builder.exception.TransactionTimeoutExcaption;
@@ -44,7 +45,7 @@ public class PhoneNewUserBuilder extends AbstractNewUserBuilder
     }
 
     @Override
-    protected void buildAccount(String transactionId, RandlUser randlUser) throws TransactionTimeoutExcaption{
+    protected void buildAccount(String transactionId, RandlUser randlUser) throws TransactionTimeoutExcaption {
         String phoneNumber = getPhoneNumber(transactionId);
         randlUser.setPhoneNumber(phoneNumber);
         randlUser.setAccount("P_" + phoneNumber.substring(0,
@@ -57,6 +58,11 @@ public class PhoneNewUserBuilder extends AbstractNewUserBuilder
         return RegisterUserWay.PHONE_USER_WAY;
     }
 
+    @Override
+    public String getRegisterUserWayForPhoneOrEmail(String transactionId) throws TransactionTimeoutExcaption {
+        return getPhoneNumber(transactionId);
+    }
+
 
     //************
 
@@ -66,7 +72,9 @@ public class PhoneNewUserBuilder extends AbstractNewUserBuilder
 
 
     private void setPhoneNumber(String transactionId, String phoneNumber) throws TransactionTimeoutExcaption {
-        getEntity(transactionId).setPhoneNumber(phoneNumber);
+        RandlUser randlUser = getEntity(transactionId);
+        randlUser.setPhoneNumber(phoneNumber);
+        setEntity(transactionId, randlUser);
     }
 
 

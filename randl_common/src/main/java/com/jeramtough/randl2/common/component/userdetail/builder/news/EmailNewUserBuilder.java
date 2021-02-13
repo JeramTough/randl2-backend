@@ -1,6 +1,7 @@
 package com.jeramtough.randl2.common.component.userdetail.builder.news;
 
 import com.jeramtough.jtcomponent.utils.ValidationUtil;
+import com.jeramtough.randl2.common.component.userdetail.RegisterUserWay;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.common.component.userdetail.builder.exception.AccountFormatException;
 import com.jeramtough.randl2.common.component.userdetail.builder.exception.TransactionTimeoutExcaption;
@@ -32,7 +33,8 @@ public class EmailNewUserBuilder extends AbstractNewUserBuilder
 
 
     @Override
-    public void setAccount(String transactionId, String phoneOrEmailOrOther) throws AccountFormatException,TransactionTimeoutExcaption {
+    public void setAccount(String transactionId, String phoneOrEmailOrOther) throws AccountFormatException,
+            TransactionTimeoutExcaption {
         boolean isRightFormat = ValidationUtil.isEmail(phoneOrEmailOrOther);
         if (!isRightFormat) {
             throw new AccountFormatException("phoneOrEmailOrOther", "例子:11787@qq.com");
@@ -53,6 +55,11 @@ public class EmailNewUserBuilder extends AbstractNewUserBuilder
         return RegisterUserWay.EMAIL_USER_WAY;
     }
 
+    @Override
+    public String getRegisterUserWayForPhoneOrEmail(String transactionId) throws TransactionTimeoutExcaption {
+        return getEmailAddress(transactionId);
+    }
+
     //************
 
     private String getEmailAddress(String transactionId) throws TransactionTimeoutExcaption {
@@ -61,7 +68,9 @@ public class EmailNewUserBuilder extends AbstractNewUserBuilder
 
 
     private void setEmailAddress(String transactionId, String emailAddress) throws TransactionTimeoutExcaption {
-        getEntity(transactionId).setEmailAddress(emailAddress);
+        RandlUser randlUser = getEntity(transactionId);
+        randlUser.setEmailAddress(emailAddress);
+        setEntity(transactionId,randlUser);
     }
 
 

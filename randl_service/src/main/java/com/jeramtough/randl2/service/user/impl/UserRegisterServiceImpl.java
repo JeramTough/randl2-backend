@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.service.user.impl;
 
+import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseBeanException;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
@@ -7,16 +8,22 @@ import com.jeramtough.jtweb.service.impl.BaseServiceImpl;
 import com.jeramtough.randl2.common.component.userdetail.RegisterUserWay;
 import com.jeramtough.randl2.common.component.userdetail.builder.UserBuilderFactory;
 import com.jeramtough.randl2.common.component.userdetail.builder.exception.AccountFormatException;
+import com.jeramtough.randl2.common.component.userdetail.builder.exception.NoChangedException;
+import com.jeramtough.randl2.common.component.userdetail.builder.exception.NotSetPasswordException;
 import com.jeramtough.randl2.common.component.userdetail.builder.exception.TransactionTimeoutExcaption;
 import com.jeramtough.randl2.common.component.userdetail.builder.news.NewUserBuilder;
 import com.jeramtough.randl2.common.component.userdetail.builder.reset.ResetUserBuilder;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
+import com.jeramtough.randl2.common.model.dto.RandlUserDto;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
+import com.jeramtough.randl2.common.model.error.ErrorS;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.registereduser.DoRegisterOrResetParams;
 import com.jeramtough.randl2.common.model.params.registereduser.VerifyPasswordParams;
 import com.jeramtough.randl2.common.model.params.registereduser.VerifyPhoneOrEmailByForgetParams;
 import com.jeramtough.randl2.common.model.params.registereduser.VerifyPhoneOrEmailForNewParams;
+import com.jeramtough.randl2.common.model.params.verificationcode.GetVerifiedResultParams;
+import com.jeramtough.randl2.service.resource.VerificationCodeService;
 import com.jeramtough.randl2.service.user.UserRegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,15 +40,18 @@ import java.util.Objects;
  * </pre>
  */
 @Service
-public class UserRegisterServiceImpl extends BaseServiceImpl implements UserRegisterService {
+public class UserRegisterServiceImpl extends BaseServiceImpl implements UserRegisterService, WithLogger {
 
     private final RandlUserMapper randlUserMapper;
+    private final VerificationCodeService verificationCodeService;
 
     @Autowired
     public UserRegisterServiceImpl(WebApplicationContext wc,
-                                   RandlUserMapper randlUserMapper) {
+                                   RandlUserMapper randlUserMapper,
+                                   VerificationCodeService verificationCodeService) {
         super(wc);
         this.randlUserMapper = randlUserMapper;
+        this.verificationCodeService = verificationCodeService;
     }
 
     @Override
@@ -136,7 +146,7 @@ public class UserRegisterServiceImpl extends BaseServiceImpl implements UserRegi
     }
 
     @Override
-    public Object verifyPasswordByForget(VerifyPasswordParams params) {
+    public String verifyPasswordByForget(VerifyPasswordParams params) {
         BeanValidator.verifyParams(params);
 
         if (!params.getPassword().equals(params.getRepeatedPassword())) {
@@ -154,13 +164,90 @@ public class UserRegisterServiceImpl extends BaseServiceImpl implements UserRegi
     }
 
     @Override
-    public Object register(DoRegisterOrResetParams params) {
+    public RandlUserDto register(DoRegisterOrResetParams params) {
+        BeanValidator.verifyParams(params);
+
+        NewUserBuilder newUserBuilder = UserBuilderFactory.getNewUserBuilder(getWC(), params.getWay());
+
+        GetVerifiedResultParams getVerifiedResultParams = new GetVerifiedResultParams();
+        try {
+            getVerifiedResultParams.setPhoneOrEmail(
+                    newUserBuilder.getRegisterUserWayForPhoneOrEmail(params.getTransactionId()));
+        }
+        catch (TransactionTimeoutExcaption e) {
+            throw new ApiResponseException(ErrorU.CODE_201.C);
+        }
+        boolean isPassed = verificationCodeService.getVerifiedResult(getVerifiedResultParams);
+
+        if (isPassed) {
+            RandlUser randlUser;
+            try {
+                randlUser = newUserBuilder.build(params.getTransactionId());
+            }
+            catch (TransactionTimeoutExcaption transactionTimeoutExcaption) {
+                throw new ApiResponseException(ErrorU.CODE_201.C);
+            }
+            catch (NotSetPasswordException e) {
+                throw new ApiResponseException(ErrorU.CODE_202.C);
+            }
+
+            Objects.requireNonNull(randlUser);
+            getLogger().info(params.getTransactionId() + "用户注册校验通过");
+
+            int affectCount = randlUserMapper.insert(randlUser);
+            if (affectCount > 0) {
+                getLogger().info("插入新用户数据成功！");
+                RandlUserDto randlUserDto = getMapperFacade().map(randlUser, RandlUserDto.class);
+                return randlUserDto;
+            }
+            else {
+                throw new ApiResponseException(ErrorS.CODE_1.C);
+            }
+        }
 
         return null;
     }
 
     @Override
-    public Object reset(DoRegisterOrResetParams params) {
+    public RandlUserDto reset(DoRegisterOrResetParams params) {
+        BeanValidator.verifyParams(params);
+
+        ResetUserBuilder resetUserBuilder = UserBuilderFactory.getResetUserBuilder(getWC(), params.getWay());
+
+        GetVerifiedResultParams getVerifiedResultParams = new GetVerifiedResultParams();
+        try {
+            getVerifiedResultParams.setPhoneOrEmail(
+                    resetUserBuilder.getResetUserWayForPhoneOrEmail(params.getTransactionId()));
+        }
+        catch (TransactionTimeoutExcaption e) {
+            throw new ApiResponseException(ErrorU.CODE_201.C);
+        }
+        boolean isPassed = verificationCodeService.getVerifiedResult(getVerifiedResultParams);
+
+        if (isPassed) {
+            try {
+                getLogger().info(params.getTransactionId() + "用户重置密码校验通过");
+                RandlUser randlUser = resetUserBuilder.reset(params.getTransactionId());
+
+                int affectCount = randlUserMapper.updateById(randlUser);
+                if (affectCount > 0) {
+                    getLogger().info("更新用户数据成功！");
+                    RandlUserDto randlUserDto = getMapperFacade().map(randlUser, RandlUserDto.class);
+                    return randlUserDto;
+                }
+                else {
+                    throw new ApiResponseException(ErrorS.CODE_1.C);
+                }
+
+            }
+            catch (TransactionTimeoutExcaption transactionTimeoutExcaption) {
+                throw new ApiResponseException(ErrorU.CODE_201.C);
+            }
+            catch (NoChangedException e) {
+                throw new ApiResponseException(ErrorU.CODE_203.C);
+            }
+        }
+
         return null;
     }
 }

@@ -74,4 +74,7 @@ public class OAuth2Constants {
     public static final String BEARER_PREFIX = "Bearer ";
 
 
+    public static final String RESPONSE_TYPE_4_TOKEN = "token";
+
+    public static final String RESPONSE_TYPE_4_CODE = "code";
 }
