@@ -28,7 +28,7 @@ import java.util.Map;
  * @since 2020-01-26
  */
 @RestController
-@Api(tags = {"普通用户个人信息接口"})
+@Api(tags = {"Randl普通用户个人信息接口"})
 @RequestMapping("/randlPersonalInfo")
 public class RandlPersonalInfoController extends MyBaseController {
 

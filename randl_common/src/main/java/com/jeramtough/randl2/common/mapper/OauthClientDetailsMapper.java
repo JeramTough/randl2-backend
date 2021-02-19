@@ -20,6 +20,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OauthClientDetailsMapper extends BaseMapper<OauthClientDetails> {
 
-    @SelectProvider(type = OauthClientDetailsSqlProvider.class, method = "selectByClientId")
-    OauthClientDetailsDto selectByClientId(@Param("clientId") String clientId);
+    @SelectProvider(type = OauthClientDetailsSqlProvider.class, method = "selectByClientIdOrAppId")
+    OauthClientDetailsDto selectByClientIdOrAppId(@Param("clientId") String clientId, @Param("appId") Long appId);
 }

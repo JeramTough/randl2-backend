@@ -28,7 +28,7 @@ import java.util.List;
 @ApiResponses({
         @ApiResponse(code = ErrorU.CODE_701.C, message = ErrorU.CODE_701.M),
 })
-@Api(tags = {"APP应用接口"})
+@Api(tags = {"RandlAPP应用接口"})
 @RestController
 @RequestMapping("/randlApp")
 public class RandlAppController extends MyBaseController {

@@ -3,6 +3,7 @@ package com.jeramtough.randl2.common.config.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
@@ -22,6 +23,15 @@ public class SecurityConfig {
         PasswordEncoder passwordEncoder =
                 PasswordEncoderFactories.createDelegatingPasswordEncoder();
         return passwordEncoder;
+    }
+
+    /**
+     * 返回自适应的密码编码者
+     */
+    @Bean("noOpPasswordEncoder")
+    public PasswordEncoder noOpPasswordEncoder() {
+        PasswordEncoder noOpPasswordEncoder =org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance();
+        return noOpPasswordEncoder;
     }
 
 }

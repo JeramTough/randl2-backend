@@ -30,7 +30,7 @@ import java.util.List;
 @ApiResponses({
         @ApiResponse(code = ErrorU.CODE_504.C, message = ErrorU.CODE_504.M),
 })
-@Api(tags = {"角色信息的接口"})
+@Api(tags = {"Randl角色信息的接口"})
 @RequestMapping("/randlRole")
 public class RandlRoleController extends BaseSwaggerController {
 

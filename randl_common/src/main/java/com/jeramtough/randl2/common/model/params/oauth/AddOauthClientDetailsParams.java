@@ -1,56 +1,52 @@
-package com.jeramtough.randl2.common.model.entity;
+package com.jeramtough.randl2.common.model.params.oauth;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
+import com.jeramtough.randl2.common.model.dto.OauthResourceDetailsDto;
+import com.jeramtough.randl2.common.model.dto.OauthScopeDetailsDto;
+import com.jeramtough.randl2.common.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author JeramTough
  * @since 2021-02-02
  */
-@ApiModel(value="OauthClientDetails对象", description="")
-public class OauthClientDetails implements Serializable {
+@ApiModel(value = "OauthClientDetails对象", description = "")
+public class AddOauthClientDetailsParams implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
-    @TableId(value = "fid", type = IdType.AUTO)
-    private Long fid;
-
+    @NotNull(payload = ErrorU.CODE_1.class)
     private Long appId;
 
-    private String clientId;
-
-  /**
-   * 所拥有的资源Ids
-   */
+    @ApiModelProperty(value = "所拥有的资源Ids")
     private String resourceIds;
 
-    private String clientSecret;
-
+    @NotNull(payload = ErrorU.CODE_1.class)
     private String authorizedGrantTypes;
 
+    @NotNull(payload = ErrorU.CODE_1.class)
     private String webServerRedirectUris;
 
+    @NotNull(payload = ErrorU.CODE_1.class)
     private Long accessTokenValidity;
 
     private Long refreshTokenValidity;
 
+    @NotNull(payload = ErrorU.CODE_1.class)
     private Boolean autoApprove;
 
-
-    public Long getFid() {
-        return fid;
-    }
-
-    public void setFid(Long fid) {
-        this.fid = fid;
-    }
 
     public Long getAppId() {
         return appId;
@@ -60,13 +56,6 @@ public class OauthClientDetails implements Serializable {
         this.appId = appId;
     }
 
-    public String getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
-    }
 
     public String getResourceIds() {
         return resourceIds;
@@ -76,13 +65,6 @@ public class OauthClientDetails implements Serializable {
         this.resourceIds = resourceIds;
     }
 
-    public String getClientSecret() {
-        return clientSecret;
-    }
-
-    public void setClientSecret(String clientSecret) {
-        this.clientSecret = clientSecret;
-    }
 
     public String getAuthorizedGrantTypes() {
         return authorizedGrantTypes;
@@ -99,7 +81,6 @@ public class OauthClientDetails implements Serializable {
     public void setWebServerRedirectUris(String webServerRedirectUris) {
         this.webServerRedirectUris = webServerRedirectUris;
     }
-
 
     public Long getAccessTokenValidity() {
         return accessTokenValidity;
@@ -125,19 +106,17 @@ public class OauthClientDetails implements Serializable {
         this.autoApprove = autoApprove;
     }
 
+
     @Override
     public String toString() {
         return "OauthClientDetails{" +
-        "fid=" + fid +
-        ", appId=" + appId +
-        ", clientId=" + clientId +
-        ", resourceIds=" + resourceIds +
-        ", clientSecret=" + clientSecret +
-        ", authorizedGrantTypes=" + authorizedGrantTypes +
-        ", webServerRedirectUris=" + webServerRedirectUris +
-        ", accessTokenValidity=" + accessTokenValidity +
-        ", refreshTokenValidity=" + refreshTokenValidity +
-        ", autoApprove=" + autoApprove +
-        "}";
+                ", appId=" + appId +
+                ", resourceIds=" + resourceIds +
+                ", authorizedGrantTypes=" + authorizedGrantTypes +
+                ", webServerRedirectUris=" + webServerRedirectUris +
+                ", accessTokenValidity=" + accessTokenValidity +
+                ", refreshTokenValidity=" + refreshTokenValidity +
+                ", autoApprove=" + autoApprove +
+                "}";
     }
 }

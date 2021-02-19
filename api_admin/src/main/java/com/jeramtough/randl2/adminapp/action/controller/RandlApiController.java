@@ -27,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/randlApi")
-@Api(tags = {"接口信息的接口"})
+@Api(tags = {"Randl接口信息的接口"})
 public class RandlApiController extends MyBaseController {
 
     private final RandlApiService randlApiService;

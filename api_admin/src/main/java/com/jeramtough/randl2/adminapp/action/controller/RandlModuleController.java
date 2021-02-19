@@ -26,7 +26,7 @@ import java.util.Map;
  * @author JeramTough
  * @since 2020-08-06
  */
-@Api(tags = {"模块接口"})
+@Api(tags = {"Randl模块接口"})
 @RestController
 @RequestMapping("/randlModule")
 public class RandlModuleController extends MyBaseController {

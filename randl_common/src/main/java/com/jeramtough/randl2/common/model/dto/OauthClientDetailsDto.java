@@ -31,14 +31,18 @@ public class OauthClientDetailsDto implements Serializable {
 
     private String clientId;
 
+    private String clientSecret;
+
     @ApiModelProperty(value = "所拥有的资源Ids")
     private String resourceIds;
 
     private String authorizedGrantTypes;
 
+    private List<String> authorizedGrantTypeList;
+
     private String webServerRedirectUris;
 
-    private String authorities;
+    private List<String> webServerRedirectUriList;
 
     private Long accessTokenValidity;
 
@@ -65,6 +69,21 @@ public class OauthClientDetailsDto implements Serializable {
 
     private Map<String, List<OauthScopeDetailsDto>> scopeMap;
 
+    public List<String> getAuthorizedGrantTypeList() {
+        return authorizedGrantTypeList;
+    }
+
+    public void setAuthorizedGrantTypeList(List<String> authorizedGrantTypeList) {
+        this.authorizedGrantTypeList = authorizedGrantTypeList;
+    }
+
+    public List<String> getWebServerRedirectUriList() {
+        return webServerRedirectUriList;
+    }
+
+    public void setWebServerRedirectUriList(List<String> webServerRedirectUriList) {
+        this.webServerRedirectUriList = webServerRedirectUriList;
+    }
 
     public Long getFid() {
         return fid;
@@ -72,6 +91,14 @@ public class OauthClientDetailsDto implements Serializable {
 
     public void setFid(Long fid) {
         this.fid = fid;
+    }
+
+    public String getClientSecret() {
+        return clientSecret;
+    }
+
+    public void setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
     }
 
     public Long getAppId() {
@@ -113,14 +140,6 @@ public class OauthClientDetailsDto implements Serializable {
 
     public void setWebServerRedirectUris(String webServerRedirectUris) {
         this.webServerRedirectUris = webServerRedirectUris;
-    }
-
-    public String getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(String authorities) {
-        this.authorities = authorities;
     }
 
     public Long getAccessTokenValidity() {
@@ -213,7 +232,6 @@ public class OauthClientDetailsDto implements Serializable {
                 ", resourceIds=" + resourceIds +
                 ", authorizedGrantTypes=" + authorizedGrantTypes +
                 ", webServerRedirectUris=" + webServerRedirectUris +
-                ", authorities=" + authorities +
                 ", accessTokenValidity=" + accessTokenValidity +
                 ", refreshTokenValidity=" + refreshTokenValidity +
                 ", autoApprove=" + autoApprove +

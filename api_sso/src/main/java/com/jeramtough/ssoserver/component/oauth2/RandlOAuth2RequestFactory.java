@@ -10,7 +10,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-package com.jeramtough.randl2.common.component.attestation.oauth2;
+package com.jeramtough.ssoserver.component.oauth2;
 
 import com.jeramtough.randl2.common.model.constant.OAuth2Constants;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,6 +2,7 @@ package com.jeramtough.randl2.adminapp.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 
 /**
  * <pre>
@@ -10,9 +11,13 @@ import org.springframework.context.annotation.Configuration;
  * </pre>
  */
 @Configuration
-@ComponentScan({
-        "com.jeramtough.randl2.common",
-        "com.jeramtough.randl2.service"
-})
+@ComponentScan(
+        value = {
+                "com.jeramtough.randl2.common",
+                "com.jeramtough.randl2.service"
+        },
+        excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
+                classes = {})})
 public class SpringConfig {
+
 }

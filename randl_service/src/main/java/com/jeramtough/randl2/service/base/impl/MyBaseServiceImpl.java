@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.service.base.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseBeanException;
@@ -15,7 +16,9 @@ import com.jeramtough.randl2.common.model.params.BaseConditionParams;
 import com.jeramtough.randl2.service.base.MyBaseService;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.util.Collection;
 
 /**
  * <pre>
@@ -77,11 +80,11 @@ public abstract class MyBaseServiceImpl<M extends BaseMapper<T>, T, D>
     public PageDto<D> pageByConditionTwo(QueryByPageParams queryByPageParams, BaseConditionParams params,
                                          QueryWrapper<T> queryWrapper) {
 
-        return pageByConditionThree(queryByPageParams,params,queryWrapper);
+        return pageByConditionThree(queryByPageParams, params, queryWrapper);
     }
 
     public PageDto<D> pageByConditionThree(QueryByPageParams queryByPageParams, BaseConditionParams params,
-                                         QueryWrapper<T> queryWrapper) {
+                                           QueryWrapper<T> queryWrapper) {
 
 
         if (params.getStartDate() != null && params.getEndDate() != null) {
@@ -94,6 +97,97 @@ public abstract class MyBaseServiceImpl<M extends BaseMapper<T>, T, D>
                         queryWrapper);
 
         return toPageDto(queryPage);
+    }
+
+    @Override
+    public boolean save(T entity) {
+        boolean isSuccessful = super.save(entity);
+        if (!isSuccessful) {
+            throw new ApiResponseException(ErrorS.CODE_2.C, "保存");
+        }
+        return true;
+    }
+
+    @Override
+    public boolean saveOrUpdate(T entity) {
+        boolean isSuccessful = super.saveOrUpdate(entity);
+        if (!isSuccessful) {
+            throw new ApiResponseException(ErrorS.CODE_2.C, "保存或者更新");
+        }
+        return true;
+    }
+
+    @Override
+    public boolean saveOrUpdate(T entity, Wrapper<T> updateWrapper) {
+        boolean isSuccessful = super.saveOrUpdate(entity, updateWrapper);
+        if (!isSuccessful) {
+            throw new ApiResponseException(ErrorS.CODE_2.C, "保存或者更新");
+        }
+        return true;
+    }
+
+    @Override
+    public boolean saveBatch(Collection<T> entityList) {
+        boolean isSuccessful = super.saveBatch(entityList);
+        if (!isSuccessful) {
+            throw new ApiResponseException(ErrorS.CODE_2.C, "批量保存");
+        }
+        return true;
+    }
+
+    @Override
+    public boolean saveBatch(Collection<T> entityList, int batchSize) {
+        boolean isSuccessful = super.saveBatch(entityList, batchSize);
+        if (!isSuccessful) {
+            throw new ApiResponseException(ErrorS.CODE_2.C, "批量保存");
+        }
+        return true;
+    }
+
+    @Override
+    public boolean saveOrUpdateBatch(Collection<T> entityList) {
+        boolean isSuccessful = super.saveOrUpdateBatch(entityList);
+        if (!isSuccessful) {
+            throw new ApiResponseException(ErrorS.CODE_2.C, "批量保存或者更新");
+        }
+        return true;
+    }
+
+
+    @Override
+    public boolean saveOrUpdateBatch(Collection<T> entityList, int batchSize) {
+        boolean isSuccessful = super.saveOrUpdateBatch(entityList, batchSize);
+        if (!isSuccessful) {
+            throw new ApiResponseException(ErrorS.CODE_2.C, "批量保存或者更新");
+        }
+        return true;
+    }
+
+    @Override
+    public boolean remove(Wrapper<T> queryWrapper) {
+        boolean isSuccessful = super.remove(queryWrapper);
+        if (!isSuccessful) {
+            throw new ApiResponseException(ErrorS.CODE_2.C, "删除");
+        }
+        return true;
+    }
+
+    @Override
+    public boolean removeById(Serializable id) {
+        boolean isSuccessful = super.removeById(id);
+        if (!isSuccessful) {
+            throw new ApiResponseException(ErrorS.CODE_2.C, "根据Id删除");
+        }
+        return true;
+    }
+
+    @Override
+    public boolean removeByIds(Collection<? extends Serializable> idList) {
+        boolean isSuccessful = super.removeByIds(idList);
+        if (!isSuccessful) {
+            throw new ApiResponseException(ErrorS.CODE_2.C, "根据Id批量删除");
+        }
+        return true;
     }
 
     //***********************************

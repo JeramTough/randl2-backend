@@ -24,7 +24,7 @@ import java.util.Map;
  * @author JeramTough
  * @since 2020-10-03
  */
-@Api(tags = {"Randl模块角色映射接口"})
+@Api(tags = {"RandlRandl模块角色映射接口"})
 @RestController
 @RequestMapping("/randlModuleRoleMap")
 public class RandlModuleRoleMapController extends MyBaseController {

@@ -1,8 +1,10 @@
 package com.jeramtough.randl2.service.oauth.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.jeramtough.jtcomponent.utils.IdUtil;
 import com.jeramtough.jtcomponent.utils.StringUtil;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseBeanException;
+import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.randl2.common.component.attestation.clientdetail.MyClientDetails;
 import com.jeramtough.randl2.common.mapper.OauthClientDetailsMapper;
 import com.jeramtough.randl2.common.model.dto.OauthClientDetailsDto;
@@ -12,10 +14,16 @@ import com.jeramtough.randl2.common.model.entity.OauthClientDetails;
 import com.jeramtough.randl2.common.model.entity.OauthResourceDetails;
 import com.jeramtough.randl2.common.model.entity.OauthScopeDetails;
 import com.jeramtough.randl2.common.model.error.ErrorU;
+import com.jeramtough.randl2.common.model.params.oauth.AddOauthClientDetailsParams;
+import com.jeramtough.randl2.common.model.params.oauth.UpdateOauthClientDetailsParams;
+import com.jeramtough.randl2.common.util.OauthUtil;
 import com.jeramtough.randl2.service.base.impl.MyBaseServiceImpl;
 import com.jeramtough.randl2.service.oauth.OauthClientDetailsService;
 import com.jeramtough.randl2.service.oauth.OauthResourceDetailsService;
 import com.jeramtough.randl2.service.oauth.OauthScopeDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
 import org.springframework.stereotype.Service;
@@ -40,18 +48,60 @@ public class OauthClientDetailsServiceImpl extends MyBaseServiceImpl<OauthClient
 
     private final OauthResourceDetailsService oauthResourceDetailsService;
     private final OauthScopeDetailsService oauthScopeDetailsService;
+    private final PasswordEncoder noOpPasswordEncoder;
 
+    @Autowired
     public OauthClientDetailsServiceImpl(WebApplicationContext wc,
                                          OauthResourceDetailsService oauthResourceDetailsService,
-                                         OauthScopeDetailsService oauthScopeDetailsService) {
+                                         OauthScopeDetailsService oauthScopeDetailsService,
+                                         @Qualifier("noOpPasswordEncoder")
+                                                 PasswordEncoder noOpPasswordEncoder) {
         super(wc);
         this.oauthResourceDetailsService = oauthResourceDetailsService;
         this.oauthScopeDetailsService = oauthScopeDetailsService;
+        this.noOpPasswordEncoder = noOpPasswordEncoder;
     }
 
     @Override
     protected OauthClientDetailsDto toDto(OauthClientDetails oauthClientDetails) {
-        return toDto1(oauthClientDetails, OauthClientDetailsDto.class);
+        OauthClientDetailsDto dto = toDto1(oauthClientDetails, OauthClientDetailsDto.class);
+        return toDto2(dto);
+    }
+
+    protected OauthClientDetailsDto toDto2(OauthClientDetailsDto dto) {
+        if (dto.getResourceIds() != null) {
+            List<OauthResourceDetailsDto> resourceDetailsDtoList =
+                    oauthResourceDetailsService.getResourceDetailsDtoList(
+                            dto.getResourceIds());
+            dto.setResources(resourceDetailsDtoList);
+
+            Map<String, List<OauthScopeDetailsDto>> scopeMap = new HashMap<>(
+                    resourceDetailsDtoList.size());
+
+            resourceDetailsDtoList
+                    .parallelStream()
+                    .forEach(oauthResourceDetailsDto -> {
+                        Long resourceId = oauthResourceDetailsDto.getFid();
+                        List<OauthScopeDetailsDto> oauthScopeDetailsDtoList =
+                                oauthScopeDetailsService.getClientScopeListByResourceId(resourceId);
+                        scopeMap.put(resourceId.toString(), oauthScopeDetailsDtoList);
+                    });
+            dto.setScopeMap(scopeMap);
+        }
+
+        if (!StringUtils.isEmpty(dto.getAuthorizedGrantTypes())) {
+            dto.setAuthorizedGrantTypeList(StringUtil.splitByComma(dto.getAuthorizedGrantTypes()));
+        }
+
+        if (!StringUtils.isEmpty(dto.getWebServerRedirectUris())) {
+            dto.setWebServerRedirectUriList(StringUtil.splitByComma(dto.getWebServerRedirectUris()));
+        }
+
+        if (!StringUtils.isEmpty(dto.getClientSecret())) {
+            dto.setClientSecret(dto.getClientSecret().replace("{noop}", ""));
+        }
+
+        return dto;
     }
 
     @Override
@@ -74,7 +124,7 @@ public class OauthClientDetailsServiceImpl extends MyBaseServiceImpl<OauthClient
         queryWrapper.in("resource_id", resourceIds);
         List<OauthScopeDetails> oauthScopeDetailsList = oauthScopeDetailsService.list(queryWrapper);
 
-        ClientDetails clientDetails = new MyClientDetails(oauthClientDetails, oauthResourceDetailsList,
+        ClientDetails clientDetails = new MyClientDetails(oauthClientDetails,
                 oauthScopeDetailsList);
         return clientDetails;
     }
@@ -92,35 +142,57 @@ public class OauthClientDetailsServiceImpl extends MyBaseServiceImpl<OauthClient
 
     @Override
     public OauthClientDetailsDto getDtoByClientId(String clientId) {
-        OauthClientDetailsDto oauthClientDetailsDto = getBaseMapper().selectByClientId(clientId);
+        OauthClientDetailsDto oauthClientDetailsDto = getBaseMapper()
+                .selectByClientIdOrAppId(clientId, null);
 
         if (oauthClientDetailsDto == null) {
             throw new ApiResponseBeanException(ErrorU.CODE_10.C, "clientId", "Oauth客户端");
         }
 
-        if (oauthClientDetailsDto.getResourceIds() != null) {
-            List<OauthResourceDetailsDto> resourceDetailsDtoList =
-                    oauthResourceDetailsService.getResourceDetailsDtoList(
-                            oauthClientDetailsDto.getResourceIds());
-            oauthClientDetailsDto.setResources(resourceDetailsDtoList);
-
-            Map<String, List<OauthScopeDetailsDto>> scopeMap = new HashMap<>(
-                    resourceDetailsDtoList.size());
-
-            resourceDetailsDtoList
-                    .parallelStream()
-                    .forEach(oauthResourceDetailsDto -> {
-                        Long resourceId = oauthResourceDetailsDto.getFid();
-                        List<OauthScopeDetailsDto> oauthScopeDetailsDtoList =
-                                oauthScopeDetailsService.getClientScopeListByResourceId(resourceId);
-                        scopeMap.put(resourceId.toString(), oauthScopeDetailsDtoList);
-                    });
-            oauthClientDetailsDto.setScopeMap(scopeMap);
-
-        }
-
-        return oauthClientDetailsDto;
+        return toDto2(oauthClientDetailsDto);
     }
 
+    @Override
+    public String add(AddOauthClientDetailsParams params) {
+        BeanValidator.verifyParams(params);
 
+        OauthClientDetails oauthClientDetails = getMapperFacade().map(params, OauthClientDetails.class);
+
+        //设置clientId
+        String clientId = IdUtil.getUUID();
+        oauthClientDetails.setClientId(clientId);
+
+        //设置密钥
+        String clientSecret = OauthUtil.createClientSecret(noOpPasswordEncoder, clientId);
+        oauthClientDetails.setClientSecret(clientSecret);
+
+        save(oauthClientDetails);
+
+        return "设置为OAuth2应用成功！";
+    }
+
+    @Override
+    public OauthClientDetailsDto getOneByAppId(Long appId) {
+        OauthClientDetailsDto oauthClientDetailsDto = getBaseMapper()
+                .selectByClientIdOrAppId(null, appId);
+        if (oauthClientDetailsDto == null) {
+            throw new ApiResponseBeanException(ErrorU.CODE_10.C, "appId", "App应用");
+        }
+        return toDto2(oauthClientDetailsDto);
+    }
+
+    @Override
+    public String updateByParams(UpdateOauthClientDetailsParams params) {
+        BeanValidator.verifyParams(params);
+
+        //是否需要更新密钥
+        if (params.getIisUpdateSecret()) {
+            //设置密钥
+            String clientSecret = OauthUtil.createClientSecret(noOpPasswordEncoder, params.getClientId());
+            params.setClientSecret(clientSecret);
+        }
+
+
+        return super.updateByParams(params);
+    }
 }

@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.common.component.attestation.oauth2;
+package com.jeramtough.ssoserver.component.oauth2;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;

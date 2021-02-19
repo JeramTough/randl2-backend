@@ -22,14 +22,14 @@ import org.springframework.web.multipart.MultipartFile;
  * @author JeramTough
  * @since 2020-02-06
  */
-@Api(tags = {"头像接口"})
+@Api(tags = {"Resource头像接口"})
 @RestController
 @RequestMapping("/sourceSurfaceImage")
-public class SourceSurfaceImageController extends MyBaseController {
+public class ResourceSurfaceImageController extends MyBaseController {
 
     private final ResourceSurfaceImageService surfaceImageService;
 
-    public SourceSurfaceImageController(
+    public ResourceSurfaceImageController(
             ResourceSurfaceImageService surfaceImageService) {
         this.surfaceImageService = surfaceImageService;
     }

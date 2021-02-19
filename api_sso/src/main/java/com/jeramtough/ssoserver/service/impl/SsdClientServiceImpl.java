@@ -1,7 +1,7 @@
 package com.jeramtough.ssoserver.service.impl;
 
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.randl2.common.component.attestation.oauth2.Oauth2RequestHolder;
+import com.jeramtough.ssoserver.component.oauth2.Oauth2RequestHolder;
 import com.jeramtough.randl2.common.model.dto.OauthClientDetailsDto;
 import com.jeramtough.randl2.common.model.dto.OauthResourceDetailsDto;
 import com.jeramtough.randl2.common.model.dto.OauthScopeDetailsDto;
@@ -61,6 +61,9 @@ public class SsdClientServiceImpl implements SsdClientService {
                return true;
            }).collect(Collectors.toList());
         dto.setResources(resources);
+
+        //隐藏密钥
+        dto.setClientSecret(null);
 
         return dto;
     }

@@ -19,8 +19,8 @@ import org.springframework.stereotype.Repository;
  */
 public class OauthClientDetailsSqlProvider extends BaseSqlProvider<OauthClientDetails> {
 
-    public String selectByClientId(@Param("clientId") String clientId) {
-        String sql = new StringBuilder()
+    public String selectByClientIdOrAppId(@Param("clientId") String clientId, @Param("appId") Long appId) {
+        StringBuilder sql = new StringBuilder()
                 .append(" SELECT ")
                 .append("tb_1.fid,")
                 .append("tb_1.app_id,")
@@ -29,7 +29,6 @@ public class OauthClientDetailsSqlProvider extends BaseSqlProvider<OauthClientDe
                 .append("tb_1.client_secret,")
                 .append("tb_1.authorized_grant_types,")
                 .append("tb_1.web_server_redirect_uris,")
-                .append("tb_1.authorities,")
                 .append("tb_1.access_token_validity,")
                 .append("tb_1.refresh_token_validity,")
                 .append("tb_1.auto_approve,")
@@ -40,8 +39,13 @@ public class OauthClientDetailsSqlProvider extends BaseSqlProvider<OauthClientDe
                 .append("tb_2.type")
                 .append(" FROM ")
                 .append(" oauth_client_details AS tb_1 ")
-                .append(" INNER JOIN randl_app AS tb_2 ON tb_1.app_id = tb_2.fid ")
-                .append(" WHERE tb_1.client_id=#{clientId}").toString();
-        return sql;
+                .append(" INNER JOIN randl_app AS tb_2 ON tb_1.app_id = tb_2.fid ");
+        if (clientId != null) {
+            sql.append(" WHERE tb_1.client_id=#{clientId}");
+        }
+        if (appId != null) {
+            sql.append(" WHERE tb_1.app_id=#{appId}");
+        }
+        return sql.toString();
     }
 }

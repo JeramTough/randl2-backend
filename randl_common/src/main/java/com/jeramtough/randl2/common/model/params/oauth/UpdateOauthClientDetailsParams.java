@@ -1,37 +1,45 @@
-package com.jeramtough.randl2.common.model.entity;
+package com.jeramtough.randl2.common.model.params.oauth;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
+import com.jeramtough.randl2.common.model.dto.OauthResourceDetailsDto;
+import com.jeramtough.randl2.common.model.dto.OauthScopeDetailsDto;
+import com.jeramtough.randl2.common.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author JeramTough
  * @since 2021-02-02
  */
-@ApiModel(value="OauthClientDetails对象", description="")
-public class OauthClientDetails implements Serializable {
+@ApiModel(value = "OauthClientDetails对象", description = "")
+public class UpdateOauthClientDetailsParams implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
-    @TableId(value = "fid", type = IdType.AUTO)
+    @NotNull(payload = ErrorU.CODE_1.class)
     private Long fid;
 
+    @NotNull(payload = ErrorU.CODE_1.class)
     private Long appId;
 
+    @NotNull(payload = ErrorU.CODE_1.class)
     private String clientId;
 
-  /**
-   * 所拥有的资源Ids
-   */
-    private String resourceIds;
-
     private String clientSecret;
+
+    @ApiModelProperty(value = "所拥有的资源Ids")
+    private String resourceIds;
 
     private String authorizedGrantTypes;
 
@@ -43,6 +51,16 @@ public class OauthClientDetails implements Serializable {
 
     private Boolean autoApprove;
 
+    @NotNull(payload = ErrorU.CODE_1.class)
+    private Boolean iisUpdateSecret;
+
+    public String getClientSecret() {
+        return clientSecret;
+    }
+
+    public void setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
+    }
 
     public Long getFid() {
         return fid;
@@ -76,13 +94,6 @@ public class OauthClientDetails implements Serializable {
         this.resourceIds = resourceIds;
     }
 
-    public String getClientSecret() {
-        return clientSecret;
-    }
-
-    public void setClientSecret(String clientSecret) {
-        this.clientSecret = clientSecret;
-    }
 
     public String getAuthorizedGrantTypes() {
         return authorizedGrantTypes;
@@ -99,7 +110,6 @@ public class OauthClientDetails implements Serializable {
     public void setWebServerRedirectUris(String webServerRedirectUris) {
         this.webServerRedirectUris = webServerRedirectUris;
     }
-
 
     public Long getAccessTokenValidity() {
         return accessTokenValidity;
@@ -125,19 +135,26 @@ public class OauthClientDetails implements Serializable {
         this.autoApprove = autoApprove;
     }
 
+    public Boolean getIisUpdateSecret() {
+        return iisUpdateSecret;
+    }
+
+    public void setIisUpdateSecret(Boolean iisUpdateSecret) {
+        this.iisUpdateSecret = iisUpdateSecret;
+    }
+
     @Override
     public String toString() {
         return "OauthClientDetails{" +
-        "fid=" + fid +
-        ", appId=" + appId +
-        ", clientId=" + clientId +
-        ", resourceIds=" + resourceIds +
-        ", clientSecret=" + clientSecret +
-        ", authorizedGrantTypes=" + authorizedGrantTypes +
-        ", webServerRedirectUris=" + webServerRedirectUris +
-        ", accessTokenValidity=" + accessTokenValidity +
-        ", refreshTokenValidity=" + refreshTokenValidity +
-        ", autoApprove=" + autoApprove +
-        "}";
+                "fid=" + fid +
+                ", appId=" + appId +
+                ", clientId=" + clientId +
+                ", resourceIds=" + resourceIds +
+                ", authorizedGrantTypes=" + authorizedGrantTypes +
+                ", webServerRedirectUris=" + webServerRedirectUris +
+                ", accessTokenValidity=" + accessTokenValidity +
+                ", refreshTokenValidity=" + refreshTokenValidity +
+                ", autoApprove=" + autoApprove +
+                "}";
     }
 }

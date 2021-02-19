@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.common.component.attestation.oauth2;
+package com.jeramtough.ssoserver.component.oauth2;
 
 import com.alibaba.fastjson.JSON;
 import com.jeramtough.jtcomponent.http.URLBuilder;
@@ -22,12 +22,8 @@ import org.springframework.security.oauth2.provider.code.AuthorizationCodeServic
 import org.springframework.security.oauth2.provider.implicit.ImplicitTokenRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**

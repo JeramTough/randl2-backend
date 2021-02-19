@@ -19,7 +19,7 @@ import java.util.List;
  * @author JeramTough
  * @since 2020-08-06
  */
-@Api(tags = {"模块与接口映射关系接口"})
+@Api(tags = {"Randl模块与接口映射关系接口"})
 @RestController
 @RequestMapping("/randlModuleApiMap")
 public class RandlModuleApiMapController extends MyBaseController {

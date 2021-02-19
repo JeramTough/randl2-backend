@@ -20,14 +20,11 @@ public class MyClientDetails extends BaseClientDetails {
     private static final long serialVersionUID = -9076737364565791938L;
 
     private final OauthClientDetails oauthClientDetails;
-    private final List<OauthResourceDetails> oauthResourceDetailsList;
     private final List<OauthScopeDetails> oauthScopeDetailsList;
 
     public MyClientDetails(OauthClientDetails oauthClientDetails,
-                           List<OauthResourceDetails> oauthResourceDetailsList,
                            List<OauthScopeDetails> oauthScopeDetailsList) {
         this.oauthClientDetails = oauthClientDetails;
-        this.oauthResourceDetailsList = oauthResourceDetailsList;
         this.oauthScopeDetailsList = oauthScopeDetailsList;
         init();
     }
