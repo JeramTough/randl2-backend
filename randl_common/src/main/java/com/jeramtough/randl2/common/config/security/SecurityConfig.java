@@ -25,13 +25,5 @@ public class SecurityConfig {
         return passwordEncoder;
     }
 
-    /**
-     * 返回自适应的密码编码者
-     */
-    @Bean("noOpPasswordEncoder")
-    public PasswordEncoder noOpPasswordEncoder() {
-        PasswordEncoder noOpPasswordEncoder =org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance();
-        return noOpPasswordEncoder;
-    }
 
 }

@@ -1,7 +1,6 @@
 package com.jeramtough.randl2.common.util;
 
 import com.jeramtough.jtcomponent.utils.Base64Util;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -16,7 +15,7 @@ import java.util.List;
  */
 public class OauthUtil {
 
-    public synchronized static String createClientSecret(PasswordEncoder passwordEncoder, String clientId) {
+    public synchronized static String createClientSecret(String clientId) {
         String clientSecret = System.currentTimeMillis() + clientId;
 
         clientSecret = Base64Util.toBase64Str(clientSecret);
@@ -34,7 +33,7 @@ public class OauthUtil {
             clientSecret = clientSecret + i.next();
         }
 
-        clientSecret = passwordEncoder.encode(clientSecret);
+        clientSecret = "{noop}" + (clientSecret);
         return clientSecret;
     }
 

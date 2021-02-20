@@ -48,18 +48,14 @@ public class OauthClientDetailsServiceImpl extends MyBaseServiceImpl<OauthClient
 
     private final OauthResourceDetailsService oauthResourceDetailsService;
     private final OauthScopeDetailsService oauthScopeDetailsService;
-    private final PasswordEncoder noOpPasswordEncoder;
 
     @Autowired
     public OauthClientDetailsServiceImpl(WebApplicationContext wc,
                                          OauthResourceDetailsService oauthResourceDetailsService,
-                                         OauthScopeDetailsService oauthScopeDetailsService,
-                                         @Qualifier("noOpPasswordEncoder")
-                                                 PasswordEncoder noOpPasswordEncoder) {
+                                         OauthScopeDetailsService oauthScopeDetailsService) {
         super(wc);
         this.oauthResourceDetailsService = oauthResourceDetailsService;
         this.oauthScopeDetailsService = oauthScopeDetailsService;
-        this.noOpPasswordEncoder = noOpPasswordEncoder;
     }
 
     @Override
@@ -163,7 +159,7 @@ public class OauthClientDetailsServiceImpl extends MyBaseServiceImpl<OauthClient
         oauthClientDetails.setClientId(clientId);
 
         //设置密钥
-        String clientSecret = OauthUtil.createClientSecret(noOpPasswordEncoder, clientId);
+        String clientSecret = OauthUtil.createClientSecret(clientId);
         oauthClientDetails.setClientSecret(clientSecret);
 
         save(oauthClientDetails);
@@ -201,7 +197,7 @@ public class OauthClientDetailsServiceImpl extends MyBaseServiceImpl<OauthClient
         //是否需要更新密钥
         if (params.getIisUpdateSecret()) {
             //设置密钥
-            String clientSecret = OauthUtil.createClientSecret(noOpPasswordEncoder, params.getClientId());
+            String clientSecret = OauthUtil.createClientSecret(params.getClientId());
             params.setClientSecret(clientSecret);
         }
 
