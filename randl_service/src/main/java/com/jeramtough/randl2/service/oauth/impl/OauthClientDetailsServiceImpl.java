@@ -182,6 +182,19 @@ public class OauthClientDetailsServiceImpl extends MyBaseServiceImpl<OauthClient
     }
 
     @Override
+    public List<OauthClientDetails> getListByResourceId(Long resourceId) {
+        QueryWrapper<OauthClientDetails> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("resource_ids", resourceId)
+                    .or()
+                    .likeLeft("resource_ids", "," + resourceId)
+                    .or()
+                    .likeRight("resource_ids", resourceId + ",")
+                    .or()
+                    .like("resource_ids", "," + resourceId + ",");
+        return getBaseMapper().selectList(queryWrapper);
+    }
+
+    @Override
     public String updateByParams(UpdateOauthClientDetailsParams params) {
         BeanValidator.verifyParams(params);
 

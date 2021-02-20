@@ -1,48 +1,44 @@
-package com.jeramtough.randl2.common.model.dto;
+package com.jeramtough.randl2.common.model.params.oauth;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
+import com.jeramtough.jtweb.component.validation.constraints.NotBlankButNull;
+import com.jeramtough.randl2.common.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author JeramTough
  * @since 2021-02-12
  */
-@ApiModel(value="OauthScopeDetails对象", description="")
-public class OauthScopeDetailsDto implements Serializable{
+@ApiModel(value = "OauthScopeDetails对象", description = "")
+public class AddOauthScopeDetailsParams implements Serializable {
 
-    private static final long serialVersionUID=1L;
-
-    @ApiModelProperty(value = "自增ID")
-    @TableId(value = "fid", type = IdType.AUTO)
-    private Long fid;
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "属于的Oauth资源Id")
+    @NotNull(payload = ErrorU.CODE_1.class)
     private Long resourceId;
 
+    @NotNull(payload = ErrorU.CODE_1.class)
     @ApiModelProperty(value = "有效域表达式")
     private String scopeExpression;
 
     @ApiModelProperty(value = "描述")
+    @NotBlankButNull(payload = ErrorU.CODE_1.class)
     private String description;
 
     @ApiModelProperty(value = "是否需要请求用户批准")
+    @NotNull(payload = ErrorU.CODE_1.class)
     private Boolean isRequired;
 
-
-    public Long getFid() {
-        return fid;
-    }
-
-    public void setFid(Long fid) {
-        this.fid = fid;
-    }
 
     public Long getResourceId() {
         return resourceId;
@@ -77,14 +73,14 @@ public class OauthScopeDetailsDto implements Serializable{
         this.isRequired = isRequired;
     }
 
+
     @Override
     public String toString() {
         return "OauthScopeDetails{" +
-        "fid=" + fid +
-        ", resourceId=" + resourceId +
-        ", scopeExpression=" + scopeExpression +
-        ", description=" + description +
-        ", isRequired=" + isRequired +
-        "}";
+                ", resourceId=" + resourceId +
+                ", scopeExpression=" + scopeExpression +
+                ", description=" + description +
+                ", isRequired=" + isRequired +
+                "}";
     }
 }

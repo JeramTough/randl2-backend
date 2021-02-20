@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -47,6 +48,8 @@ public class OauthResourceDetailsDto implements Serializable{
 
     @ApiModelProperty(value = "0=后台服务端，1=Web前端，2=安卓苹果端，3=小程序端")
     private Integer type;
+
+    private List<OauthScopeDetailsDto> scopeDetailsList;
 
 
     public Long getFid() {
@@ -127,6 +130,15 @@ public class OauthResourceDetailsDto implements Serializable{
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public List<OauthScopeDetailsDto> getScopeDetailsList() {
+        return scopeDetailsList;
+    }
+
+    public void setScopeDetailsList(
+            List<OauthScopeDetailsDto> scopeDetailsList) {
+        this.scopeDetailsList = scopeDetailsList;
     }
 
     @Override

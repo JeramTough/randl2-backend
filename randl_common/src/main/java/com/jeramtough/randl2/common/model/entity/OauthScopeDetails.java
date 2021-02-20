@@ -43,7 +43,7 @@ public class OauthScopeDetails implements Serializable {
   /**
    * 是否需要请求用户批准
    */
-    private Integer isRequired;
+    private Boolean isRequired;
 
 
     public Long getFid() {
@@ -79,11 +79,11 @@ public class OauthScopeDetails implements Serializable {
     }
 
 
-    public Integer getIsRequired() {
+    public Boolean getIsRequired() {
         return isRequired;
     }
 
-    public void setIsRequired(Integer isRequired) {
+    public void setIsRequired(Boolean isRequired) {
         this.isRequired = isRequired;
     }
 

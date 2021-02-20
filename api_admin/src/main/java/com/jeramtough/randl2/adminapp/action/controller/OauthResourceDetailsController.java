@@ -3,16 +3,18 @@ package com.jeramtough.randl2.adminapp.action.controller;
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.randl2.common.action.controller.MyBaseController;
+import com.jeramtough.randl2.common.model.dto.OauthClientDetailsDto;
 import com.jeramtough.randl2.common.model.dto.OauthResourceDetailsDto;
 import com.jeramtough.randl2.common.model.dto.RandlApiDto;
 import com.jeramtough.randl2.common.model.entity.OauthResourceDetails;
+import com.jeramtough.randl2.common.model.params.oauth.AddOauthClientDetailsParams;
+import com.jeramtough.randl2.common.model.params.oauth.AddOauthResourceDetailsParams;
+import com.jeramtough.randl2.common.model.params.oauth.UpdateOauthClientDetailsParams;
+import com.jeramtough.randl2.common.model.params.oauth.UpdateOauthResourceDetailsParams;
 import com.jeramtough.randl2.service.oauth.OauthResourceDetailsService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,6 +43,44 @@ public class OauthResourceDetailsController extends MyBaseController {
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
     public CommonApiResponse<List<OauthResourceDetailsDto>> getAll() {
         return getSuccessfulApiResponse(oauthResourceDetailsService.getAllBaseDto());
+    }
+
+    @ApiOperation(value = "根据AppId查询一个", notes = "根据AppId查询一个")
+    @RequestMapping(value = "/oneByAppId", method = {RequestMethod.GET})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "appId", value = "AppId", paramType = "query",
+                    required = true, defaultValue = "1")})
+    @ApiResponses(value = {
+    })
+    public CommonApiResponse<OauthResourceDetailsDto> getOneByAppId(Long appId) {
+        return getSuccessfulApiResponse(oauthResourceDetailsService.getOneByAppId(appId));
+    }
+
+    @ApiOperation(value = "新增", notes = "新增")
+    @RequestMapping(value = "/add", method = {RequestMethod.POST})
+    @ApiResponses(value = {
+    })
+    public CommonApiResponse<String> add(@RequestBody AddOauthResourceDetailsParams params) {
+        return getSuccessfulApiResponse(oauthResourceDetailsService.add(params));
+    }
+
+    @ApiOperation(value = "更新", notes = "更新")
+    @RequestMapping(value = "/update", method = {RequestMethod.POST})
+    @ApiResponses(value = {
+    })
+    public CommonApiResponse<String> update(@RequestBody UpdateOauthResourceDetailsParams params) {
+        return getSuccessfulApiResponse(oauthResourceDetailsService.update(params));
+    }
+
+    @ApiOperation(value = "删除", notes = "删除")
+    @RequestMapping(value = "/remove", method = {RequestMethod.POST, RequestMethod.GET})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fid", value = "ID", paramType = "query",
+                    required = true, defaultValue = "1")})
+    @ApiResponses(value = {
+    })
+    public CommonApiResponse<String> removeOneById(@RequestParam("fid") Long fid) {
+        return getSuccessfulApiResponse(oauthResourceDetailsService.removeById(fid));
     }
 
 }

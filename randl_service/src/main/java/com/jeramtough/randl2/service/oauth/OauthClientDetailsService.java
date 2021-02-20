@@ -9,6 +9,8 @@ import com.jeramtough.randl2.service.base.MyBaseService;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 
+import java.util.List;
+
 /**
  * <p>
  * 服务类
@@ -29,4 +31,6 @@ public interface OauthClientDetailsService extends MyBaseService<OauthClientDeta
     String add(AddOauthClientDetailsParams params);
 
     OauthClientDetailsDto getOneByAppId(Long appId);
+
+    List<OauthClientDetails> getListByResourceId(Long resourceId);
 }

@@ -5,6 +5,8 @@ import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.jtweb.service.BaseDtoService;
 import com.jeramtough.randl2.common.model.params.BaseConditionParams;
 
+import java.util.List;
+
 /**
  * <pre>
  * Created on 2020/10/25 16:47
@@ -14,6 +16,8 @@ import com.jeramtough.randl2.common.model.params.BaseConditionParams;
 public interface MyBaseService<T, D> extends BaseDtoService<T, D> {
 
     String updateByParams(Object params);
+
+    String updateByParamsList(List<?> params);
 
     String removeOneById(Long fid);
 

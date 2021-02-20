@@ -19,6 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * <pre>
@@ -45,7 +46,7 @@ public abstract class MyBaseServiceImpl<M extends BaseMapper<T>, T, D>
         Long fid = getPrimaryKeyValue(params);
         T entityFromDb = getBaseMapper().selectById(fid);
         if (entityFromDb == null) {
-            throw new ApiResponseException(ErrorU.CODE_9.C, "主键fid");
+            throw new ApiResponseException(ErrorU.CODE_9.C, "主键" + PRIMARY_KEY_NAME);
         }
 
         T entity = (T) getMapperFacade().map(params, entityFromDb.getClass());
@@ -55,6 +56,13 @@ public abstract class MyBaseServiceImpl<M extends BaseMapper<T>, T, D>
             throw new ApiResponseException(ErrorS.CODE_5.C, "[" + PRIMARY_KEY_NAME + "=" + fid);
         }
         return "更新成功";
+    }
+
+    @Override
+    public String updateByParamsList(List<?> params) {
+        params.parallelStream()
+              .forEach(this::updateByParams);
+        return "批量更新成功";
     }
 
     @Override
