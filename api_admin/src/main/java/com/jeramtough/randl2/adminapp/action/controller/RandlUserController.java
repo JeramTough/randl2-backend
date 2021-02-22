@@ -5,7 +5,7 @@ import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.jtweb.model.dto.PageDto;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.randl2.common.action.controller.MyBaseController;
-import com.jeramtough.randl2.common.component.logforoperation.annotation.LoggingOperation;
+
 import com.jeramtough.randl2.common.model.dto.RandlUserDto;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.user.ConditionUserParams;
@@ -38,7 +38,7 @@ public class RandlUserController extends MyBaseController {
         this.randlUserService = randlUserService;
     }
 
-    @LoggingOperation
+
     @ApiOperation(value = "增加", notes = "添加一个Randl用户")
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
     @ApiResponses(value = {
@@ -81,7 +81,7 @@ public class RandlUserController extends MyBaseController {
         return getSuccessfulApiResponse(randlUserService.pageByCondition(queryByPageParams,params));
     }
 
-    @LoggingOperation
+
     @ApiOperation(value = "移除", notes = "移除Randl用户")
     @RequestMapping(value = "/remove", method = {RequestMethod.POST})
     @ApiImplicitParams({
@@ -91,7 +91,7 @@ public class RandlUserController extends MyBaseController {
         return getSuccessfulApiResponse(randlUserService.removeRandUserById(uid));
     }
 
-    @LoggingOperation
+
     @ApiOperation(value = "更新", notes = "更新系统管理员账号信息")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     @ApiResponses(value = {

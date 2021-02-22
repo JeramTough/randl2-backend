@@ -4,7 +4,7 @@ package com.jeramtough.randl2.adminapp.action.controller;
 import com.jeramtough.jtweb.action.controller.BaseSwaggerController;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
-import com.jeramtough.randl2.common.component.logforoperation.annotation.LoggingOperation;
+
 import com.jeramtough.randl2.common.model.dto.RandlRoleDto;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.role.AddRoleParams;
@@ -42,7 +42,7 @@ public class RandlRoleController extends BaseSwaggerController {
         this.randlRoleService = randlRoleService;
     }
 
-    @LoggingOperation
+
     @ApiOperation(value = "新增", notes = "新增角色")
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
     @ApiResponses(value = {
@@ -53,7 +53,7 @@ public class RandlRoleController extends BaseSwaggerController {
         return getSuccessfulApiResponse(randlRoleService.addRole(params));
     }
 
-    @LoggingOperation
+
     @ApiOperation(value = "删除", notes = "删除角色")
     @RequestMapping(value = "/remove", method = {RequestMethod.POST, RequestMethod.GET})
     @ApiImplicitParams({
@@ -67,7 +67,7 @@ public class RandlRoleController extends BaseSwaggerController {
         return getSuccessfulApiResponse(randlRoleService.deleteRole(fid));
     }
 
-    @LoggingOperation
+
     @ApiOperation(value = "更新", notes = "更新角色")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     @ApiResponses(value = {

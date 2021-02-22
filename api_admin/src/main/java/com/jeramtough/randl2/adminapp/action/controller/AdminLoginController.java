@@ -2,9 +2,9 @@ package com.jeramtough.randl2.adminapp.action.controller;
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 
+import com.jeramtough.jtweb.component.optlog.annotation.IgnoreOptLog;
 import com.jeramtough.randl2.adminapp.service.LoginService;
 import com.jeramtough.randl2.common.action.controller.MyBaseController;
-import com.jeramtough.randl2.common.component.logforoperation.annotation.LoggingOperation;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.login.UserCredentials;
@@ -33,7 +33,7 @@ public class AdminLoginController extends MyBaseController {
         this.loginService = loginService;
     }
 
-    @LoggingOperation
+    @IgnoreOptLog(isIgnoreMethod = false,isIgnoreArgs = true,isIgnoreResponse = true)
     @ApiOperation(value = "登录", notes = "系统管理员登录")
     @RequestMapping(value = "/login", method = {RequestMethod.POST})
     @ApiImplicitParams({
@@ -55,7 +55,7 @@ public class AdminLoginController extends MyBaseController {
         return getSuccessfulApiResponse(loginService.adminLogin(userCredentials));
     }
 
-    @LoggingOperation
+
     @ApiOperation(value = "退出登录", notes = "系统管理员退出登录")
     @RequestMapping(value = "/logout", method = {RequestMethod.POST})
     public CommonApiResponse<String> logout() {

@@ -3,7 +3,7 @@ package com.jeramtough.randl2.adminapp.action.controller;
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.randl2.common.action.controller.MyBaseController;
-import com.jeramtough.randl2.common.component.logforoperation.annotation.LoggingOperation;
+
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.surfaceimage.UpdateCurrentAdminSurfaceImageParams;
 import com.jeramtough.randl2.common.model.params.surfaceimage.UpdateSurfaceImageParams;
@@ -51,7 +51,7 @@ public class ResourceSurfaceImageController extends MyBaseController {
         return getSuccessfulApiResponse(surfaceImageService.addUpdateSurfaceImage(file));
     }
 
-    @LoggingOperation
+
     @ApiOperation(value = "更新管理员", notes = "更新当前登录管理员账户的头像")
     @RequestMapping(value = "/updateCurrentAdmin", method = RequestMethod.POST)
     @ApiResponses(value = {
@@ -64,7 +64,7 @@ public class ResourceSurfaceImageController extends MyBaseController {
     }
 
 
-    @LoggingOperation
+
     @ApiOperation(value = "更新普通用户", notes = "更新普通用户的头像")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ApiResponses(value = {
@@ -75,7 +75,7 @@ public class ResourceSurfaceImageController extends MyBaseController {
                 surfaceImageService.updateSurfaceImageByBase64(params));
     }
 
-    @LoggingOperation
+
     @ApiOperation(value = "上传", notes = "上传base64格式的头像图片")
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ApiResponses(value = {
