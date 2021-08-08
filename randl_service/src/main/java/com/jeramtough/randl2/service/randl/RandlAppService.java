@@ -24,8 +24,6 @@ public interface RandlAppService extends MyBaseService<RandlApp, RandlAppDto> {
 
     String add(AddAppParams params);
 
-    String removeOneById(Serializable id);
-
     String update(UpdateAppParams params);
 
     List<RandlAppDto> getListByKeyword(String keyword);

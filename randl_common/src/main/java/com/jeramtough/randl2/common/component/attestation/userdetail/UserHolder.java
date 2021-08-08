@@ -26,8 +26,13 @@ public class UserHolder {
     }
 
     public static SystemUser getSystemUser() {
-        MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
-        return myUserDetails.getSystemUser();
+        if (SecurityContextHolder.getContext().getAuthentication().getDetails() instanceof MyUserDetails) {
+            MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
+            return myUserDetails.getSystemUser();
+        }
+        else {
+            return null;
+        }
     }
 
     public static boolean isSuperAdmin() {

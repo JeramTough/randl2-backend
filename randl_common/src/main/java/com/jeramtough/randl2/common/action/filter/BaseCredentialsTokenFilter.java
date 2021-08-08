@@ -1,4 +1,4 @@
-package com.jeramtough.ssoserver.action.filter;
+package com.jeramtough.randl2.common.action.filter;
 
 import com.jeramtough.jtweb.action.filter.BaseSwaggerFilter;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;

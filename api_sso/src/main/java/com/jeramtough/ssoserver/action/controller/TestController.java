@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
 
-    @ApiOperation(value = "测试登录成功否", notes = "测试登录成功否")
+    @ApiOperation(value = "登录成功否", notes = "刷新令牌登录成功否")
     @RequestMapping(value = "/testLogined", method = RequestMethod.GET)
     public String test() {
         return "test";

@@ -1,12 +1,13 @@
 package com.jeramtough.randl2.service.randl.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.jeramtough.jtcomponent.utils.IdUtil;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.model.QueryPage;
 import com.jeramtough.jtweb.model.dto.PageDto;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
+import com.jeramtough.randl2.common.mapper.RandlApiMapper;
+import com.jeramtough.randl2.common.model.entity.RandlApi;
 import com.jeramtough.randl2.service.randl.RandlAppService;
 import com.jeramtough.randl2.common.component.appdetail.RandlAdminApp;
 import com.jeramtough.randl2.common.component.appdetail.RandlUserApp;
@@ -26,7 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -44,14 +44,17 @@ public class RandlAppServiceImpl extends MyBaseServiceImpl<RandlAppMapper, Randl
 
     private final RandlModuleMapper randlModuleMapper;
     private final RandlRoleMapper randlRoleMapper;
+    private final RandlApiMapper randlApiMapper;
 
     @Autowired
     public RandlAppServiceImpl(WebApplicationContext wc,
                                RandlModuleMapper randlModuleMapper,
-                               RandlRoleMapper randlRoleMapper) {
+                               RandlRoleMapper randlRoleMapper,
+                               RandlApiMapper randlApiMapper) {
         super(wc);
         this.randlModuleMapper = randlModuleMapper;
         this.randlRoleMapper = randlRoleMapper;
+        this.randlApiMapper = randlApiMapper;
     }
 
     @Override
@@ -73,16 +76,20 @@ public class RandlAppServiceImpl extends MyBaseServiceImpl<RandlAppMapper, Randl
         return "添加应用[" + randlApp.getAppName() + "]成功！";
     }
 
+
     @Override
-    public String removeOneById(Serializable id) {
+    public String removeOneById(Long fid) {
+        checkIsBossRandlApp(fid);
 
-        checkIsBossRandlApp(Long.parseLong(id.toString()));
+        //后面在数据库表添加了外键，其实这些不需要了的
+        randlModuleMapper.delete(new QueryWrapper<RandlModule>().eq("app_id", fid));
+        randlApiMapper.delete(new QueryWrapper<RandlApi>().eq("app_id", fid));
+        randlRoleMapper.delete(new QueryWrapper<RandlRole>().eq("app_id", fid));
 
-        randlModuleMapper.delete(new QueryWrapper<RandlModule>().eq("app_id", id));
-        randlRoleMapper.delete(new QueryWrapper<RandlRole>().eq("app_id", id));
-        getBaseMapper().deleteById(id);
+        getBaseMapper().deleteById(fid);
         return "删除App成功！";
     }
+
 
     @Override
     public String update(UpdateAppParams params) {
@@ -111,7 +118,7 @@ public class RandlAppServiceImpl extends MyBaseServiceImpl<RandlAppMapper, Randl
 
     @Override
     public List<RandlAppDto> getAllOnlyName() {
-        List<RandlAppDto> dtoList=getBaseMapper().selectAllOnlyName();
+        List<RandlAppDto> dtoList = getBaseMapper().selectAllOnlyName();
         return dtoList;
     }
 

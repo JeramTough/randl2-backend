@@ -39,7 +39,8 @@ import java.util.List;
  * @since 2020-01-26
  */
 @Service
-public class RandlRoleServiceImpl extends MyBaseServiceImpl<RandlRoleMapper, RandlRole, RandlRoleDto>
+public class RandlRoleServiceImpl
+        extends MyBaseServiceImpl<RandlRoleMapper, RandlRole, RandlRoleDto>
         implements RandlRoleService, WithLogger {
 
     private final RandlUserRoleMapMapper randlUserRoleMapMapper;
@@ -77,7 +78,8 @@ public class RandlRoleServiceImpl extends MyBaseServiceImpl<RandlRoleMapper, Ran
             throw new ApiResponseException(ErrorU.CODE_9.C, "app应用");
         }
 
-        if (params.getAlias().equals(SuperAdmin.ROLE_ALIAS_NAME) || params.getAlias().equalsIgnoreCase(
+        if (params.getAlias().equals(
+                SuperAdmin.ROLE_ALIAS_NAME) || params.getAlias().equalsIgnoreCase(
                 defaultUserRole.getAlias())) {
             throw new ApiResponseBeanException(ErrorU.CODE_503.C, "alias别名");
         }
@@ -122,7 +124,8 @@ public class RandlRoleServiceImpl extends MyBaseServiceImpl<RandlRoleMapper, Ran
         }
 
         if (!currentRandlRole.getAlias().equalsIgnoreCase(params.getAlias())) {
-            if (params.getAlias().equals(SuperAdmin.ROLE_ALIAS_NAME) || params.getAlias().equalsIgnoreCase(
+            if (params.getAlias().equals(
+                    SuperAdmin.ROLE_ALIAS_NAME) || params.getAlias().equalsIgnoreCase(
                     defaultUserRole.getAlias())) {
                 throw new ApiResponseBeanException(ErrorU.CODE_503.C, "alias别名");
             }
@@ -160,7 +163,8 @@ public class RandlRoleServiceImpl extends MyBaseServiceImpl<RandlRoleMapper, Ran
     public List<RandlRole> getRoleListByAppIdAndUid(Long appId, Long uid) {
         List<RandlRole> randlRoleList = getBaseMapper().selectListByUid(uid, appId);
         //每个用户都默认拥有RandlUser的角色
-        RandlRole defaultRandlUserRole = getBaseMapper().selectById(appSetting.getDefaultUserRoleId());
+        RandlRole defaultRandlUserRole = getBaseMapper().selectById(
+                appSetting.getDefaultUserRoleId());
         randlRoleList.add(defaultRandlUserRole);
         return randlRoleList;
     }
@@ -188,11 +192,22 @@ public class RandlRoleServiceImpl extends MyBaseServiceImpl<RandlRoleMapper, Ran
     }
 
     @Override
+    public RandlRole getDefaultUserRole() {
+        return getById(appSetting.getDefaultUserRoleId());
+    }
+
+    @Override
+    public RandlRole getDefaultAdminRole() {
+        return getById(appSetting.getDefaultAdminRoleId());
+    }
+
+    @Override
     public PageDto<RandlRoleDto> pageByConditionTwo(QueryByPageParams queryByPageParams,
                                                     BaseConditionParams params,
                                                     QueryWrapper<RandlRole> queryWrapper) {
         ConditionRoleParams paramsForApi = (ConditionRoleParams) params;
-        if (!paramsForApi.getAppId().equals(appSetting.getDefaultUserAppId()) && queryByPageParams.getSize() > 0) {
+        if (!paramsForApi.getAppId().equals(
+                appSetting.getDefaultUserAppId()) && queryByPageParams.getSize() > 0) {
             queryByPageParams.setSize(queryByPageParams.getSize() - 1);
         }
 
@@ -212,7 +227,8 @@ public class RandlRoleServiceImpl extends MyBaseServiceImpl<RandlRoleMapper, Ran
         }
 
         //所有的应用都有默认Randl用户这个角色
-        PageDto<RandlRoleDto> pageDto = super.pageByConditionTwo(queryByPageParams, params, queryWrapper);
+        PageDto<RandlRoleDto> pageDto = super.pageByConditionTwo(queryByPageParams, params,
+                queryWrapper);
         if (!paramsForApi.getAppId().equals(appSetting.getDefaultUserAppId())) {
             List<RandlRoleDto> list = new ArrayList<>();
             list.add(toDto(defaultUserRole));
@@ -238,7 +254,8 @@ public class RandlRoleServiceImpl extends MyBaseServiceImpl<RandlRoleMapper, Ran
      * 检查是否对预设橘色进行的操作
      */
     private void checkDefaultRoleOption(Long roleId) {
-        if (roleId.equals(defaultAdminRole.getFid()) || roleId.equals(defaultUserRole.getFid())) {
+        if (roleId.equals(defaultAdminRole.getFid()) || roleId.equals(
+                defaultUserRole.getFid())) {
             throw new ApiResponseException(ErrorU.CODE_504.C);
         }
     }

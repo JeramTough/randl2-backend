@@ -30,7 +30,7 @@ public class RandlUserRoleMapController extends MyBaseController {
         this.randlUserRoleMapService = randlUserRoleMapService;
     }
 
-    @ApiOperation(value = "设置映射关系", notes = "设置模块与接口的映射关系")
+    @ApiOperation(value = "设置映射关系", notes = "设置用户与角色的映射关系")
     @RequestMapping(value = "/setMap", method = {RequestMethod.POST})
     public CommonApiResponse<String> setMap(@RequestBody SetUserRoleMapParams params) {
         return getSuccessfulApiResponse(randlUserRoleMapService.setUserRoleMap(params));

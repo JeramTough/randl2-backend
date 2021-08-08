@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
+import com.jeramtough.randl2.common.action.filter.BaseCredentialsTokenFilter;
 import com.jeramtough.ssoserver.component.attestation.token.ClientSecretAuthenticationToken;
 import com.jeramtough.randl2.common.model.constant.OAuth2Constants;
 import com.jeramtough.randl2.common.model.error.ErrorU;

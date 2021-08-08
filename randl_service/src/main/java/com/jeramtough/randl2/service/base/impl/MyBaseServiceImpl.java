@@ -70,6 +70,7 @@ public abstract class MyBaseServiceImpl<M extends BaseMapper<T>, T, D>
         if (getBaseMapper().selectById(fid) == null) {
             throw new ApiResponseException(ErrorU.CODE_9.C, "fid对应");
         }
+
         if (getBaseMapper().deleteById(fid) == 0) {
             throw new ApiResponseException(ErrorS.CODE_2.C, "删除资源");
         }
@@ -196,6 +197,24 @@ public abstract class MyBaseServiceImpl<M extends BaseMapper<T>, T, D>
             throw new ApiResponseException(ErrorS.CODE_2.C, "根据Id批量删除");
         }
         return true;
+    }
+
+    @Override
+    public T getById(Serializable id) {
+        T t = super.getById(id);
+        if (t == null) {
+            throw new ApiResponseException(ErrorU.CODE_9.C, "fid对应");
+        }
+        return t;
+    }
+
+    @Override
+    public T getOne(Wrapper<T> queryWrapper) {
+        T t = super.getOne(queryWrapper);
+        if (t == null) {
+            throw new ApiResponseException(ErrorU.CODE_9.C, "fid对应");
+        }
+        return t;
     }
 
     //***********************************

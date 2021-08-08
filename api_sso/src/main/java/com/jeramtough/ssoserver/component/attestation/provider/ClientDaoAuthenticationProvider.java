@@ -1,6 +1,7 @@
 package com.jeramtough.ssoserver.component.attestation.provider;
 
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.component.attestation.clientdetail.MyClientDetails;
 import com.jeramtough.ssoserver.component.attestation.token.ClientSecretAuthenticationToken;
 import com.jeramtough.randl2.common.model.error.ErrorU;
@@ -25,7 +26,7 @@ import java.util.List;
  * </pre>
  */
 @Component
-public class ClientDaoAuthenticationProvider implements AuthenticationProvider {
+public class ClientDaoAuthenticationProvider extends MyBaseController implements AuthenticationProvider {
 
     private final PasswordEncoder passwordEncoder;
     private final ClientDetailsService clientDetailsService;
@@ -53,6 +54,9 @@ public class ClientDaoAuthenticationProvider implements AuthenticationProvider {
         MyClientDetails clientDetails = (MyClientDetails) clientDetailsService.loadClientByClientId(
                 clientId);
         String rightClientSecret = clientDetails.getClientSecret();
+
+        //增加解谜头
+        rightClientSecret="{noop}"+rightClientSecret;
 
         //密码Secret校验
         if (!passwordEncoder.matches(clientSecret, rightClientSecret)) {

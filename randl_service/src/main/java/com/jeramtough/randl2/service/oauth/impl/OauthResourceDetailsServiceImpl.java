@@ -145,7 +145,9 @@ public class OauthResourceDetailsServiceImpl extends MyBaseServiceImpl<OauthReso
                 .parallelStream()
                 .map(OauthScopeDetailsDto::getFid)
                 .collect(Collectors.toList());
-        oauthScopeDetailsService.removeByIds(removeIds);
+        if (!removeIds.isEmpty()){
+            oauthScopeDetailsService.removeByIds(removeIds);
+        }
 
         return "更新成功！";
     }

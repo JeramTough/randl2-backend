@@ -49,8 +49,8 @@ public class SsdClientServiceImpl implements SsdClientService {
 
         OauthClientDetailsDto dto = oauthClientDetailsService.getDtoByClientId(clientId);
 
-        //因为是用户资源，把非用户资源的过滤掉
-        Map<String, List<OauthScopeDetailsDto>> scopeMap=dto.getScopeMap();
+        //因为是用户资源，把非用户资源的过滤掉,后面又觉得没必要
+        /*Map<String, List<OauthScopeDetailsDto>> scopeMap=dto.getScopeMap();
         List<OauthResourceDetailsDto> resources=dto.getResources()
            .parallelStream()
            .filter(oauthResourceDetailsDto -> {
@@ -60,7 +60,7 @@ public class SsdClientServiceImpl implements SsdClientService {
                }
                return true;
            }).collect(Collectors.toList());
-        dto.setResources(resources);
+        dto.setResources(resources);*/
 
         //隐藏密钥
         dto.setClientSecret(null);

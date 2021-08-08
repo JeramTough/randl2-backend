@@ -13,6 +13,7 @@
 package com.jeramtough.ssoserver.component.oauth2;
 
 import com.jeramtough.randl2.common.model.constant.OAuth2Constants;
+import com.jeramtough.randl2.service.oauth.OauthClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -36,7 +37,7 @@ import java.util.Set;
 @Component
 public class RandlOAuth2RequestFactory implements OAuth2RequestFactory {
 
-    private final ClientDetailsService clientDetailsService;
+    private final OauthClientDetailsService oauthClientDetailsService;
 
     private SecurityContextAccessor securityContextAccessor = new DefaultSecurityContextAccessor();
 
@@ -45,8 +46,8 @@ public class RandlOAuth2RequestFactory implements OAuth2RequestFactory {
     @Autowired
     public RandlOAuth2RequestFactory(
             @Qualifier("oauthClientDetailsServiceImpl")
-            ClientDetailsService clientDetailsService) {
-        this.clientDetailsService = clientDetailsService;
+                    OauthClientDetailsService oauthClientDetailsService) {
+        this.oauthClientDetailsService = oauthClientDetailsService;
     }
 
     /**
@@ -67,7 +68,8 @@ public class RandlOAuth2RequestFactory implements OAuth2RequestFactory {
     }
 
     @Override
-    public AuthorizationRequest createAuthorizationRequest(Map<String, String> authorizationParameters) {
+    public AuthorizationRequest createAuthorizationRequest(
+            Map<String, String> authorizationParameters) {
 
         String clientId = authorizationParameters.get(OAuth2Constants.CLIENT_ID);
         if (clientId == null) {
@@ -89,13 +91,19 @@ public class RandlOAuth2RequestFactory implements OAuth2RequestFactory {
                     .get(OAuth2Constants.RESPONSE_TYPE_2));
         }
 
-        Set<String> scopes = extractScopes(authorizationParameters, clientId);
+        String grantType = authorizationParameters.get(OAuth2Utils.GRANT_TYPE);
+        if (grantType == null) {
+            grantType = authorizationParameters.get(OAuth2Constants.GRANT_TYPE_2);
+        }
+
+        Set<String> scopes = extractScopes(authorizationParameters, clientId, grantType);
 
         AuthorizationRequest request = new AuthorizationRequest(authorizationParameters,
-                Collections.<String, String>emptyMap(), clientId, scopes, null, null, false, state, redirectUri,
+                Collections.<String, String>emptyMap(), clientId, scopes, null, null, false,
+                state, redirectUri,
                 responseTypes);
 
-        ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
+        ClientDetails clientDetails = oauthClientDetailsService.loadClientByClientId(clientId);
 
         request.setResourceIdsAndAuthoritiesFromClientDetails(clientDetails);
 
@@ -125,7 +133,8 @@ public class RandlOAuth2RequestFactory implements OAuth2RequestFactory {
         else {
             // otherwise, make sure that they match
             if (!clientId.equals(authenticatedClient.getClientId())) {
-                throw new InvalidClientException("Given client ID does not match authenticated client");
+                throw new InvalidClientException(
+                        "Given client ID does not match authenticated client");
             }
         }
 
@@ -134,16 +143,20 @@ public class RandlOAuth2RequestFactory implements OAuth2RequestFactory {
             grantType = requestParameters.get(OAuth2Constants.GRANT_TYPE_2);
         }
 
-        Set<String> scopes = extractScopes(requestParameters, clientId);
-        TokenRequest tokenRequest = new TokenRequest(requestParameters, clientId, scopes, grantType);
+        Set<String> scopes = extractScopes(requestParameters, clientId, grantType);
+        TokenRequest tokenRequest = new TokenRequest(requestParameters, clientId, scopes,
+                grantType);
 
         return tokenRequest;
     }
 
     @Override
-    public TokenRequest createTokenRequest(AuthorizationRequest authorizationRequest, String grantType) {
-        TokenRequest tokenRequest = new TokenRequest(authorizationRequest.getRequestParameters(),
-                authorizationRequest.getClientId(), authorizationRequest.getScope(), grantType);
+    public TokenRequest createTokenRequest(AuthorizationRequest authorizationRequest,
+                                           String grantType) {
+        TokenRequest tokenRequest = new TokenRequest(
+                authorizationRequest.getRequestParameters(),
+                authorizationRequest.getClientId(), authorizationRequest.getScope(),
+                grantType);
         return tokenRequest;
     }
 
@@ -152,11 +165,15 @@ public class RandlOAuth2RequestFactory implements OAuth2RequestFactory {
         return tokenRequest.createOAuth2Request(client);
     }
 
-    private Set<String> extractScopes(Map<String, String> requestParameters, String clientId) {
-        Set<String> scopes = OAuth2Utils.parseParameterList(requestParameters.get(OAuth2Utils.SCOPE));
-        ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
+    private Set<String> extractScopes(Map<String, String> requestParameters, String clientId
+            , String grantType) {
+        Set<String> scopes = OAuth2Utils.parseParameterList(
+                requestParameters.get(OAuth2Utils.SCOPE));
+        ClientDetails clientDetails =
+                oauthClientDetailsService.loadClientByClientIdAndGrantType(clientId,
+                        grantType);
 
-        if ((scopes == null || scopes.isEmpty())) {
+        if (scopes.isEmpty()) {
             // If no scopes are specified in the incoming data, use the default values registered with the client
             // (the spec allows us to choose between this option and rejecting the request completely, so we'll take the
             // least obnoxious choice as a default).
@@ -174,7 +191,8 @@ public class RandlOAuth2RequestFactory implements OAuth2RequestFactory {
             return scopes;
         }
         Set<String> result = new LinkedHashSet<String>();
-        Set<String> authorities = AuthorityUtils.authorityListToSet(securityContextAccessor.getAuthorities());
+        Set<String> authorities = AuthorityUtils.authorityListToSet(
+                securityContextAccessor.getAuthorities());
         for (String scope : scopes) {
             if (authorities.contains(scope) || authorities.contains(scope.toUpperCase())
                     || authorities.contains("ROLE_" + scope.toUpperCase())) {

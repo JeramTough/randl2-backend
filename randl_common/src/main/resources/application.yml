@@ -2,9 +2,14 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
+server:
+  servlet:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
 
 spring:
-
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
     password: 123456
@@ -23,12 +28,6 @@ spring:
     port: 6379
     timeout: 1000
 
-  http:
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
-
 app:
   setting:
     jwt:
@@ -44,3 +43,4 @@ app:
     user:
       defaultAppId: 2
       defaultRoleId: 2
+

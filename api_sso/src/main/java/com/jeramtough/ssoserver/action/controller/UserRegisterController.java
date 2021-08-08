@@ -41,8 +41,6 @@ public class UserRegisterController extends MyBaseController {
 
     @ApiOperation(value = "新账号注册方式校验", notes = "校验手机号码或者邮箱是否允许被注册")
     @RequestMapping(value = "/verify/phoneOrEmailForNew", method = {RequestMethod.POST})
-    @ApiResponses(value = {
-    })
     public CommonApiResponse<Map<String, Object>> verifyPhoneOrEmailForNew(
             @RequestBody VerifyPhoneOrEmailForNewParams params) {
         return getSuccessfulApiResponse(

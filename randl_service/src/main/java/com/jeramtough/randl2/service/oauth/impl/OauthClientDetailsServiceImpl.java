@@ -7,6 +7,7 @@ import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseBeanExcep
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.randl2.common.component.attestation.clientdetail.MyClientDetails;
 import com.jeramtough.randl2.common.mapper.OauthClientDetailsMapper;
+import com.jeramtough.randl2.common.model.constant.AuthorizationGrantType;
 import com.jeramtough.randl2.common.model.dto.OauthClientDetailsDto;
 import com.jeramtough.randl2.common.model.dto.OauthResourceDetailsDto;
 import com.jeramtough.randl2.common.model.dto.OauthScopeDetailsDto;
@@ -79,18 +80,21 @@ public class OauthClientDetailsServiceImpl extends MyBaseServiceImpl<OauthClient
                     .forEach(oauthResourceDetailsDto -> {
                         Long resourceId = oauthResourceDetailsDto.getFid();
                         List<OauthScopeDetailsDto> oauthScopeDetailsDtoList =
-                                oauthScopeDetailsService.getClientScopeListByResourceId(resourceId);
+                                oauthScopeDetailsService.getClientScopeListByResourceId(
+                                        resourceId);
                         scopeMap.put(resourceId.toString(), oauthScopeDetailsDtoList);
                     });
             dto.setScopeMap(scopeMap);
         }
 
         if (!StringUtils.isEmpty(dto.getAuthorizedGrantTypes())) {
-            dto.setAuthorizedGrantTypeList(StringUtil.splitByComma(dto.getAuthorizedGrantTypes()));
+            dto.setAuthorizedGrantTypeList(
+                    StringUtil.splitByComma(dto.getAuthorizedGrantTypes()));
         }
 
         if (!StringUtils.isEmpty(dto.getWebServerRedirectUris())) {
-            dto.setWebServerRedirectUriList(StringUtil.splitByComma(dto.getWebServerRedirectUris()));
+            dto.setWebServerRedirectUriList(
+                    StringUtil.splitByComma(dto.getWebServerRedirectUris()));
         }
 
         if (!StringUtils.isEmpty(dto.getClientSecret())) {
@@ -101,7 +105,8 @@ public class OauthClientDetailsServiceImpl extends MyBaseServiceImpl<OauthClient
     }
 
     @Override
-    public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
+    public ClientDetails loadClientByClientId(String clientId) throws
+            ClientRegistrationException {
         OauthClientDetails oauthClientDetails = getOneByClientId(clientId);
         Objects.requireNonNull(oauthClientDetails);
 
@@ -118,7 +123,9 @@ public class OauthClientDetailsServiceImpl extends MyBaseServiceImpl<OauthClient
 
         QueryWrapper<OauthScopeDetails> queryWrapper = new QueryWrapper<>();
         queryWrapper.in("resource_id", resourceIds);
-        List<OauthScopeDetails> oauthScopeDetailsList = oauthScopeDetailsService.list(queryWrapper);
+        queryWrapper.in("resource_id", resourceIds);
+        List<OauthScopeDetails> oauthScopeDetailsList = oauthScopeDetailsService.list(
+                queryWrapper);
 
         ClientDetails clientDetails = new MyClientDetails(oauthClientDetails,
                 oauthScopeDetailsList);
@@ -152,7 +159,8 @@ public class OauthClientDetailsServiceImpl extends MyBaseServiceImpl<OauthClient
     public String add(AddOauthClientDetailsParams params) {
         BeanValidator.verifyParams(params);
 
-        OauthClientDetails oauthClientDetails = getMapperFacade().map(params, OauthClientDetails.class);
+        OauthClientDetails oauthClientDetails = getMapperFacade().map(params,
+                OauthClientDetails.class);
 
         //设置clientId
         String clientId = IdUtil.getUUID();
@@ -188,6 +196,46 @@ public class OauthClientDetailsServiceImpl extends MyBaseServiceImpl<OauthClient
                     .or()
                     .like("resource_ids", "," + resourceId + ",");
         return getBaseMapper().selectList(queryWrapper);
+    }
+
+    @Override
+    public ClientDetails loadClientByClientIdAndGrantType(String clientId,
+                                                          String grantType) throws
+            ClientRegistrationException {
+        Objects.requireNonNull(grantType);
+
+        OauthClientDetails oauthClientDetails = getOneByClientId(clientId);
+        Objects.requireNonNull(oauthClientDetails);
+
+        List<OauthResourceDetails> oauthResourceDetailsList = new ArrayList<>();
+        if (!StringUtils.isEmpty(oauthClientDetails.getResourceIds())) {
+            List<String> ids = StringUtil.splitByComma(oauthClientDetails.getResourceIds());
+            oauthResourceDetailsList = oauthResourceDetailsService.listByIds(ids);
+        }
+
+        List<Long> resourceIds = oauthResourceDetailsList
+                .parallelStream()
+                .map(OauthResourceDetails::getFid)
+                .collect(Collectors.toList());
+
+        QueryWrapper<OauthScopeDetails> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("resource_id", resourceIds);
+
+        //如果授权模式不是授权码模式和简化授权模式,
+        //那么就只能得到不需要用户点同意的授权域
+        AuthorizationGrantType authorizationGrantType =
+                AuthorizationGrantType.getAuthorizationGrentType(grantType);
+        if (!(authorizationGrantType == AuthorizationGrantType.AUTHORIZATION_CODE)
+                &&!(authorizationGrantType == AuthorizationGrantType.IMPLICIT)) {
+            queryWrapper.eq("is_required", 0);
+        }
+
+        List<OauthScopeDetails> oauthScopeDetailsList = oauthScopeDetailsService.list(
+                queryWrapper);
+
+        ClientDetails clientDetails = new MyClientDetails(oauthClientDetails,
+                oauthScopeDetailsList);
+        return clientDetails;
     }
 
     @Override

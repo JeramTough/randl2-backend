@@ -31,9 +31,6 @@ public class OauthResourceDetailsDto implements Serializable{
 
     private String checkTokenUrl;
 
-    @ApiModelProperty(value = "是否是用户资源，用户资源需要用户授权访问")
-    private Integer isUserResource;
-
     @ApiModelProperty(value = "客户端中文名称")
     private String appName;
 
@@ -84,13 +81,6 @@ public class OauthResourceDetailsDto implements Serializable{
         this.checkTokenUrl = checkTokenUrl;
     }
 
-    public Integer getIsUserResource() {
-        return isUserResource;
-    }
-
-    public void setIsUserResource(Integer isUserResource) {
-        this.isUserResource = isUserResource;
-    }
 
     public String getAppName() {
         return appName;
@@ -148,7 +138,6 @@ public class OauthResourceDetailsDto implements Serializable{
         ", appId=" + appId +
         ", keySetUrl=" + keySetUrl +
         ", checkTokenUrl=" + checkTokenUrl +
-        ", isUserResource=" + isUserResource +
         "}";
     }
 }

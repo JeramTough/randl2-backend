@@ -62,8 +62,6 @@ public class OauthClientDetailsController extends MyBaseController {
 
     @ApiOperation(value = "更新", notes = "更新")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
-    @ApiResponses(value = {
-    })
     public CommonApiResponse<String> update(@RequestBody UpdateOauthClientDetailsParams params) {
         return getSuccessfulApiResponse(oauthClientDetailsService.updateByParams(params));
     }

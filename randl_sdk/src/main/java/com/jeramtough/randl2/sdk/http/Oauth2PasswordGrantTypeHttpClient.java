@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.sdk.http;
 
+import com.alibaba.fastjson.JSON;
 import com.jeramtough.randl2.sdk.model.http.ApiResponse;
 import com.jeramtough.randl2.sdk.model.http.TokenBody;
 import com.jeramtough.randl2.sdk.model.oauth.AuthorizationGrantType;
@@ -22,7 +23,8 @@ public class Oauth2PasswordGrantTypeHttpClient extends BaseOauth2HttpClient {
         super(oauth2ClientConfig);
     }
 
-    public ApiResponse obtainTokenByPassword(String credentials, String password) throws IOException {
+    public TokenBody obtainTokenByPassword(String credentials, String password) throws
+            IOException {
 
         Map<String, Object> params = new HashMap<>(3);
         params.put("username", credentials);
@@ -30,12 +32,15 @@ public class Oauth2PasswordGrantTypeHttpClient extends BaseOauth2HttpClient {
         params.put("grant_type", AuthorizationGrantType.PASSWORD.getValue());
         RequestBody requestBody = getCommonRequestBody(params);
 
-        return doTokenPost(requestBody);
+        ApiResponse apiResponse = doTokenPost(requestBody);
+        TokenBody tokenBody = JSON.parseObject(apiResponse.getResponseBody().toString(),
+                TokenBody.class);
+        return tokenBody;
     }
 
 
     public ApiResponse obtainTokenByVerificationCode(String phoneOrEmail,
-                                                                String verificationCode) throws
+                                                     String verificationCode) throws
             IOException {
         Map<String, Object> params = new HashMap<>(3);
         params.put("phoneOrEmail", phoneOrEmail);
@@ -56,7 +61,6 @@ public class Oauth2PasswordGrantTypeHttpClient extends BaseOauth2HttpClient {
     }
 
     //************
-
 
 
 }

@@ -28,11 +28,6 @@ public class OauthResourceDetails implements Serializable {
 
     private String checkTokenUrl;
 
-  /**
-   * 是否是用户资源，用户资源需要用户授权访问
-   */
-    private Integer isUserResource;
-
 
     public Long getFid() {
         return fid;
@@ -66,14 +61,6 @@ public class OauthResourceDetails implements Serializable {
         this.checkTokenUrl = checkTokenUrl;
     }
 
-    public Integer getIsUserResource() {
-        return isUserResource;
-    }
-
-    public void setIsUserResource(Integer isUserResource) {
-        this.isUserResource = isUserResource;
-    }
-
     @Override
     public String toString() {
         return "OauthResourceDetails{" +
@@ -81,7 +68,6 @@ public class OauthResourceDetails implements Serializable {
         ", appId=" + appId +
         ", keySetUrl=" + keySetUrl +
         ", checkTokenUrl=" + checkTokenUrl +
-        ", isUserResource=" + isUserResource +
         "}";
     }
 }

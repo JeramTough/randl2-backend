@@ -84,11 +84,13 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //添加ClientCredentialsToken过滤
+        //添加ClientCredentialsToken过滤器
         Oauth2ClientCredentialsTokenFilter oauth2ClientCredentialsTokenFilter = new Oauth2ClientCredentialsTokenFilter(
                 authenticationManagerBean());
+        //添加Sso登录过滤器
         SsoCredentialsTokenFilter ssoCredentialsTokenFilter =
                 new SsoCredentialsTokenFilter(authenticationManagerBean());
+
         http.addFilterBefore(oauth2ClientCredentialsTokenFilter, BasicAuthenticationFilter.class);
         http.addFilterBefore(ssoCredentialsTokenFilter, Oauth2ClientCredentialsTokenFilter.class);
        /* http.addFilterBefore(oauth2ClientCredentialsTokenFilter,

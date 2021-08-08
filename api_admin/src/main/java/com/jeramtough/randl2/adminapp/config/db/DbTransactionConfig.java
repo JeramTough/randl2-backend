@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.interceptor.*;
 
 import java.util.Collections;
@@ -24,6 +25,7 @@ import java.util.Map;
  */
 @Aspect
 @Configuration
+@EnableTransactionManagement
 public class DbTransactionConfig {
 
     private static final String AOP_POINTCUT_EXPRESSION =

@@ -37,4 +37,8 @@ public interface RandlRoleService extends MyBaseService<RandlRole, RandlRoleDto>
     List<RandlRole> getRoleListByAppIdAndUid(Long appId, Long uid);
 
     List<RandlRoleDto> getListByAppId(Long appId);
+
+    RandlRole getDefaultUserRole();
+
+    RandlRole getDefaultAdminRole();
 }

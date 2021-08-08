@@ -265,6 +265,8 @@ public class OauthAuthorizeResultFactory {
             urlBuilder.appendParamEncode("additionalInfo", result.getAdditionalInfo());
         }
 
+        result.setRedirectUri(urlBuilder.build());
+
         // Do not include the refresh token (even if there is one)
         return result;
     }

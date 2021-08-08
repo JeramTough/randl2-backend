@@ -11,6 +11,7 @@ import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * An authorization grant is a credential representing the resource owner's authorization
@@ -70,5 +71,27 @@ public final class AuthorizationGrantType implements Serializable {
     @Override
     public int hashCode() {
         return this.getValue().hashCode();
+    }
+
+    public static AuthorizationGrantType getAuthorizationGrentType(String value){
+        AuthorizationGrantType type = null;
+        if (AUTHORIZATION_CODE.getValue().equals(value)){
+            type= AUTHORIZATION_CODE;
+        }
+        if (IMPLICIT.getValue().equals(value)){
+            type= IMPLICIT;
+        }
+        if (PASSWORD.getValue().equals(value)){
+            type= PASSWORD;
+        }
+        if (REFRESH_TOKEN.getValue().equals(value)){
+            type= REFRESH_TOKEN;
+        }
+        if (CLIENT_CREDENTIALS.getValue().equals(value)){
+            type= CLIENT_CREDENTIALS;
+        }
+        Objects.requireNonNull(type);
+        return type;
+        
     }
 }

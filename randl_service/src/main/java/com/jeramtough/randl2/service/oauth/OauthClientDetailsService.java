@@ -7,7 +7,9 @@ import com.jeramtough.randl2.common.model.params.oauth.AddOauthClientDetailsPara
 import com.jeramtough.randl2.common.model.params.oauth.UpdateOauthClientDetailsParams;
 import com.jeramtough.randl2.service.base.MyBaseService;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
+import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.ClientRegistrationException;
 
 import java.util.List;
 
@@ -19,10 +21,11 @@ import java.util.List;
  * @author JeramTough
  * @since 2020-08-06
  */
-public interface OauthClientDetailsService extends MyBaseService<OauthClientDetails, OauthClientDetailsDto>
+public interface OauthClientDetailsService
+        extends MyBaseService<OauthClientDetails, OauthClientDetailsDto>
         , ClientDetailsService {
 
-     String updateByParams(UpdateOauthClientDetailsParams params);
+    String updateByParams(UpdateOauthClientDetailsParams params);
 
     OauthClientDetails getOneByClientId(String clientId);
 
@@ -33,4 +36,7 @@ public interface OauthClientDetailsService extends MyBaseService<OauthClientDeta
     OauthClientDetailsDto getOneByAppId(Long appId);
 
     List<OauthClientDetails> getListByResourceId(Long resourceId);
+
+    ClientDetails loadClientByClientIdAndGrantType(String clientId, String grantType) throws
+            ClientRegistrationException;
 }

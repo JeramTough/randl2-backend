@@ -16,15 +16,23 @@
 package com.jeramtough.randl2.resource.config;
 
 import com.jeramtough.randl2.common.component.setting.AppSetting;
+import com.jeramtough.randl2.common.model.dto.OauthScopeDetailsDto;
+import com.jeramtough.randl2.common.model.entity.OauthResourceDetails;
+import com.jeramtough.randl2.service.oauth.OauthResourceDetailsService;
+import com.jeramtough.randl2.service.oauth.OauthScopeDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -58,12 +66,19 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     private final TokenStore tokenStore;
     private final AppSetting appSetting;
 
+    private final OauthResourceDetailsService oauthResourceDetailsService;
+    private final OauthScopeDetailsService oauthScopeDetailsService;
+
     @Autowired
     public ResourceServerConfig(
             @Qualifier("tokenStore") TokenStore tokenStore,
-            AppSetting appSetting) {
+            AppSetting appSetting,
+            OauthResourceDetailsService oauthResourceDetailsService,
+            OauthScopeDetailsService oauthScopeDetailsService) {
         this.tokenStore = tokenStore;
         this.appSetting = appSetting;
+        this.oauthResourceDetailsService = oauthResourceDetailsService;
+        this.oauthScopeDetailsService = oauthScopeDetailsService;
     }
 
     @Override
@@ -77,26 +92,45 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+
+        List<OauthScopeDetailsDto> oauthScopeDetailsDtoList =
+                oauthScopeDetailsService.getClientScopeListByResourceId(
+                        appSetting.getOauthResourceId());
+
         //所有资源都要授权访问
-        http.antMatcher("/**")
-            .authorizeRequests()
-            //放行Swagger的资源
-            .antMatchers(SWAGGER_URLS).permitAll()
-            //放行开放的资源
-            .antMatchers(OPENED_ADI_URLS).permitAll()
-            //授权资源
-            .antMatchers("/api/app/**")
-            .access("#oauth2.hasScope('/api/app/**')")
-            .antMatchers("/api/user/**")
-            .access("#oauth2.hasScope('/api/user/**')")
-            .and()
-            //基于token的话，session就不用缓存了
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .cors()
-            .and()
-            .csrf().disable();
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry
+                expressionInterceptUrlRegistry =
+                http.antMatcher("/**")
+                    .authorizeRequests();
+
+        //放行Swagger的资源
+        expressionInterceptUrlRegistry
+                .antMatchers(SWAGGER_URLS).permitAll()
+                //放行开放的资源
+                .antMatchers(OPENED_ADI_URLS).permitAll();
+
+        //从数据库中提取配置信息
+        oauthScopeDetailsDtoList
+                .parallelStream()
+                .forEach(oauthScopeDetailsDto -> {
+                    //授权资源
+                    String access = String.format("#oauth2.hasScope('%s')",
+                            oauthScopeDetailsDto.getScopeExpression());
+                    expressionInterceptUrlRegistry
+                            .antMatchers(oauthScopeDetailsDto.getScopeExpression())
+                            .access(access);
+
+                });
+
+        expressionInterceptUrlRegistry
+                .and()
+                //基于token的话，session就不用缓存了
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .cors()
+                .and()
+                .csrf().disable();
     }
 
     /**

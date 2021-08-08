@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ch">
+    <head>
+        <meta charset="UTF-8">
+        <title>OAuth2授权Demo</title>
+        <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+        </script>
+    </head>
+    <body>
+        <div>
+            <p>使用OAuth2授权令牌 获取用户资源</p>
+            <form action="#" method="get">
+                <p>令牌: <textarea rows="3" cols="20">
+</textarea></p>
+                <input type="submit" value="Submit" onclick="$('#show1').show();"/>
+            </form>
+            <div id="show1" style="display: none">
+                使用Token获取到的用户信息：
+                <div>
+				{</br>
+  "isSuccessful": true,</br>
+  "message": "The response is successful",</br>
+  "responseBody": {</br>
+    "age": 24,</br>
+    "birthday": "2020-02-05",</br>
+    "fid": 2,</br>
+    "gender": "男",</br>
+    "identityNumber": 12321,</br>
+    "nickname": "发点的地方",</br>
+    "personalizedSignature": "记录卡",</br>
+    "realname": "韦博文",</br>
+    "surfaceImage": {</br>
+      "fid": 2,</br>
+      "surfaceImage": "/images/headImage43434.png"</br>
+    },</br>
+    "uid": 4</br>
+  },</br>
+  "statusCode": 0,</br>
+  "successful": true,</br>
+  "timestamp": 1618386836701</br>
+}</br>
+				</div>
+            </div>
+
+            <div style="margin-top: 20px;margin-bottom: 20px">----------</div>
+
+        </div>
+
+<!--        <a href="http://222.216.5.171:9500/randl2/ssoServer/access/goLoginPage?client_id=f46090e59cb5441691261db050f05415&client_secret=YW1QTj1YMT1MiE5W5NjMYAxwN0zM5NN0GMAUMOTIiN2DRN0cjEwNMDTMZj2U&state=aaaaaaaaaaaalllllll&grant_type=authorization_code&response_type=code&redirect_uri=https://www.baidu.com">授权码模式授权</a>-->
+        <a target="_blank" href="http://localhost:9085/randl2/ssoServer/access/goLoginPage?client_id=f46090e59cb5441691261db050f05415&client_secret=YW1QTj1YMT1MiE5W5NjMYAxwN0zM5NN0GMAUMOTIiN2DRN0cjEwNMDTMZj2U&state=aaaaaaaaaaaalllllll&grant_type=authorization_code&response_type=code&redirect_uri=https://www.baidu.com">使用Randl账号登录<br>(授权码模式授权)</a>
+        <div>
+            <div action="#" method="get">
+                <p>授权码: <input type="text" name="code"/></p>
+                <p>客户端Id: <input type="text" name="client_id"/></p>
+                <p>客户端密钥: <input type="text" name="client_secret"/></p>
+                <p>回调url: <input type="text" name="redirect_uri" value="https://www.baidu.com"/></p>
+                <p>授权模式: <input type="text" name="grant_type" value="authorization_code"/></p>
+                <input type="submit" value="Submit" onclick="$('#show1').hide();$('#show2').show();"/>
+            </div>
+            <div>
+                令牌：
+                <div id="show2" style="display: none">
+                    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOl</br>siMyJdLCJ1c2VyX25hbWUiOiJwaG9uZV80YTM2YjdlYSIsInNjb3BlIjpbIi9hcGkvdXNlci94eDEsL2FwaS9</br>1c2VyL3h4MiwvYXBpL3VzZXIvcmFuZGxQZXJzb25hbEluZm8iXSwiYXRpIjoiMmZjYzc0MmQtNjcyOS00MTBmLWJkMjQtMzg5YmZlMmI2YWQwIi</br>wiZXhwIjoyODI3OTg2NDAzLCJhdXRob3JpdGllcyI6WyJST0xFX1JBTkRMX1VTRVIiXSwianRpIjoiN2MzZmZhOTQtNzdhYy00ZGU4LWFlNzEtNTUw</br>ZTkwZWMwNDI4IiwiY2xpZW50X2lkIjoiZjQ2MDkwZTU5Y2I1NDQxNjkxMjYxZGIwNTBmMDU0MTUifQ.yARDpQydOrs_bATYYk2nzfOpwWLGgobhAbmGdsfw
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px;margin-bottom: 20px">----------</div>
+        账号密码授权模式授权
+        <div>
+            <div action="#" method="get">
+                <p>账号: <input type="text" name="code"/></p>
+                <p>密码: <input type="text" name="code1"/></p>
+                <p>客户端Id: <input type="text" name="client_id" value="f46090e59cb5441691261db050f05415"/></p>
+                <p>客户端密钥: <input type="text" name="client_secret" value="YW1QTj1YMT1MiE5W5NjMYAxwN0zM5NN0GMAUMOTIiN2DRN0cjEwNMDTMZj2U"/></p>
+                <p>授权模式: <input type="text" name="grant_type" value="password"/></p>
+                <input type="submit" value="Submit" onclick="$('#show1').hide();$('#show3').show();"/>
+            </div>
+            <div>
+                令牌：
+                <div id="show3" style="display: none">
+
+                    eyJdkjfdsifjdlsjfJIDSFS89SDAFSDF88DFJKDSF8R5cCI6IkpXVCJ9.eyJhdWQiOl</br>siMyJdLCJ1c2VyX25hbWUiOiJwaG9uZV8DSFSFDSRdsfdsfSFDSFIi9hcGkvdXNlci94eDEsL2FwaS9</br>1c2VyL3h4MiwvYXBpL3VzZXIvcmFuZGxQZXJzb25hbEluZdfsdfsdfe33sfYzc0MmQtNjcyOS00MTBmLWJkMjQtMzg5YmZlMmI2YWQwIi</br>wiZXhwIjoyODI3OTg2NDAzLCJhdXRob3JpdGllcyI6WyJST0xesfsfsdfsdafasN2DdsdfdsdDSDtNzdhYy00ZGU4LWFlNzEtNTUw</br>ZTkwZWMwNDI4IiwiY2xpZW50X2lkIjoiZjQ2MDkwZTU5Y2I1NDQxNjkxMjYxZGIwNTBmMDU0MTUifQ.yARDpQydOrs_bATYYk2nzfOpwWLGgobhAbmGGSDFDSF
+
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px;margin-bottom: 20px">----------</div>
+        客户端模式授权
+        <div>
+            <div action="#" method="get">
+               
+                <p>客户端Id: <input type="text" name="client_id" value="f46090e59cb5441691261db050f05415"/></p>
+                <p>客户端密钥: <input type="text" name="client_secret" value="YW1QTj1YMT1MiE5W5NjMYAxwN0zM5NN0GMAUMOTIiN2DRN0cjEwNMDTMZj2U"/></p>
+              
+                <p>授权模式: <input type="text" name="grant_type" value="implicit"/></p>
+                <input type="submit" value="Submit" onclick="$('#show1').hide();$('#show4').show();"/>
+            </div>
+            <div>
+                令牌：
+                <div id="show4" style="display: none">
+
+                    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOl</br>siMyJdLCJ1c2VyX25hbWUiOiJwaG9uZV80YTM2YjdlYSIsInNjb3BlIjpbIi9hcGkvdXNlci94eDEsL2FwaS9</br>1c2VyL3h4MiwvYXBpL3VzZXIvcmFuZGxQZXJzb25hbEluZm8iXSwiYXRpIjoiMmZjYzc0MmQtNjcyOS00MTBmLWJkMjQtMzg5YmZlMmI2YWQwIi</br>wiZXhwIjoyODI3OTg2NDAzLCJhdXRob3JpdGllcyI6WyJST0xFX1JBTkRMX1VTRVIiXSwianRpIjoiN2MzZmZhOTQtNzdhYy00ZGU4LWFlNzEtNTUw</br>ZTkwZWMwNDI4IiwiY2xpZW50X2lkIjoiZjQ2MDkwZTU5Y2I1NDQxNjkxMjYxZGIwNTBmMDU0MTUifQ.yARDpQydOrs_bATYYk2nzfOpwWLGgobhAbmGdfdf
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px;margin-bottom: 20px">----------</div>
+        
+		<a target="_blank" href="http://127.0.0.1:9085/randl2/ssoServer/access/goLoginPage?client_id=f46090e59cb5441691261db050f05415&client_secret=YW1QTj1YMT1MiE5W5NjMYAxwN0zM5NN0GMAUMOTIiN2DRN0cjEwNMDTMZj2U&state=aaaaaaaaaaaalllllll&grant_type=implicit&response_type=token&redirect_uri=https://www.baidu.com">简化隐式模式授权</a>
+        <div>
+            <div action="#" method="get">
+        
+                <p>客户端Id: <input type="text" name="client_id" value="f46090e59cb5441691261db050f05415"/></p>
+                <p>客户端密钥: <input type="text" name="client_secret" value="YW1QTj1YMT1MiE5W5NjMYAxwN0zM5NN0GMAUMOTIiN2DRN0cjEwNMDTMZj2U"/></p>
+                <p>回调url: <input type="text" name="redirect_uri" value="https://www.baidu.com"/></p>
+                <p>授权模式: <input type="text" name="grant_type" value="implicit"/></p>
+                <input type="submit" value="Submit" onclick="$('#show1').hide();$('#show5').show();"/>
+            </div>
+            <div style="display: none">
+                令牌：
+                <div id="show5" style="display: none">
+                  
+                    
+                
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

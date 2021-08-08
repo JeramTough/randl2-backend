@@ -1,5 +1,6 @@
 package com.jeramtough.ssoserver.action.filter;
 
+import com.jeramtough.randl2.common.action.filter.BaseCredentialsTokenFilter;
 import com.jeramtough.ssoserver.component.attestation.token.JwtAuthenticationToken;
 import com.jeramtough.ssoserver.component.attestation.token.JwtTokenRequestParser;
 import com.jeramtough.jtweb.action.filter.BaseSwaggerFilter;

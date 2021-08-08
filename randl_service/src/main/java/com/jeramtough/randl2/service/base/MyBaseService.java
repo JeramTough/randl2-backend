@@ -1,10 +1,12 @@
 package com.jeramtough.randl2.service.base;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.jeramtough.jtweb.model.dto.PageDto;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.jtweb.service.BaseDtoService;
 import com.jeramtough.randl2.common.model.params.BaseConditionParams;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -22,4 +24,10 @@ public interface MyBaseService<T, D> extends BaseDtoService<T, D> {
     String removeOneById(Long fid);
 
     PageDto<D> pageByCondition(QueryByPageParams queryByPageParams, BaseConditionParams params);
+
+    @Override
+    T getOne(Wrapper<T> queryWrapper);
+
+    @Override
+    T getById(Serializable id);
 }
