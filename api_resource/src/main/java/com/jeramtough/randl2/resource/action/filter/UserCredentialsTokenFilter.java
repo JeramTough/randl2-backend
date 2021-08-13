@@ -1,19 +1,20 @@
 package com.jeramtough.randl2.resource.action.filter;
 
-import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
-import com.jeramtough.jtweb.component.validation.BeanValidator;
-import com.jeramtough.randl2.common.action.filter.BaseCredentialsTokenFilter;
-import com.jeramtough.randl2.common.model.constant.OAuth2Constants;
-import com.jeramtough.randl2.common.model.params.oauth.OauthTokenParams;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
+import com.jeramtough.randl2.common.action.filter.BaseUrlMatchingFilter;
+import com.jeramtough.randl2.common.component.attestation.clientdetail.MyClientDetails;
+import com.jeramtough.randl2.common.component.attestation.userdetail.MyUserDetails;
+import com.jeramtough.randl2.common.model.detail.authdetail.OAuth2AuthenticationPlusDetails;
+import com.jeramtough.randl2.service.details.MyUserDetailsService;
+import com.jeramtough.randl2.service.oauth.OauthClientDetailsService;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -24,29 +25,52 @@ import java.io.IOException;
  * by @author WeiBoWen
  * </pre>
  */
-public class UserCredentialsTokenFilter extends BaseCredentialsTokenFilter {
+public class UserCredentialsTokenFilter extends BaseUrlMatchingFilter {
 
-
-    private final AuthenticationManager authenticationManager;
-
+    private final MyUserDetailsService myUserDetailsService;
+    private final OauthClientDetailsService oauthClientDetailsService;
+    private final TokenStore tokenStore;
 
     public UserCredentialsTokenFilter(
-            AuthenticationManager authenticationManager) {
-        this("/api/user", authenticationManager);
+            MyUserDetailsService myUserDetailsService,
+            OauthClientDetailsService oauthClientDetailsService,
+            TokenStore tokenStore) {
+        super("/user/**");
+        this.myUserDetailsService = myUserDetailsService;
+        this.oauthClientDetailsService = oauthClientDetailsService;
+        this.tokenStore = tokenStore;
     }
-
-    public UserCredentialsTokenFilter(String path,
-                                      AuthenticationManager authenticationManager) {
-        super(path);
-        this.authenticationManager = authenticationManager;
-    }
-
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest httpServletRequest,
-                                                HttpServletResponse httpServletResponse) throws
-            AuthenticationException, IOException, ServletException {
-        return null;
+    public void doFilterContinue(ServletRequest servletRequest,
+                                 ServletResponse servletResponse,
+                                 FilterChain filterChain) throws
+            ServletException, IOException {
+
+        if (!(SecurityContextHolder.getContext().getAuthentication() instanceof OAuth2Authentication)) {
+            filterChain.doFilter(servletRequest, servletResponse);
+        }
+
+        OAuth2Authentication oAuth2Authentication =
+                (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+
+        //clientId
+        String clientId = oAuth2Authentication.getOAuth2Request().getClientId();
+        MyClientDetails myClientDetails =
+                (MyClientDetails) oauthClientDetailsService.loadClientByClientId(clientId);
+
+        //获取令牌的用户名
+        String account = oAuth2Authentication.getUserAuthentication().getPrincipal().toString();
+        MyUserDetails myUserDetails = myUserDetailsService.loadUserByAccount(account);
+
+        //替换默认的OAuth2AuthenticationDetails
+        OAuth2AuthenticationPlusDetails oAuth2AuthenticationPlusDetails =
+                new OAuth2AuthenticationPlusDetails((HttpServletRequest) servletRequest,
+                        myUserDetails,
+                        myClientDetails);
+        oAuth2Authentication.setDetails(oAuth2AuthenticationPlusDetails);
+
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 }
 

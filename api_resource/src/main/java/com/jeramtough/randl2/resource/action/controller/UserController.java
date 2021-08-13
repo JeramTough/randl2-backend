@@ -2,8 +2,7 @@ package com.jeramtough.randl2.resource.action.controller;
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.randl2.common.action.controller.MyBaseController;
-import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
-import com.jeramtough.randl2.common.model.dto.SystemUser2Dto;
+import com.jeramtough.randl2.common.model.dto.SystemUserDto;
 import com.jeramtough.randl2.resource.service.ResourceUserService;
 import io.swagger.annotations.*;
 import org.apache.ibatis.annotations.Param;
@@ -22,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Api(tags = {"用户资源接口"})
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/user")
 public class UserController extends MyBaseController {
 
     private final ResourceUserService resourceUserService;
@@ -37,7 +36,7 @@ public class UserController extends MyBaseController {
     @RequestMapping(value = "/info", method = {RequestMethod.GET})
     @ApiResponses(value = {
     })
-    public CommonApiResponse<SystemUser2Dto> getRandlUserByToken() {
+    public CommonApiResponse<SystemUserDto> getRandlUserByToken() {
         return getSuccessfulApiResponse(resourceUserService.getRandlUserByToken());
     }
 
@@ -55,8 +54,14 @@ public class UserController extends MyBaseController {
 
     @ApiOperation(value = "测试资源", notes = "测试资源")
     @RequestMapping(value = "/test", method = {RequestMethod.GET})
-    public CommonApiResponse<String> getPersonalInfoByUid(HttpServletRequest request) {
+    public CommonApiResponse<String> test(HttpServletRequest request) {
         return getSuccessfulApiResponse("lalallalla");
+    }
+
+    @ApiOperation(value = "测试资源2", notes = "测试资源2")
+    @RequestMapping(value = "/test2", method = {RequestMethod.GET})
+    public CommonApiResponse<String> test2(HttpServletRequest request) {
+        return getSuccessfulApiResponse("ccccccccc");
     }
 
 }

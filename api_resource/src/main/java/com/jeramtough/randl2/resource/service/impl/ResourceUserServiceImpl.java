@@ -1,9 +1,11 @@
 package com.jeramtough.randl2.resource.service.impl;
 
-import com.jeramtough.jtlog.facade.L;
+import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
 import com.jeramtough.randl2.common.component.attestation.userdetail.UserHolder;
-import com.jeramtough.randl2.common.model.dto.SystemUser2Dto;
+import com.jeramtough.randl2.common.model.dto.SystemUserDto;
 import com.jeramtough.randl2.resource.service.ResourceUserService;
+import com.jeramtough.randl2.service.user.SystemUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,9 +17,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class ResourceUserServiceImpl implements ResourceUserService {
 
+    private final SystemUserService systemUserService;
+
+    @Autowired
+    public ResourceUserServiceImpl(
+            SystemUserService systemUserService) {
+        this.systemUserService = systemUserService;
+    }
+
     @Override
-    public SystemUser2Dto getRandlUserByToken() {
-        L.arrive();
-        return null;
+    public SystemUserDto getRandlUserByToken() {
+        SystemUser systemUser = UserHolder.getSystemUser();
+        SystemUserDto systemUserDto = systemUserService.getSystemUserDto(systemUser);
+        return systemUserDto;
     }
 }

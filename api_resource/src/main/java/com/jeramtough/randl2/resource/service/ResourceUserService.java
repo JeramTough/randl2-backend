@@ -1,7 +1,6 @@
 package com.jeramtough.randl2.resource.service;
 
-import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
-import com.jeramtough.randl2.common.model.dto.SystemUser2Dto;
+import com.jeramtough.randl2.common.model.dto.SystemUserDto;
 
 /**
  * <pre>
@@ -10,5 +9,5 @@ import com.jeramtough.randl2.common.model.dto.SystemUser2Dto;
  * </pre>
  */
 public interface ResourceUserService {
-    SystemUser2Dto getRandlUserByToken();
+    SystemUserDto getRandlUserByToken();
 }

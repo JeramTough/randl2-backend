@@ -12,13 +12,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *//*
+
 package com.jeramtough.randl2.resource.config;
 
 import com.jeramtough.randl2.common.component.setting.AppSetting;
+import com.jeramtough.randl2.common.model.dto.OauthScopeDetailsDto;
 import com.jeramtough.randl2.resource.action.filter.UserCredentialsTokenFilter;
 import com.jeramtough.randl2.service.details.MyUserDetailsService;
-import com.jeramtough.randl2.service.oauth.OauthClientDetailsService;
 import com.jeramtough.randl2.service.oauth.OauthScopeDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,12 +34,16 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 
+import java.util.List;
+
+*/
 /**
  *
- */
+ *//*
+
 @Configuration
 @EnableResourceServer
-public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+public class ResourceServerConfig2 extends ResourceServerConfigurerAdapter {
 
     private static final String[] OPENED_ADI_URLS = {
             "/api/verificationCode/**",
@@ -68,22 +73,19 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     private final ApplicationContext applicationContext;
     private final OauthScopeDetailsService oauthScopeDetailsService;
     private final MyUserDetailsService myUserDetailsService;
-    private final OauthClientDetailsService oauthClientDetailsService;
 
     @Autowired
-    public ResourceServerConfig(
+    public ResourceServerConfig2(
             @Qualifier("tokenStore") TokenStore tokenStore,
             AppSetting appSetting,
             ApplicationContext applicationContext,
             OauthScopeDetailsService oauthScopeDetailsService,
-            MyUserDetailsService myUserDetailsService,
-            OauthClientDetailsService oauthClientDetailsService) {
+            MyUserDetailsService myUserDetailsService) {
         this.tokenStore = tokenStore;
         this.appSetting = appSetting;
         this.applicationContext = applicationContext;
         this.oauthScopeDetailsService = oauthScopeDetailsService;
         this.myUserDetailsService = myUserDetailsService;
-        this.oauthClientDetailsService = oauthClientDetailsService;
     }
 
     @Override
@@ -98,14 +100,19 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
-        //所有资源都要有授权对象访问（包括匿名授权对象、帐号密码授权对象、token授权对象）
+        //得到授权域信息
+        List<OauthScopeDetailsDto> oauthScopeDetailsDtoList =
+                oauthScopeDetailsService.getClientScopeListByResourceId(
+                        appSetting.getOauthResourceId());
+
+        //初始化自定义授权操作过滤器
+        initCustomFillter(http);
+
+        //所有资源都要授权访问
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry
                 expressionInterceptUrlRegistry =
                 http.antMatcher("/**")
                     .authorizeRequests();
-
-        //初始化自定义授权操作过滤器
-        initCustomFillter(http);
 
         //放行Swagger的资源
         expressionInterceptUrlRegistry
@@ -113,16 +120,19 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 //放行开放的资源
                 .antMatchers(OPENED_ADI_URLS).permitAll();
 
-        //授权资源
-        expressionInterceptUrlRegistry
-                .antMatchers("/app/**")
-                .access("#oauth2.hasScope('/app/**')")
-                .antMatchers("/user/info")
-                .access("#oauth2.hasScope('/user/info')")
-                .antMatchers("/user/test")
-                .access("#oauth2.hasScope('/user/test')");
+        //从数据库中提取配置信息
+        oauthScopeDetailsDtoList
+                .parallelStream()
+                .forEach(oauthScopeDetailsDto -> {
+                    //授权资源
+                    String access = String.format("#oauth2.hasScope('%s')",
+                            oauthScopeDetailsDto.getScopeExpression());
+                    expressionInterceptUrlRegistry
+                            .antMatchers(oauthScopeDetailsDto.getScopeExpression())
+                            .access(access);
 
-        //设置
+                });
+
         expressionInterceptUrlRegistry
                 .and()
                 //基于token的话，session就不用缓存了
@@ -134,10 +144,15 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .csrf().disable();
     }
 
-    /**
+    */
+/**
      * 配置远程令牌校验服务
-     */
-    /*@Bean
+     *
+     * @param http
+     *//*
+
+    */
+/*@Bean
     public ResourceServerTokenServices tokenService() {
         RemoteTokenServices remoteTokenServices = new RemoteTokenServices();
         remoteTokenServices.setCheckTokenEndpointUrl(
@@ -145,14 +160,17 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         remoteTokenServices.setClientId("first-client");
         remoteTokenServices.setClientSecret("12345678");
         return remoteTokenServices;
-    }*/
+    }*//*
+
+
 
     //********************
+
     private void initCustomFillter(
             HttpSecurity http) {
         UserCredentialsTokenFilter userCredentialsTokenFilter = new UserCredentialsTokenFilter(
-                myUserDetailsService, oauthClientDetailsService, tokenStore);
+                myUserDetailsService);
         http.addFilterAfter(userCredentialsTokenFilter, AnonymousAuthenticationFilter.class);
     }
 
-}
+}*/
