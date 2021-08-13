@@ -7,10 +7,10 @@ import com.jeramtough.jtweb.model.QueryPage;
 import com.jeramtough.jtweb.model.dto.PageDto;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.randl2.common.mapper.RandlApiMapper;
+import com.jeramtough.randl2.common.model.detail.appdetail.RandlAdminApp;
+import com.jeramtough.randl2.common.model.detail.appdetail.RandlUserApp;
 import com.jeramtough.randl2.common.model.entity.RandlApi;
 import com.jeramtough.randl2.service.randl.RandlAppService;
-import com.jeramtough.randl2.common.component.appdetail.RandlAdminApp;
-import com.jeramtough.randl2.common.component.appdetail.RandlUserApp;
 import com.jeramtough.randl2.common.mapper.RandlAppMapper;
 import com.jeramtough.randl2.common.mapper.RandlModuleMapper;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
@@ -20,6 +20,8 @@ import com.jeramtough.randl2.common.model.entity.RandlModule;
 import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.app.AddAppParams;
+//import com.jeramtough.randl2.common.model.detail.appdetail.RandlUserApp;
+//import com.jeramtough.randl2.common.model.detail.appdetail.RandlAdminApp;
 import com.jeramtough.randl2.common.model.params.app.ConditionAppParams;
 import com.jeramtough.randl2.common.model.params.app.UpdateAppParams;
 import com.jeramtough.randl2.service.base.impl.MyBaseServiceImpl;
@@ -39,7 +41,8 @@ import java.util.List;
  * @since 2020-10-03
  */
 @Service
-public class RandlAppServiceImpl extends MyBaseServiceImpl<RandlAppMapper, RandlApp, RandlAppDto>
+public class RandlAppServiceImpl
+        extends MyBaseServiceImpl<RandlAppMapper, RandlApp, RandlAppDto>
         implements RandlAppService {
 
     private final RandlModuleMapper randlModuleMapper;
@@ -107,7 +110,8 @@ public class RandlAppServiceImpl extends MyBaseServiceImpl<RandlAppMapper, Randl
     }
 
     @Override
-    public PageDto<RandlAppDto> pageByCondition(QueryByPageParams queryByPageParams, ConditionAppParams params) {
+    public PageDto<RandlAppDto> pageByCondition(QueryByPageParams queryByPageParams,
+                                                ConditionAppParams params) {
         BeanValidator.verifyParams(params);
 
         QueryPage<RandlApp> randlUserQueryPage = getBaseMapper().selectByCondition(

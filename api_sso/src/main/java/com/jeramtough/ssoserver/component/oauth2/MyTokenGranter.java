@@ -61,23 +61,27 @@ public class MyTokenGranter implements TokenGranter {
     //******************
 
     private List<TokenGranter> getDefaultTokenGranters() {
-        ClientDetailsService clientDetails = this.clientDetailsService;
+        ClientDetailsService clientDetailsService = this.clientDetailsService;
         AuthorizationServerTokenServices tokenServices = this.tokenServices;
         AuthorizationCodeServices authorizationCodeServices = this.authorizationCodeServices;
         OAuth2RequestFactory requestFactory = this.randlOauth2RequestFactory;
 
+        //令牌生成器，对应各种模式的令牌生成
         List<TokenGranter> tokenGranters = new ArrayList<TokenGranter>();
         tokenGranters.add(
-                new AuthorizationCodeTokenGranter(tokenServices, authorizationCodeServices, clientDetails,
+                new AuthorizationCodeTokenGranter(tokenServices, authorizationCodeServices,
+                        clientDetailsService,
                         requestFactory));
-        tokenGranters.add(new RefreshTokenGranter(tokenServices, clientDetails, requestFactory));
-        ImplicitTokenGranter implicit = new ImplicitTokenGranter(tokenServices, clientDetails, requestFactory);
+        tokenGranters.add(new RefreshTokenGranter(tokenServices, clientDetailsService, requestFactory));
+        ImplicitTokenGranter implicit = new ImplicitTokenGranter(tokenServices,
+                clientDetailsService, requestFactory);
         tokenGranters.add(implicit);
-        tokenGranters.add(new ClientCredentialsTokenGranter(tokenServices, clientDetails, requestFactory));
+        tokenGranters.add(new ClientCredentialsTokenGranter(tokenServices,
+                clientDetailsService, requestFactory));
 
         if (authenticationManager != null) {
             tokenGranters.add(new ResourceOwnerPasswordTokenGranter(authenticationManager, tokenServices,
-                    clientDetails, requestFactory));
+                    clientDetailsService, requestFactory));
         }
         return tokenGranters;
     }

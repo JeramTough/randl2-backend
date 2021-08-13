@@ -12,7 +12,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan({
         "com.jeramtough.randl2.common",
-        "com.jeramtough.randl2.service"
+        "com.jeramtough.randl2.service",
+        "com.jeramtough.randl2.component",
 })
 public class SpringConfig {
 }

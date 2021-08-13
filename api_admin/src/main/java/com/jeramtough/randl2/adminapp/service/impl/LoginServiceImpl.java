@@ -1,27 +1,20 @@
 package com.jeramtough.randl2.adminapp.service.impl;
 
 import com.jeramtough.jtlog.with.WithLogger;
-import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.service.impl.BaseServiceImpl;
 import com.jeramtough.randl2.adminapp.service.LoginService;
 import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
-import com.jeramtough.randl2.common.component.login.user.UserLoginer;
-import com.jeramtough.randl2.common.component.setting.AppSetting;
 import com.jeramtough.randl2.common.component.attestation.userdetail.UserHolder;
-import com.jeramtough.randl2.adminapp.component.login.AdminUserLoginer;
-import com.jeramtough.randl2.common.mapper.SourceSurfaceImageMapper;
-import com.jeramtough.randl2.common.model.dto.RandlRoleDto;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
-import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.params.login.UserCredentials;
-import com.jeramtough.randl2.service.randl.RandlModuleRoleMapService;
+import com.jeramtough.randl2.component.login.user.AdminUserLoginer;
+import com.jeramtough.randl2.component.login.user.UserLoginer;
+import com.jeramtough.randl2.service.user.SystemUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * <pre>
@@ -32,19 +25,13 @@ import java.util.stream.Collectors;
 @Service
 public class LoginServiceImpl extends BaseServiceImpl implements LoginService, WithLogger {
 
-    private final SourceSurfaceImageMapper surfaceImageMapper;
-    private final RandlModuleRoleMapService randlModuleRoleMapService;
-    private final AppSetting appSetting;
+    private final SystemUserService systemUserService;
 
     @Autowired
     public LoginServiceImpl(WebApplicationContext wc,
-                            SourceSurfaceImageMapper surfaceImageMapper,
-                            RandlModuleRoleMapService randlModuleRoleMapService,
-                            AppSetting appSetting) {
+                            SystemUserService systemUserService) {
         super(wc);
-        this.surfaceImageMapper = surfaceImageMapper;
-        this.randlModuleRoleMapService = randlModuleRoleMapService;
-        this.appSetting = appSetting;
+        this.systemUserService = systemUserService;
     }
 
     @Override
@@ -57,7 +44,8 @@ public class LoginServiceImpl extends BaseServiceImpl implements LoginService, W
             systemUser = userLoginer.login(userCredentials);
         }
         catch (ApiResponseException e) {
-            getLogger().debug("登录失败! 登录参数%s 因为：%s", userCredentials.toString(), e.getMessage());
+            getLogger().debug("登录失败! 登录参数%s 因为：%s", userCredentials.toString(),
+                    e.getMessage());
             throw e;
         }
         getLogger().verbose("登录成功，登录参数%s", userCredentials.toString());
@@ -65,29 +53,7 @@ public class LoginServiceImpl extends BaseServiceImpl implements LoginService, W
         //到了这里，用户必须是登录成功了的
         UserHolder.afterLogin(systemUser);
 
-        //processing SystemUserDto
-        SystemUserDto systemUserDto = getMapperFacade().map(systemUser, SystemUserDto.class);
-        String surfaceImage = surfaceImageMapper.selectById(
-                systemUser.getSurfaceImageId()).getSurfaceImage();
-        systemUserDto.setSurfaceImage(surfaceImage);
-
-        //处理角色Dto
-        List<RandlRole> randlRoleList = systemUser.getRoles();
-        List<RandlRoleDto> randlRoleDtoList =
-                randlRoleList.stream()
-                             .map(randlRole -> getMapperFacade().map(randlRole, RandlRoleDto.class))
-                             .collect(Collectors.toList());
-        systemUserDto.setRoles(randlRoleDtoList);
-
-        getLogger().verbose("开始获取用户模块授权信息");
-        List<Long> roleIdList = systemUser.getRoles().parallelStream()
-                                          .map(RandlRole::getFid)
-                                          .collect(Collectors.toList());
-        List<Map<String, Object>> moduleAuthList =
-                randlModuleRoleMapService.getRandlModuleAuthTreeByAppIdAndRoleIds(appSetting
-                        .getDefaultAdminAppId(), roleIdList);
-        systemUserDto.setModuleAuthList(moduleAuthList);
-
+        SystemUserDto systemUserDto = systemUserService.getSystemUserDto(systemUser);
         return systemUserDto;
     }
 

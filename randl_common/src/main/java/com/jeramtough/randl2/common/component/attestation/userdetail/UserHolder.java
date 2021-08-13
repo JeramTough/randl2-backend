@@ -1,7 +1,9 @@
 package com.jeramtough.randl2.common.component.attestation.userdetail;
 
+import com.jeramtough.randl2.common.model.detail.authdetail.OAuth2AuthenticationPlusDetails;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.jaas.JaasGrantedAuthority;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,16 +20,25 @@ import java.util.List;
 public class UserHolder {
 
     public static boolean hasLogined() {
-        if ((SecurityContextHolder.getContext().getAuthentication() != null) &&
-                (SecurityContextHolder.getContext().getAuthentication().getDetails() instanceof SystemUser)) {
+        if ((SecurityContextHolder.getContext().getAuthentication() != null)) {
             return true;
         }
         return false;
     }
 
     public static SystemUser getSystemUser() {
-        if (SecurityContextHolder.getContext().getAuthentication().getDetails() instanceof MyUserDetails) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            return null;
+        }
+
+        if (authentication.getDetails() instanceof MyUserDetails) {
             MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
+            return myUserDetails.getSystemUser();
+        }
+        else if (authentication instanceof OAuth2AuthenticationPlusDetails) {
+            OAuth2AuthenticationPlusDetails oAuth2AuthenticationPlusDetails = (OAuth2AuthenticationPlusDetails) authentication;
+            MyUserDetails myUserDetails = oAuth2AuthenticationPlusDetails.getMyUserDetails();
             return myUserDetails.getSystemUser();
         }
         else {
@@ -59,11 +70,6 @@ public class UserHolder {
         MyUserDetails myUserDetails = new MyUserDetails(systemUser);
         token.setDetails(myUserDetails);
         securityContext.setAuthentication(token);
-    }
-
-    public static MyUserDetails getUserDetails() {
-        MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
-        return myUserDetails;
     }
 
     /**

@@ -19,6 +19,24 @@ spring:
     port: 6379
     timeout: 1000
 
+dbmoniter:
+  is-able: true
+  publisher-type: 0
+  datasource:
+    randl2-db:
+      server-id: 123454
+      hostname: "127.0.0.1"
+      user: "root"
+      password: "123456"
+      port: 3306
+      database-history-file: "/var/mysql-cache/storage/dbhistory.dat"
+      offset-storage-file: "/var/mysql-cache/storage/offset.dat"
+      include-db: "randl2_db"
+
+
+
+
+
 
 app:
   setting:

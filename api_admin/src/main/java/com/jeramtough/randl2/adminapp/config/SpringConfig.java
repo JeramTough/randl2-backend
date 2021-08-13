@@ -14,10 +14,11 @@ import org.springframework.context.annotation.FilterType;
 @ComponentScan(
         value = {
                 "com.jeramtough.randl2.common",
-                "com.jeramtough.randl2.service"
+                "com.jeramtough.randl2.service",
+                "com.jeramtough.randl2.component",
         },
         excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
-                classes = {})})
+                value = {})})
 public class SpringConfig {
 
 }

@@ -6,15 +6,13 @@ import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.model.QueryPage;
 import com.jeramtough.jtweb.model.dto.PageDto;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
-import com.jeramtough.jtweb.service.impl.BaseDtoServiceImpl;
-import com.jeramtough.randl2.common.component.setting.AppSetting;
+import com.jeramtough.jtweb.service.impl.CacheBaseServiceImpl;
 import com.jeramtough.randl2.common.component.attestation.userdetail.MyUserFactory;
-import com.jeramtough.randl2.common.model.dto.RandlRoleDto;
-import com.jeramtough.randl2.service.randl.RandlRoleService;
-import com.jeramtough.randl2.service.randl.RandlUserService;
+import com.jeramtough.randl2.common.component.setting.AppSetting;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
 import com.jeramtough.randl2.common.mapper.RandlUserRoleMapMapper;
+import com.jeramtough.randl2.common.model.dto.RandlRoleDto;
 import com.jeramtough.randl2.common.model.dto.RandlUserDto;
 import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
@@ -23,6 +21,8 @@ import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.user.ConditionUserParams;
 import com.jeramtough.randl2.common.model.params.user.RegisterRandlUserParams;
 import com.jeramtough.randl2.common.model.params.user.UpdateRandlUserParams;
+import com.jeramtough.randl2.service.randl.RandlRoleService;
+import com.jeramtough.randl2.service.randl.RandlUserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
@@ -40,7 +40,8 @@ import java.util.stream.Collectors;
  * @since 2020-10-03
  */
 @Service
-public class RandlUserServiceImpl extends BaseDtoServiceImpl<RandlUserMapper, RandlUser, RandlUserDto>
+public class RandlUserServiceImpl
+        extends CacheBaseServiceImpl<RandlUserMapper, RandlUser, RandlUserDto>
         implements RandlUserService {
 
     private final AppSetting appSetting;
@@ -146,7 +147,8 @@ public class RandlUserServiceImpl extends BaseDtoServiceImpl<RandlUserMapper, Ra
             }
             List<RandlRole> randlRoleList = roleMapper.selectList(roleQueryWrapper);
             //这个应用下所有的角色Id
-            List<Long> roleIdList = randlRoleList.parallelStream().map(RandlRole::getFid).collect(
+            List<Long> roleIdList = randlRoleList.parallelStream().map(
+                    RandlRole::getFid).collect(
                     Collectors.toList());
 
             //遍历每一个用户，查询他们的角色信息
@@ -156,7 +158,8 @@ public class RandlUserServiceImpl extends BaseDtoServiceImpl<RandlUserMapper, Ra
                 if (roleIdList.size() > 0) {
                     queryWrapper.in("role_id", roleIdList);
                     queryWrapper.eq("uid", randlUserDto.getUid());
-                    List<RandlUserRoleMap> randlUserRoleMapList = userRoleMapMapper.selectList(queryWrapper);
+                    List<RandlUserRoleMap> randlUserRoleMapList = userRoleMapMapper.selectList(
+                            queryWrapper);
                     roleIds = randlUserRoleMapList.parallelStream().map(
                             RandlUserRoleMap::getRoleId).collect(
                             Collectors.toList());
@@ -230,9 +233,11 @@ public class RandlUserServiceImpl extends BaseDtoServiceImpl<RandlUserMapper, Ra
     public RandlUserDto getWithRoleByCredentialsAndAppId(String credentials, Long appId) {
         RandlUser randlUser = getBaseMapper().selectByCredentials(credentials);
         RandlUserDto dto = toDto(randlUser);
-        List<RandlRole> roleList = randlRoleService.getRoleListByAppIdAndUid(appId, randlUser.getUid());
+        List<RandlRole> roleList = randlRoleService.getRoleListByAppIdAndUid(appId,
+                randlUser.getUid());
         dto.setRoles(roleList.parallelStream()
-                             .map(randlRole -> getMapperFacade().map(randlRole, RandlRoleDto.class))
+                             .map(randlRole -> getMapperFacade().map(randlRole,
+                                     RandlRoleDto.class))
                              .collect(Collectors.toList()));
         return dto;
     }
@@ -242,4 +247,5 @@ public class RandlUserServiceImpl extends BaseDtoServiceImpl<RandlUserMapper, Ra
         RandlUser randlUser = getBaseMapper().selectByCredentials(credentials);
         return randlUser;
     }
+
 }

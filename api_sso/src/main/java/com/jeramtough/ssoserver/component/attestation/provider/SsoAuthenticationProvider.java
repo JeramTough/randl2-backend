@@ -1,7 +1,5 @@
 package com.jeramtough.ssoserver.component.attestation.provider;
 
-import com.jeramtough.ssoserver.component.attestation.token.JwtAuthenticationToken;
-import com.jeramtough.ssoserver.service.MyUserDetailsService;
 import com.jeramtough.jtcomponent.task.response.TaskResponse;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.common.component.attestation.userdetail.AccountStatus;
@@ -11,6 +9,8 @@ import com.jeramtough.randl2.common.component.setting.AppSetting;
 import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.util.JwtTokenUtil;
+import com.jeramtough.randl2.service.details.MyUserDetailsService;
+import com.jeramtough.ssoserver.component.attestation.token.JwtAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

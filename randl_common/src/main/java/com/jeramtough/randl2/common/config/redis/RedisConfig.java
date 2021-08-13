@@ -3,6 +3,7 @@ package com.jeramtough.randl2.common.config.redis;
 import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -28,6 +29,7 @@ public class RedisConfig {
     }*/
 
     @Bean
+    @Primary
     public RedisTemplate<String, Object> injectRedisTemplate(
             LettuceConnectionFactory factory) {
         RedisTemplate<String, Object> redisTemplate = new <String, Object>RedisTemplate();

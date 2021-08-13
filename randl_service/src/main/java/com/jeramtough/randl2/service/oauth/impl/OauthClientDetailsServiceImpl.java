@@ -23,8 +23,6 @@ import com.jeramtough.randl2.service.oauth.OauthClientDetailsService;
 import com.jeramtough.randl2.service.oauth.OauthResourceDetailsService;
 import com.jeramtough.randl2.service.oauth.OauthScopeDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
 import org.springframework.stereotype.Service;
@@ -107,6 +105,7 @@ public class OauthClientDetailsServiceImpl extends MyBaseServiceImpl<OauthClient
     @Override
     public ClientDetails loadClientByClientId(String clientId) throws
             ClientRegistrationException {
+        //从数据库获取OAuth2客户端实体
         OauthClientDetails oauthClientDetails = getOneByClientId(clientId);
         Objects.requireNonNull(oauthClientDetails);
 
@@ -127,8 +126,10 @@ public class OauthClientDetailsServiceImpl extends MyBaseServiceImpl<OauthClient
         List<OauthScopeDetails> oauthScopeDetailsList = oauthScopeDetailsService.list(
                 queryWrapper);
 
+        //转成Spring自带的
         ClientDetails clientDetails = new MyClientDetails(oauthClientDetails,
                 oauthScopeDetailsList);
+
         return clientDetails;
     }
 
