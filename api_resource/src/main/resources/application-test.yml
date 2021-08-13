@@ -27,6 +27,9 @@ logging:
     org.springframework.security: DEBUG
     org.springframework.security.oauth2: DEBUG
 
+jtweb:
+  cache-type: "memory"
+
 app:
   setting:
     jwt:

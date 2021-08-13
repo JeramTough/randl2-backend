@@ -11,12 +11,12 @@ import com.jeramtough.jtweb.service.JtBaseService;
 public interface MyBaseService<T, D> extends JtBaseService<T, D> {
 
    /* PageDto<D> pageByCondition(QueryByPageParams queryByPageParams,
-                               BaseConditionParams params);*/
+                               BaseConditionParams params);
 
-   /* @Override
-    T getOne(Wrapper<T> queryWrapper);*/
+    @Override
+    T getOne(Wrapper<T> queryWrapper);
 
-   /* @Override
+    @Override
     T getById(Serializable id);*/
 
 }

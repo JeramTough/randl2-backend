@@ -1,15 +1,8 @@
 package com.jeramtough.randl2.common.model.params.module;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.jeramtough.jtweb.component.validation.constraints.NotBlankButNull;
-import com.jeramtough.randl2.common.model.error.ErrorU;
-import com.jeramtough.randl2.common.model.params.BaseConditionParams;
+import com.jeramtough.jtweb.model.params.BaseConditionParams;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 /**
  * <pre>

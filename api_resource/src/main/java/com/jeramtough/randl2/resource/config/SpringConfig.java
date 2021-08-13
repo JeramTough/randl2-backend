@@ -1,6 +1,5 @@
 package com.jeramtough.randl2.resource.config;
 
-import com.jeramtough.jtweb.component.bebezium.annotation.EnableDbMoniter;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 

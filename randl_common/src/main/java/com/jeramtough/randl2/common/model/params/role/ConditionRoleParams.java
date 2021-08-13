@@ -1,7 +1,7 @@
 package com.jeramtough.randl2.common.model.params.role;
 
+import com.jeramtough.jtweb.model.params.BaseConditionParams;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import com.jeramtough.randl2.common.model.params.BaseConditionParams;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

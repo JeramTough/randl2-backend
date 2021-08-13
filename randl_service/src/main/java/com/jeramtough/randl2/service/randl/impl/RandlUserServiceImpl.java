@@ -23,6 +23,7 @@ import com.jeramtough.randl2.common.model.params.user.RegisterRandlUserParams;
 import com.jeramtough.randl2.common.model.params.user.UpdateRandlUserParams;
 import com.jeramtough.randl2.service.randl.RandlRoleService;
 import com.jeramtough.randl2.service.randl.RandlUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
@@ -51,6 +52,7 @@ public class RandlUserServiceImpl
     private final PasswordEncoder passwordEncoder;
     private final RandlRoleService randlRoleService;
 
+    @Autowired
     public RandlUserServiceImpl(WebApplicationContext wc,
                                 AppSetting appSetting,
                                 RandlRoleMapper roleMapper,

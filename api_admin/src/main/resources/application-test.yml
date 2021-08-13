@@ -19,6 +19,9 @@ spring:
     port: 6379
     timeout: 1000
 
+jtweb:
+  cache-type: "memory"
+
 dbmoniter:
   is-able: true
   publisher-type: 0

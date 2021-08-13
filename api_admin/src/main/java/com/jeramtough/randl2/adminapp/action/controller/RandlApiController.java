@@ -115,7 +115,8 @@ public class RandlApiController extends MyBaseController {
     @RequestMapping(value = "/condition", method = {RequestMethod.GET})
     public CommonApiResponse<PageDto<RandlApiDto>> getRandlUserByCondition(
             QueryByPageParams queryByPageParams, ConditionApiParams params) {
-        return getSuccessfulApiResponse(randlApiService.pageByCondition(queryByPageParams, params));
+        return getSuccessfulApiResponse(randlApiService.pageByCondition(queryByPageParams,
+                params));
     }
 
 }

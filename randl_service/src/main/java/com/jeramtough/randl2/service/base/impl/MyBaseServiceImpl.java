@@ -8,11 +8,11 @@ import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.model.QueryPage;
 import com.jeramtough.jtweb.model.dto.PageDto;
+import com.jeramtough.jtweb.model.params.BaseConditionParams;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.jtweb.service.impl.JtBaseServiceImpl;
 import com.jeramtough.randl2.common.model.error.ErrorS;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import com.jeramtough.randl2.common.model.params.BaseConditionParams;
 import com.jeramtough.randl2.service.base.MyBaseService;
 import org.springframework.web.context.WebApplicationContext;
 

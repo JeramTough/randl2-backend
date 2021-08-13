@@ -23,7 +23,10 @@ spring:
 
 logging:
   level:
-    root: WARN #root日志以WARN级别输出
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
 
 app:
   setting:
