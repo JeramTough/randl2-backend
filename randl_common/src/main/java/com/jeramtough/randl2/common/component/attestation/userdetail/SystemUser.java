@@ -4,7 +4,7 @@ import com.jeramtough.randl2.common.model.entity.RandlRole;
 
 import java.io.Serializable;
 import java.security.Principal;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,7 +27,7 @@ public class SystemUser implements Principal, Serializable {
 
     private String password;
 
-    private LocalDateTime registrationTime;
+    private Date registrationTime;
 
     private String registrationIp;
 
@@ -78,11 +78,11 @@ public class SystemUser implements Principal, Serializable {
         this.password = password;
     }
 
-    public LocalDateTime getRegistrationTime() {
+    public Date getRegistrationTime() {
         return registrationTime;
     }
 
-    public void setRegistrationTime(LocalDateTime registrationTime) {
+    public void setRegistrationTime(Date registrationTime) {
         this.registrationTime = registrationTime;
     }
 

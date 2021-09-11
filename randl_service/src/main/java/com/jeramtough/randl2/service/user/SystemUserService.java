@@ -11,6 +11,14 @@ import com.jeramtough.randl2.common.model.dto.SystemUserDto;
  */
 public interface SystemUserService {
 
+    /**
+     * 使用默认系统
+     */
     SystemUserDto getSystemUserDto(SystemUser systemUser);
+
+    /**
+     * 根据appId
+     */
+    SystemUserDto getSystemUserDto(SystemUser systemUser, Long appId);
 
 }

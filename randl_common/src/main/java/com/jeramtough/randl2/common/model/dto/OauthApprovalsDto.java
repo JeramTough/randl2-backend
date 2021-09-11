@@ -1,24 +1,26 @@
 package com.jeramtough.randl2.common.model.dto;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author JeramTough
  * @since 2021-02-02
  */
-@ApiModel(value="OauthApprovals对象", description="")
-public class OauthApprovalsDto implements Serializable{
+@ApiModel(value = "OauthApprovals对象", description = "")
+public class OauthApprovalsDto implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     @TableId(value = "fid", type = IdType.AUTO)
     private Long fid;
@@ -31,9 +33,13 @@ public class OauthApprovalsDto implements Serializable{
 
     private String status;
 
-    private LocalDateTime expiresAt;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date expiresAt;
 
-    private LocalDateTime lastModifiedAt;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date lastModifiedAt;
 
 
     public Long getFid() {
@@ -76,32 +82,32 @@ public class OauthApprovalsDto implements Serializable{
         this.status = status;
     }
 
-    public LocalDateTime getExpiresAt() {
+    public Date getExpiresAt() {
         return expiresAt;
     }
 
-    public void setExpiresAt(LocalDateTime expiresAt) {
+    public void setExpiresAt(Date expiresAt) {
         this.expiresAt = expiresAt;
     }
 
-    public LocalDateTime getLastModifiedAt() {
+    public Date getLastModifiedAt() {
         return lastModifiedAt;
     }
 
-    public void setLastModifiedAt(LocalDateTime lastModifiedAt) {
+    public void setLastModifiedAt(Date lastModifiedAt) {
         this.lastModifiedAt = lastModifiedAt;
     }
 
     @Override
     public String toString() {
         return "OauthApprovals{" +
-        "fid=" + fid +
-        ", userId=" + userId +
-        ", clientId=" + clientId +
-        ", scope=" + scope +
-        ", status=" + status +
-        ", expiresAt=" + expiresAt +
-        ", lastModifiedAt=" + lastModifiedAt +
-        "}";
+                "fid=" + fid +
+                ", userId=" + userId +
+                ", clientId=" + clientId +
+                ", scope=" + scope +
+                ", status=" + status +
+                ", expiresAt=" + expiresAt +
+                ", lastModifiedAt=" + lastModifiedAt +
+                "}";
     }
 }

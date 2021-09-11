@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.common.component.attestation.userdetail;
 
+import com.jeramtough.randl2.common.component.attestation.clientdetail.MyClientDetails;
 import com.jeramtough.randl2.common.model.detail.authdetail.OAuth2AuthenticationPlusDetails;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.jaas.JaasGrantedAuthority;
@@ -36,10 +37,24 @@ public class UserHolder {
             MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
             return myUserDetails.getSystemUser();
         }
-        else if (authentication instanceof OAuth2AuthenticationPlusDetails) {
-            OAuth2AuthenticationPlusDetails oAuth2AuthenticationPlusDetails = (OAuth2AuthenticationPlusDetails) authentication;
+        else if (authentication.getDetails() instanceof OAuth2AuthenticationPlusDetails) {
+            OAuth2AuthenticationPlusDetails oAuth2AuthenticationPlusDetails =
+                    (OAuth2AuthenticationPlusDetails) authentication.getDetails();
             MyUserDetails myUserDetails = oAuth2AuthenticationPlusDetails.getMyUserDetails();
             return myUserDetails.getSystemUser();
+        }
+        else {
+            return null;
+        }
+    }
+
+    public static MyClientDetails getClientDetails() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getDetails() instanceof OAuth2AuthenticationPlusDetails) {
+            OAuth2AuthenticationPlusDetails oAuth2AuthenticationPlusDetails =
+                    (OAuth2AuthenticationPlusDetails) authentication.getDetails();
+            MyClientDetails myClientDetails = oAuth2AuthenticationPlusDetails.getMyClientDetails();
+            return myClientDetails;
         }
         else {
             return null;

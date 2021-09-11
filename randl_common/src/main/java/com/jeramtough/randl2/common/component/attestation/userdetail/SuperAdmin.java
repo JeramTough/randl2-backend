@@ -5,8 +5,8 @@ import com.jeramtough.randl2.common.model.entity.RandlRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Date;
 
 /**
  * <pre>
@@ -87,7 +87,7 @@ public class SuperAdmin {
             synchronized (this) {
                 if (superAdminRole == null) {
                     superAdminRole = new RandlRole();
-                    superAdminRole.setCreateTime(LocalDateTime.now());
+                    superAdminRole.setCreateTime(new Date());
                     superAdminRole.setAlias(ROLE_ALIAS_NAME);
                     superAdminRole.setAppId(appSetting.getDefaultAdminAppId());
                     superAdminRole.setFid(ROLE_ID);

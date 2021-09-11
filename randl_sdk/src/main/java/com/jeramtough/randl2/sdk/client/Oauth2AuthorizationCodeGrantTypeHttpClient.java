@@ -1,6 +1,6 @@
-package com.jeramtough.randl2.sdk.http;
+package com.jeramtough.randl2.sdk.client;
 
-import com.jeramtough.randl2.sdk.model.http.ApiResponse;
+import com.jeramtough.randl2.sdk.model.httpresponse.ApiResponse;
 import com.jeramtough.randl2.sdk.model.oauth.AuthorizationGrantType;
 import com.jeramtough.randl2.sdk.model.oauth.Oauth2ClientConfig;
 import okhttp3.RequestBody;

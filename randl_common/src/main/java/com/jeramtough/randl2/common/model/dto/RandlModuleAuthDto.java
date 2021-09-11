@@ -2,8 +2,9 @@ package com.jeramtough.randl2.common.model.dto;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <pre>
@@ -46,7 +47,8 @@ public class RandlModuleAuthDto {
     private Long appId;
 
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
 
     public Long getMid() {
         return mid;
@@ -128,11 +130,11 @@ public class RandlModuleAuthDto {
         this.appId = appId;
     }
 
-    public LocalDateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 

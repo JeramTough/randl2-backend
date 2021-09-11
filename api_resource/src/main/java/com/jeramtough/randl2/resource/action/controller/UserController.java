@@ -40,7 +40,7 @@ public class UserController extends MyBaseController {
         return getSuccessfulApiResponse(resourceUserService.getRandlUserByToken());
     }
 
-    @ApiOperation(value = "查询一个", notes = "查询一个普通用户个人信息")
+    @ApiOperation(value = "查询用户个人资料信息", notes = "查询用户个人资料信息")
     @RequestMapping(value = "/randlPersonalInfo", method = {RequestMethod.GET})
     @ApiImplicitParams({
             @ApiImplicitParam(name = "uid", value = "用户ID", paramType = "query",
@@ -55,13 +55,13 @@ public class UserController extends MyBaseController {
     @ApiOperation(value = "测试资源", notes = "测试资源")
     @RequestMapping(value = "/test", method = {RequestMethod.GET})
     public CommonApiResponse<String> test(HttpServletRequest request) {
-        return getSuccessfulApiResponse("lalallalla");
+        return getSuccessfulApiResponse(resourceUserService.test());
     }
 
     @ApiOperation(value = "测试资源2", notes = "测试资源2")
     @RequestMapping(value = "/test2", method = {RequestMethod.GET})
     public CommonApiResponse<String> test2(HttpServletRequest request) {
-        return getSuccessfulApiResponse("ccccccccc");
+        return getSuccessfulApiResponse(resourceUserService.test());
     }
 
 }

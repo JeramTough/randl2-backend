@@ -3,7 +3,7 @@ package com.jeramtough.randl2.common.model.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <pre>
@@ -44,7 +44,7 @@ public class RandlUserWithRole {
     /**
      * 注册时间
      */
-    private LocalDateTime registrationTime;
+    private Date registrationTime;
 
     /**
      * 注册ip
@@ -115,11 +115,11 @@ public class RandlUserWithRole {
         this.password = password;
     }
 
-    public LocalDateTime getRegistrationTime() {
+    public Date getRegistrationTime() {
         return registrationTime;
     }
 
-    public void setRegistrationTime(LocalDateTime registrationTime) {
+    public void setRegistrationTime(Date registrationTime) {
         this.registrationTime = registrationTime;
     }
 

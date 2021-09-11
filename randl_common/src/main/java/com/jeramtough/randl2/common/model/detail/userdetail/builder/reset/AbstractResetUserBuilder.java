@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <pre>
@@ -34,7 +34,7 @@ public abstract class AbstractResetUserBuilder extends AbstractUserBuilder imple
     public RandlUser reset(String transactionId) throws TransactionTimeoutExcaption, NoChangedException {
         if (isChanged(transactionId)) {
             RandlUser randlUser = getEntity(transactionId);
-            randlUser.setModifyTime(LocalDateTime.now());
+            randlUser.setModifyTime(new Date());
             setEntity(transactionId, randlUser);
             return randlUser;
         }

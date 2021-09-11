@@ -2,7 +2,7 @@ package com.jeramtough.randl2.common.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -31,7 +31,7 @@ public class RegisteredUser implements Serializable {
 
     private String password;
 
-    private LocalDateTime registrationTime;
+    private Date registrationTime;
 
     private String registrationIp;
 
@@ -78,11 +78,11 @@ public class RegisteredUser implements Serializable {
         this.password = password;
     }
 
-    public LocalDateTime getRegistrationTime() {
+    public Date getRegistrationTime() {
         return registrationTime;
     }
 
-    public void setRegistrationTime(LocalDateTime registrationTime) {
+    public void setRegistrationTime(Date registrationTime) {
         this.registrationTime = registrationTime;
     }
 

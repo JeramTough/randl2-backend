@@ -26,6 +26,9 @@ public interface RandlModuleRoleMapService extends MyBaseService<RandlModuleRole
 
     List<Map<String, Object>> getRandlModuleAuthTreeByAppIdAndRoleId(Long appId, Long roleId);
 
+    /**
+     * 是否被授权是通过isAuth这个字段判断的
+     */
     List<Map<String, Object>> getRandlModuleAuthTreeByAppIdAndRoleIds(Long appId, List<Long> roleIds);
 
     String setModuleRoleMap(SetModuleRoleMapParams params);

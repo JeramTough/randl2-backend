@@ -2,6 +2,10 @@ server:
   port: 9088
   servlet:
     context-path: /randl2/adminApp
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
   tomcat:
     uri-encoding: UTF-8
 
@@ -9,9 +13,5 @@ spring:
   profiles:
     active: prod
 
-  http:
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
-
+jtweb:
+  used-fast-json: true

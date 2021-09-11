@@ -2,7 +2,7 @@ package com.jeramtough.randl2.common.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.sql.Blob;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
@@ -49,7 +49,7 @@ public class RandlOperationLog implements Serializable {
   /**
    * 日志记录创建时间
    */
-    private LocalDateTime createTime;
+    private Date createTime;
 
   /**
    * API模块
@@ -123,11 +123,11 @@ public class RandlOperationLog implements Serializable {
         this.apiDescription = apiDescription;
     }
 
-    public LocalDateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 

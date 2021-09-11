@@ -1,9 +1,8 @@
-package com.jeramtough.randl2.sdk.http;
+package com.jeramtough.randl2.sdk.client;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
-import com.jeramtough.randl2.sdk.model.http.ApiResponse;
-import com.jeramtough.randl2.sdk.model.oauth.AuthorizationGrantType;
+import com.alibaba.fastjson.JSONObject;
+import com.jeramtough.randl2.sdk.model.httpresponse.ApiResponse;
 import com.jeramtough.randl2.sdk.model.oauth.Oauth2ClientConfig;
 import okhttp3.*;
 
@@ -92,6 +91,12 @@ public abstract class BaseOauth2HttpClient {
         }
         else {
             String jsonStr = Objects.requireNonNull(response.body()).string();
+            JSONObject jsonObject = JSON.parseObject(jsonStr);
+            if (jsonObject.get("responseBody") != null && jsonObject.get(
+                    "responseBody").getClass() == String.class) {
+                jsonObject.put("responseBody", null);
+                jsonStr = jsonObject.toJSONString();
+            }
             apiResponse = JSON.parseObject(jsonStr, ApiResponse.class);
             //测底转为Map
             return apiResponse;

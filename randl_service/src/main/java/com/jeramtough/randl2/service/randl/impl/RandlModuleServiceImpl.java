@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.service.randl.impl;
 
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtcomponent.tree.processor.DefaultTreeProcessor;
 import com.jeramtough.jtcomponent.tree.processor.TreeProcessor;
@@ -28,9 +29,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -44,7 +44,8 @@ import java.util.concurrent.atomic.AtomicReference;
  * @since 2020-08-06
  */
 @Service
-public class RandlModuleServiceImpl extends MyBaseServiceImpl<RandlModuleMapper, RandlModule, RandlModuleDto>
+public class RandlModuleServiceImpl
+        extends MyBaseServiceImpl<RandlModuleMapper, RandlModule, RandlModuleDto>
         implements RandlModuleService {
 
     private final RandlModuleMapper randlModuleMapper;
@@ -68,9 +69,11 @@ public class RandlModuleServiceImpl extends MyBaseServiceImpl<RandlModuleMapper,
 
     @Override
     protected RandlModuleDto toDto(RandlModule randlModule) {
-        RandlModuleDto randlModuleDto = getMapperFacade().map(randlModule, RandlModuleDto.class);
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        randlModuleDto.setMyCreateTime(randlModuleDto.getCreateTime().format(dtf));
+        RandlModuleDto randlModuleDto = getMapperFacade().map(randlModule,
+                RandlModuleDto.class);
+        String createTime = DateUtil.format(randlModuleDto.getCreateTime(), "yyyy-MM-dd " +
+                "HH:mm:ss");
+        randlModuleDto.setMyCreateTime(createTime);
         return randlModuleDto;
     }
 
@@ -85,8 +88,9 @@ public class RandlModuleServiceImpl extends MyBaseServiceImpl<RandlModuleMapper,
         BeanValidator.verifyParams(params);
 
         //从数据库获取原始模块实体列表
-        List<RandlModule> randlModuleList = getBaseMapper().selectList(new QueryWrapper<RandlModule>().eq("app_id"
-                , params.getAppId()));
+        List<RandlModule> randlModuleList = getBaseMapper().selectList(
+                new QueryWrapper<RandlModule>().eq("app_id"
+                        , params.getAppId()));
         List<RandlModuleDto> randlModuleDtoList = getDtoList(randlModuleList);
 
         //使用适配器进行TreeNode组装
@@ -145,7 +149,7 @@ public class RandlModuleServiceImpl extends MyBaseServiceImpl<RandlModuleMapper,
         }
 
         RandlModule randlModule = getMapperFacade().map(params, RandlModule.class);
-        randlModule.setCreateTime(LocalDateTime.now());
+        randlModule.setCreateTime(new Date());
         randlModule.setLevel(defaultModuleLevel);
 
         getBaseMapper().insert(randlModule);
@@ -194,8 +198,9 @@ public class RandlModuleServiceImpl extends MyBaseServiceImpl<RandlModuleMapper,
     private void removeModuleFromParentId(Long fid) {
         RandlModule randlModule = getBaseMapper().selectById(fid);
         if (randlModule != null) {
-            List<RandlModule> childRandlModuleList = getBaseMapper().selectList(new QueryWrapper<RandlModule>().eq(
-                    "parent_id", randlModule.getFid()));
+            List<RandlModule> childRandlModuleList = getBaseMapper().selectList(
+                    new QueryWrapper<RandlModule>().eq(
+                            "parent_id", randlModule.getFid()));
             for (RandlModule childRandlModule : childRandlModuleList) {
                 removeChainById(childRandlModule.getFid());
             }

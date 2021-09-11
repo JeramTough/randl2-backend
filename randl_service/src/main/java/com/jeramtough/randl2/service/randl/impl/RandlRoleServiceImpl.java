@@ -26,8 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -98,7 +98,7 @@ public class RandlRoleServiceImpl
 
         RandlRole randlRole = getMapperFacade().map(params, RandlRole.class);
         randlRole.setAlias(randlRole.getAlias().toUpperCase());
-        randlRole.setCreateTime(LocalDateTime.now());
+        randlRole.setCreateTime(new Date());
 
         getBaseMapper().insert(randlRole);
         return "添加新的系统角色成功";

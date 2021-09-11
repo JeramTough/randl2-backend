@@ -1,0 +1,106 @@
+pipeline {
+    agent any
+
+    environment {
+        ACTIVE = 'Prod'
+        TO_EMAILS = '1171867004@qq.com,912432868@qq.com'
+    }
+
+    stages {
+
+        /*
+        * 初始化项目
+        */
+        stage('Init') {
+            steps {
+                // some block
+                sh "chmod -R 777 PUBLISH"
+            }
+            post {
+                success {
+                    echo 'init success!'
+                }
+            }
+        }
+
+        /*
+        * 构建项目
+        */
+        stage('Build') {
+            options {
+                timeout(time: 5, unit: 'MINUTES')
+            }
+            steps {
+                dir('PUBLISH/jenkins') {
+                    sh "sh build.sh"
+                }
+            }
+
+            post {
+                failure {
+                    mail to: "${env.TO_EMAILS}",
+                            subject: "【${env.ACTIVE}】应用构建失败: ${currentBuild.fullDisplayName}",
+                            body: "${env.ACTIVE}版=>电网旧改后端项目构建失败！\nSomething is wrong with ${env.BUILD_URL}"
+                }
+                success {
+                    //提取单元测试结果
+                    //junit '**/target/surefire-reports/TEST-*.xml'
+                    archiveArtifacts 'web/target/*.jar'
+                    echo 'build success!'
+                }
+            }
+        }
+
+        /*
+        * 部署
+        */
+        stage('Deploy') {
+            options {
+                timeout(time: 5, unit: 'MINUTES')
+            }
+            steps {
+                dir('PUBLISH/jenkins') {
+                    sh "sh deploy.sh ${env.ACTIVE}"
+                }
+            }
+            post {
+                success {
+                    echo 'deploy success!'
+                }
+            }
+        }
+
+
+        /*
+       * 重启
+       */
+        stage('Restart') {
+            options {
+                timeout(time: 5, unit: 'MINUTES')
+            }
+            steps {
+                dir('PUBLISH/jenkins') {
+//                    sh script: "export JENKINS_NODE_COOKIE=dontKillMe"
+                    //sh "sh restart.sh ${env.ACTIVE}"
+                    echo '服务器资源不够，先不启动正式版了'
+                }
+            }
+
+            post {
+                always {
+                    /* clean up our workspace */
+                    echo 'clean up our workspace'
+                    deleteDir()
+                }
+                failure {
+                    mail to: "${env.TO_EMAILS}",
+                            subject: "【${env.ACTIVE}】应用重启失败: ${currentBuild.fullDisplayName}",
+                            body: "${env.ACTIVE}版=>电网旧改后端项目重启失败！\nSomething is wrong with ${env.BUILD_URL}"
+                }
+                success {
+                    echo 'run success!'
+                }
+            }
+        }
+    }
+}

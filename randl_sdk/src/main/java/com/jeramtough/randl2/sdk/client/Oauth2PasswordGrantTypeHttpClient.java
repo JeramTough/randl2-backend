@@ -1,8 +1,9 @@
-package com.jeramtough.randl2.sdk.http;
+package com.jeramtough.randl2.sdk.client;
 
 import com.alibaba.fastjson.JSON;
-import com.jeramtough.randl2.sdk.model.http.ApiResponse;
-import com.jeramtough.randl2.sdk.model.http.TokenBody;
+import com.jeramtough.randl2.sdk.exception.OptionException;
+import com.jeramtough.randl2.sdk.model.httpresponse.ApiResponse;
+import com.jeramtough.randl2.sdk.model.httpresponse.TokenBody;
 import com.jeramtough.randl2.sdk.model.oauth.AuthorizationGrantType;
 import com.jeramtough.randl2.sdk.model.oauth.Oauth2ClientConfig;
 import okhttp3.*;
@@ -33,9 +34,14 @@ public class Oauth2PasswordGrantTypeHttpClient extends BaseOauth2HttpClient {
         RequestBody requestBody = getCommonRequestBody(params);
 
         ApiResponse apiResponse = doTokenPost(requestBody);
-        TokenBody tokenBody = JSON.parseObject(apiResponse.getResponseBody().toString(),
-                TokenBody.class);
-        return tokenBody;
+        if (apiResponse.isSuccessful()) {
+            TokenBody tokenBody = JSON.parseObject(apiResponse.getResponseBody().toString(),
+                    TokenBody.class);
+            return tokenBody;
+        }
+        else {
+            throw new OptionException(apiResponse.getStatusCode(), apiResponse.getMessage());
+        }
     }
 
 

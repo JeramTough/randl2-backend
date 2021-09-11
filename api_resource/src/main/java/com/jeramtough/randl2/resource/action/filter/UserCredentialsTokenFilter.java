@@ -49,6 +49,7 @@ public class UserCredentialsTokenFilter extends BaseUrlMatchingFilter {
 
         if (!(SecurityContextHolder.getContext().getAuthentication() instanceof OAuth2Authentication)) {
             filterChain.doFilter(servletRequest, servletResponse);
+            return;
         }
 
         OAuth2Authentication oAuth2Authentication =
@@ -61,7 +62,8 @@ public class UserCredentialsTokenFilter extends BaseUrlMatchingFilter {
 
         //获取令牌的用户名
         String account = oAuth2Authentication.getUserAuthentication().getPrincipal().toString();
-        MyUserDetails myUserDetails = myUserDetailsService.loadUserByAccount(account);
+        Long appId = myClientDetails.getOauthClientDetails().getAppId();
+        MyUserDetails myUserDetails = myUserDetailsService.loadUserByAccount(account, appId);
 
         //替换默认的OAuth2AuthenticationDetails
         OAuth2AuthenticationPlusDetails oAuth2AuthenticationPlusDetails =

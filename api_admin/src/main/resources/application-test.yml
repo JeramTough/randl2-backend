@@ -3,7 +3,10 @@ spring:
 
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+#    driver-class-name: com.mysql.cj.jdbc.Driver
     password: 123456
+#    url: jdbc:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8
+    #password: aA73979901995
     url: jdbc:p6spy:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8
     username: root
 
@@ -19,27 +22,21 @@ spring:
     port: 6379
     timeout: 1000
 
+
 jtweb:
-  cache-type: "memory"
-
-dbmoniter:
-  is-able: true
-  publisher-type: 0
-  datasource:
-    randl2-db:
-      server-id: 123454
-      hostname: "127.0.0.1"
-      user: "root"
-      password: "123456"
-      port: 3306
-      database-history-file: "/var/mysql-cache/storage/dbhistory.dat"
-      offset-storage-file: "/var/mysql-cache/storage/offset.dat"
-      include-db: "randl2_db"
-
-
-
-
-
+  dbmoniter:
+    is-able: true
+    publisher-type: 0
+    datasource:
+      randl2-db:
+        server-id: 123454
+        hostname: "127.0.0.1"
+        user: "root"
+        password: "123456"
+        port: 3306
+        database-history-file: "/var/mysql-cache/storage/dbhistory.dat"
+        offset-storage-file: "/var/mysql-cache/storage/offset.dat"
+        include-db: "randl2_db"
 
 app:
   setting:

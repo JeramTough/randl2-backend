@@ -12,4 +12,6 @@ public interface TokenRequestParser {
 
     String parse(HttpServletRequest request);
 
+    String getAuthorizationHeader(HttpServletRequest request);
+
 }

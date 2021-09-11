@@ -1,13 +1,12 @@
 /**
  * Copyright 2020 bejson.com
  */
-package com.jeramtough.randl2.sdk.model.http;
+package com.jeramtough.randl2.sdk.model.httpresponse;
 
 
 import com.alibaba.fastjson.JSONObject;
 
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * Auto-generated: 2020-11-24 8:38:25
@@ -21,6 +20,7 @@ public class ApiResponse implements Serializable {
     private JSONObject responseBody;
     private int statusCode;
     private long timestamp;
+    private String message;
 
     public void setIsSuccessful(boolean isSuccessful) {
         this.isSuccessful = isSuccessful;
@@ -66,5 +66,13 @@ public class ApiResponse implements Serializable {
                 ", statusCode=" + statusCode +
                 ", timestamp=" + timestamp +
                 '}';
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

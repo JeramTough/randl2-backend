@@ -105,7 +105,10 @@ public class RandlModuleRoleMapServiceImpl extends MyBaseServiceImpl<RandlModule
 
         //模块Id为键值的RandlModuleRoleMap集合 -模块授权情况
         Map<Long, RandlModuleRoleMap> moduleIdKeyModuleRoleMap =
-                moduleRoleMapList.parallelStream().distinct().collect(Collectors.toMap(RandlModuleRoleMap::getModuleId,
+                moduleRoleMapList
+                        .parallelStream()
+                        .distinct()
+                        .collect(Collectors.toMap(RandlModuleRoleMap::getModuleId,
                         randlModuleRoleMap -> randlModuleRoleMap));
 
         List<RandlModuleAuthDto> randlModuleAuthDtoList = new ArrayList<>();

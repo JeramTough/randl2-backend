@@ -9,10 +9,7 @@ import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.service.randl.RandlUserService;
 import org.springframework.web.context.WebApplicationContext;
 
-import javax.sql.rowset.serial.SerialBlob;
-import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -57,7 +54,7 @@ public class RandlOperationLogFactory {
         randlOperationLog.setClientIp(params.getIp());
 
         //设置时间
-        randlOperationLog.setCreateTime(LocalDateTime.now());
+        randlOperationLog.setCreateTime(new Date());
 
         //设置是否完成
         randlOperationLog.setResult(params.getIsCompleted());

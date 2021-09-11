@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.sdk.http;
+package com.jeramtough.randl2.sdk.client;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;

@@ -1,11 +1,15 @@
 package test;
 
-import com.jeramtough.randl2.sdk.http.Oauth2AuthorizationCodeGrantTypeHttpClient;
-import com.jeramtough.randl2.sdk.http.Oauth2ClientCredentialsGrantTypeHttpClient;
-import com.jeramtough.randl2.sdk.http.Oauth2ImplicitGrantTypeHttpClient;
-import com.jeramtough.randl2.sdk.http.Oauth2PasswordGrantTypeHttpClient;
-import com.jeramtough.randl2.sdk.model.http.ApiResponse;
-import com.jeramtough.randl2.sdk.model.http.TokenBody;
+import com.alibaba.fastjson.JSON;
+import com.jeramtough.randl2.sdk.api.DefaultRandlApi;
+import com.jeramtough.randl2.sdk.api.RandlApi;
+import com.jeramtough.randl2.sdk.client.Oauth2AuthorizationCodeGrantTypeHttpClient;
+import com.jeramtough.randl2.sdk.client.Oauth2ClientCredentialsGrantTypeHttpClient;
+import com.jeramtough.randl2.sdk.client.Oauth2ImplicitGrantTypeHttpClient;
+import com.jeramtough.randl2.sdk.client.Oauth2PasswordGrantTypeHttpClient;
+import com.jeramtough.randl2.sdk.model.httpresponse.ApiResponse;
+import com.jeramtough.randl2.sdk.model.httpresponse.SystemUser;
+import com.jeramtough.randl2.sdk.model.httpresponse.TokenBody;
 import com.jeramtough.randl2.sdk.model.oauth.Oauth2ClientConfig;
 
 import java.io.IOException;
@@ -42,6 +46,25 @@ public class Test {
             System.out.println(tokenBody.getTokenType()+" "+tokenBody.getToken());
         }
         catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @org.junit.jupiter.api.Test
+    public void test11() {
+        String contextUrl="http://127.0.0.1:9086/randl2/resource";
+        String urlPart="/user/info";
+        String token="bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiMyJdLCJ1c2VyX25hbWUiOiJwaG9uZV80YTM2YjdlYSIsInNjb3BlIjpbIi91c2VyL3JhbmRsUGVyc29uYWxJbmZvIiwiL3VzZXIvaW5mbyJdLCJleHAiOjIyMzMzMDIzMzAsImF1dGhvcml0aWVzIjpbIlJPTEVfVEVTVF9ST0xFXzEiLCJST0xFX1JBTkRMX1VTRVIiXSwianRpIjoiZjc1MzhjNzItZWNhNi00NDZlLTk1ODctMTRlZjhjYjE5OTA4IiwiY2xpZW50X2lkIjoiZjQ2MDkwZTU5Y2I1NDQxNjkxMjYxZGIwNTBmMDU0MTUifQ.dpNY6l6ShwiSsKpgx5RHOBF7iCffltFW1-cYoSLeW04";
+
+        RandlApi randlApi =new DefaultRandlApi(contextUrl,token);
+        try {
+            ApiResponse apiResponse= randlApi.doGet(urlPart,null);
+            SystemUser systemUserDto=
+                    JSON.parseObject(apiResponse.getResponseBody().toString(),
+                            SystemUser.class);
+            System.out.println(apiResponse.getResponseBody().toJSONString());
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -7,30 +7,31 @@ import com.jeramtough.jtweb.model.QueryPage;
 import com.jeramtough.jtweb.model.dto.PageDto;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.randl2.common.mapper.RandlApiMapper;
-import com.jeramtough.randl2.common.model.detail.appdetail.RandlAdminApp;
-import com.jeramtough.randl2.common.model.detail.appdetail.RandlUserApp;
-import com.jeramtough.randl2.common.model.entity.RandlApi;
-import com.jeramtough.randl2.service.randl.RandlAppService;
 import com.jeramtough.randl2.common.mapper.RandlAppMapper;
 import com.jeramtough.randl2.common.mapper.RandlModuleMapper;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
+import com.jeramtough.randl2.common.model.detail.appdetail.RandlAdminApp;
+import com.jeramtough.randl2.common.model.detail.appdetail.RandlUserApp;
 import com.jeramtough.randl2.common.model.dto.RandlAppDto;
+import com.jeramtough.randl2.common.model.entity.RandlApi;
 import com.jeramtough.randl2.common.model.entity.RandlApp;
 import com.jeramtough.randl2.common.model.entity.RandlModule;
 import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.app.AddAppParams;
-//import com.jeramtough.randl2.common.model.detail.appdetail.RandlUserApp;
-//import com.jeramtough.randl2.common.model.detail.appdetail.RandlAdminApp;
 import com.jeramtough.randl2.common.model.params.app.ConditionAppParams;
 import com.jeramtough.randl2.common.model.params.app.UpdateAppParams;
 import com.jeramtough.randl2.service.base.impl.MyBaseServiceImpl;
+import com.jeramtough.randl2.service.randl.RandlAppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
+
+//import com.jeramtough.randl2.common.model.detail.appdetail.RandlUserApp;
+//import com.jeramtough.randl2.common.model.detail.appdetail.RandlAdminApp;
 
 /**
  * <p>
@@ -70,7 +71,7 @@ public class RandlAppServiceImpl
         BeanValidator.verifyParams(params);
 
         RandlApp randlApp = getMapperFacade().map(params, RandlApp.class);
-        randlApp.setCreateTime(LocalDateTime.now());
+        randlApp.setCreateTime(new Date());
         randlApp.setIsAble(1);
 
 

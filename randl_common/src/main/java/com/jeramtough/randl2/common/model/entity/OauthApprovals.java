@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -31,9 +31,9 @@ public class OauthApprovals implements Serializable {
 
     private String status;
 
-    private LocalDateTime expiresAt;
+    private Date expiresAt;
 
-    private LocalDateTime lastModifiedAt;
+    private Date lastModifiedAt;
 
 
     public Long getFid() {
@@ -76,19 +76,19 @@ public class OauthApprovals implements Serializable {
         this.status = status;
     }
 
-    public LocalDateTime getExpiresAt() {
+    public Date getExpiresAt() {
         return expiresAt;
     }
 
-    public void setExpiresAt(LocalDateTime expiresAt) {
+    public void setExpiresAt(Date expiresAt) {
         this.expiresAt = expiresAt;
     }
 
-    public LocalDateTime getLastModifiedAt() {
+    public Date getLastModifiedAt() {
         return lastModifiedAt;
     }
 
-    public void setLastModifiedAt(LocalDateTime lastModifiedAt) {
+    public void setLastModifiedAt(Date lastModifiedAt) {
         this.lastModifiedAt = lastModifiedAt;
     }
 

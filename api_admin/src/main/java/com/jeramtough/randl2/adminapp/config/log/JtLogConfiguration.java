@@ -1,12 +1,12 @@
 package com.jeramtough.randl2.adminapp.config.log;
 
-import com.jeramtough.jtlog.bean.LogInformation;
 import com.jeramtough.jtlog.config.SimpleLogConfigDefaultValues;
-import com.jeramtough.jtlog.context.LogContext;
 import com.jeramtough.jtlog.jtlogger.LoggerManager;
 import com.jeramtough.jtlog.level.LogLevel;
-import com.jeramtough.jtlog.recorder.FileLogRecorder;
 import com.jeramtough.jtlog.recorder.LogRecorder;
+import com.jeramtough.jtlog.recorder.file.FileLogRecorder;
+import com.jeramtough.jtlog.recorder.strategy.SortedDateFileStrategy;
+import org.springframework.context.annotation.Configuration;
 
 import java.io.File;
 import java.util.List;
@@ -17,6 +17,7 @@ import java.util.List;
  * by @author WeiBoWen
  * </pre>
  */
+@Configuration
 public class JtLogConfiguration {
 
     static {
@@ -28,7 +29,8 @@ public class JtLogConfiguration {
 
             @Override
             public void additionGlobalLogRecorders(List<LogRecorder> logRecorders) {
-                logRecorders.add(new FileLogRecorder(new File("./logs/System.log")));
+                logRecorders.add(new FileLogRecorder(new SortedDateFileStrategy(new File(
+                        "logs"), "admin.log")));
             }
         });
     }

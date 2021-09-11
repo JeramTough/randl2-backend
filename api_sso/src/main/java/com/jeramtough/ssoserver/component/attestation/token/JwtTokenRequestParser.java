@@ -26,10 +26,27 @@ public class JwtTokenRequestParser implements TokenRequestParser, WithLogger {
         if (requestToken != null && requestToken.startsWith(OAuth2Constants.BEARER_PREFIX)) {
             jwtToken = requestToken.substring(7);
         }
-        else {
+
+        if (requestToken != null && requestToken.startsWith(
+                OAuth2Constants.BEARER_PREFIX.toLowerCase())) {
+            jwtToken = requestToken.substring(7);
+        }
+
+        if (requestToken != null && requestToken.startsWith(
+                OAuth2Constants.BEARER_PREFIX.toUpperCase())) {
+            jwtToken = requestToken.substring(7);
+        }
+
+        if (jwtToken == null) {
             getLogger().warn("JWT Token does not begin with Bearer String");
         }
 
         return jwtToken;
+    }
+
+    @Override
+    public String getAuthorizationHeader(HttpServletRequest request) {
+        final String requestToken = request.getHeader(OAuth2Constants.AUTHORIZATION_HEADER);
+        return requestToken;
     }
 }

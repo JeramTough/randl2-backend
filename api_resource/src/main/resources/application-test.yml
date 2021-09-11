@@ -23,12 +23,28 @@ spring:
 logging:
   level:
     root: INFO
-    org.springframework.web: INFO
+    org.springframework.web: WARN
     org.springframework.security: DEBUG
     org.springframework.security.oauth2: DEBUG
 
 jtweb:
-  cache-type: "memory"
+  used-fast-json: true
+  dbmonitor:
+    enable: true
+    publisher-type: 0
+    datasource:
+      randl2-db:
+        server-id: 123454
+        hostname: "127.0.0.1"
+        user: "root"
+        password: "123456"
+        port: 3306
+        database-history-file: "/var/mysql-cache/storage/dbhistory.dat"
+        offset-storage-file: "/var/mysql-cache/storage/offset.dat"
+        include-db: "randl2_db"
+  cache:
+    enable-mapper: true
+    type: "memory"
 
 app:
   setting:

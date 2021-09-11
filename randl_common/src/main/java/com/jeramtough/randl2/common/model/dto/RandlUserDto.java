@@ -3,13 +3,13 @@ package com.jeramtough.randl2.common.model.dto;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import java.io.Serializable;
-import java.util.List;
-
-import com.jeramtough.randl2.common.model.entity.RandlRole;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -38,8 +38,9 @@ public class RandlUserDto implements Serializable{
     private String emailAddress;
 
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "注册时间")
-    private LocalDateTime registrationTime;
+    private Date registrationTime;
 
     @ApiModelProperty(value = "注册ip")
     private String registrationIp;
@@ -91,11 +92,11 @@ public class RandlUserDto implements Serializable{
     }
 
 
-    public LocalDateTime getRegistrationTime() {
+    public Date getRegistrationTime() {
         return registrationTime;
     }
 
-    public void setRegistrationTime(LocalDateTime registrationTime) {
+    public void setRegistrationTime(Date registrationTime) {
         this.registrationTime = registrationTime;
     }
 

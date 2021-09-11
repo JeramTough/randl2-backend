@@ -3,7 +3,7 @@ package com.jeramtough.randl2.common.model.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.io.Serializable;
 
 import io.swagger.annotations.ApiModel;
@@ -45,7 +45,7 @@ public class RandlRole implements Serializable {
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 英文别名(不可重复值)
@@ -85,11 +85,11 @@ public class RandlRole implements Serializable {
         this.appId = appId;
     }
 
-    public LocalDateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 

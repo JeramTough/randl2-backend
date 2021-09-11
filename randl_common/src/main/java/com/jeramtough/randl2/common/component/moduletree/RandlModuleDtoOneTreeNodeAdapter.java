@@ -5,7 +5,7 @@ import com.jeramtough.jtcomponent.utils.DateTimeUtil;
 import com.jeramtough.randl2.common.model.dto.RandlModuleDto;
 import com.jeramtough.randl2.common.model.entity.RandlModule;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.time.format.DateTimeFormatter;
 
 /**

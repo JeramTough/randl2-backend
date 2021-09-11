@@ -11,7 +11,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <pre>
@@ -39,7 +39,7 @@ public abstract class AbstractNewUserBuilder extends AbstractUserBuilder impleme
     @Override
     public RandlUser build(String transactionId) throws TransactionTimeoutExcaption, NotSetPasswordException {
         RandlUser randlUser = getEntity(transactionId);
-        randlUser.setRegistrationTime(LocalDateTime.now());
+        randlUser.setRegistrationTime(new Date());
         randlUser.setAccountStatus(AccountStatus.ABLE.getNumber());
         randlUser.setSurfaceImageId(DEFAULT_SURFACE_IMAGE_ID);
         randlUser.setChannel(UserChannel.REGISTERED.getCode());

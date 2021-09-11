@@ -10,4 +10,6 @@ import com.jeramtough.randl2.common.model.dto.SystemUserDto;
  */
 public interface ResourceUserService {
     SystemUserDto getRandlUserByToken();
+
+    String test();
 }

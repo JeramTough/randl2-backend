@@ -2,7 +2,7 @@ package com.jeramtough.randl2.common.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -49,12 +49,12 @@ public class RandlUser implements Serializable {
   /**
    * 注册时间
    */
-    private LocalDateTime registrationTime;
+    private Date registrationTime;
 
     /**
    * 修改时间
    */
-    private LocalDateTime modifyTime;
+    private Date modifyTime;
 
   /**
    * 注册ip
@@ -117,11 +117,11 @@ public class RandlUser implements Serializable {
         this.password = password;
     }
 
-    public LocalDateTime getRegistrationTime() {
+    public Date getRegistrationTime() {
         return registrationTime;
     }
 
-    public void setRegistrationTime(LocalDateTime registrationTime) {
+    public void setRegistrationTime(Date registrationTime) {
         this.registrationTime = registrationTime;
     }
 
@@ -157,11 +157,11 @@ public class RandlUser implements Serializable {
         this.channel = channel;
     }
 
-    public LocalDateTime getModifyTime() {
+    public Date getModifyTime() {
         return modifyTime;
     }
 
-    public void setModifyTime(LocalDateTime modifyTime) {
+    public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
     }
 

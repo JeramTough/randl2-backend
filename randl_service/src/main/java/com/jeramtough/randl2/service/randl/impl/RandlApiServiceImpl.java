@@ -22,8 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -75,7 +75,7 @@ public class RandlApiServiceImpl extends MyBaseServiceImpl<RandlApiMapper, Randl
         }
 
         RandlApi randlApi = getMapperFacade().map(params, RandlApi.class);
-        randlApi.setCreateTime(LocalDateTime.now());
+        randlApi.setCreateTime(new Date());
         getBaseMapper().insert(randlApi);
         return "添加API接口信息成功";
     }

@@ -6,7 +6,6 @@ import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.model.QueryPage;
 import com.jeramtough.jtweb.model.dto.PageDto;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
-import com.jeramtough.jtweb.service.impl.CacheBaseServiceImpl;
 import com.jeramtough.randl2.common.component.attestation.userdetail.MyUserFactory;
 import com.jeramtough.randl2.common.component.setting.AppSetting;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
@@ -21,6 +20,7 @@ import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.user.ConditionUserParams;
 import com.jeramtough.randl2.common.model.params.user.RegisterRandlUserParams;
 import com.jeramtough.randl2.common.model.params.user.UpdateRandlUserParams;
+import com.jeramtough.randl2.service.base.impl.MyBaseServiceImpl;
 import com.jeramtough.randl2.service.randl.RandlRoleService;
 import com.jeramtough.randl2.service.randl.RandlUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class RandlUserServiceImpl
-        extends CacheBaseServiceImpl<RandlUserMapper, RandlUser, RandlUserDto>
+        extends MyBaseServiceImpl<RandlUserMapper, RandlUser, RandlUserDto>
         implements RandlUserService {
 
     private final AppSetting appSetting;

@@ -45,6 +45,12 @@ public class SystemUserServiceImpl extends BaseServiceImpl implements SystemUser
 
     @Override
     public SystemUserDto getSystemUserDto(SystemUser systemUser) {
+        Long appId = appSetting.getDefaultAdminAppId();
+        return getSystemUserDto(systemUser, appId);
+    }
+
+    @Override
+    public SystemUserDto getSystemUserDto(SystemUser systemUser, Long appId) {
         //processing SystemUserDto
         SystemUserDto systemUserDto = getMapperFacade().map(systemUser, SystemUserDto.class);
         String surfaceImage = resourceSurfaceImageService.getById(
@@ -65,8 +71,8 @@ public class SystemUserServiceImpl extends BaseServiceImpl implements SystemUser
                                           .map(RandlRole::getFid)
                                           .collect(Collectors.toList());
         List<Map<String, Object>> moduleAuthList =
-                randlModuleRoleMapService.getRandlModuleAuthTreeByAppIdAndRoleIds(appSetting
-                        .getDefaultAdminAppId(), roleIdList);
+                randlModuleRoleMapService.getRandlModuleAuthTreeByAppIdAndRoleIds(appId,
+                        roleIdList);
         systemUserDto.setModuleAuthList(moduleAuthList);
 
         return systemUserDto;

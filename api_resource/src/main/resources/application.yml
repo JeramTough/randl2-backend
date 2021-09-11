@@ -5,6 +5,13 @@ server:
   tomcat:
     uri-encoding: UTF-8
 
+spring:
+  profiles:
+    active: prod
+
+jtweb:
+  used-fast-json: true
+
 security:
   oauth2:
     resource:

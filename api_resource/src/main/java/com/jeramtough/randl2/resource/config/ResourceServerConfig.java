@@ -15,7 +15,9 @@
  */
 package com.jeramtough.randl2.resource.config;
 
+import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.randl2.common.component.setting.AppSetting;
+import com.jeramtough.randl2.common.model.dto.OauthScopeDetailsDto;
 import com.jeramtough.randl2.resource.action.filter.UserCredentialsTokenFilter;
 import com.jeramtough.randl2.service.details.MyUserDetailsService;
 import com.jeramtough.randl2.service.oauth.OauthClientDetailsService;
@@ -33,15 +35,19 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 
+import java.util.List;
+
 /**
  *
  */
 @Configuration
 @EnableResourceServer
-public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+public class ResourceServerConfig extends ResourceServerConfigurerAdapter implements
+        WithLogger {
 
     private static final String[] OPENED_ADI_URLS = {
             "/api/verificationCode/**",
+            "/user/test2",
     };
 
     private static final String[] SWAGGER_URLS = {
@@ -59,7 +65,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             "/api-docs-ext",
             "/api-docs",
             "/swagger-resources/configuration/ui/**",
-            "/swagger-resources/configuration/security"
+            "/swagger-resources/configuration/security",
+
     };
 
     private final TokenStore tokenStore;
@@ -113,14 +120,32 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 //放行开放的资源
                 .antMatchers(OPENED_ADI_URLS).permitAll();
 
-        //授权资源
-        expressionInterceptUrlRegistry
-                .antMatchers("/app/**")
-                .access("#oauth2.hasScope('/app/**')")
-                .antMatchers("/user/info")
-                .access("#oauth2.hasScope('/user/info')")
-                .antMatchers("/user/test")
-                .access("#oauth2.hasScope('/user/test')");
+        List<OauthScopeDetailsDto> oauthScopeDetailsDtoList =
+                oauthScopeDetailsService.getClientScopeListByResourceId(
+                        appSetting.getOauthResourceId());
+
+        oauthScopeDetailsDtoList
+                .parallelStream()
+                .forEach(scopeDetailsDto -> {
+
+                    String expression = scopeDetailsDto.getScopeExpression();
+                    String ant = expression;
+                    String scope = String.format("#oauth2.hasScope('%s')", expression);
+
+                    //授权资源
+                    expressionInterceptUrlRegistry
+                            .antMatchers(ant)
+                            .access(scope);
+                    getLogger().debug(() -> "资源授权表达式【%s】-【%s】", ant, scope);
+                });
+
+         /* expressionInterceptUrlRegistry
+                            .antMatchers("/app/**")
+                            .access("#oauth2.hasScope('/app/**')")
+                            .antMatchers("/user/info")
+                            .access("#oauth2.hasScope('/user/info')")
+                            .antMatchers("/user/test")
+                            .access("#oauth2.hasScope('/user/test')");*/
 
         //设置
         expressionInterceptUrlRegistry

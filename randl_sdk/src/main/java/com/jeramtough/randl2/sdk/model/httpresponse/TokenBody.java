@@ -1,7 +1,7 @@
 /**
  * Copyright 2020 bejson.com
  */
-package com.jeramtough.randl2.sdk.model.http;
+package com.jeramtough.randl2.sdk.model.httpresponse;
 
 import java.util.List;
 

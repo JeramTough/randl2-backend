@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <pre>
@@ -35,7 +35,7 @@ public class MyUserFactory {
 
     public RandlUser getAdminUser(RegisterRandlUserParams params) {
         RandlUser randlUser = mapperFacade.map(params, RandlUser.class);
-        randlUser.setRegistrationTime(LocalDateTime.now());
+        randlUser.setRegistrationTime(new Date());
         randlUser.setAccountStatus(1);
 
         randlUser.setSurfaceImageId(1L);

@@ -1,6 +1,5 @@
 package com.jeramtough.randl2.adminapp.config.db;
 
-import com.jeramtough.jtweb.component.bebezium.annotation.EnableDbMonitor;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -10,6 +9,6 @@ import org.springframework.context.annotation.Configuration;
  * </pre>
  */
 @Configuration
-@EnableDbMonitor
+//@EnableDbMonitor
 public class DebeziumConfig {
 }
