@@ -3,22 +3,19 @@ spring:
 
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-    password: 123456
-#    url: jdbc:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8
-    #password: aA73979901995
-    url: jdbc:p6spy:mysql://localhost:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8
+    password: Aa73979901995
+    url: jdbc:p6spy:mysql://39.99.51.221:3306/randl2_db?useSSL=false&serverTimezone=GMT%2B8&characterEncoding=utf-8
     username: root
 
   redis:
-    host: 127.0.0.1
+    host: 39.99.51.221
     jedis:
       pool:
         max-active: 20
         max-idle: 10
         max-wait: -1
         min-idle: 0
-    password: 123456
+    password: 1171867004@qq.com
     port: 6379
     timeout: 1000
 

@@ -15,7 +15,7 @@ spring:
         max-idle: 10
         max-wait: -1
         min-idle: 0
-    password: 123456
+    password: 1171867004@qq.com
     port: 6379
     timeout: 1000
 

@@ -15,7 +15,7 @@ ACTIVE="%s"
 cd "$SCRIPT_PATH" || exit
 
 # jar包名称
-JAR_NAME="newdwww-web-*.jar"
+JAR_NAME="%s"
 # 日志输出文件
 LOG_FILE=logs
 # java虚拟机启动参数

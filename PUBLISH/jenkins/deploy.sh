@@ -6,28 +6,30 @@ SCRIPT_PATH=$(
 )
 cd "$SCRIPT_PATH" || exit 1
 
-#发布资源路径
+#发布资源路径，其实就是PUBLISH文件夹
 SOURCE_PATH=$(dirname "$SCRIPT_PATH")
 SOURCE_PATH=$(dirname "$SOURCE_PATH")
+
+cd ../../
+ROOT_PATH=$(pwd)
+
+#模块名数组
+MODULE_NAMES="api_admin,api_sso,api_resource"
 
 #发布路径
 targetPath=""
 
-#链接名
-linkName=""
-
 #激活的配置
-active="beta"
+active=""
 
 #选择发布的配置
 selectedConfig=$1
 echo "Selected config is $selectedConfig"
 #读取配置信息
-targetPath=$(awk -F '=' "/\[$selectedConfig\]/{a=1}a==1&&\$1~/targetPath/{print \$2;exit}" config.ini)
-active=$(awk -F '=' "/\[$selectedConfig\]/{a=1}a==1&&\$1~/active/{print \$2;exit}" config.ini)
-linkName=$(awk -F '=' "/\[$selectedConfig\]/{a=1}a==1&&\$1~/linkName/{print \$2;exit}" config.ini)
+targetPath=$(awk -F '=' "/\[$selectedConfig\]/{a=1}a==1&&\$1~/targetPath/{print \$2;exit}" "$SCRIPT_PATH/config.ini")
+active=$(awk -F '=' "/\[$selectedConfig\]/{a=1}a==1&&\$1~/active/{print \$2;exit}" "$SCRIPT_PATH/config.ini")
 
-echo -e "targetPath=$targetPath\nactive=$active\nlinkName=$linkName"
+echo "targetPath=$targetPath\nactive=$active"
 
 isEmpty() {
   if [ ! $1 ]; then
@@ -38,19 +40,43 @@ isEmpty() {
   fi
 }
 isEmpty "$targetPath" || exit 1
-isEmpty "$linkName" || exit 1
 isEmpty "$active" || exit 1
 
-#获取jar包路径
-cd "$SCRIPT_PATH" || exit
-cd ../../
-cd web/target || exit
-jarName=$(ls *.jar)
-jarPath=$(pwd)/"$jarName"
+#发布模块里的jar包函数
+deployJar() {
+  #获取jar包路径
+  cd "$ROOT_PATH" || exit 1
 
-#正式发布
-jar_deploy.sh -n"$linkName" -t"$targetPath" -s"$SOURCE_PATH" -j"$jarPath"
+  isEmpty "$1" || exit 1
+  moduleName="$1"
 
-#替换激活
-sed -i "s/ACTIVE=\"%s\"/ACTIVE=\"$active\"/" \
-  "$targetPath"/script/runjar.sh
+  isEmpty "$2" || exit 1
+  linkName="$2"
+
+  cd "$moduleName"/target || exit
+  jarName=$(ls *.jar)
+  jarPath=$(pwd)/"$jarName"
+
+  moduleTargetPath="$targetPath/$moduleName"
+
+  #传送发布
+  jar_deploy.sh -n"$linkName" -t"$moduleTargetPath" -s"$SOURCE_PATH" -j"$jarPath"
+
+  #替换激活
+  sed -i "s/ACTIVE=\"%s\"/ACTIVE=\"$active\"/" \
+    "$moduleTargetPath"/script/runjar.sh
+
+  #替换快捷方式名
+  sed -i "s/JAR_NAME=\"%s\"/JAR_NAME=\"$linkName\"/" \
+    "$moduleTargetPath"/script/runjar.sh
+
+  echo "Succeed in deploying the module of $moduleName"
+}
+
+#正式发布几个模块里的
+for each in $(echo $MODULE_NAMES | sed "s/,/ /g"); do
+  echo "
+  Start deploying the module of $each
+  "
+  deployJar "$each" "$each.jar"
+done
