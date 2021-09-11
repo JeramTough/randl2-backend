@@ -1,5 +1,5 @@
 server:
-  port: 9086
+  port: 8084
   servlet:
     context-path: /randl2/resource
   tomcat:
