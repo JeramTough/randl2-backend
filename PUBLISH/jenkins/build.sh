@@ -12,7 +12,7 @@ echo "Starting update by git"
 
 echo "Starting build"
 #打包parent，第一次进来打包安装就可以，这两个模块
-#mvn -Dmaven.test.skip=true clean install || exit 1
+mvn -f'randl_parent/pom.xml' -Dmaven.test.skip=true clean install || exit 1
 
 #打包公共模块组件,打包dao模块组件
 mvn -f'randl_common/pom.xml' -Dmaven.test.skip=true clean install || exit 1
