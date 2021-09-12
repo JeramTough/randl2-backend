@@ -14,7 +14,7 @@ cd ../../
 ROOT_PATH=$(pwd)
 
 #模块名数组
-MODULE_NAMES="api_admin,api_sso,api_resource"
+moduleNames="api_admin,api_sso,api_resource"
 
 #发布路径
 targetPath=""
@@ -28,6 +28,7 @@ echo "Selected config is $selectedConfig"
 #读取配置信息
 targetPath=$(awk -F '=' "/\[$selectedConfig\]/{a=1}a==1&&\$1~/targetPath/{print \$2;exit}" "$SCRIPT_PATH/config.ini")
 active=$(awk -F '=' "/\[$selectedConfig\]/{a=1}a==1&&\$1~/active/{print \$2;exit}" "$SCRIPT_PATH/config.ini")
+moduleNames=$(awk -F '=' "/\[$selectedConfig\]/{a=1}a==1&&\$1~/moduleNames/{print \$2;exit}" "$SCRIPT_PATH/config.ini")
 
 echo "targetPath=$targetPath\nactive=$active"
 
@@ -74,7 +75,7 @@ deployJar() {
 }
 
 #正式发布几个模块里的
-for each in $(echo $MODULE_NAMES | sed "s/,/ /g"); do
+for each in $(echo $moduleNames | sed "s/,/ /g"); do
   echo "
   Start deploying the module of $each
   "
