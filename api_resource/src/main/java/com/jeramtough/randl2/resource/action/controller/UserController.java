@@ -2,6 +2,7 @@ package com.jeramtough.randl2.resource.action.controller;
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.randl2.common.action.controller.MyBaseController;
+import com.jeramtough.randl2.common.model.dto.RandlPersonalInfoDto;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
 import com.jeramtough.randl2.resource.service.ResourceUserService;
 import io.swagger.annotations.*;
@@ -42,14 +43,10 @@ public class UserController extends MyBaseController {
 
     @ApiOperation(value = "查询用户个人资料信息", notes = "查询用户个人资料信息")
     @RequestMapping(value = "/randlPersonalInfo", method = {RequestMethod.GET})
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "uid", value = "用户ID", paramType = "query",
-                    required = true, defaultValue = "1")})
     @ApiResponses(value = {
     })
-    public CommonApiResponse<String> getPersonalInfoByUid(@Param("uid") Long uid,
-                                                          HttpServletRequest request) {
-        return getSuccessfulApiResponse("aaaaa");
+    public CommonApiResponse<RandlPersonalInfoDto> getPersonalInfo() {
+        return getSuccessfulApiResponse(resourceUserService.getPersonalInfoByToken());
     }
 
     @ApiOperation(value = "测试资源", notes = "测试资源")

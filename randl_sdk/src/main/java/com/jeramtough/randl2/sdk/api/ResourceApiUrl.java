@@ -10,4 +10,6 @@ public class ResourceApiUrl {
 
     public static final String USER_INFO = "/user/info";
 
+    public static final String RANDL_PERSIONAL_INFO = "/user/randlPersonalInfo";
+
 }

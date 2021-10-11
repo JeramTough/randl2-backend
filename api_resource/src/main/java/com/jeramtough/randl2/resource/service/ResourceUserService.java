@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.resource.service;
 
+import com.jeramtough.randl2.common.model.dto.RandlPersonalInfoDto;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
 
 /**
@@ -12,4 +13,6 @@ public interface ResourceUserService {
     SystemUserDto getRandlUserByToken();
 
     String test();
+
+    RandlPersonalInfoDto getPersonalInfoByToken();
 }

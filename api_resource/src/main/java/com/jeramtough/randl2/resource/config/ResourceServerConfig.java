@@ -173,6 +173,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter implem
     }*/
 
     //********************
+
     private void initCustomFillter(
             HttpSecurity http) {
         UserCredentialsTokenFilter userCredentialsTokenFilter = new UserCredentialsTokenFilter(

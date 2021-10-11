@@ -1,6 +1,8 @@
 package com.jeramtough.randl2.sdk.model.httpresponse;
 
+import javax.security.auth.Subject;
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +15,7 @@ import java.util.Map;
  * @author JeramTough
  * @since 2020-10-03
  */
-public class SystemUser implements Serializable {
+public class SystemUser implements Principal,Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -164,4 +166,10 @@ public class SystemUser implements Serializable {
                 ", channel=" + channel +
                 "}";
     }
+
+    @Override
+    public String getName() {
+        return getAccount();
+    }
+
 }
