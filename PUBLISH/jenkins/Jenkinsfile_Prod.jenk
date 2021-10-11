@@ -90,7 +90,7 @@ pipeline {
                 always {
                     /* clean up our workspace */
                     echo 'clean up our workspace'
-                    deleteDir()
+//                    deleteDir()
                 }
                 failure {
                     mail to: "${env.TO_EMAILS}",
