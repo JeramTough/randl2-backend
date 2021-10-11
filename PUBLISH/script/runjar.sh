@@ -1,6 +1,6 @@
 #!/bin/bash
 # 该脚本为Linux下启动java程序的脚本
-# date: 2021/08/29
+# date: 2021/10/12
 
 SCRIPT_PATH=$(
   cd $(dirname $0) || exit
