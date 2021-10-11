@@ -24,7 +24,7 @@ JDK_HOME="%s"
 LOG_FILE=logs
 # java虚拟机启动参数
 #JAVA_OPTS="-Xms512m -Xmx512m -XX:MetaspaceSize=512m -XX:MaxMetaspaceSize=1024m -XX:ParallelGCThreads=4 -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=utf-8"
-JAVA_OPTS="-Dspring.profiles.active=$ACTIVE -Dfile.encoding=utf-8 --add-opens java.base/java.lang=ALL-UNNAMED"
+JAVA_OPTS="-Dspring.profiles.active=$ACTIVE -Dfile.encoding=utf-8"
 # 是否马上输出日志，auto则碰到启动成功标记，自动关闭日志
 IS_PRINT="auto"
 
