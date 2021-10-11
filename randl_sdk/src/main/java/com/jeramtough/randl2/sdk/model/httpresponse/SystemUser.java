@@ -1,5 +1,7 @@
 package com.jeramtough.randl2.sdk.model.httpresponse;
 
+import com.jeramtough.randl2.sdk.model.randl.RandlPersonalInfo;
+
 import javax.security.auth.Subject;
 import java.io.Serializable;
 import java.security.Principal;
@@ -45,6 +47,8 @@ public class SystemUser implements Principal,Serializable {
 
 
     private List<Map<String, Object>> moduleAuthList;
+
+    private RandlPersonalInfo randlPersonalInfo;
 
 
     public Long getUid() {
@@ -149,6 +153,15 @@ public class SystemUser implements Principal,Serializable {
 
     public void setRoles(List<RandlRole> roles) {
         this.roles = roles;
+    }
+
+    public RandlPersonalInfo getRandlPersonalInfo() {
+        return randlPersonalInfo;
+    }
+
+    public void setRandlPersonalInfo(
+            RandlPersonalInfo randlPersonalInfo) {
+        this.randlPersonalInfo = randlPersonalInfo;
     }
 
     @Override
