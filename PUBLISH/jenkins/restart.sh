@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SCRIPT_PATH=$(
   cd $(dirname $0)
@@ -15,7 +15,7 @@ SOURCE_PATH=$(dirname "$SOURCE_PATH")
 targetPath=""
 
 #模块名数组
-moduleNames="api_admin,api_sso,api_resource"
+moduleNames=""
 
 #激活的配置
 active="beta"
@@ -27,8 +27,10 @@ echo "Selected config is $selectedConfig"
 targetPath=$(awk -F '=' "/\[$selectedConfig\]/{a=1}a==1&&\$1~/targetPath/{print \$2;exit}" config.ini)
 active=$(awk -F '=' "/\[$selectedConfig\]/{a=1}a==1&&\$1~/active/{print \$2;exit}" config.ini)
 moduleNames=$(awk -F '=' "/\[$selectedConfig\]/{a=1}a==1&&\$1~/moduleNames/{print \$2;exit}" "$SCRIPT_PATH/config.ini")
+jdkHome=$(awk -F '=' "/\[$selectedConfig\]/{a=1}a==1&&\$1~/jdkHome/{print \$2;exit}" "$SCRIPT_PATH/config.ini")
 
 echo -e "targetPath=$targetPath\nactive=$active"
+#jdk_version.sh "$jdkHome"
 
 isEmpty() {
   if [ ! $1 ]; then
@@ -41,14 +43,17 @@ isEmpty() {
 isEmpty "$targetPath" || exit 1
 isEmpty "$active" || exit 1
 
-
-
-
 #执行脚本，并且让jenkins不杀进程
 (
   set -e
   export BUILD_ID=dontKillMe
   export JENKINS_NODE_COOKIE=dontKillMe
+
+  #设置jdk版本
+#  export JAVA_HOME=/usr/local/lib/Java/jdk-11
+#  export JRE_HOME=${JAVA_HOME}/jre
+#  export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
+#  export PATH=.:${JAVA_HOME}/bin:$PATH
 
   for each in $(echo $moduleNames | sed "s/,/ /g"); do
     moduleTargetPath="$targetPath/$each"
@@ -59,4 +64,3 @@ isEmpty "$active" || exit 1
   done
 
 )
-

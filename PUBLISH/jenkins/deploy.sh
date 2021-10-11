@@ -1,4 +1,7 @@
-#!/bin/sh
+#!/bin/bash
+
+#配置JDK版本的脚本文件路径
+SET_JDK_VERSION_FILE_PATH="../script/set_jdk_version.sh"
 
 SCRIPT_PATH=$(
   cd $(dirname $0)
@@ -14,7 +17,7 @@ cd ../../
 ROOT_PATH=$(pwd)
 
 #模块名数组
-moduleNames="api_admin,api_sso,api_resource"
+moduleNames=""
 
 #发布路径
 targetPath=""
@@ -29,8 +32,10 @@ echo "Selected config is $selectedConfig"
 targetPath=$(awk -F '=' "/\[$selectedConfig\]/{a=1}a==1&&\$1~/targetPath/{print \$2;exit}" "$SCRIPT_PATH/config.ini")
 active=$(awk -F '=' "/\[$selectedConfig\]/{a=1}a==1&&\$1~/active/{print \$2;exit}" "$SCRIPT_PATH/config.ini")
 moduleNames=$(awk -F '=' "/\[$selectedConfig\]/{a=1}a==1&&\$1~/moduleNames/{print \$2;exit}" "$SCRIPT_PATH/config.ini")
+jdkHome=$(awk -F '=' "/\[$selectedConfig\]/{a=1}a==1&&\$1~/jdkHome/{print \$2;exit}" "$SCRIPT_PATH/config.ini")
 
 echo "targetPath=$targetPath\nactive=$active"
+. jdk_version.sh "$jdkHome"
 
 isEmpty() {
   if [ ! $1 ]; then
@@ -69,6 +74,11 @@ deployJar() {
 
   #替换快捷方式名
   sed -i "s/JAR_NAME=\"%s\"/JAR_NAME=\"$linkName\"/" \
+    "$moduleTargetPath"/script/runjar.sh
+
+  #替换运行的jdk版本
+  myJdkHome=${jdkHome//\//\\/}
+  sed -i "s/JDK_HOME=\"%s\"/JDK_HOME=\"$myJdkHome\"/" \
     "$moduleTargetPath"/script/runjar.sh
 
   echo "Succeed in deploying the module of $moduleName"

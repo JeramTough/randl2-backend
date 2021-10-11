@@ -1,9 +1,20 @@
-#!/bin/sh
+#!/bin/bash
 
-SCRIPT_PATH=$(cd `dirname $0`; pwd)
-
-
+SCRIPT_PATH=$(
+  cd $(dirname $0)
+  pwd
+)
 cd "$SCRIPT_PATH" || exit
+
+#选择发布的配置
+selectedConfig=$1
+echo "Selected config is $selectedConfig"
+
+#读取配置信息
+jdkHome=$(awk -F '=' "/\[$selectedConfig\]/{a=1}a==1&&\$1~/jdkHome/{print \$2;exit}" "$SCRIPT_PATH/config.ini")
+#配置jdk版本
+jdk_version.sh "$jdkHome"
+
 cd ../../
 echo "The root path of project at $(pwd)"
 
