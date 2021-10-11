@@ -17,7 +17,7 @@ cd ../../
 ROOT_PATH=$(pwd)
 
 #模块名数组
-moduleNames=""
+moduleNames="im_app"
 
 #发布路径
 targetPath=""
@@ -77,7 +77,9 @@ deployJar() {
     "$moduleTargetPath"/script/runjar.sh
 
   #替换运行的jdk版本
+
   myJdkHome=${jdkHome//\//\\/}
+  echo -e "替换配置$jdkHome\n为 $myJdkHome"
   sed -i "s/JDK_HOME=\"%s\"/JDK_HOME=\"$myJdkHome\"/" \
     "$moduleTargetPath"/script/runjar.sh
 

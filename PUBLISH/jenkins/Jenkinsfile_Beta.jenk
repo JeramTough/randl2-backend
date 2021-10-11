@@ -33,7 +33,7 @@ pipeline {
             }
             steps {
                 dir('PUBLISH/jenkins') {
-                    sh "sh build.sh"
+                    sh "bash build.sh"
                 }
             }
 
@@ -61,7 +61,7 @@ pipeline {
             }
             steps {
                 dir('PUBLISH/jenkins') {
-                    sh "sh deploy.sh ${env.ACTIVE}"
+                    sh "bash deploy.sh ${env.ACTIVE}"
                 }
             }
             post {
@@ -82,7 +82,7 @@ pipeline {
             steps {
                 dir('PUBLISH/jenkins') {
 //                    sh script: "export JENKINS_NODE_COOKIE=dontKillMe"
-                    sh "sh restart.sh ${env.ACTIVE}"
+                    sh "bash restart.sh ${env.ACTIVE}"
                 }
             }
 
