@@ -5,7 +5,7 @@ import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException
 import com.jeramtough.randl2.common.component.attestation.userdetail.AccountStatus;
 import com.jeramtough.randl2.common.component.attestation.userdetail.MyUserDetails;
 import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
-import com.jeramtough.randl2.common.component.setting.AppSetting;
+import com.jeramtough.randl2.common.config.setting.AppSetting;
 import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.util.JwtTokenUtil;

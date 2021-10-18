@@ -1,7 +1,7 @@
 package com.jeramtough.randl2.service.randl.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.jeramtough.randl2.common.component.setting.AppSetting;
+import com.jeramtough.randl2.common.config.setting.AppSetting;
 import com.jeramtough.randl2.service.randl.RandlUserRoleMapService;
 import com.jeramtough.randl2.common.mapper.RandlUserRoleMapMapper;
 import com.jeramtough.randl2.common.model.dto.RandlUserRoleMapDto;

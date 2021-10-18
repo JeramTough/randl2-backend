@@ -1,5 +1,7 @@
-package com.jeramtough.randl2.common.component.setting;
+package com.jeramtough.randl2.common.config.setting;
 
+import com.jeramtough.randl2.common.config.setting.api.ApiSetting;
+import com.jeramtough.randl2.common.config.setting.path.PathSetting;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +27,10 @@ public class AppSetting {
     private Map<String, String> oauth;
 
     private Map<String, String> sso;
+
+    private PathSetting path;
+
+    private ApiSetting api;
 
 
     public AppSetting() {
@@ -128,5 +134,21 @@ public class AppSetting {
 
     public String getLoginPageUrl() {
         return sso.get("loginPageUrl");
+    }
+
+    public PathSetting getPath() {
+        return path;
+    }
+
+    public void setPath(PathSetting path) {
+        this.path = path;
+    }
+
+    public ApiSetting getApi() {
+        return api;
+    }
+
+    public void setApi(ApiSetting api) {
+        this.api = api;
     }
 }

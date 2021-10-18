@@ -4,7 +4,7 @@ import com.jeramtough.jtcomponent.http.URLBuilder;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseBeanException;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.ssoserver.component.oauth2.OauthAuthorizeResultFactory;
-import com.jeramtough.randl2.common.component.setting.AppSetting;
+import com.jeramtough.randl2.common.config.setting.AppSetting;
 import com.jeramtough.randl2.common.model.constant.OAuth2Constants;
 import com.jeramtough.randl2.common.model.params.oauth.OauthAuthorizeResult4AuthorizationCodeGrant;
 import com.jeramtough.randl2.common.model.params.oauth.OauthAuthorizeResult4ImplicitGrant;

@@ -16,7 +16,7 @@
 package com.jeramtough.randl2.resource.config;
 
 import com.jeramtough.jtlog.with.WithLogger;
-import com.jeramtough.randl2.common.component.setting.AppSetting;
+import com.jeramtough.randl2.common.config.setting.AppSetting;
 import com.jeramtough.randl2.common.model.dto.OauthScopeDetailsDto;
 import com.jeramtough.randl2.resource.action.filter.UserCredentialsTokenFilter;
 import com.jeramtough.randl2.service.details.MyUserDetailsService;

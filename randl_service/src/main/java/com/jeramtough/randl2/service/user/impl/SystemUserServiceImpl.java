@@ -3,7 +3,7 @@ package com.jeramtough.randl2.service.user.impl;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.service.impl.BaseServiceImpl;
 import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
-import com.jeramtough.randl2.common.component.setting.AppSetting;
+import com.jeramtough.randl2.common.config.setting.AppSetting;
 import com.jeramtough.randl2.common.model.dto.RandlRoleDto;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
 import com.jeramtough.randl2.common.model.entity.RandlRole;

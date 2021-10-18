@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.common.component.attestation.userdetail;
 
-import com.jeramtough.randl2.common.component.setting.AppSetting;
+import com.jeramtough.randl2.common.config.setting.AppSetting;
 import com.jeramtough.randl2.common.model.entity.RandlRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

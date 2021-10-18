@@ -4,7 +4,7 @@ import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.service.impl.BaseServiceImpl;
 import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
 import com.jeramtough.randl2.common.component.attestation.userdetail.UserHolder;
-import com.jeramtough.randl2.common.component.setting.AppSetting;
+import com.jeramtough.randl2.common.config.setting.AppSetting;
 import com.jeramtough.randl2.common.component.token.MyJwtTokenHolder;
 import com.jeramtough.randl2.common.mapper.RandlAppMapper;
 import com.jeramtough.randl2.common.mapper.SourceSurfaceImageMapper;

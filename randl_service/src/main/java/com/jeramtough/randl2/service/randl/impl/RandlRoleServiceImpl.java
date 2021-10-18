@@ -9,7 +9,7 @@ import com.jeramtough.jtweb.model.dto.PageDto;
 import com.jeramtough.jtweb.model.params.BaseConditionParams;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.randl2.common.component.attestation.userdetail.SuperAdmin;
-import com.jeramtough.randl2.common.component.setting.AppSetting;
+import com.jeramtough.randl2.common.config.setting.AppSetting;
 import com.jeramtough.randl2.common.mapper.RandlAppMapper;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
 import com.jeramtough.randl2.common.mapper.RandlUserRoleMapMapper;
