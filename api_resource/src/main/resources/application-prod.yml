@@ -50,5 +50,5 @@ app:
     api:
       tencent-location:
         url: https://apis.map.qq.com/ws/geocoder/v1/
-        key: JIIBZ-4RKWF-5OXJO-JEF44-SM3CJ-FHB3I
+        key: NUYBZ-BQWW6-66YSK-MR37J-374V5-URFS2
 

@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.sdk.api;
+package com.jeramtough.randl2.sdk.model.constant;
 
 /**
  * <pre>
@@ -11,5 +11,9 @@ public class ResourceApiUrl {
     public static final String USER_INFO = "/user/info";
 
     public static final String RANDL_PERSIONAL_INFO = "/user/randlPersonalInfo";
+
+    public static final String RANDL_LOCATION_BY_AUTO = "/location/getByAuto";
+
+
 
 }

@@ -6,6 +6,7 @@ import javax.security.auth.Subject;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ import java.util.Map;
  * @author JeramTough
  * @since 2020-10-03
  */
-public class SystemUser implements Principal,Serializable {
+public class SystemUser implements Principal, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -49,6 +50,10 @@ public class SystemUser implements Principal,Serializable {
     private List<Map<String, Object>> moduleAuthList;
 
     private RandlPersonalInfo randlPersonalInfo;
+
+    private String token;
+
+    private Map<String, Object> params = new HashMap<>();
 
 
     public Long getUid() {
@@ -162,6 +167,22 @@ public class SystemUser implements Principal,Serializable {
     public void setRandlPersonalInfo(
             RandlPersonalInfo randlPersonalInfo) {
         this.randlPersonalInfo = randlPersonalInfo;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Map<String, Object> getParams() {
+        return params;
+    }
+
+    public void setParams(Map<String, Object> params) {
+        this.params = params;
     }
 
     @Override
