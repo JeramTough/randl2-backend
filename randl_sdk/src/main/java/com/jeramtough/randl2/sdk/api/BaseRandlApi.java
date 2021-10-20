@@ -1,5 +1,8 @@
 package com.jeramtough.randl2.sdk.api;
 
+import com.alibaba.fastjson.JSON;
+import com.jeramtough.randl2.sdk.model.httpresponse.ApiResponse;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +34,22 @@ public abstract class BaseRandlApi implements RandlApi {
         Map<String, String> headerMap = new HashMap<>();
         headerMap.put("Authorization", token);
         return headerMap;
+    }
+
+    protected ApiResponse toApiResponse(String jsonResponse) {
+        try {
+            ApiResponse apiResponse = JSON.parseObject(jsonResponse, ApiResponse.class);
+            if (apiResponse.getMessage()==null){
+                apiResponse.setMessage(jsonResponse);
+            }
+            return apiResponse;
+        }
+        catch (Exception e) {
+            ApiResponse apiResponse = new ApiResponse();
+            apiResponse.setIsSuccessful(false);
+            apiResponse.setMessage(jsonResponse);
+            return apiResponse;
+        }
     }
 
 

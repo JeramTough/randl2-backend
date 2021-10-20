@@ -32,8 +32,7 @@ public class DefaultRandlApi extends BaseRandlApi implements RandlApi {
         }
         String url = getContextUrl() + urlPart;
         String jsonResponse = HttpUtil.doGet(getHeadersWithToken(), url, params);
-        ApiResponse apiResponse = JSON.parseObject(jsonResponse, ApiResponse.class);
-        return apiResponse;
+        return toApiResponse(jsonResponse);
     }
 
     @Override
@@ -44,8 +43,7 @@ public class DefaultRandlApi extends BaseRandlApi implements RandlApi {
         String url = getContextUrl() + urlPart;
 
         String jsonResponse = HttpUtil.doPost(getHeadersWithToken(), url, params);
-        ApiResponse apiResponse = JSON.parseObject(jsonResponse, ApiResponse.class);
-        return apiResponse;
+        return toApiResponse(jsonResponse);
     }
 
     @Override
@@ -58,7 +56,6 @@ public class DefaultRandlApi extends BaseRandlApi implements RandlApi {
 
         String jsonResponse = HttpUtil.doPostWithJson(getHeadersWithToken(), url,
                 jsonObject.toJSONString());
-        ApiResponse apiResponse = JSON.parseObject(jsonResponse, ApiResponse.class);
-        return apiResponse;
+        return toApiResponse(jsonResponse);
     }
 }
