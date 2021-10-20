@@ -96,7 +96,7 @@ public class HttpUtil {
         URLBuilder urlBuilder=new URLBuilder();
         urlBuilder.url(url);
         params.forEach((key, value) -> {
-            builder.addEncoded(key, value.toString());
+            urlBuilder.appendParamEncode(key, value.toString());
         });
 
         url=urlBuilder.build();

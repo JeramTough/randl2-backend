@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.resource.service.impl;
 
+import com.jeramtough.jtlog.facade.L;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.component.location.LocationGating;
 import com.jeramtough.jtweb.component.location.bean.JtLocation;
@@ -37,7 +38,14 @@ public class ResourceLocationServiceImpl implements ResourceLocationService {
             return getLocationByIp(httpServletRequest);
         }
         else {
-            return getLocationByLonLat(lon, lat);
+            //根据经纬度获取失败时，转成根据ip获取
+            try {
+                return getLocationByLonLat(lon, lat);
+            }
+            catch (Exception e) {
+                L.warn(e.getMessage());
+                return getLocationByIp(httpServletRequest);
+            }
         }
     }
 
