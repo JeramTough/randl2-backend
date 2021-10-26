@@ -1,6 +1,7 @@
 package com.jeramtough.randl2.common.model.detail.userdetail.builder.news;
 
 import com.jeramtough.jtcomponent.utils.ValidationUtil;
+import com.jeramtough.jtweb.component.location.LocationGating;
 import com.jeramtough.randl2.common.model.detail.userdetail.RegisterUserWay;
 import com.jeramtough.randl2.common.model.detail.userdetail.builder.exception.AccountFormatException;
 import com.jeramtough.randl2.common.model.detail.userdetail.builder.exception.TransactionTimeoutExcaption;
@@ -27,13 +28,15 @@ public class EmailNewUserBuilder extends AbstractNewUserBuilder
     public EmailNewUserBuilder(
             PasswordEncoder passwordEncoder,
             RedisTemplate<String, Object> redisTemplate,
-            HttpServletRequest httpServletRequest) {
-        super(passwordEncoder, redisTemplate, httpServletRequest);
+            HttpServletRequest httpServletRequest,
+            LocationGating locationGating) {
+        super(passwordEncoder, redisTemplate, httpServletRequest, locationGating);
     }
 
 
     @Override
-    public void setAccount(String transactionId, String phoneOrEmailOrOther) throws AccountFormatException,
+    public void setAccount(String transactionId, String phoneOrEmailOrOther) throws
+            AccountFormatException,
             TransactionTimeoutExcaption {
         boolean isRightFormat = ValidationUtil.isEmail(phoneOrEmailOrOther);
         if (!isRightFormat) {
@@ -43,7 +46,8 @@ public class EmailNewUserBuilder extends AbstractNewUserBuilder
     }
 
     @Override
-    protected void buildAccount(String transactionId, RandlUser randlUser) throws TransactionTimeoutExcaption {
+    protected void buildAccount(String transactionId, RandlUser randlUser) throws
+            TransactionTimeoutExcaption {
         String emailAddress = getEmailAddress(transactionId);
         randlUser.setEmailAddress(emailAddress);
         randlUser.setAccount("E_" + emailAddress.substring(0,
@@ -56,7 +60,8 @@ public class EmailNewUserBuilder extends AbstractNewUserBuilder
     }
 
     @Override
-    public String getRegisterUserWayForPhoneOrEmail(String transactionId) throws TransactionTimeoutExcaption {
+    public String getRegisterUserWayForPhoneOrEmail(String transactionId) throws
+            TransactionTimeoutExcaption {
         return getEmailAddress(transactionId);
     }
 
@@ -67,10 +72,11 @@ public class EmailNewUserBuilder extends AbstractNewUserBuilder
     }
 
 
-    private void setEmailAddress(String transactionId, String emailAddress) throws TransactionTimeoutExcaption {
+    private void setEmailAddress(String transactionId, String emailAddress) throws
+            TransactionTimeoutExcaption {
         RandlUser randlUser = getEntity(transactionId);
         randlUser.setEmailAddress(emailAddress);
-        setEntity(transactionId,randlUser);
+        setEntity(transactionId, randlUser);
     }
 
 

@@ -3,6 +3,7 @@ package com.jeramtough.randl2.common.model.detail.userdetail.builder.news;
 import com.jeramtough.jtcomponent.utils.ValidationUtil;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseBeanException;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
+import com.jeramtough.jtweb.component.location.LocationGating;
 import com.jeramtough.randl2.common.model.detail.userdetail.RegisterUserWay;
 import com.jeramtough.randl2.common.model.detail.userdetail.builder.exception.TransactionTimeoutExcaption;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
@@ -29,23 +30,27 @@ public class PhoneNewUserBuilder extends AbstractNewUserBuilder
     public PhoneNewUserBuilder(
             PasswordEncoder passwordEncoder,
             RedisTemplate<String, Object> redisTemplate,
-            HttpServletRequest httpServletRequest) {
-        super(passwordEncoder, redisTemplate, httpServletRequest);
+            HttpServletRequest httpServletRequest,
+            LocationGating locationGating) {
+        super(passwordEncoder, redisTemplate, httpServletRequest, locationGating);
     }
 
     @Override
-    public void setAccount(String transactionId, String phoneOrEmailOrOther) throws ApiResponseException,
+    public void setAccount(String transactionId, String phoneOrEmailOrOther) throws
+            ApiResponseException,
             TransactionTimeoutExcaption {
         boolean isRightFormat = ValidationUtil.isPhone(phoneOrEmailOrOther);
         if (!isRightFormat) {
-            throw new ApiResponseBeanException(ErrorU.CODE_4.C, "phoneOrEmailOrOther", "例子:15289678163");
+            throw new ApiResponseBeanException(ErrorU.CODE_4.C, "phoneOrEmailOrOther",
+                    "例子:15289678163");
         }
 
         setPhoneNumber(transactionId, phoneOrEmailOrOther);
     }
 
     @Override
-    protected void buildAccount(String transactionId, RandlUser randlUser) throws TransactionTimeoutExcaption {
+    protected void buildAccount(String transactionId, RandlUser randlUser) throws
+            TransactionTimeoutExcaption {
         String phoneNumber = getPhoneNumber(transactionId);
         randlUser.setPhoneNumber(phoneNumber);
         randlUser.setAccount("P_" + phoneNumber.substring(0,
@@ -59,7 +64,8 @@ public class PhoneNewUserBuilder extends AbstractNewUserBuilder
     }
 
     @Override
-    public String getRegisterUserWayForPhoneOrEmail(String transactionId) throws TransactionTimeoutExcaption {
+    public String getRegisterUserWayForPhoneOrEmail(String transactionId) throws
+            TransactionTimeoutExcaption {
         return getPhoneNumber(transactionId);
     }
 
@@ -71,7 +77,8 @@ public class PhoneNewUserBuilder extends AbstractNewUserBuilder
     }
 
 
-    private void setPhoneNumber(String transactionId, String phoneNumber) throws TransactionTimeoutExcaption {
+    private void setPhoneNumber(String transactionId, String phoneNumber) throws
+            TransactionTimeoutExcaption {
         RandlUser randlUser = getEntity(transactionId);
         randlUser.setPhoneNumber(phoneNumber);
         setEntity(transactionId, randlUser);

@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.common.model.detail.userdetail.builder.reset;
 
+import com.jeramtough.jtweb.component.location.LocationGating;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.common.model.detail.userdetail.builder.AbstractUserBuilder;
 import com.jeramtough.randl2.common.model.detail.userdetail.builder.exception.NoChangedException;
@@ -21,8 +22,9 @@ public abstract class AbstractResetUserBuilder extends AbstractUserBuilder imple
 
     protected AbstractResetUserBuilder(PasswordEncoder passwordEncoder,
                                        RedisTemplate<String, Object> redisTemplate,
-                                       HttpServletRequest httpServletRequest) {
-        super(passwordEncoder, redisTemplate, httpServletRequest);
+                                       HttpServletRequest httpServletRequest,
+                                       LocationGating locationGating) {
+        super(passwordEncoder, redisTemplate, httpServletRequest, locationGating);
     }
 
     @Override

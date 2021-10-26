@@ -45,6 +45,9 @@ public class RandlUserDto implements Serializable{
     @ApiModelProperty(value = "注册ip")
     private String registrationIp;
 
+    @ApiModelProperty(value = "注册地址")
+    private String registrationAddress;
+
     @ApiModelProperty(value = "账号状态 0:禁用 | 1:启用 | 2:标记删除")
     private Integer accountStatus;
 
@@ -146,6 +149,14 @@ public class RandlUserDto implements Serializable{
 
     public void setRoles(List<RandlRoleDto> roles) {
         this.roles = roles;
+    }
+
+    public String getRegistrationAddress() {
+        return registrationAddress;
+    }
+
+    public void setRegistrationAddress(String registrationAddress) {
+        this.registrationAddress = registrationAddress;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.jeramtough.randl2.common.model.detail.userdetail.builder.reset;
 
 import com.jeramtough.jtcomponent.utils.ValidationUtil;
+import com.jeramtough.jtweb.component.location.LocationGating;
 import com.jeramtough.randl2.common.model.detail.userdetail.builder.exception.AccountFormatException;
 import com.jeramtough.randl2.common.model.detail.userdetail.builder.exception.TransactionTimeoutExcaption;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -16,12 +17,14 @@ import javax.servlet.http.HttpServletRequest;
  * </pre>
  */
 @Component
-public class EmailResetUserBuilder extends AbstractResetUserBuilder implements ResetUserBuilder {
+public class EmailResetUserBuilder extends AbstractResetUserBuilder
+        implements ResetUserBuilder {
 
     protected EmailResetUserBuilder(PasswordEncoder passwordEncoder,
                                     RedisTemplate<String, Object> redisTemplate,
-                                    HttpServletRequest httpServletRequest) {
-        super(passwordEncoder, redisTemplate, httpServletRequest);
+                                    HttpServletRequest httpServletRequest,
+                                    LocationGating locationGating) {
+        super(passwordEncoder, redisTemplate, httpServletRequest, locationGating);
     }
 
     @Override
@@ -35,7 +38,8 @@ public class EmailResetUserBuilder extends AbstractResetUserBuilder implements R
     }
 
     @Override
-    public String getResetUserWayForPhoneOrEmail(String transactionId) throws TransactionTimeoutExcaption {
+    public String getResetUserWayForPhoneOrEmail(String transactionId) throws
+            TransactionTimeoutExcaption {
         return getEntity(transactionId).getEmailAddress();
     }
 }

@@ -50,3 +50,9 @@ app:
     user:
       defaultAppId: 2
       defaultRoleId: 2
+    path:
+      chunzhen-file-path: /mnt/randl2_data_dir/chunzhen/qqwry.dat
+    api:
+      tencent-location:
+        url: https://apis.map.qq.com/ws/geocoder/v1/
+        key: NUYBZ-BQWW6-66YSK-MR37J-374V5-URFS2

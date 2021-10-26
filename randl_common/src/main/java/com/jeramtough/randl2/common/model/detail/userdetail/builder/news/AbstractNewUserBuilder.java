@@ -1,5 +1,7 @@
 package com.jeramtough.randl2.common.model.detail.userdetail.builder.news;
 
+import com.jeramtough.jtweb.component.location.LocationGating;
+import com.jeramtough.jtweb.component.location.bean.JtLocation;
 import com.jeramtough.jtweb.util.IpAddrUtil;
 import com.jeramtough.randl2.common.component.attestation.userdetail.AccountStatus;
 import com.jeramtough.randl2.common.component.attestation.userdetail.UserChannel;
@@ -12,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * <pre>
@@ -19,13 +22,15 @@ import java.util.Date;
  * by @author JeramTough
  * </pre>
  */
-public abstract class AbstractNewUserBuilder extends AbstractUserBuilder implements NewUserBuilder {
+public abstract class AbstractNewUserBuilder extends AbstractUserBuilder
+        implements NewUserBuilder {
 
 
     protected AbstractNewUserBuilder(PasswordEncoder passwordEncoder,
                                      RedisTemplate<String, Object> redisTemplate,
-                                     HttpServletRequest httpServletRequest) {
-        super(passwordEncoder, redisTemplate, httpServletRequest);
+                                     HttpServletRequest httpServletRequest,
+                                     LocationGating locationGating) {
+        super(passwordEncoder, redisTemplate, httpServletRequest, locationGating);
     }
 
     @Override
@@ -37,7 +42,8 @@ public abstract class AbstractNewUserBuilder extends AbstractUserBuilder impleme
     }
 
     @Override
-    public RandlUser build(String transactionId) throws TransactionTimeoutExcaption, NotSetPasswordException {
+    public RandlUser build(String transactionId) throws TransactionTimeoutExcaption,
+            NotSetPasswordException {
         RandlUser randlUser = getEntity(transactionId);
         randlUser.setRegistrationTime(new Date());
         randlUser.setAccountStatus(AccountStatus.ABLE.getNumber());
@@ -46,6 +52,11 @@ public abstract class AbstractNewUserBuilder extends AbstractUserBuilder impleme
 
         String ipAddress = IpAddrUtil.getIpAddr(getHttpServletRequest());
         randlUser.setRegistrationIp(ipAddress);
+
+        //设置注册地址
+        JtLocation jtLocation = getLocationGating().getLocationByIpAddress(ipAddress);
+        Objects.requireNonNull(jtLocation);
+        randlUser.setRegistrationAddress(jtLocation.getIpAddress());
 
         //校验是否设置了密码
         String password = getPassword(transactionId);
@@ -59,7 +70,8 @@ public abstract class AbstractNewUserBuilder extends AbstractUserBuilder impleme
         return randlUser;
     }
 
-    protected abstract void buildAccount(String transactionId, RandlUser randlUser) throws TransactionTimeoutExcaption;
+    protected abstract void buildAccount(String transactionId, RandlUser randlUser) throws
+            TransactionTimeoutExcaption;
 
 
 }

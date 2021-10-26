@@ -56,7 +56,7 @@
         <dependency>
             <groupId>com.jeramtough</groupId>
             <artifactId>jtweb-spring-boot-starter</artifactId>
-            <version>2.3.7.70-RELEASE</version>
+            <version>2.3.7.72-RELEASE</version>
         </dependency>
 
         <dependency>

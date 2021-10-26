@@ -61,6 +61,11 @@ public class RandlUser implements Serializable {
    */
     private String registrationIp;
 
+    /**
+     * 注册地址
+     */
+    private String registrationAddress;
+
   /**
    * 账号状态 0:禁用 | 1:启用 | 2:标记删除
    */
@@ -163,6 +168,14 @@ public class RandlUser implements Serializable {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public String getRegistrationAddress() {
+        return registrationAddress;
+    }
+
+    public void setRegistrationAddress(String registrationAddress) {
+        this.registrationAddress = registrationAddress;
     }
 
     @Override

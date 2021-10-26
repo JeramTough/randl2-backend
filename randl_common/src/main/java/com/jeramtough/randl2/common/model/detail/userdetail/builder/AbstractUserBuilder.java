@@ -2,6 +2,7 @@ package com.jeramtough.randl2.common.model.detail.userdetail.builder;
 
 import com.alibaba.fastjson.JSON;
 import com.jeramtough.jtcomponent.utils.IdUtil;
+import com.jeramtough.jtweb.component.location.LocationGating;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.common.model.detail.userdetail.builder.exception.TransactionTimeoutExcaption;
 import org.springframework.data.redis.core.BoundHashOperations;
@@ -29,13 +30,16 @@ public abstract class AbstractUserBuilder implements CommonUserBuilder {
     private final PasswordEncoder passwordEncoder;
     private final RedisTemplate<String, Object> redisTemplate;
     private final HttpServletRequest httpServletRequest;
+    private final LocationGating locationGating;
 
     protected AbstractUserBuilder(
             PasswordEncoder passwordEncoder,
-            RedisTemplate<String, Object> redisTemplate, HttpServletRequest httpServletRequest) {
+            RedisTemplate<String, Object> redisTemplate, HttpServletRequest httpServletRequest,
+            LocationGating locationGating) {
         this.passwordEncoder = passwordEncoder;
         this.redisTemplate = redisTemplate;
         this.httpServletRequest = httpServletRequest;
+        this.locationGating = locationGating;
     }
 
     @Override
@@ -134,6 +138,10 @@ public abstract class AbstractUserBuilder implements CommonUserBuilder {
         }
     }
 
+
+    protected LocationGating getLocationGating(){
+        return locationGating;
+    }
 
     //***************************
 
