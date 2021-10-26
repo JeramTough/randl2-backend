@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.resource.config;
+package com.jeramtough.randl2.common.config.web;
 
 import com.jeramtough.jtweb.component.location.DefaultLocationGating;
 import com.jeramtough.jtweb.component.location.LocationGating;
@@ -15,13 +15,11 @@ import org.springframework.context.annotation.Configuration;
  * </pre>
  */
 @Configuration
-//@EnableDbMonitor
-//@EnableMapperCache
-public class JtWebConfig {
+public class JtWebCommonConfig {
 
     private final AppSetting appSetting;
 
-    public JtWebConfig(AppSetting appSetting) {
+    public JtWebCommonConfig(AppSetting appSetting) {
         this.appSetting = appSetting;
     }
 
