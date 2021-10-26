@@ -46,5 +46,10 @@ app:
       defaultRoleId: 2
     sso:
       loginPageUrl: http://127.0.0.1:8089/randl2/ssoweb/userLogin
-
+    path:
+      chunzhen-file-path: /developer/Codes/IdeaCodes/spring-boot-starter-jtweb2/Doc/chunzhen/qqwry.dat
+    api:
+      tencent-location:
+        url: https://apis.map.qq.com/ws/geocoder/v1/
+        key: JIIBZ-4RKWF-5OXJO-JEF44-SM3CJ-FHB3I
 
