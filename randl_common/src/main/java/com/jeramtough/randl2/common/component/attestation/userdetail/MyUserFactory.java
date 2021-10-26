@@ -1,5 +1,7 @@
 package com.jeramtough.randl2.common.component.attestation.userdetail;
 
+import com.alibaba.fastjson.JSON;
+import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.location.LocationGating;
 import com.jeramtough.jtweb.component.location.bean.JtLocation;
 import com.jeramtough.jtweb.util.IpAddrUtil;
@@ -21,7 +23,7 @@ import java.util.Objects;
  * </pre>
  */
 @Component
-public class MyUserFactory {
+public class MyUserFactory implements WithLogger {
 
     private final PasswordEncoder passwordEncoder;
     private final MapperFacade mapperFacade;
@@ -54,11 +56,13 @@ public class MyUserFactory {
         randlUser.setRegistrationIp(ipAddress);
 
         //设置注册地址
-        JtLocation jtLocation=locationGating.getLocationByIpAddress(ipAddress);
+        JtLocation jtLocation = locationGating.getLocationByIpAddress(ipAddress);
         Objects.requireNonNull(jtLocation);
         randlUser.setRegistrationAddress(jtLocation.getAddress());
 
         randlUser.setPassword(passwordEncoder.encode(params.getPassword()));
+
+        getLogger().info("创建用户对象成功！" + JSON.toJSONString(randlUser));
         return randlUser;
     }
 

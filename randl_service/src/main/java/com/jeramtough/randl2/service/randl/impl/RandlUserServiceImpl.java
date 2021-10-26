@@ -112,11 +112,6 @@ public class RandlUserServiceImpl
         //注册的用户必定有Randl用户中心APP的角色
         //2020.11.06想想还是在代码层面增加固定角色信息好了
 
-       /* RandlUserRoleMap randlUserRoleMap = new RandlUserRoleMap();
-        randlUserRoleMap.setUid(randlUser.getUid());
-        randlUserRoleMap.setRoleId(appSetting.getUserDefaultRoleId());
-        userRoleMapMapper.insert(randlUserRoleMap);*/
-
         return toDto(randlUser);
     }
 
