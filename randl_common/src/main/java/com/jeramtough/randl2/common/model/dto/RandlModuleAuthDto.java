@@ -41,14 +41,37 @@ public class RandlModuleAuthDto {
     @ApiModelProperty(value = "模块是否被管理员禁用")
     private Integer isAble;
 
+
     @ApiModelProperty(value = "模块是否被授权")
     private Integer isAuth;
+
+    @ApiModelProperty(value = "子模块是否有被授权")
+    private Integer hasChildAuth;
+
+    @ApiModelProperty(value = "子模块是否有被管理员禁用")
+    private Integer hasChildAble;
 
     private Long appId;
 
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
+
+    public Integer getHasChildAuth() {
+        return hasChildAuth;
+    }
+
+    public void setHasChildAuth(Integer hasChildAuth) {
+        this.hasChildAuth = hasChildAuth;
+    }
+
+    public Integer getHasChildAble() {
+        return hasChildAble;
+    }
+
+    public void setHasChildAble(Integer hasChildAble) {
+        this.hasChildAble = hasChildAble;
+    }
 
     public Long getMid() {
         return mid;

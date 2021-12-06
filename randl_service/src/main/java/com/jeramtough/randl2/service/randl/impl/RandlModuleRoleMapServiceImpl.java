@@ -2,6 +2,7 @@ package com.jeramtough.randl2.service.randl.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtcomponent.tree.adapter.OneTreeNodeAdapter;
+import com.jeramtough.jtcomponent.tree.foreach.NodeCaller;
 import com.jeramtough.jtcomponent.tree.processor.DefaultTreeProcessor;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
 import com.jeramtough.jtcomponent.tree.util.TreeNodeUtils;
@@ -78,12 +79,15 @@ public class RandlModuleRoleMapServiceImpl extends MyBaseServiceImpl<RandlModule
 
 
     @Override
-    public List<RandlModuleAuthDto> getRandlModuleAuthDtosByAppIdAndRoleId(Long appId, Long roleId) {
-        return getRandlModuleAuthDtosByAppIdAndRoleIds(appId, Collections.singletonList(roleId));
+    public List<RandlModuleAuthDto> getRandlModuleAuthDtosByAppIdAndRoleId(Long appId,
+                                                                           Long roleId) {
+        return getRandlModuleAuthDtosByAppIdAndRoleIds(appId,
+                Collections.singletonList(roleId));
     }
 
     @Override
-    public List<RandlModuleAuthDto> getRandlModuleAuthDtosByAppIdAndRoleIds(Long appId, List<Long> roleIds) {
+    public List<RandlModuleAuthDto> getRandlModuleAuthDtosByAppIdAndRoleIds(Long appId,
+                                                                            List<Long> roleIds) {
         if (randlAppMapper.selectById(appId) == null) {
             throw new ApiResponseBeanException(ErrorU.CODE_10.C, "appId", "应用");
         }
@@ -94,7 +98,7 @@ public class RandlModuleRoleMapServiceImpl extends MyBaseServiceImpl<RandlModule
 
         if (CollectionUtils.isEmpty(roleIds)) {
             //"roleIds 数量不能等于0"
-            throw new ApiResponseException(ErrorS.CODE_2.C,"获取权限");
+            throw new ApiResponseException(ErrorS.CODE_2.C, "获取权限");
         }
 
         //这个角色的授权情况
@@ -109,13 +113,14 @@ public class RandlModuleRoleMapServiceImpl extends MyBaseServiceImpl<RandlModule
                         .parallelStream()
                         .distinct()
                         .collect(Collectors.toMap(RandlModuleRoleMap::getModuleId,
-                        randlModuleRoleMap -> randlModuleRoleMap));
+                                randlModuleRoleMap -> randlModuleRoleMap));
 
         List<RandlModuleAuthDto> randlModuleAuthDtoList = new ArrayList<>();
         //开始组装模块授权对象
         for (RandlModule randlModule : moduleList) {
             //模块授权
-            RandlModuleAuthDto moduleAuthDto = toRandlModuleAuthDto(moduleIdKeyModuleRoleMap, randlModule,
+            RandlModuleAuthDto moduleAuthDto = toRandlModuleAuthDto(moduleIdKeyModuleRoleMap,
+                    randlModule,
                     roleIds);
             randlModuleAuthDtoList.add(moduleAuthDto);
         }
@@ -123,13 +128,17 @@ public class RandlModuleRoleMapServiceImpl extends MyBaseServiceImpl<RandlModule
     }
 
     @Override
-    public List<Map<String, Object>> getRandlModuleAuthTreeByAppIdAndRoleId(Long appId, Long roleId) {
-        return getRandlModuleAuthTreeByAppIdAndRoleIds(appId, Collections.singletonList(roleId));
+    public List<Map<String, Object>> getRandlModuleAuthTreeByAppIdAndRoleId(Long appId,
+                                                                            Long roleId) {
+        return getRandlModuleAuthTreeByAppIdAndRoleIds(appId,
+                Collections.singletonList(roleId));
     }
 
     @Override
-    public List<Map<String, Object>> getRandlModuleAuthTreeByAppIdAndRoleIds(Long appId, List<Long> roleIds) {
-        List<RandlModuleAuthDto> moduleAuthDtoList = getRandlModuleAuthDtosByAppIdAndRoleIds(appId, roleIds);
+    public List<Map<String, Object>> getRandlModuleAuthTreeByAppIdAndRoleIds(Long appId,
+                                                                             List<Long> roleIds) {
+        List<RandlModuleAuthDto> moduleAuthDtoList = getRandlModuleAuthDtosByAppIdAndRoleIds(
+                appId, roleIds);
 
         getLogger().verbose("开始处理用户模块授权信息作为树形结构");
         List<OneTreeNodeAdapter<RandlModuleAuthDto>> oneTreeNodeAdapterList = new ArrayList<>();
@@ -140,10 +149,42 @@ public class RandlModuleRoleMapServiceImpl extends MyBaseServiceImpl<RandlModule
         }
         TreeNode rootTreeNode = new DefaultTreeProcessor().processing(oneTreeNodeAdapterList);
 
+        //
+        rootTreeNode.foreach(treeNode -> {
+            if (treeNode.getValue() != null) {
+                RandlModuleAuthDto randlModuleAuthDto = (RandlModuleAuthDto) treeNode.getValue();
+
+                boolean hasChildAuth = treeNode.getSubs()
+                                               .parallelStream()
+                                               .anyMatch(treeNode1 -> {
+                                                   if (treeNode1.getValue() == null) {
+                                                       return false;
+                                                   }
+                                                   RandlModuleAuthDto randlModuleAuthDto1 = (RandlModuleAuthDto) treeNode1.getValue();
+                                                   return randlModuleAuthDto1.getIsAuth() == 1;
+                                               });
+                boolean hasChildAble = treeNode.getSubs()
+                                               .parallelStream()
+                                               .anyMatch(treeNode1 -> {
+                                                   if (treeNode1.getValue() == null) {
+                                                       return false;
+                                                   }
+                                                   RandlModuleAuthDto randlModuleAuthDto1 = (RandlModuleAuthDto) treeNode1.getValue();
+                                                   return randlModuleAuthDto1.getIsAble() == 1;
+                                               });
+
+                randlModuleAuthDto.setHasChildAuth(hasChildAuth ? 1 : 0);
+                randlModuleAuthDto.setHasChildAble(hasChildAble ? 1 : 0);
+
+            }
+            return true;
+        });
+
         Map<String, Object> treeNodeMap = TreeNodeUtils.toTreeMap(rootTreeNode);
         getLogger().debug("处理为树形结构并且过滤出菜单模块完成: " + rootTreeNode.getDetail());
 
-        List<Map<String, Object>> list = (List<Map<String, Object>>) treeNodeMap.get("children");
+        List<Map<String, Object>> list = (List<Map<String, Object>>) treeNodeMap.get(
+                "children");
         return list;
     }
 
@@ -171,7 +212,8 @@ public class RandlModuleRoleMapServiceImpl extends MyBaseServiceImpl<RandlModule
             Map<Long, RandlModuleRoleMap> moduleIdKeyModuleRoleMap,
             RandlModule randlModule, List<Long> roleIds) {
 
-        RandlModuleAuthDto randlModuleAuthDto = getMapperFacade().map(randlModule, RandlModuleAuthDto.class);
+        RandlModuleAuthDto randlModuleAuthDto = getMapperFacade().map(randlModule,
+                RandlModuleAuthDto.class);
         randlModuleAuthDto.setMid(randlModule.getFid());
         randlModuleAuthDto.setParentModuleId(randlModule.getParentId());
 

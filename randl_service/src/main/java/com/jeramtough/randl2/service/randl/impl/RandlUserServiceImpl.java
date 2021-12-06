@@ -16,6 +16,7 @@ import com.jeramtough.randl2.common.model.dto.RandlUserDto;
 import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.common.model.entity.RandlUserRoleMap;
+import com.jeramtough.randl2.common.model.error.ErrorS;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.user.ConditionUserParams;
 import com.jeramtough.randl2.common.model.params.user.RegisterRandlUserParams;
@@ -244,6 +245,36 @@ public class RandlUserServiceImpl
     public RandlUser getByCredentials(String credentials) {
         RandlUser randlUser = getBaseMapper().selectByCredentials(credentials);
         return randlUser;
+    }
+
+    @Override
+    public boolean isExistByUid(Long uid) {
+        QueryWrapper<RandlUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("uid", uid);
+
+        return count(queryWrapper) > 0;
+    }
+
+    @Override
+    public boolean isExistByAccount(String account) {
+        QueryWrapper<RandlUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("account", account);
+
+        return count(queryWrapper) > 0;
+    }
+
+    @Override
+    public String deleteByAccount(String account) {
+        QueryWrapper<RandlUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("account", account);
+
+        boolean isSuccessful = remove(queryWrapper);
+        if (isSuccessful) {
+            return "删除成功";
+        }
+        else {
+            throw new ApiResponseException(ErrorS.CODE_2.C, "删除");
+        }
     }
 
 }

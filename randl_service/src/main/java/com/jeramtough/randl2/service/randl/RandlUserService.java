@@ -32,4 +32,10 @@ public interface RandlUserService extends MyBaseService<RandlUser, RandlUserDto>
     RandlUserDto getWithRoleByCredentialsAndAppId(String credentials, Long appId);
 
     RandlUser getByCredentials(String credentials);
+
+    boolean isExistByUid(Long uid);
+
+    boolean isExistByAccount(String account);
+
+    String deleteByAccount(String account);
 }

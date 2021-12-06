@@ -16,6 +16,10 @@ import java.util.regex.Pattern;
  */
 public class Test {
 
+    
+    public static void main(String[] args){
+        
+    }
     @org.junit.Test
     public void test1() {
         JSON.parseArray("fasfsa");

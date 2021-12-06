@@ -7,6 +7,8 @@ import com.jeramtough.jtweb.model.QueryPage;
 import com.jeramtough.jtweb.model.dto.PageDto;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.jtweb.service.impl.BaseDtoServiceImpl;
+import com.jeramtough.jtweb.service.impl.JtBaseServiceImpl;
+import com.jeramtough.randl2.common.model.params.personalinfo.AddPersonalInfoParams;
 import com.jeramtough.randl2.service.randl.RandlPersonalInfoService;
 import com.jeramtough.randl2.common.mapper.PersonalInfoMapper;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
@@ -31,7 +33,7 @@ import java.util.Map;
  * @since 2020-01-26
  */
 @Service
-public class RandlPersonalInfoServiceImpl extends BaseDtoServiceImpl<PersonalInfoMapper,
+public class RandlPersonalInfoServiceImpl extends JtBaseServiceImpl<PersonalInfoMapper,
         RandlPersonalInfo, RandlPersonalInfoDto> implements
         RandlPersonalInfoService {
 
@@ -49,7 +51,8 @@ public class RandlPersonalInfoServiceImpl extends BaseDtoServiceImpl<PersonalInf
 
     @Override
     protected RandlPersonalInfoDto toDto(RandlPersonalInfo randlPersonalInfo) {
-        RandlPersonalInfoDto dto = getMapperFacade().map(randlPersonalInfo, RandlPersonalInfoDto.class);
+        RandlPersonalInfoDto dto = getMapperFacade().map(randlPersonalInfo,
+                RandlPersonalInfoDto.class);
         Long surfaceImageId = randlUserMapper.selectById(
                 dto.getUid()).getSurfaceImageId();
         SourceSurfaceImageDto sourceSurfaceImageDto =
@@ -79,7 +82,8 @@ public class RandlPersonalInfoServiceImpl extends BaseDtoServiceImpl<PersonalInf
         }
 
         RandlPersonalInfo randlPersonalInfo =
-                getBaseMapper().selectOne(new QueryWrapper<RandlPersonalInfo>().eq("uid", uid));
+                getBaseMapper().selectOne(
+                        new QueryWrapper<RandlPersonalInfo>().eq("uid", uid));
         //如果并没有更新过个人资料是没有数据的，需要一个默认的
         if (randlPersonalInfo == null) {
             randlPersonalInfo = new RandlPersonalInfo();
@@ -89,7 +93,8 @@ public class RandlPersonalInfoServiceImpl extends BaseDtoServiceImpl<PersonalInf
                     new QueryWrapper<RandlPersonalInfo>().eq("uid", uid));
         }
 
-        RandlPersonalInfoDto dto = getMapperFacade().map(randlPersonalInfo, RandlPersonalInfoDto.class);
+        RandlPersonalInfoDto dto = getMapperFacade().map(randlPersonalInfo,
+                RandlPersonalInfoDto.class);
         return dto;
     }
 
@@ -100,7 +105,7 @@ public class RandlPersonalInfoServiceImpl extends BaseDtoServiceImpl<PersonalInf
         if (params.getFid() == null && params.getUid() == null) {
             throw new ApiResponseException(ErrorU.CODE_102.C);
         }
-        long fid = params.getFid();
+        Long fid = params.getFid();
 
         //优先使用uid进行查询
         if (params.getUid() != null) {
@@ -120,7 +125,8 @@ public class RandlPersonalInfoServiceImpl extends BaseDtoServiceImpl<PersonalInf
             }
         }
 
-        RandlPersonalInfo randlPersonalInfo = getMapperFacade().map(params, RandlPersonalInfo.class);
+        RandlPersonalInfo randlPersonalInfo = getMapperFacade().map(params,
+                RandlPersonalInfo.class);
         randlPersonalInfo.setFid(fid);
 
         updateById(randlPersonalInfo);
@@ -128,7 +134,13 @@ public class RandlPersonalInfoServiceImpl extends BaseDtoServiceImpl<PersonalInf
     }
 
     @Override
-    public PageDto<Map<String, Object>> getRandlPersonalInfoDtoListByPage(QueryByPageParams queryByPageParams) {
+    public String addPersonalInfo(AddPersonalInfoParams params) {
+        return addByParams(params);
+    }
+
+    @Override
+    public PageDto<Map<String, Object>> getRandlPersonalInfoDtoListByPage(
+            QueryByPageParams queryByPageParams) {
         QueryPage<Map<String, Object>> queryPage =
                 getBaseMapper().selectPageWithUser(new QueryPage<>(queryByPageParams));
         PageDto<Map<String, Object>> pageDto = toMapPageDto(queryPage);
