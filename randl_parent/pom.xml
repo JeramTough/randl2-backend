@@ -12,7 +12,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.jeramtough</groupId>
-    <version>1.2.0-RELEASE</version>
+    <version>1.0.0-RELEASE</version>
     <packaging>pom</packaging>
     <artifactId>randl_parent</artifactId>
 
