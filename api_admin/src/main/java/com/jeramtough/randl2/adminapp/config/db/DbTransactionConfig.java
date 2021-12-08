@@ -67,6 +67,7 @@ public class DbTransactionConfig {
         txMap.put("update*", operatedTransactionAttribute);
         txMap.put("modify*", operatedTransactionAttribute);
         txMap.put("delete*", operatedTransactionAttribute);
+        txMap.put("remove*", operatedTransactionAttribute);
 
         ///配置只读事务方法的前缀/
         txMap.put("get*", readOnlyTransactionAttribute);
