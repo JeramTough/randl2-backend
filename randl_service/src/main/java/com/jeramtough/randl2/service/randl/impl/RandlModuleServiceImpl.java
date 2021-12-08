@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.service.randl.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtcomponent.tree.processor.DefaultTreeProcessor;
@@ -69,7 +70,7 @@ public class RandlModuleServiceImpl
 
     @Override
     protected RandlModuleDto toDto(RandlModule randlModule) {
-        RandlModuleDto randlModuleDto = getMapperFacade().map(randlModule,
+        RandlModuleDto randlModuleDto = BeanUtil.copyProperties(randlModule,
                 RandlModuleDto.class);
         String createTime = DateUtil.format(randlModuleDto.getCreateTime(), "yyyy-MM-dd " +
                 "HH:mm:ss");
@@ -148,7 +149,7 @@ public class RandlModuleServiceImpl
             }
         }
 
-        RandlModule randlModule = getMapperFacade().map(params, RandlModule.class);
+        RandlModule randlModule = BeanUtil.copyProperties(params, RandlModule.class);
         randlModule.setCreateTime(new Date());
         randlModule.setLevel(defaultModuleLevel);
 

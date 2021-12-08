@@ -2,8 +2,7 @@ package com.jeramtough.springtest;
 
 import com.jeramtough.randl2.adminapp.Randl2AdminApplication;
 import com.jeramtough.randl2.common.mapper.RandlModuleMapper;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
@@ -15,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
  * by @author JeramTough
  * </pre>
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Randl2AdminApplication.class})// 指定启动类
 //@SpringApplicationConfiguration(classes = Application.class)// 1.4.0 前版本
 public class RandlApiUrlTest {

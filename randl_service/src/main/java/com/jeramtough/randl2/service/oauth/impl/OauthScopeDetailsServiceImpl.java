@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.service.oauth.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtcomponent.utils.StringUtil;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
@@ -30,10 +31,6 @@ public class OauthScopeDetailsServiceImpl extends MyBaseServiceImpl<OauthScopeDe
         super(wc);
     }
 
-    @Override
-    protected OauthScopeDetailsDto toDto(OauthScopeDetails oauthScopeDetails) {
-        return toDto1(oauthScopeDetails, OauthScopeDetailsDto.class);
-    }
 
     @Override
     public List<OauthScopeDetailsDto> getClientScopeList(String scopeIds) {
@@ -80,7 +77,7 @@ public class OauthScopeDetailsServiceImpl extends MyBaseServiceImpl<OauthScopeDe
                 .forEach(params -> {
                     params.setResourceId(resourceId);
                     BeanValidator.verifyParams(params);
-                    OauthScopeDetails scopeDetails = getMapperFacade().map(params, OauthScopeDetails.class);
+                    OauthScopeDetails scopeDetails = BeanUtil.copyProperties(params, OauthScopeDetails.class);
                     save(scopeDetails);
                 });
         return true;

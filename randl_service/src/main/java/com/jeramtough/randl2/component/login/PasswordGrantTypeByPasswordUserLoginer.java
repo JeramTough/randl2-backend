@@ -9,7 +9,6 @@ import com.jeramtough.randl2.common.model.params.login.LoginByPasswordParams;
 import com.jeramtough.randl2.common.model.params.oauth.PasswordGrantTypeParams;
 import com.jeramtough.randl2.service.oauth.OauthClientDetailsService;
 import com.jeramtough.randl2.service.randl.RandlRoleService;
-import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -29,10 +28,9 @@ public class PasswordGrantTypeByPasswordUserLoginer extends PasswordUserLoginer 
     public PasswordGrantTypeByPasswordUserLoginer(PasswordEncoder passwordEncoder,
                                                   RandlRoleMapper randlRoleMapper,
                                                   RandlUserMapper randlUserMapper,
-                                                  MapperFacade mapperFacade,
                                                   RandlRoleService randlRoleService,
                                                   OauthClientDetailsService oauthClientDetailsService) {
-        super(passwordEncoder, randlRoleMapper, randlUserMapper, mapperFacade, randlRoleService);
+        super(passwordEncoder, randlRoleMapper, randlUserMapper, randlRoleService);
         this.oauthClientDetailsService = oauthClientDetailsService;
     }
 

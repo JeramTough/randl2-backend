@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.service.randl.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtcomponent.tree.adapter.OneTreeNodeAdapter;
 import com.jeramtough.jtcomponent.tree.foreach.NodeCaller;
@@ -70,11 +71,6 @@ public class RandlModuleRoleMapServiceImpl extends MyBaseServiceImpl<RandlModule
         this.randlModuleMapper = randlModuleMapper;
         this.randlAppMapper = randlAppMapper;
         this.randlRoleService = randlRoleService;
-    }
-
-    @Override
-    protected RandlModuleRoleMapDto toDto(RandlModuleRoleMap randlModuleRoleMap) {
-        return toDto1(randlModuleRoleMap, RandlModuleRoleMapDto.class);
     }
 
 
@@ -212,7 +208,7 @@ public class RandlModuleRoleMapServiceImpl extends MyBaseServiceImpl<RandlModule
             Map<Long, RandlModuleRoleMap> moduleIdKeyModuleRoleMap,
             RandlModule randlModule, List<Long> roleIds) {
 
-        RandlModuleAuthDto randlModuleAuthDto = getMapperFacade().map(randlModule,
+        RandlModuleAuthDto randlModuleAuthDto = BeanUtil.copyProperties(randlModule,
                 RandlModuleAuthDto.class);
         randlModuleAuthDto.setMid(randlModule.getFid());
         randlModuleAuthDto.setParentModuleId(randlModule.getParentId());

@@ -3,7 +3,6 @@ package com.jeramtough.test;
 import com.jeramtough.jtlog.facade.L;
 import com.jeramtough.randl2.common.model.params.login.UserCredentials;
 import okhttp3.*;
-import org.junit.Test;
 
 import java.io.IOException;
 
@@ -16,7 +15,6 @@ import java.io.IOException;
 public class HttpTest {
 
 
-    @Test
     public void test1() {
 
         MediaType JSON
@@ -44,7 +42,6 @@ public class HttpTest {
         }
     }
 
-    @Test
     public void test2() {
         OkHttpClient client = new OkHttpClient();
 
@@ -68,7 +65,6 @@ public class HttpTest {
 
     }
 
-    @Test
     public void test3() {
         String url = "https://www.gamersky.com/handbook/201806/1067140.shtml";
     }

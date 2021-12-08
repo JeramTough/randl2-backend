@@ -17,7 +17,7 @@ cd ../../
 ROOT_PATH=$(pwd)
 
 #模块名数组
-moduleNames="im_app"
+moduleNames="xxx"
 
 #发布路径
 targetPath=""

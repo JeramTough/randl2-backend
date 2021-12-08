@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.service.oauth.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtcomponent.utils.IdUtil;
 import com.jeramtough.jtcomponent.utils.StringUtil;
@@ -59,7 +60,7 @@ public class OauthClientDetailsServiceImpl extends MyBaseServiceImpl<OauthClient
 
     @Override
     protected OauthClientDetailsDto toDto(OauthClientDetails oauthClientDetails) {
-        OauthClientDetailsDto dto = toDto1(oauthClientDetails, OauthClientDetailsDto.class);
+        OauthClientDetailsDto dto = super.toDto(oauthClientDetails);
         return toDto2(dto);
     }
 
@@ -85,17 +86,17 @@ public class OauthClientDetailsServiceImpl extends MyBaseServiceImpl<OauthClient
             dto.setScopeMap(scopeMap);
         }
 
-        if (!StringUtils.isEmpty(dto.getAuthorizedGrantTypes())) {
+        if (StringUtils.hasText(dto.getAuthorizedGrantTypes())) {
             dto.setAuthorizedGrantTypeList(
                     StringUtil.splitByComma(dto.getAuthorizedGrantTypes()));
         }
 
-        if (!StringUtils.isEmpty(dto.getWebServerRedirectUris())) {
+        if (StringUtils.hasText(dto.getWebServerRedirectUris())) {
             dto.setWebServerRedirectUriList(
                     StringUtil.splitByComma(dto.getWebServerRedirectUris()));
         }
 
-        if (!StringUtils.isEmpty(dto.getClientSecret())) {
+        if (StringUtils.hasText(dto.getClientSecret())) {
             dto.setClientSecret(dto.getClientSecret().replace("{noop}", ""));
         }
 
@@ -160,7 +161,7 @@ public class OauthClientDetailsServiceImpl extends MyBaseServiceImpl<OauthClient
     public String add(AddOauthClientDetailsParams params) {
         BeanValidator.verifyParams(params);
 
-        OauthClientDetails oauthClientDetails = getMapperFacade().map(params,
+        OauthClientDetails oauthClientDetails = BeanUtil.copyProperties(params,
                 OauthClientDetails.class);
 
         //设置clientId

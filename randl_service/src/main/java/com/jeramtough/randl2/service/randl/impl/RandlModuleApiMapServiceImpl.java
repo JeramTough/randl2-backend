@@ -43,10 +43,6 @@ public class RandlModuleApiMapServiceImpl extends MyBaseServiceImpl<RandlModuleA
         this.randlModuleService = randlModuleService;
     }
 
-    @Override
-    protected RandlModuleApiMapDto toDto(RandlModuleApiMap randlModuleApiMap) {
-        return toDto1(randlModuleApiMap, RandlModuleApiMapDto.class);
-    }
 
     @Override
     public List<Long> getApiListByAppIdAndModuleId(Long appId, Long moduleId) {

@@ -1,6 +1,7 @@
 package com.jeramtough.test;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * <pre>

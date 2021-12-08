@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.component.login.user;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
 import com.jeramtough.randl2.common.config.setting.AppSetting;
@@ -7,7 +8,7 @@ import com.jeramtough.randl2.common.mapper.RandlUserMapper;
 import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.service.randl.RandlRoleService;
-import ma.glasnost.orika.MapperFacade;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -25,17 +26,15 @@ public class UidUserLoginer extends BaseUserLoginer implements UserLoginer {
 
     private final RandlRoleService randlRoleService;
     private final AppSetting appSetting;
-    private final MapperFacade mapperFacade;
 
     @Autowired
     public UidUserLoginer(PasswordEncoder passwordEncoder,
                           RandlUserMapper randlUserMapper,
                           RandlRoleService randlRoleService,
-                          AppSetting appSetting, MapperFacade mapperFacade) {
-        super(passwordEncoder, randlUserMapper, mapperFacade);
+                          AppSetting appSetting) {
+        super(passwordEncoder, randlUserMapper);
         this.randlRoleService = randlRoleService;
         this.appSetting = appSetting;
-        this.mapperFacade = mapperFacade;
     }
 
     @Override
@@ -49,7 +48,7 @@ public class UidUserLoginer extends BaseUserLoginer implements UserLoginer {
         List<RandlRole> randlRoleList = randlRoleService.getRoleListByAppIdAndUid
                 (appSetting.getDefaultUserAppId(), randlUser.getUid());
 
-        SystemUser systemUser = mapperFacade.map(randlUser, SystemUser.class);
+        SystemUser systemUser = BeanUtil.copyProperties(randlUser, SystemUser.class);
         systemUser.setRoles(randlRoleList);
 
         return systemUser;

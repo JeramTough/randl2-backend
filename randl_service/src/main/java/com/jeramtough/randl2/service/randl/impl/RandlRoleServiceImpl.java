@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.service.randl.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseBeanException;
@@ -62,7 +63,7 @@ public class RandlRoleServiceImpl
 
     @Override
     protected RandlRoleDto toDto(RandlRole randlRole) {
-        RandlRoleDto randlRoleDto = getMapperFacade().map(randlRole, RandlRoleDto.class);
+        RandlRoleDto randlRoleDto = BeanUtil.copyProperties(randlRole, RandlRoleDto.class);
         return randlRoleDto;
     }
 
@@ -96,7 +97,7 @@ public class RandlRoleServiceImpl
             throw new ApiResponseException(ErrorU.CODE_11.C, "角色别名(不可重复值)");
         }
 
-        RandlRole randlRole = getMapperFacade().map(params, RandlRole.class);
+        RandlRole randlRole = BeanUtil.copyProperties(params, RandlRole.class);
         randlRole.setAlias(randlRole.getAlias().toUpperCase());
         randlRole.setCreateTime(new Date());
 
@@ -146,7 +147,7 @@ public class RandlRoleServiceImpl
         }
 
 
-        RandlRole randlRole = getMapperFacade().map(params, RandlRole.class);
+        RandlRole randlRole = BeanUtil.copyProperties(params, RandlRole.class);
         randlRole.setAlias(randlRole.getAlias().toUpperCase());
 
         getBaseMapper().updateById(randlRole);

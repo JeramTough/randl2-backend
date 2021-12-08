@@ -20,13 +20,13 @@ public class Test {
     public static void main(String[] args){
         
     }
-    @org.junit.Test
+    @org.junit.jupiter.api.Test
     public void test1() {
         JSON.parseArray("fasfsa");
     }
 
 
-    @org.junit.Test
+    @org.junit.jupiter.api.Test
     public void test3() {
         L.debugs(KeyUtil.encryptByMD5("12345678".getBytes()));
     }

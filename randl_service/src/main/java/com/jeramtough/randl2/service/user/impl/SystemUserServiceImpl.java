@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.service.user.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.service.impl.BaseServiceImpl;
 import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
@@ -52,7 +53,7 @@ public class SystemUserServiceImpl extends BaseServiceImpl implements SystemUser
     @Override
     public SystemUserDto getSystemUserDto(SystemUser systemUser, Long appId) {
         //processing SystemUserDto
-        SystemUserDto systemUserDto = getMapperFacade().map(systemUser, SystemUserDto.class);
+        SystemUserDto systemUserDto = BeanUtil.copyProperties(systemUser, SystemUserDto.class);
         String surfaceImage = resourceSurfaceImageService.getById(
                 systemUser.getSurfaceImageId()).getSurfaceImage();
         systemUserDto.setSurfaceImage(surfaceImage);
@@ -61,7 +62,7 @@ public class SystemUserServiceImpl extends BaseServiceImpl implements SystemUser
         List<RandlRole> randlRoleList = systemUser.getRoles();
         List<RandlRoleDto> randlRoleDtoList =
                 randlRoleList.stream()
-                             .map(randlRole -> getMapperFacade().map(randlRole,
+                             .map(randlRole -> BeanUtil.copyProperties(randlRole,
                                      RandlRoleDto.class))
                              .collect(Collectors.toList());
         systemUserDto.setRoles(randlRoleDtoList);

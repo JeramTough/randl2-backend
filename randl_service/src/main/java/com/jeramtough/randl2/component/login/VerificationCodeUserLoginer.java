@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.component.login;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
@@ -11,7 +12,6 @@ import com.jeramtough.randl2.common.model.params.verificationcode.GetVerifiedRes
 import com.jeramtough.randl2.component.login.user.BaseUserLoginer;
 import com.jeramtough.randl2.service.randl.RandlRoleService;
 import com.jeramtough.randl2.service.resource.VerificationCodeService;
-import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -35,9 +35,8 @@ public class VerificationCodeUserLoginer extends BaseUserLoginer {
     public VerificationCodeUserLoginer(PasswordEncoder passwordEncoder,
                                        RandlUserMapper randlUserMapper,
                                        VerificationCodeService verificationCodeService,
-                                       MapperFacade mapperFacade,
                                        RandlRoleService randlRoleService) {
-        super(passwordEncoder, randlUserMapper, mapperFacade);
+        super(passwordEncoder, randlUserMapper);
         this.verificationCodeService = verificationCodeService;
         this.randlRoleService = randlRoleService;
     }
@@ -67,7 +66,7 @@ public class VerificationCodeUserLoginer extends BaseUserLoginer {
             List<RandlRole> randlRoleList = randlRoleService.getRoleListByAppIdAndUid
                     (params.getAppId(), randlUser.getUid());
 
-            systemUser = getMapperFacade().map(randlUser, SystemUser.class);
+            systemUser = BeanUtil.copyProperties(randlUser, SystemUser.class);
             systemUser.setRoles(randlRoleList);
 
         }

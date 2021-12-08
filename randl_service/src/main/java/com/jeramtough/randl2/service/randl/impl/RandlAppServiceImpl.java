@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.service.randl.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
@@ -61,16 +62,12 @@ public class RandlAppServiceImpl
         this.randlApiMapper = randlApiMapper;
     }
 
-    @Override
-    protected RandlAppDto toDto(RandlApp randlApp) {
-        return toDto1(randlApp, RandlAppDto.class);
-    }
 
     @Override
     public String add(AddAppParams params) {
         BeanValidator.verifyParams(params);
 
-        RandlApp randlApp = getMapperFacade().map(params, RandlApp.class);
+        RandlApp randlApp = BeanUtil.copyProperties(params, RandlApp.class);
         randlApp.setCreateTime(new Date());
         randlApp.setIsAble(1);
 

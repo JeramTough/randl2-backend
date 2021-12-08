@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.service.oauth.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtcomponent.utils.StringUtil;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseBeanException;
@@ -58,10 +59,10 @@ public class OauthResourceDetailsServiceImpl extends MyBaseServiceImpl<OauthReso
 
     @Override
     protected OauthResourceDetailsDto toDto(OauthResourceDetails oauthResourceDetails) {
-        OauthResourceDetailsDto dto = toDto1(oauthResourceDetails, OauthResourceDetailsDto.class);
+        OauthResourceDetailsDto dto = super.toDto(oauthResourceDetails);
         RandlApp randlApp = randlAppService.getById(dto.getAppId());
         Objects.requireNonNull(randlApp);
-        getMapperFacade().map(randlApp, dto);
+        BeanUtil.copyProperties(randlApp, dto);
         //因为fid参数被覆盖了
         dto.setFid(oauthResourceDetails.getFid());
 
@@ -88,7 +89,7 @@ public class OauthResourceDetailsServiceImpl extends MyBaseServiceImpl<OauthReso
     public String add(AddOauthResourceDetailsParams params) {
         BeanValidator.verifyParams(params);
 
-        OauthResourceDetails oauthResourceDetails = getMapperFacade().map(params, OauthResourceDetails.class);
+        OauthResourceDetails oauthResourceDetails = BeanUtil.copyProperties(params, OauthResourceDetails.class);
 
         save(oauthResourceDetails);
         Long resourceId = oauthResourceDetails.getFid();
@@ -113,7 +114,7 @@ public class OauthResourceDetailsServiceImpl extends MyBaseServiceImpl<OauthReso
               .forEach(scopeDetailsParams -> {
                   if (scopeDetailsParams.getFid() == null) {
                       AddOauthScopeDetailsParams addOauthScopeDetailsParams =
-                              getMapperFacade().map(scopeDetailsParams, AddOauthScopeDetailsParams.class);
+                              BeanUtil.copyProperties(scopeDetailsParams, AddOauthScopeDetailsParams.class);
                       addOauthScopeDetailsParamsList.add(addOauthScopeDetailsParams);
                   }
                   else {

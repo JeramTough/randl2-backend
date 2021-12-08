@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.service.randl.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseBeanException;
@@ -49,10 +50,6 @@ public class RandlApiServiceImpl extends MyBaseServiceImpl<RandlApiMapper, Randl
         this.randlAppMapper = randlAppMapper;
     }
 
-    @Override
-    protected RandlApiDto toDto(RandlApi randlApi) {
-        return getMapperFacade().map(randlApi, RandlApiDto.class);
-    }
 
     @Override
     public String addApi(AddApiParams params) {
@@ -74,7 +71,7 @@ public class RandlApiServiceImpl extends MyBaseServiceImpl<RandlApiMapper, Randl
             throw new ApiResponseException(ErrorU.CODE_11.C, "该应用的-接口别名");
         }
 
-        RandlApi randlApi = getMapperFacade().map(params, RandlApi.class);
+        RandlApi randlApi = BeanUtil.copyProperties(params, RandlApi.class);
         randlApi.setCreateTime(new Date());
         getBaseMapper().insert(randlApi);
         return "添加API接口信息成功";
@@ -122,7 +119,7 @@ public class RandlApiServiceImpl extends MyBaseServiceImpl<RandlApiMapper, Randl
                 throw new ApiResponseException(ErrorU.CODE_11.C, "该应用的-接口别名");
             }
         }
-        randlApi = getMapperFacade().map(params, RandlApi.class);
+        randlApi = BeanUtil.copyProperties(params, RandlApi.class);
         updateById(randlApi);
         return "更新接口【" + randlApi.getPath() + "】成功";
     }
@@ -138,8 +135,7 @@ public class RandlApiServiceImpl extends MyBaseServiceImpl<RandlApiMapper, Randl
 
     @Override
     public List<RandlApiDto> getAllApi() {
-        List<RandlApiDto> randlApiDtoList = getMapperFacade().mapAsList(list(), RandlApiDto.class);
-        return randlApiDtoList;
+        return getDtoList(list());
     }
 
     @Override

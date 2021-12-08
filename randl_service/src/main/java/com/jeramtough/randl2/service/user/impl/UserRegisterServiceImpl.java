@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.service.user.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseBeanException;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
@@ -197,7 +198,7 @@ public class UserRegisterServiceImpl extends BaseServiceImpl implements UserRegi
             int affectCount = randlUserMapper.insert(randlUser);
             if (affectCount > 0) {
                 getLogger().info("插入新用户数据成功！");
-                RandlUserDto randlUserDto = getMapperFacade().map(randlUser, RandlUserDto.class);
+                RandlUserDto randlUserDto = BeanUtil.copyProperties(randlUser, RandlUserDto.class);
                 return randlUserDto;
             }
             else {
@@ -232,7 +233,7 @@ public class UserRegisterServiceImpl extends BaseServiceImpl implements UserRegi
                 int affectCount = randlUserMapper.updateById(randlUser);
                 if (affectCount > 0) {
                     getLogger().info("更新用户数据成功！");
-                    RandlUserDto randlUserDto = getMapperFacade().map(randlUser, RandlUserDto.class);
+                    RandlUserDto randlUserDto = BeanUtil.copyProperties(randlUser, RandlUserDto.class);
                     return randlUserDto;
                 }
                 else {

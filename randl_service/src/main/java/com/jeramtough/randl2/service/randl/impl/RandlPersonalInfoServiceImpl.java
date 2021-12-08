@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.service.randl.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
@@ -51,12 +52,12 @@ public class RandlPersonalInfoServiceImpl extends JtBaseServiceImpl<PersonalInfo
 
     @Override
     protected RandlPersonalInfoDto toDto(RandlPersonalInfo randlPersonalInfo) {
-        RandlPersonalInfoDto dto = getMapperFacade().map(randlPersonalInfo,
+        RandlPersonalInfoDto dto = BeanUtil.copyProperties(randlPersonalInfo,
                 RandlPersonalInfoDto.class);
         Long surfaceImageId = randlUserMapper.selectById(
                 dto.getUid()).getSurfaceImageId();
         SourceSurfaceImageDto sourceSurfaceImageDto =
-                getMapperFacade().map(sourceSurfaceImageMapper.selectById(surfaceImageId),
+                BeanUtil.copyProperties(sourceSurfaceImageMapper.selectById(surfaceImageId),
                         SourceSurfaceImageDto.class);
         dto.setSurfaceImage(sourceSurfaceImageDto);
         return dto;
@@ -69,7 +70,7 @@ public class RandlPersonalInfoServiceImpl extends JtBaseServiceImpl<PersonalInfo
         Long surfaceImageId = randlUserMapper.selectById(
                 dto.getUid()).getSurfaceImageId();
         SourceSurfaceImageDto sourceSurfaceImageDto =
-                getMapperFacade().map(sourceSurfaceImageMapper.selectById(surfaceImageId),
+                BeanUtil.copyProperties(sourceSurfaceImageMapper.selectById(surfaceImageId),
                         SourceSurfaceImageDto.class);
         dto.setSurfaceImage(sourceSurfaceImageDto);
         return dto;
@@ -93,7 +94,7 @@ public class RandlPersonalInfoServiceImpl extends JtBaseServiceImpl<PersonalInfo
                     new QueryWrapper<RandlPersonalInfo>().eq("uid", uid));
         }
 
-        RandlPersonalInfoDto dto = getMapperFacade().map(randlPersonalInfo,
+        RandlPersonalInfoDto dto = BeanUtil.copyProperties(randlPersonalInfo,
                 RandlPersonalInfoDto.class);
         return dto;
     }
@@ -125,7 +126,7 @@ public class RandlPersonalInfoServiceImpl extends JtBaseServiceImpl<PersonalInfo
             }
         }
 
-        RandlPersonalInfo randlPersonalInfo = getMapperFacade().map(params,
+        RandlPersonalInfo randlPersonalInfo = BeanUtil.copyProperties(params,
                 RandlPersonalInfo.class);
         randlPersonalInfo.setFid(fid);
 

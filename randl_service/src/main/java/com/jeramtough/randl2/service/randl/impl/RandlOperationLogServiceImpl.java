@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.service.randl.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.model.QueryPage;
@@ -34,7 +35,7 @@ public class RandlOperationLogServiceImpl extends MyBaseServiceImpl<OperationLog
 
     @Override
     protected RandlOperationLogDto toDto(RandlOperationLog randlOperationLog) {
-        return getMapperFacade().map(randlOperationLog, RandlOperationLogDto.class);
+        return BeanUtil.copyProperties(randlOperationLog, RandlOperationLogDto.class);
     }
 
 

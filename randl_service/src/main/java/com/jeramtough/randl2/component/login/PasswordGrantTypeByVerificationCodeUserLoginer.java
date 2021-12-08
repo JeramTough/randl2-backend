@@ -9,7 +9,7 @@ import com.jeramtough.randl2.common.model.params.oauth.PasswordGrantTypeParams;
 import com.jeramtough.randl2.service.oauth.OauthClientDetailsService;
 import com.jeramtough.randl2.service.randl.RandlRoleService;
 import com.jeramtough.randl2.service.resource.VerificationCodeService;
-import ma.glasnost.orika.MapperFacade;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -28,10 +28,9 @@ public class PasswordGrantTypeByVerificationCodeUserLoginer extends
     public PasswordGrantTypeByVerificationCodeUserLoginer(PasswordEncoder passwordEncoder,
                                                           RandlUserMapper randlUserMapper,
                                                           VerificationCodeService verificationCodeService,
-                                                          MapperFacade mapperFacade,
                                                           RandlRoleService randlRoleService,
                                                           OauthClientDetailsService oauthClientDetailsService) {
-        super(passwordEncoder, randlUserMapper, verificationCodeService, mapperFacade, randlRoleService);
+        super(passwordEncoder, randlUserMapper, verificationCodeService, randlRoleService);
         this.oauthClientDetailsService = oauthClientDetailsService;
     }
 

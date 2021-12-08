@@ -57,7 +57,7 @@ public class SsoLoginServiceImpl extends BaseServiceImpl implements SsoLoginServ
         BeanValidator.verifyParams(params);
 
         //SSO登录只能有默认的角色信息
-        LoginByPasswordParams passwordParams = getMapperFacade().map(params, LoginByPasswordParams.class);
+        LoginByPasswordParams passwordParams = BeanUtil.copyProperties(params, LoginByPasswordParams.class);
         passwordParams.setAppId(appSetting.getDefaultUserAppId());
 
         UserLoginer userLoginer = (PasswordUserLoginer) getWC().getBean("passwordUserLoginer");
@@ -75,7 +75,7 @@ public class SsoLoginServiceImpl extends BaseServiceImpl implements SsoLoginServ
         BeanValidator.verifyParams(params);
 
         //SSO登录只能有默认的角色信息
-        LoginByVerificationCodeParams verificationCodeParams = getMapperFacade().map(params,
+        LoginByVerificationCodeParams verificationCodeParams = BeanUtil.copyProperties(params,
                 LoginByVerificationCodeParams.class);
         verificationCodeParams.setAppId(appSetting.getDefaultUserAppId());
 
@@ -97,7 +97,7 @@ public class SsoLoginServiceImpl extends BaseServiceImpl implements SsoLoginServ
         //生成token
         OauthTokenDto oauthTokenDto = getWC().getBean(MyJwtTokenHolder.class).getToken(systemUser);
         Map<String, Object> resultMap = new HashMap<>(2);
-        SystemUserDto systemUserDto = getMapperFacade().map(systemUser, SystemUserDto.class);
+        SystemUserDto systemUserDto = BeanUtil.copyProperties(systemUser, SystemUserDto.class);
 
         //隐藏密码和uid
         systemUserDto.setPassword(null);

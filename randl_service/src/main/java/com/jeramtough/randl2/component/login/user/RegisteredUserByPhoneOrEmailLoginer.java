@@ -4,7 +4,7 @@ import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
 import com.jeramtough.randl2.common.mapper.RandlUserMapper;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
-import ma.glasnost.orika.MapperFacade;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,9 +24,9 @@ public class RegisteredUserByPhoneOrEmailLoginer extends BaseRegisteredUserLogin
 
     @Autowired
     protected RegisteredUserByPhoneOrEmailLoginer(
-            PasswordEncoder passwordEncoder, MapperFacade mapperFacade,
+            PasswordEncoder passwordEncoder,
             RandlUserMapper randlUserMapper, RandlRoleMapper randlRoleMapper) {
-        super(passwordEncoder, mapperFacade, randlUserMapper, randlRoleMapper);
+        super(passwordEncoder, randlUserMapper, randlRoleMapper);
     }
 
     @Override

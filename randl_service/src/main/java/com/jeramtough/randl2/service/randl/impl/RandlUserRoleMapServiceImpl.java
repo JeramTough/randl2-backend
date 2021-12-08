@@ -33,11 +33,6 @@ public class RandlUserRoleMapServiceImpl extends MyBaseServiceImpl<RandlUserRole
     }
 
     @Override
-    protected RandlUserRoleMapDto toDto(RandlUserRoleMap randlUserRoleMap) {
-        return toDto1(randlUserRoleMap, RandlUserRoleMapDto.class);
-    }
-
-    @Override
     public String setUserRoleMap(SetUserRoleMapParams params) {
 
         //过滤掉默认的RandlUserId

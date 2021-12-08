@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.common.component.attestation.userdetail;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson.JSON;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.location.LocationGating;
@@ -7,7 +8,6 @@ import com.jeramtough.jtweb.component.location.bean.JtLocation;
 import com.jeramtough.jtweb.util.IpAddrUtil;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.common.model.params.user.RegisterRandlUserParams;
-import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -26,23 +26,21 @@ import java.util.Objects;
 public class MyUserFactory implements WithLogger {
 
     private final PasswordEncoder passwordEncoder;
-    private final MapperFacade mapperFacade;
     private final HttpServletRequest servletRequest;
     private final LocationGating locationGating;
 
     @Autowired
     public MyUserFactory(
-            PasswordEncoder passwordEncoder, MapperFacade mapperFacade,
+            PasswordEncoder passwordEncoder,
             HttpServletRequest servletRequest,
             LocationGating locationGating) {
         this.passwordEncoder = passwordEncoder;
-        this.mapperFacade = mapperFacade;
         this.servletRequest = servletRequest;
         this.locationGating = locationGating;
     }
 
     public RandlUser getAdminUser(RegisterRandlUserParams params) {
-        RandlUser randlUser = mapperFacade.map(params, RandlUser.class);
+        RandlUser randlUser = BeanUtil.copyProperties(params, RandlUser.class);
         randlUser.setRegistrationTime(new Date());
         randlUser.setAccountStatus(1);
 

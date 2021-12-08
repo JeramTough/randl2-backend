@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.component.login.user;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.randl2.common.component.attestation.userdetail.AccountStatus;
 import com.jeramtough.randl2.common.component.attestation.userdetail.SuperAdmin;
@@ -12,7 +13,7 @@ import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.login.UserCredentials;
 import com.jeramtough.randl2.service.randl.RandlRoleService;
-import ma.glasnost.orika.MapperFacade;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,7 +35,6 @@ public class AdminUserLoginer implements UserLoginer {
     private final SuperAdmin superAdmin;
     private final RandlRoleMapper randlRoleMapper;
     private final RandlUserMapper randlUserMapper;
-    private final MapperFacade mapperFacade;
     private final AppSetting appSetting;
     private final RandlRoleService randlRoleService;
 
@@ -44,13 +44,12 @@ public class AdminUserLoginer implements UserLoginer {
             PasswordEncoder passwordEncoder,
             SuperAdmin superAdmin,
             RandlRoleMapper randlRoleMapper,
-            RandlUserMapper randlUserMapper, MapperFacade mapperFacade,
+            RandlUserMapper randlUserMapper,
             AppSetting appSetting, RandlRoleService randlRoleService) {
         this.passwordEncoder = passwordEncoder;
         this.superAdmin = superAdmin;
         this.randlRoleMapper = randlRoleMapper;
         this.randlUserMapper = randlUserMapper;
-        this.mapperFacade = mapperFacade;
         this.appSetting = appSetting;
         this.randlRoleService = randlRoleService;
     }
@@ -91,7 +90,7 @@ public class AdminUserLoginer implements UserLoginer {
         List<RandlRole> randlRoleList = randlRoleService.getRoleListByAppIdAndUid
                 (appSetting.getDefaultAdminAppId(), randlUser.getUid());
 
-        SystemUser systemUser = mapperFacade.map(randlUser, SystemUser.class);
+        SystemUser systemUser = BeanUtil.copyProperties(randlUser, SystemUser.class);
         systemUser.setRoles(randlRoleList);
 
         return systemUser;

@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.service.randl.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
@@ -68,11 +69,6 @@ public class RandlUserServiceImpl
         this.myUserFactory = myUserFactory;
         this.passwordEncoder = passwordEncoder;
         this.randlRoleService = randlRoleService;
-    }
-
-    @Override
-    protected RandlUserDto toDto(RandlUser randlUser) {
-        return toDto1(randlUser, RandlUserDto.class);
     }
 
     @Override
@@ -219,7 +215,7 @@ public class RandlUserServiceImpl
             }
         }
 
-        RandlUser randlUser = getMapperFacade().map(params, RandlUser.class);
+        RandlUser randlUser = BeanUtil.copyProperties(params, RandlUser.class);
         if (params.getPassword() != null) {
             randlUser.setPassword(passwordEncoder.encode(params.getPassword()));
         }
@@ -235,7 +231,7 @@ public class RandlUserServiceImpl
         List<RandlRole> roleList = randlRoleService.getRoleListByAppIdAndUid(appId,
                 randlUser.getUid());
         dto.setRoles(roleList.parallelStream()
-                             .map(randlRole -> getMapperFacade().map(randlRole,
+                             .map(randlRole -> BeanUtil.copyProperties(randlRole,
                                      RandlRoleDto.class))
                              .collect(Collectors.toList()));
         return dto;

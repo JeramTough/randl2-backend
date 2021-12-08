@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.service.resource.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.jeramtough.jtcomponent.utils.Base64Util;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
@@ -48,7 +49,7 @@ public class ResourceSurfaceImageServiceImpl extends BaseDtoServiceImpl<SourceSu
 
     @Override
     protected SourceSurfaceImageDto toDto(SourceSurfaceImage sourceSurfaceImage) {
-        return getMapperFacade().map(sourceSurfaceImage, SourceSurfaceImageDto.class);
+        return BeanUtil.copyProperties(sourceSurfaceImage, SourceSurfaceImageDto.class);
     }
 
     @Override
@@ -123,10 +124,10 @@ public class ResourceSurfaceImageServiceImpl extends BaseDtoServiceImpl<SourceSu
 
     @Override
     public SourceSurfaceImageDto uploadSurfaceImageByBase64(UploadSurfaceImageParams params) {
-        SourceSurfaceImage sourceSurfaceImage = getMapperFacade().map(params,
+        SourceSurfaceImage sourceSurfaceImage = BeanUtil.copyProperties(params,
                 SourceSurfaceImage.class);
         getBaseMapper().insertSurfaceImage(sourceSurfaceImage);
-        SourceSurfaceImageDto sourceSurfaceImageDto = getMapperFacade().map(sourceSurfaceImage,
+        SourceSurfaceImageDto sourceSurfaceImageDto = BeanUtil.copyProperties(sourceSurfaceImage,
                 SourceSurfaceImageDto.class);
         return sourceSurfaceImageDto;
     }
@@ -142,10 +143,10 @@ public class ResourceSurfaceImageServiceImpl extends BaseDtoServiceImpl<SourceSu
             throw new ApiResponseException(ErrorU.CODE_604.C);
         }
 
-        SourceSurfaceImage sourceSurfaceImage = getMapperFacade().map(params,
+        SourceSurfaceImage sourceSurfaceImage = BeanUtil.copyProperties(params,
                 SourceSurfaceImage.class);
         getBaseMapper().insertSurfaceImage(sourceSurfaceImage);
-        SourceSurfaceImageDto sourceSurfaceImageDto = getMapperFacade().map(sourceSurfaceImage,
+        SourceSurfaceImageDto sourceSurfaceImageDto = BeanUtil.copyProperties(sourceSurfaceImage,
                 SourceSurfaceImageDto.class);
 
         systemUser.setSurfaceImageId(sourceSurfaceImage.getFid());
