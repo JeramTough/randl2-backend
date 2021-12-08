@@ -1,5 +1,6 @@
 package com.jeramtough.ssoserver.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.service.impl.BaseServiceImpl;
 import com.jeramtough.randl2.common.component.attestation.userdetail.SystemUser;
