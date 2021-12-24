@@ -166,6 +166,26 @@ public class RandlApiServiceImpl extends MyBaseServiceImpl<RandlApiMapper, Randl
     }
 
     @Override
+    public void setCondition(BaseConditionParams params, QueryWrapper<RandlApi> queryWrapper) {
+        super.setCondition(params, queryWrapper);
+        ConditionApiParams paramsForApi = (ConditionApiParams) params;
+
+        queryWrapper.nested(warpper -> warpper.eq("app_id", paramsForApi.getAppId()));
+
+        if (params.getKeyword() != null) {
+            queryWrapper.and(wrapper ->
+                    wrapper.like("alias", params.getKeyword())
+                           .or()
+                           .eq("fid", params.getKeyword())
+                           .or()
+                           .like("path", params.getKeyword())
+                           .or()
+                           .like("description", params.getKeyword()));
+        }
+
+    }
+
+  /*  @Override
     public PageDto<RandlApiDto> pageByConditionTwo(QueryByPageParams queryByPageParams, BaseConditionParams params,
                                                    QueryWrapper<RandlApi> queryWrapper) {
         ConditionApiParams paramsForApi = (ConditionApiParams) params;
@@ -184,7 +204,7 @@ public class RandlApiServiceImpl extends MyBaseServiceImpl<RandlApiMapper, Randl
         }
 
         return super.pageByConditionThree(queryByPageParams, paramsForApi, queryWrapper);
-    }
+    }*/
 
 
 }

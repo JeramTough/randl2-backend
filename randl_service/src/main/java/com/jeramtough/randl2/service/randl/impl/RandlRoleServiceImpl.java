@@ -202,7 +202,49 @@ public class RandlRoleServiceImpl
         return getById(appSetting.getDefaultAdminRoleId());
     }
 
+
     @Override
+    public void setCondition(BaseConditionParams params,
+                             QueryWrapper<RandlRole> queryWrapper) {
+        super.setCondition(params, queryWrapper);
+        ConditionRoleParams paramsForApi = (ConditionRoleParams) params;
+
+        this.intDefaultRole();
+
+        queryWrapper.nested(warpper -> warpper.eq("app_id", paramsForApi.getAppId()));
+
+        if (params.getKeyword() != null) {
+            queryWrapper.and(wrapper ->
+                    wrapper.like("alias", params.getKeyword())
+                           .or()
+                           .eq("fid", params.getKeyword())
+                           .or()
+                           .like("name", params.getKeyword())
+                           .or()
+                           .like("description", params.getKeyword()));
+        }
+    }
+
+    @Override
+    public PageDto<RandlRoleDto> pageByCondition(QueryByPageParams queryByPageParams,
+                                                 BaseConditionParams params) {
+        ConditionRoleParams paramsForApi = (ConditionRoleParams) params;
+        if (!paramsForApi.getAppId().equals(
+                appSetting.getDefaultUserAppId()) && queryByPageParams.getSize() > 0) {
+            queryByPageParams.setSize(queryByPageParams.getSize() - 1);
+        }
+
+        PageDto<RandlRoleDto> pageDto = super.pageByCondition(queryByPageParams, params);
+        if (!paramsForApi.getAppId().equals(appSetting.getDefaultUserAppId())) {
+            List<RandlRoleDto> list = new ArrayList<>();
+            list.add(toDto(defaultUserRole));
+            list.addAll(pageDto.getList());
+            pageDto.setList(list);
+        }
+        return pageDto;
+    }
+
+    /*@Override
     public PageDto<RandlRoleDto> pageByConditionTwo(QueryByPageParams queryByPageParams,
                                                     BaseConditionParams params,
                                                     QueryWrapper<RandlRole> queryWrapper) {
@@ -237,7 +279,7 @@ public class RandlRoleServiceImpl
             pageDto.setList(list);
         }
         return pageDto;
-    }
+    }*/
 
     //*****************
 

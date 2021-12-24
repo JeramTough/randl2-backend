@@ -182,6 +182,17 @@ public class RandlModuleServiceImpl
     }
 
     @Override
+    public void setCondition(BaseConditionParams params,
+                             QueryWrapper<RandlModule> queryWrapper) {
+        super.setCondition(params, queryWrapper);
+
+        if (params instanceof ConditionModuleParams){
+            ConditionModuleParams paramsForModule = (ConditionModuleParams) params;
+            queryWrapper.nested(warpper -> warpper.eq("app_id", paramsForModule.getAppId()));
+        }
+    }
+
+    /*@Override
     public PageDto<RandlModuleDto> pageByConditionTwo(QueryByPageParams queryByPageParams,
                                                       BaseConditionParams params,
                                                       QueryWrapper<RandlModule> queryWrapper) {
@@ -191,7 +202,7 @@ public class RandlModuleServiceImpl
         queryWrapper.nested(warpper -> warpper.eq("app_id", paramsForModule.getAppId()));
 
         return super.pageByConditionTwo(queryByPageParams, params, queryWrapper);
-    }
+    }*/
 
 
     //**********************

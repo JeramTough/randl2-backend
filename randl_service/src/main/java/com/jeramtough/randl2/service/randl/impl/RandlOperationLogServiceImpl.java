@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.jtweb.model.QueryPage;
 import com.jeramtough.jtweb.model.dto.PageDto;
+import com.jeramtough.jtweb.model.params.BaseConditionParams;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.randl2.common.mapper.OperationLogMapper;
 import com.jeramtough.randl2.common.model.dto.RandlOperationLogDto;
@@ -50,19 +51,24 @@ public class RandlOperationLogServiceImpl extends MyBaseServiceImpl<OperationLog
     }
 
     @Override
-    public PageDto<RandlOperationLogDto> pageByCondition(QueryByPageParams queryByPageParams,
-                                                         ConditionOptionLogParams params) {
-        QueryWrapper<RandlOperationLog> queryWrapper = new QueryWrapper<>();
+    public void setCondition(BaseConditionParams params,
+                             QueryWrapper<RandlOperationLog> queryWrapper) {
+        super.setCondition(params, queryWrapper);
         queryWrapper.orderByDesc("create_time");
 
-        if (params.getAdminIdOrName() != null) {
-            queryWrapper.nested(wrapper -> {
-                wrapper
-                        .eq("admin_id", params.getAdminIdOrName())
-                        .or()
-                        .eq("admin_name", params.getAdminIdOrName());
-            });
+        if (params instanceof  ConditionOptionLogParams ){
+            ConditionOptionLogParams conditionOptionLogParams= (ConditionOptionLogParams) params;
+            if (conditionOptionLogParams.getAdminIdOrName() != null) {
+                queryWrapper.nested(wrapper -> {
+                    wrapper
+                            .eq("admin_id", conditionOptionLogParams.getAdminIdOrName())
+                            .or()
+                            .eq("admin_name", conditionOptionLogParams.getAdminIdOrName());
+                });
+            }
         }
-        return super.pageByConditionTwo(queryByPageParams, params, queryWrapper);
+
     }
+
+
 }
