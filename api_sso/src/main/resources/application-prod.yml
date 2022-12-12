@@ -42,7 +42,7 @@ app:
       defaultAppId: 2
       defaultRoleId: 2
     sso:
-      loginPageUrl: http://39.99.51.221:8089/randl2/sso/userLogin
+      loginPageUrl: http://47.107.113.233:8089/randl2/sso/userLogin
     path:
       chunzhen-file-path: /mnt/randl2_data_dir/chunzhen/qqwry.dat
     api:
