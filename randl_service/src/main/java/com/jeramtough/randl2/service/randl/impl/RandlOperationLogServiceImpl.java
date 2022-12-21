@@ -34,10 +34,6 @@ public class RandlOperationLogServiceImpl extends MyBaseServiceImpl<OperationLog
         super(wc);
     }
 
-    @Override
-    protected RandlOperationLogDto toDto(RandlOperationLog randlOperationLog) {
-        return BeanUtil.copyProperties(randlOperationLog, RandlOperationLogDto.class);
-    }
 
 
     @Override

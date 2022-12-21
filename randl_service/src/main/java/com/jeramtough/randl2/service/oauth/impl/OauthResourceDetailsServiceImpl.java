@@ -58,7 +58,7 @@ public class OauthResourceDetailsServiceImpl extends MyBaseServiceImpl<OauthReso
     }
 
     @Override
-    protected OauthResourceDetailsDto toDto(OauthResourceDetails oauthResourceDetails) {
+    public OauthResourceDetailsDto toDto(OauthResourceDetails oauthResourceDetails) {
         OauthResourceDetailsDto dto = super.toDto(oauthResourceDetails);
         RandlApp randlApp = randlAppService.getById(dto.getAppId());
         Objects.requireNonNull(randlApp);

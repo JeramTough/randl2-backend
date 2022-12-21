@@ -4,9 +4,13 @@ import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import org.apache.ibatis.mapping.DatabaseIdProvider;
+import org.apache.ibatis.mapping.VendorDatabaseIdProvider;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.Properties;
 
 /**
  * <pre>
@@ -15,23 +19,28 @@ import org.springframework.context.annotation.Configuration;
  * </pre>
  */
 @Configuration
-@MapperScan("com.jeramtough.randl2.common.mapper")
+@MapperScan("com.jeramtough.randl2.common.mapper.*")
 public class MyBatisConfig {
 
 
     /**
-     * 返回配置的mybatis插件集合
-     *
-     * @return mybatis plus 插件集合
+     * 分页插件，默认是用SQL_SERVER的
      */
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-        //添加一个分页插件
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
-        interceptor.addInnerInterceptor(new InnerInterceptor() {
-        });
         return interceptor;
+    }
+
+    @Bean
+    public DatabaseIdProvider databaseIdProvider() {
+        VendorDatabaseIdProvider databaseIdProvider = new VendorDatabaseIdProvider();
+        Properties properties = new Properties();
+//        properties.put("Oracle", "oracle");
+        properties.put("MySQL", "mysql");
+        databaseIdProvider.setProperties(properties);
+        return databaseIdProvider;
     }
 
 }

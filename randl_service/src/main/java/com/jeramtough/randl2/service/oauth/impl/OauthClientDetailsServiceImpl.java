@@ -58,11 +58,6 @@ public class OauthClientDetailsServiceImpl extends MyBaseServiceImpl<OauthClient
         this.oauthScopeDetailsService = oauthScopeDetailsService;
     }
 
-    @Override
-    protected OauthClientDetailsDto toDto(OauthClientDetails oauthClientDetails) {
-        OauthClientDetailsDto dto = super.toDto(oauthClientDetails);
-        return toDto2(dto);
-    }
 
     protected OauthClientDetailsDto toDto2(OauthClientDetailsDto dto) {
         if (dto.getResourceIds() != null) {

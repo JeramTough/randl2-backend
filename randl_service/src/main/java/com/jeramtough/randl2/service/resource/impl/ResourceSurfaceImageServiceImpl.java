@@ -47,10 +47,6 @@ public class ResourceSurfaceImageServiceImpl extends BaseDtoServiceImpl<SourceSu
         this.randlUserMapper = randlUserMapper;
     }
 
-    @Override
-    protected SourceSurfaceImageDto toDto(SourceSurfaceImage sourceSurfaceImage) {
-        return BeanUtil.copyProperties(sourceSurfaceImage, SourceSurfaceImageDto.class);
-    }
 
     @Override
     public String addUpdateSurfaceImage(MultipartFile file) {

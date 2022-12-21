@@ -24,9 +24,5 @@ public class OauthApprovalsServiceImpl extends MyBaseServiceImpl<OauthApprovalsM
     public OauthApprovalsServiceImpl(WebApplicationContext wc) {
         super(wc);
     }
-
-    @Override
-    protected OauthApprovalsDto toDto(OauthApprovals oauthApprovals) {
-        return null;
-    }
 }
+

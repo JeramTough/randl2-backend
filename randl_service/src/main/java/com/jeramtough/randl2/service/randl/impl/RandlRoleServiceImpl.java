@@ -62,7 +62,7 @@ public class RandlRoleServiceImpl
     }
 
     @Override
-    protected RandlRoleDto toDto(RandlRole randlRole) {
+    public RandlRoleDto toDto(RandlRole randlRole) {
         RandlRoleDto randlRoleDto = BeanUtil.copyProperties(randlRole, RandlRoleDto.class);
         return randlRoleDto;
     }

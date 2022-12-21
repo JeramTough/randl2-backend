@@ -3,7 +3,6 @@ package com.jeramtough.randl2.resource.action.filter;
 import com.jeramtough.randl2.common.action.filter.BaseUrlMatchingFilter;
 import com.jeramtough.randl2.common.component.attestation.clientdetail.MyClientDetails;
 import com.jeramtough.randl2.common.component.attestation.userdetail.MyUserDetails;
-import com.jeramtough.randl2.common.model.detail.authdetail.OAuth2AuthenticationPlusDetails;
 import com.jeramtough.randl2.service.details.MyUserDetailsService;
 import com.jeramtough.randl2.service.oauth.OauthClientDetailsService;
 import org.springframework.security.core.context.SecurityContextHolder;

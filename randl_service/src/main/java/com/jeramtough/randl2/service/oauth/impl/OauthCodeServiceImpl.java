@@ -25,8 +25,4 @@ public class OauthCodeServiceImpl extends MyBaseServiceImpl<OauthCodeMapper, Oau
         super(wc);
     }
 
-    @Override
-    protected OauthCodeDto toDto(OauthCode oauthCode) {
-        return null;
-    }
 }

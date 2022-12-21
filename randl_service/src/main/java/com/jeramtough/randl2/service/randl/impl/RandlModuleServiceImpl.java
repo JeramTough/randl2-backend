@@ -69,7 +69,7 @@ public class RandlModuleServiceImpl
     }
 
     @Override
-    protected RandlModuleDto toDto(RandlModule randlModule) {
+    public RandlModuleDto toDto(RandlModule randlModule) {
         RandlModuleDto randlModuleDto = BeanUtil.copyProperties(randlModule,
                 RandlModuleDto.class);
         String createTime = DateUtil.format(randlModuleDto.getCreateTime(), "yyyy-MM-dd " +
