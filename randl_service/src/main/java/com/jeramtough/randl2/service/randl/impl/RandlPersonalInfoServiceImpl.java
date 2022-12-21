@@ -51,7 +51,7 @@ public class RandlPersonalInfoServiceImpl extends JtBaseServiceImpl<PersonalInfo
     }
 
     @Override
-    protected RandlPersonalInfoDto toDto(RandlPersonalInfo randlPersonalInfo) {
+    public RandlPersonalInfoDto toDto(RandlPersonalInfo randlPersonalInfo) {
         RandlPersonalInfoDto dto = BeanUtil.copyProperties(randlPersonalInfo,
                 RandlPersonalInfoDto.class);
         Long surfaceImageId = randlUserMapper.selectById(

@@ -1,16 +1,18 @@
 package com.jeramtough.randl2.adminapp.config.security;
 
+import com.jeramtough.randl2.adminapp.action.filter.DynamicSecurityFilter;
 import com.jeramtough.randl2.common.component.attestation.userdetail.SuperAdmin;
 import com.jeramtough.randl2.common.mapper.RandlModuleMapper;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * <pre>
@@ -22,7 +24,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private static final String[] OPENED_ADI_URLS = {
+    private static final String[] OPENED_API_URLS = {
             "/adminUser/login",
             "/registeredUser/verify/**",
             "/registeredUser/register",
@@ -63,49 +65,58 @@ public class WebSecurityConfig {
     private final RandlModuleMapper randlModuleMapper;
     private final RandlRoleMapper randlRoleMapper;
 
+    private final AuthorizationManager<HttpServletRequest> authorizationManager;
+
 
     @Autowired
     public WebSecurityConfig(
             SuperAdmin superAdmin,
             RandlModuleMapper randlModuleMapper,
-            RandlRoleMapper randlRoleMapper) {
+            RandlRoleMapper randlRoleMapper,
+            AuthorizationManager<HttpServletRequest> authorizationManager) {
         this.superAdmin = superAdmin;
         this.randlModuleMapper = randlModuleMapper;
         this.randlRoleMapper = randlRoleMapper;
+        this.authorizationManager = authorizationManager;
     }
 
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-                http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        DynamicSecurityFilter dynamicSecurityFilter =
+                new DynamicSecurityFilter(authorizationManager);
+        //添加动态授权过滤器
+        http.addFilterBefore(dynamicSecurityFilter,
+                UsernamePasswordAuthenticationFilter.class);
 
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/home").permitAll()
+                        .requestMatchers(OPENED_API_URLS).permitAll()
+                        .requestMatchers(SWAGGER_URLS).permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                        .loginPage("/login")
+                        .loginPage("/unlogged.html")
                         .permitAll()
                 )
-                .logout((logout) -> logout.permitAll());
+                .cors()
+                .and()
+                .csrf().disable();
 
         return http.build();
     }
 
-    @Override
+   /* @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        //添加jwt过滤
-//        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         //签权构造者对象
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authorizationConfigurer = http
                 .authorizeRequests();
 
         //取出menuId对应的api，这是个菜单里需要调用到的api接口的描述
-        /*List<MenuApiPermission> menuApiPermissionList = menuApiPermissionMapper.selectList(null);
+        *//*List<MenuApiPermission> menuApiPermissionList = menuApiPermissionMapper.selectList(null);
         Map<Long, List<SystemApi>> menuIdKeyApiMap = new HashMap<>(24);
         for (MenuApiPermission menuApiPermission : menuApiPermissionList) {
             List<SystemApi> appApiList = menuIdKeyApiMap.get(menuApiPermission.getMenuId());
@@ -159,7 +170,7 @@ public class WebSecurityConfig {
         List<SystemApi> systemApiList = systemApiMapper.selectList(null);
         for (SystemApi systemApi : systemApiList) {
             authorizationConfigurer.antMatchers(systemApi.getPath()).hasRole(SuperAdmin.ROLE_NAME);
-        }*/
+        }*//*
 
         http.formLogin().loginPage("/unlogged.html").permitAll();
 
@@ -172,8 +183,8 @@ public class WebSecurityConfig {
                 .antMatchers(SWAGGER_URLS).permitAll();
 
         //普通注册用户登录以后并且还要有普通注册用户的角色才能使用的接口
-       /* authorizationConfigurer.antMatchers("/registeredUserLogined/**")
-                               .hasRole(RegisteredUserRole.PrimaryRole.get().getName());*/
+       *//* authorizationConfigurer.antMatchers("/registeredUserLogined/**")
+                               .hasRole(RegisteredUserRole.PrimaryRole.get().getName());*//*
 
         //开放登录接口
         authorizationConfigurer
@@ -184,6 +195,6 @@ public class WebSecurityConfig {
                 .cors()
                 .and()
                 .csrf().disable();
-    }
+    }*/
 
 }

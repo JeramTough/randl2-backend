@@ -1,9 +1,7 @@
 package com.jeramtough.randl2.common.component.verificationcode;
 
-import com.jeramtough.jtcomponent.task.bean.PreTaskResult;
 import com.jeramtough.jtcomponent.task.bean.TaskResult;
 import com.jeramtough.jtcomponent.task.response.ResponseFactory;
-import com.jeramtough.jtcomponent.task.runner.SimpleRunner;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundListOperations;

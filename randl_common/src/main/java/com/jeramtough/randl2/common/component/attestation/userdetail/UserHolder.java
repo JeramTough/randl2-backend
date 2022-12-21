@@ -1,7 +1,5 @@
 package com.jeramtough.randl2.common.component.attestation.userdetail;
 
-import com.jeramtough.randl2.common.component.attestation.clientdetail.MyClientDetails;
-import com.jeramtough.randl2.common.model.detail.authdetail.OAuth2AuthenticationPlusDetails;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.jaas.JaasGrantedAuthority;
 import org.springframework.security.core.Authentication;
@@ -37,18 +35,18 @@ public class UserHolder {
             MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
             return myUserDetails.getSystemUser();
         }
-        else if (authentication.getDetails() instanceof OAuth2AuthenticationPlusDetails) {
+        /*else if (authentication.getDetails() instanceof OAuth2AuthenticationPlusDetails) {
             OAuth2AuthenticationPlusDetails oAuth2AuthenticationPlusDetails =
                     (OAuth2AuthenticationPlusDetails) authentication.getDetails();
             MyUserDetails myUserDetails = oAuth2AuthenticationPlusDetails.getMyUserDetails();
             return myUserDetails.getSystemUser();
-        }
+        }*/
         else {
             return null;
         }
     }
 
-    public static MyClientDetails getClientDetails() {
+    /*public static MyClientDetails getClientDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getDetails() instanceof OAuth2AuthenticationPlusDetails) {
             OAuth2AuthenticationPlusDetails oAuth2AuthenticationPlusDetails =
@@ -59,7 +57,7 @@ public class UserHolder {
         else {
             return null;
         }
-    }
+    }*/
 
     public static boolean isSuperAdmin() {
         return SuperAdmin.UID.equals(getSystemUser().getUid());
