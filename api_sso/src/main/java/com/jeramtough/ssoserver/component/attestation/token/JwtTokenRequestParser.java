@@ -3,7 +3,7 @@ package com.jeramtough.ssoserver.component.attestation.token;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.randl2.common.model.constant.OAuth2Constants;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * <pre>

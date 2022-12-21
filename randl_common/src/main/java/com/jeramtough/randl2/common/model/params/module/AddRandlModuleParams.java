@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**

@@ -1,7 +1,7 @@
 package com.jeramtough.randl2.common.config.security;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 /**
  * <pre>
@@ -9,8 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * by @author JeramTough
  * </pre>
  */
-@EnableWebSecurity
-public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter {
+public abstract class BaseWebSecurityConfig {
 
 
     public static final String[] SWAGGER_URLS = {

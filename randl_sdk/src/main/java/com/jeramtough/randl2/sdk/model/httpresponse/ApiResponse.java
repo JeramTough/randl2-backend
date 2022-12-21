@@ -4,7 +4,7 @@
 package com.jeramtough.randl2.sdk.model.httpresponse;
 
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 
 import java.io.Serializable;
 

@@ -35,6 +35,7 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.session.web.http.CookieSerializer;
 import org.springframework.session.web.http.DefaultCookieSerializer;
@@ -81,6 +82,65 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
         this.ssoAuthenticationProvider = ssoAuthenticationProvider;
     }
 
+
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        //添加ClientCredentialsToken过滤器
+        Oauth2ClientCredentialsTokenFilter oauth2ClientCredentialsTokenFilter = new Oauth2ClientCredentialsTokenFilter(
+                authenticationManagerBean());
+        //添加Sso登录过滤器
+        SsoCredentialsTokenFilter ssoCredentialsTokenFilter =
+                new SsoCredentialsTokenFilter(authenticationManagerBean());
+
+        http.addFilterBefore(oauth2ClientCredentialsTokenFilter, BasicAuthenticationFilter.class);
+        http.addFilterBefore(ssoCredentialsTokenFilter, Oauth2ClientCredentialsTokenFilter.class);
+       /* http.addFilterBefore(oauth2ClientCredentialsTokenFilter,
+                SessionManagementFilter.class);*/
+
+        /*http.exceptionHandling().accessDeniedHandler(new AccessDeniedHandler() {
+            @Override
+            public void handle(HttpServletRequest request, HttpServletResponse response,
+                               AccessDeniedException accessDeniedException) throws IOException, ServletException {
+                L.arrive();
+            }
+        });
+
+        http.exceptionHandling().defaultAuthenticationEntryPointFor(new AuthenticationEntryPoint() {
+            @Override
+            public void commence(HttpServletRequest request, HttpServletResponse response,
+                                 AuthenticationException authException) throws IOException, ServletException {
+                L.arrive();
+            }
+        }, new AntPathRequestMatcher("/oauth/**"));*/
+
+        //签权构造者对象
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authorizationConfigurer = http
+                .authorizeRequests();
+
+        http.formLogin().loginPage("/unlogged.html").permitAll();
+
+
+        //放行Swagger的资源
+        http
+                .antMatchers(SWAGGER_URLS).permitAll();
+
+        //开放登录接口
+        authorizationConfigurer
+                .(OPENED_API_URLS).permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                //基于token的话，session就不用缓存了
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .cors()
+                .and()
+                .csrf().disable();
+
+        return http.build();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

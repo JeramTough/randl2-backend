@@ -12,7 +12,7 @@ import com.jeramtough.randl2.common.model.detail.userdetail.builder.exception.Tr
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Objects;
 

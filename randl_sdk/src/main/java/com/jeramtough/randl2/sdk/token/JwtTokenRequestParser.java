@@ -2,7 +2,7 @@ package com.jeramtough.randl2.sdk.token;
 
 import com.jeramtough.randl2.sdk.model.constant.OAuth2Constants;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * <pre>

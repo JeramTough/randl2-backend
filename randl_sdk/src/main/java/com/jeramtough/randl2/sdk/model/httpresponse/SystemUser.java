@@ -2,7 +2,6 @@ package com.jeramtough.randl2.sdk.model.httpresponse;
 
 import com.jeramtough.randl2.sdk.model.randl.RandlPersonalInfo;
 
-import javax.security.auth.Subject;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.Date;

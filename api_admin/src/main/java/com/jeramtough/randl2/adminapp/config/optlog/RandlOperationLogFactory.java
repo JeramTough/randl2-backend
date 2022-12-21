@@ -1,7 +1,7 @@
 package com.jeramtough.randl2.adminapp.config.optlog;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.jeramtough.jtweb.component.optlog.bean.AddHistoryParams;
 import com.jeramtough.randl2.common.component.attestation.userdetail.UserHolder;
 import com.jeramtough.randl2.common.model.entity.RandlOperationLog;

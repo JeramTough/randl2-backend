@@ -4,7 +4,7 @@ import com.jeramtough.randl2.common.component.attestation.clientdetail.MyClientD
 import com.jeramtough.randl2.common.component.attestation.userdetail.MyUserDetails;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * <pre>

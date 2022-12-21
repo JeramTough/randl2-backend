@@ -3,7 +3,7 @@ package com.jeramtough.randl2.component.authdetails;
 import com.jeramtough.randl2.service.details.MyUserDetailsService;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * <pre>

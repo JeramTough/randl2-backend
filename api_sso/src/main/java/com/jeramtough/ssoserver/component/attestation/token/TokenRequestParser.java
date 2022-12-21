@@ -1,6 +1,6 @@
 package com.jeramtough.ssoserver.component.attestation.token;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * <pre>

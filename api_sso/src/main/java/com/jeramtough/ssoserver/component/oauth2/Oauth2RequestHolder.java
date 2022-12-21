@@ -1,7 +1,7 @@
 package com.jeramtough.ssoserver.component.oauth2;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.jeramtough.jtcomponent.utils.IdUtil;
 import com.jeramtough.randl2.common.model.constant.OAuth2Constants;
 import org.springframework.beans.factory.annotation.Autowired;

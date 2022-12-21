@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.adminapp.config.optlog;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.jeramtough.jtweb.component.optlog.channel.LogChannel;
 import com.jeramtough.jtweb.component.optlog.config.OptLoggerConfig;
 import com.jeramtough.jtweb.component.optlog.filter.OptLogFilter;

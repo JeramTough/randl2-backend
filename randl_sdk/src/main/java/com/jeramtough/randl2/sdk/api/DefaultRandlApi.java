@@ -1,7 +1,7 @@
 package com.jeramtough.randl2.sdk.api;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.jeramtough.randl2.sdk.http.HttpUtil;
 import com.jeramtough.randl2.sdk.model.httpresponse.ApiResponse;
 

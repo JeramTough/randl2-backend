@@ -6,7 +6,7 @@ import com.jeramtough.randl2.common.model.detail.userdetail.builder.exception.Ac
 import com.jeramtough.randl2.common.model.detail.userdetail.builder.exception.NoChangedException;
 import com.jeramtough.randl2.common.model.detail.userdetail.builder.exception.TransactionTimeoutExcaption;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * <pre>

@@ -1,6 +1,6 @@
 package test;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.jeramtough.randl2.sdk.api.DefaultRandlApi;
 import com.jeramtough.randl2.sdk.api.RandlApi;
 import com.jeramtough.randl2.sdk.client.Oauth2AuthorizationCodeGrantTypeHttpClient;

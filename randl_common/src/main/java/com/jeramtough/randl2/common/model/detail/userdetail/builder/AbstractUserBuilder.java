@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.common.model.detail.userdetail.builder;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.jeramtough.jtcomponent.utils.IdUtil;
 import com.jeramtough.jtweb.component.location.LocationGating;
 import com.jeramtough.randl2.common.model.entity.RandlUser;
@@ -9,7 +9,7 @@ import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 

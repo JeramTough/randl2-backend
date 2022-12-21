@@ -17,7 +17,7 @@ import org.springframework.security.oauth2.provider.token.AuthorizationServerTok
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.web.context.WebApplicationContext;
 
-import javax.sql.DataSource;
+import jakarta.sql.DataSource;
 
 /**
  * <pre>

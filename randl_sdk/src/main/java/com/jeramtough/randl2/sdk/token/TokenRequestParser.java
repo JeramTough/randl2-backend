@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.sdk.token;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * <pre>

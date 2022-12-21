@@ -1,6 +1,6 @@
 package com.jeramtough.test;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.jeramtough.jtcomponent.key.util.KeyUtil;
 import com.jeramtough.jtlog.facade.L;
 

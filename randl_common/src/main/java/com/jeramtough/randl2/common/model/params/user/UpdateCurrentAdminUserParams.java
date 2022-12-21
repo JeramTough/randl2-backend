@@ -4,8 +4,8 @@ import com.jeramtough.randl2.common.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 
 /**
  * <pre>

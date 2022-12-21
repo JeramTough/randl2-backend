@@ -4,11 +4,13 @@ import com.jeramtough.randl2.common.component.attestation.userdetail.SuperAdmin;
 import com.jeramtough.randl2.common.mapper.RandlModuleMapper;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * <pre>
@@ -18,7 +20,7 @@ import org.springframework.security.config.annotation.web.configurers.Expression
  */
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
 
     private static final String[] OPENED_ADI_URLS = {
             "/adminUser/login",
@@ -72,6 +74,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.randlRoleMapper = randlRoleMapper;
     }
 
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+                http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/", "/home").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin((form) -> form
+                        .loginPage("/login")
+                        .permitAll()
+                )
+                .logout((logout) -> logout.permitAll());
+
+        return http.build();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
