@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.common.component.auth;
 
+import com.jeramtough.jtlog.facade.L;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
@@ -17,7 +18,8 @@ public class DatabaseAuthorizationManager implements AuthorizationManager<HttpSe
 
     @Override
     public AuthorizationDecision check(Supplier<Authentication> authentication,
-                                       HttpServletRequest object) {
-        return null;
+                                       HttpServletRequest request) {
+        L.arrive();
+        return new AuthorizationDecision(true);
     }
 }

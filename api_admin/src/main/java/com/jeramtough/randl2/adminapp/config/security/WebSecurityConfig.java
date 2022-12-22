@@ -30,20 +30,23 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     private static final String[] OPENED_API_URLS = {
-            "/adminUser/login",
+            "/access/login",
+            "/access/logout",
             "/registeredUser/verify/**",
             "/registeredUser/register",
             "/registeredUser/reset",
             "/registeredUser/login/**",
             "/verificationCode/**",
-            "/test/**",
-            "/**",
+//            "/test/**",
     };
 
     private static final String[] SWAGGER_URLS = {
             "/swagger-resources",
             "/v2/api-docs",
             "/v2/api-docs-ext",
+            "/v3/api-docs",
+            "/v3/api-docs/**",
+            "/v3/api-docs-ext",
             "/doc.html",
             "/webjars",
             "/swagger-ui.html",

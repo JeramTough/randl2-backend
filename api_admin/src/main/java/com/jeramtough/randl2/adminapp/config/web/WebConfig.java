@@ -1,8 +1,8 @@
 package com.jeramtough.randl2.adminapp.config.web;
 
+import com.jeramtough.jtweb.annotation.EnableJtweb;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 /**
  * <pre>
@@ -12,10 +12,7 @@ import org.springframework.context.annotation.Import;
  */
 @ComponentScan(basePackages = "com.jeramtough.randl2.common")
 @Configuration
-@Import({com.jeramtough.jtweb.springconfig.JtSpringConfig.class,
-        com.jeramtough.jtweb.springconfig.JsonConfig.class,
-      })
-//@EnableJtweb
+@EnableJtweb
 public class WebConfig {
 
 }

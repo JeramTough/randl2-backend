@@ -25,7 +25,10 @@ public class DynamicSecurityFilter extends AuthorizationFilter implements Filter
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
                          FilterChain chain) throws ServletException, IOException {
-        L.arrive();
+        HttpServletRequest httpServletRequest= (HttpServletRequest) servletRequest;
+        L.debug(httpServletRequest.getRequestURL().toString());
+
+        //然后才进入到SpringSecurity体系的授权认证
         super.doFilter(servletRequest, servletResponse, chain);
     }
 }
