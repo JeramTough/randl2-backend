@@ -1,6 +1,7 @@
 package com.jeramtough.randl2.common.model.dto;
 
 import com.alibaba.fastjson2.annotation.JSONField;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -177,7 +178,7 @@ public class RandlModuleAuthDto {
                 ", description='" + description + '\'' +
                 ", path='" + path + '\'' +
                 ", level=" + level +
-                ", moduleOrder=" + moduleOrder + 
+                ", moduleOrder=" + moduleOrder +
                 ", icon='" + icon + '\'' +
                 ", parentModuleId=" + parentModuleId +
                 ", isAble=" + isAble +

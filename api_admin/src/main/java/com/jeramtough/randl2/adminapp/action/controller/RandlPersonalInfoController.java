@@ -10,7 +10,12 @@ import com.jeramtough.randl2.common.model.dto.RandlPersonalInfoDto;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.personalinfo.UpdatePersonalInfoParams;
 import com.jeramtough.randl2.service.randl.RandlPersonalInfoService;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +33,7 @@ import java.util.Map;
  * @since 2020-01-26
  */
 @RestController
-@Api(tags = {"Randl普通用户个人信息接口"})
+@Tag(name = "Randl普通用户个人信息接口")
 @RequestMapping("/randlPersonalInfo")
 public class RandlPersonalInfoController extends MyBaseController {
 
@@ -41,22 +46,20 @@ public class RandlPersonalInfoController extends MyBaseController {
     }
 
     @RegApi
-    @ApiOperation(value = "查询一个", notes = "查询一个普通用户个人信息")
+    @Operation(summary = "查询一个", description = "查询一个普通用户个人信息")
     @RequestMapping(value = "/oneByUid", method = {RequestMethod.GET})
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "uid", value = "用户ID", paramType = "query",
-                    required = true, defaultValue = "1")})
-    @ApiResponses(value = {
-    })
+    @Parameters({
+            @Parameter(name = "uid", description = "用户ID", required = true, example =
+                    "1")})
     public CommonApiResponse<RandlPersonalInfoDto> getPersonalInfoByUid(Long uid) {
         return getSuccessfulApiResponse(randlPersonalInfoService.getPersonalInfoByUid(uid));
     }
 
     @RegApi
-    @ApiOperation(value = "更新", notes = "更新普通用户个人信息")
+    @Operation(summary = "更新", description = "更新普通用户个人信息")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = ErrorU.CODE_102.C, message = ErrorU.CODE_102.M),
+            @ApiResponse(responseCode = ErrorU.CODE_102.C, description = ErrorU.CODE_102.M),
     })
     public CommonApiResponse<String> updateAdminUser(
             @RequestBody UpdatePersonalInfoParams params) {
@@ -64,7 +67,7 @@ public class RandlPersonalInfoController extends MyBaseController {
     }
 
     @RegApi
-    @ApiOperation(value = "分页查询", notes = "分页查询Randl用户个人信息")
+    @Operation(summary = "分页查询", description = "分页查询Randl用户个人信息")
     @RequestMapping(value = "/page", method = {RequestMethod.GET})
     public CommonApiResponse<PageDto<Map<String, Object>>> getRandlUserByPage(
             QueryByPageParams queryByPageParams) {

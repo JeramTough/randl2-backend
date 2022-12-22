@@ -1,6 +1,7 @@
 package com.jeramtough.randl2.common.model.params.module;
 
 import com.jeramtough.randl2.common.model.error.ErrorU;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;

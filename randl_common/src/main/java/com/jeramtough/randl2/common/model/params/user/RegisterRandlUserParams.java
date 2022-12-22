@@ -28,7 +28,7 @@ public class RegisterRandlUserParams {
     @Schema(description = "密码", example = "password", required = true)
     private String password;
 
-    @Schema(description = "手机号码", example = "15289678163", dataType = "String",
+    @Schema(description = "手机号码", example = "15289678163",
             required =
                     false)
     @Pattern(

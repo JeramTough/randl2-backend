@@ -2,6 +2,8 @@ package com.jeramtough.randl2.common.model.params.oauth;
 
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.io.Serializable;
 
 /**

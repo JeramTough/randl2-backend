@@ -18,28 +18,18 @@ package com.jeramtough.randl2.clent1.controller;
 import com.jeramtough.jtlog.facade.L;
 import com.jeramtough.jtweb.action.controller.BaseSwaggerController;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import jakarta.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author JeramTough
  */
-@Api(tags = {"OAuth客户端接口"})
+@Tag(name = "OAuth客户端接口")
 @RestController
 public class ClientController extends BaseSwaggerController {
 

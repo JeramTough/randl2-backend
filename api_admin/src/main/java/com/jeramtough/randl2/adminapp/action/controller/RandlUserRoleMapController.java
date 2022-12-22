@@ -6,8 +6,8 @@ import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.model.params.user.SetUserRoleMapParams;
 import com.jeramtough.randl2.service.randl.RandlUserRoleMapService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author JeramTough
  * @since 2020-10-03
  */
-@Api(tags = {"Randl用户角色映射接口"})
+@Tag(name = "Randl用户角色映射接口")
 @RestController
 @RequestMapping("/randlUserRoleMap")
 public class RandlUserRoleMapController extends MyBaseController {
@@ -36,7 +36,7 @@ public class RandlUserRoleMapController extends MyBaseController {
     }
 
     @RegApi
-    @ApiOperation(value = "设置映射关系", notes = "设置用户与角色的映射关系")
+    @Operation(summary = "设置映射关系", description = "设置用户与角色的映射关系")
     @RequestMapping(value = "/setMap", method = {RequestMethod.POST})
     public CommonApiResponse<String> setMap(@RequestBody SetUserRoleMapParams params) {
         return getSuccessfulApiResponse(randlUserRoleMapService.setUserRoleMap(params));

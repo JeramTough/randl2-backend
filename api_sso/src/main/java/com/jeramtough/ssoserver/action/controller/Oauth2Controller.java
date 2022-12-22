@@ -3,10 +3,11 @@ package com.jeramtough.ssoserver.action.controller;
 import com.jeramtough.jtlog.with.WithLogger;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,11 +23,13 @@ import org.springframework.security.oauth2.provider.code.AuthorizationCodeServic
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.HtmlUtils;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.Map;
@@ -37,12 +40,12 @@ import java.util.Map;
  * by @author WeiBoWen
  * </pre>
  */
-@Api(tags = {"OauthV2接口"})
+@Tag(name = "OauthV2接口")
 @RestController
 @RequestMapping("/oauthV2")
 @ApiResponses(value = {
-        @ApiResponse(code = ErrorU.CODE_802.C, message = ErrorU.CODE_802.M),
-        @ApiResponse(code = ErrorU.CODE_804.C, message = ErrorU.CODE_804.M),
+        @ApiResponse(responseCode = ErrorU.CODE_802.C, description = ErrorU.CODE_802.M),
+        @ApiResponse(responseCode = ErrorU.CODE_804.C, description = ErrorU.CODE_804.M),
 })
 public class Oauth2Controller extends AbstractOauthController implements WithLogger {
 
@@ -62,10 +65,10 @@ public class Oauth2Controller extends AbstractOauthController implements WithLog
                 oAuth2RequestFactory);
     }
 
-    @ApiOperation(value = "token令牌", notes = "申请token令牌")
+    @Operation(summary = "token令牌", description = "申请token令牌")
     @RequestMapping(value = "/token", method = {RequestMethod.GET, RequestMethod.POST})
     @ApiResponses(value = {
-            @ApiResponse(code = ErrorU.CODE_802.C, message = ErrorU.CODE_802.M),
+            @ApiResponse(responseCode = ErrorU.CODE_802.C, description = ErrorU.CODE_802.M),
     })
     public CommonApiResponse<OAuth2AccessToken> getAccessToken(Principal principal, @RequestParam
             Map<String, String> parameters) {

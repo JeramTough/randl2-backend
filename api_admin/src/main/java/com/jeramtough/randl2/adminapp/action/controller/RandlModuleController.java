@@ -12,7 +12,10 @@ import com.jeramtough.randl2.common.model.params.module.ConditionModuleParams;
 import com.jeramtough.randl2.common.model.params.module.TreeModuleParams;
 import com.jeramtough.randl2.common.model.params.module.UpdateModuleParams;
 import com.jeramtough.randl2.service.randl.RandlModuleService;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +30,7 @@ import java.util.Map;
  * @author JeramTough
  * @since 2020-08-06
  */
-@Api(tags = {"Randl模块接口"})
+@Tag(name = "Randl模块接口")
 @RestController
 @RequestMapping("/randlModule")
 public class RandlModuleController extends MyBaseController {
@@ -40,57 +43,52 @@ public class RandlModuleController extends MyBaseController {
     }
 
     @RegApi
-    @ApiOperation(value = "新增", notes = "新增Randl模块")
+    @Operation(summary = "新增", description = "新增Randl模块")
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
-    @ApiResponses(value = {
-    })
+    
     public CommonApiResponse<String> add(@RequestBody AddRandlModuleParams params) {
         return getSuccessfulApiResponse(randlModuleService.add(params));
     }
 
     @RegApi
-    @ApiOperation(value = "删除", notes = "删除Randl模块")
+    @Operation(summary = "删除", description = "删除Randl模块")
     @RequestMapping(value = "/remove", method = {RequestMethod.POST, RequestMethod.GET})
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "fid", value = "ID", paramType = "query",
-                    required = true, defaultValue = "1")})
-    @ApiResponses(value = {
-    })
+    @Parameters({
+            @Parameter(name = "fid", description = "ID",
+                    required = true, example = "1")})
+    
     public CommonApiResponse<String> removeOneById(@RequestParam("fid") Long fid) {
         return getSuccessfulApiResponse(randlModuleService.removeOneById(fid));
     }
 
     @RegApi
-    @ApiOperation(value = "删除链", notes = "删除Randl模块其下的子节点")
+    @Operation(summary = "删除链", description = "删除Randl模块其下的子节点")
     @RequestMapping(value = "/removeChain", method = {RequestMethod.POST, RequestMethod.GET})
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "fid", value = "ID", paramType = "query",
-                    required = true, defaultValue = "1")})
-    @ApiResponses(value = {
-    })
+    @Parameters({
+            @Parameter(name = "fid", description = "ID",
+                    required = true, example = "1")})
+    
     public CommonApiResponse<String> removeChainById(@RequestParam("fid") Long fid) {
         return getSuccessfulApiResponse(randlModuleService.removeChainById(fid));
     }
 
     @RegApi
-    @ApiOperation(value = "更新", notes = "更新Randl模块")
+    @Operation(summary = "更新", description = "更新Randl模块")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
-    @ApiResponses(value = {
-    })
+    
     public CommonApiResponse<String> update(@RequestBody UpdateModuleParams params) {
         return getSuccessfulApiResponse(randlModuleService.update(params));
     }
 
     @RegApi
-    @ApiOperation(value = "查询全部", notes = "查询全部系统菜单")
+    @Operation(summary = "查询全部", description = "查询全部系统菜单")
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
     public CommonApiResponse<List<RandlModuleDto>> getAll() {
         return getSuccessfulApiResponse(randlModuleService.getAllBaseDto());
     }
 
     @RegApi
-    @ApiOperation(value = "条件查询", notes = "根据关键字等条件查询得到一个Randl应用信息")
-    @ApiResponses(value = {})
+    @Operation(summary = "条件查询", description = "根据关键字等条件查询得到一个Randl应用信息")
     @RequestMapping(value = "/condition", method = {RequestMethod.GET})
     public CommonApiResponse<PageDto<RandlModuleDto>> getRandlUserByCondition(
             QueryByPageParams queryByPageParams, ConditionModuleParams params) {
@@ -98,7 +96,7 @@ public class RandlModuleController extends MyBaseController {
     }
 
     @RegApi
-    @ApiOperation(value = "查询树形列表", notes = "通过条件查询系统模块列表")
+    @Operation(summary = "查询树形列表", description = "通过条件查询系统模块列表")
     @RequestMapping(value = "/tree", method = {RequestMethod.GET})
     public CommonApiResponse<Map<String, Object>> getTreeModuleList(TreeModuleParams params) {
         return getSuccessfulApiResponse(randlModuleService.getTreeModuleList(params));

@@ -6,6 +6,8 @@ import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -18,9 +20,6 @@ import org.springframework.security.oauth2.provider.code.AuthorizationCodeServic
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestValidator;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
 /**
  * <pre>
  * Created on 2020/11/17 21:22
@@ -28,7 +27,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * </pre>
  */
 @ApiResponses(value = {
-        @ApiResponse(code = ErrorU.CODE_801.C, message = ErrorU.CODE_801.M),
+        @ApiResponse(responseCode = ErrorU.CODE_801.C, description = ErrorU.CODE_801.M),
 })
 public abstract class AbstractOauthController extends MyBaseController {
 

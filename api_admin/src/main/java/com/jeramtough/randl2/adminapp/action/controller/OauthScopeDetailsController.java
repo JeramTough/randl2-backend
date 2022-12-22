@@ -1,10 +1,9 @@
 package com.jeramtough.randl2.adminapp.action.controller;
 
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
-import io.swagger.annotations.Api;
 
 /**
  * <p>
@@ -14,7 +13,7 @@ import io.swagger.annotations.Api;
  * @author JeramTough
  * @since 2021-02-02
  */
-@Api(tags = {"OauthScopeDetailsController"})
+@Tag(name = "OauthScopeDetailsController")
 @RestController
 @RequestMapping("/oauthScopeDetails")
 public class OauthScopeDetailsController {

@@ -8,7 +8,10 @@ import com.jeramtough.randl2.common.model.dto.OauthClientDetailsDto;
 import com.jeramtough.randl2.common.model.params.oauth.AddOauthClientDetailsParams;
 import com.jeramtough.randl2.common.model.params.oauth.UpdateOauthClientDetailsParams;
 import com.jeramtough.randl2.service.oauth.OauthClientDetailsService;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
  * @author JeramTough
  * @since 2020-08-06
  */
-@Api(tags = {"OAuth2客户端接口"})
+@Tag(name = "OAuth2客户端接口")
 @RestController
 @RequestMapping("/oauthClientDetails")
 public class OauthClientDetailsController extends MyBaseController {
@@ -34,53 +37,50 @@ public class OauthClientDetailsController extends MyBaseController {
     }
 
     @RegApi
-    @ApiOperation(value = "新增", notes = "新增")
+    @Operation(summary = "新增", description = "新增")
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
-    @ApiResponses(value = {
-    })
+
     public CommonApiResponse<String> add(@RequestBody AddOauthClientDetailsParams params) {
         return getSuccessfulApiResponse(oauthClientDetailsService.add(params));
     }
 
     @RegApi
-    @ApiOperation(value = "删除", notes = "删除")
+    @Operation(summary = "删除", description = "删除")
     @RequestMapping(value = "/remove", method = {RequestMethod.POST, RequestMethod.GET})
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "fid", value = "ID", paramType = "query",
-                    required = true, defaultValue = "1")})
-    @ApiResponses(value = {
-    })
+    @Parameters({
+            @Parameter(name = "fid", description = "ID",
+                    required = true, example = "1")})
+
     public CommonApiResponse<String> removeOneById(@RequestParam("fid") Long fid) {
         return getSuccessfulApiResponse(oauthClientDetailsService.removeOneById(fid));
     }
 
     @RegApi
-    @ApiOperation(value = "更新", notes = "更新")
+    @Operation(summary = "更新", description = "更新")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
-    public CommonApiResponse<String> update(@RequestBody UpdateOauthClientDetailsParams params) {
+    public CommonApiResponse<String> update(
+            @RequestBody UpdateOauthClientDetailsParams params) {
         return getSuccessfulApiResponse(oauthClientDetailsService.updateByParams(params));
     }
 
     @RegApi
-    @ApiOperation(value = "查询一个", notes = "查询一个")
+    @Operation(summary = "查询一个", description = "查询一个")
     @RequestMapping(value = "/one", method = {RequestMethod.GET})
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "fid", value = "ID", paramType = "query",
-                    required = true, defaultValue = "1")})
-    @ApiResponses(value = {
-    })
+    @Parameters({
+            @Parameter(name = "fid", description = "ID",
+                    required = true, example = "1")})
+
     public CommonApiResponse<OauthClientDetailsDto> getOne(Long fid) {
         return getSuccessfulApiResponse(oauthClientDetailsService.getBaseDtoById(fid));
     }
 
     @RegApi
-    @ApiOperation(value = "根据AppId查询一个", notes = "根据AppId查询一个")
+    @Operation(summary = "根据AppId查询一个", description = "根据AppId查询一个")
     @RequestMapping(value = "/oneByAppId", method = {RequestMethod.GET})
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "appId", value = "AppId", paramType = "query",
-                    required = true, defaultValue = "1")})
-    @ApiResponses(value = {
-    })
+    @Parameters({
+            @Parameter(name = "appId", description = "AppId",
+                    required = true, example = "1")})
+
     public CommonApiResponse<OauthClientDetailsDto> getOneByAppId(Long appId) {
         return getSuccessfulApiResponse(oauthClientDetailsService.getOneByAppId(appId));
     }

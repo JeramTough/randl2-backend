@@ -12,7 +12,12 @@ import com.jeramtough.randl2.common.model.params.app.AddAppParams;
 import com.jeramtough.randl2.common.model.params.app.ConditionAppParams;
 import com.jeramtough.randl2.common.model.params.app.UpdateAppParams;
 import com.jeramtough.randl2.service.randl.RandlAppService;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,9 +32,9 @@ import java.util.List;
  * @since 2020-10-03
  */
 @ApiResponses({
-        @ApiResponse(code = ErrorU.CODE_701.C, message = ErrorU.CODE_701.M),
+        @ApiResponse(responseCode = ErrorU.CODE_701.C, description = ErrorU.CODE_701.M),
 })
-@Api(tags = {"RandlAPP应用接口"})
+@Tag(name = "RandlAPP应用接口")
 @RestController
 @RequestMapping("/randlApp")
 public class RandlAppController extends MyBaseController {
@@ -42,63 +47,56 @@ public class RandlAppController extends MyBaseController {
     }
 
     @RegApi
-    @ApiOperation(value = "新增", notes = "新增RandlApp应用")
+    @Operation(summary = "新增", description = "新增RandlApp应用")
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
-    @ApiResponses(value = {
-    })
+    
     public CommonApiResponse<String> add(@RequestBody AddAppParams params) {
         return getSuccessfulApiResponse(randlAppService.add(params));
     }
 
     @RegApi
-    @ApiOperation(value = "删除", notes = "删除RandlApp应用")
+    @Operation(summary = "删除", description = "删除RandlApp应用")
     @RequestMapping(value = "/remove", method = {RequestMethod.POST, RequestMethod.GET})
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "fid", value = "ID", paramType = "query",
-                    required = true, defaultValue = "1")})
-    @ApiResponses(value = {
-    })
+    @Parameters({
+            @Parameter(name = "fid", description = "ID",
+                    required = true, example = "1")})
     public CommonApiResponse<String> removeOneById(@RequestParam("fid") Long fid) {
         return getSuccessfulApiResponse(randlAppService.removeOneById(fid));
     }
 
     @RegApi
-    @ApiOperation(value = "更新", notes = "更新RandlApp应用")
+    @Operation(summary = "更新", description = "更新RandlApp应用")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
-    @ApiResponses(value = {
-    })
     public CommonApiResponse<String> update(@RequestBody UpdateAppParams params) {
         return getSuccessfulApiResponse(randlAppService.update(params));
     }
 
     @RegApi
-    @ApiOperation(value = "查询一个", notes = "查询一个RandlApp应用")
+    @Operation(summary = "查询一个", description = "查询一个RandlApp应用")
     @RequestMapping(value = "/one", method = {RequestMethod.GET})
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "fid", value = "ID", paramType = "query",
-                    required = true, defaultValue = "1")})
-    @ApiResponses(value = {
-    })
+    @Parameters({
+            @Parameter(name = "fid", description = "ID", 
+                    required = true, example = "1")})
     public CommonApiResponse<RandlAppDto> getOne(Long fid) {
         return getSuccessfulApiResponse(randlAppService.getBaseDtoById(fid));
     }
 
     @RegApi
-    @ApiOperation(value = "查询全部", notes = "查询全部RandlApp应用")
+    @Operation(summary = "查询全部", description = "查询全部RandlApp应用")
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
     public CommonApiResponse<List<RandlAppDto>> getAll() {
         return getSuccessfulApiResponse(randlAppService.getAllBaseDto());
     }
 
     @RegApi
-    @ApiOperation(value = "查询全部但只有name属性", notes = "查询全部RandlApp应用，但只有name属性")
+    @Operation(summary = "查询全部但只有name属性", description = "查询全部RandlApp应用，但只有name属性")
     @RequestMapping(value = "/allOnlyName", method = {RequestMethod.GET})
     public CommonApiResponse<List<RandlAppDto>> getAllOnlyName() {
         return getSuccessfulApiResponse(randlAppService.getAllOnlyName());
     }
 
     @RegApi
-    @ApiOperation(value = "分页查询", notes = "分页查询APP信息列表")
+    @Operation(summary = "分页查询", description = "分页查询APP信息列表")
     @RequestMapping(value = "/page", method = {RequestMethod.GET})
     public CommonApiResponse<PageDto<RandlAppDto>> getAdminUserByPage(
             QueryByPageParams queryByPageParams) {
@@ -108,8 +106,7 @@ public class RandlAppController extends MyBaseController {
 
 
     @RegApi
-    @ApiOperation(value = "条件查询", notes = "根据关键字等条件查询得到一个Randl应用信息")
-    @ApiResponses(value = {})
+    @Operation(summary = "条件查询", description = "根据关键字等条件查询得到一个Randl应用信息")
     @RequestMapping(value = "/condition", method = {RequestMethod.GET})
     public CommonApiResponse<PageDto<RandlAppDto>> getRandlUserByCondition(
             QueryByPageParams queryByPageParams, ConditionAppParams params) {

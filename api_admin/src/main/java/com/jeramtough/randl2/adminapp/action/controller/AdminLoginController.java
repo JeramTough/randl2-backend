@@ -7,7 +7,12 @@ import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.login.UserCredentials;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
  * </pre>
  */
 @RestController
-@Api(tags = {"管理端登录接口"})
+@Tag(name = "管理端登录接口")
 @RequestMapping("/access")
 public class AdminLoginController extends MyBaseController {
 
@@ -30,19 +35,19 @@ public class AdminLoginController extends MyBaseController {
     }
 
     @IgnoreOptLog(isIgnoreMethod = false,isIgnoreArgs = true,isIgnoreResponse = true)
-    @ApiOperation(value = "登录", notes = "系统管理员登录")
+    @Operation(summary = "登录", description = "系统管理员登录")
     @RequestMapping(value = "/login", method = {RequestMethod.POST})
     @PutMapping
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名", paramType = "query",
-                    required = true, dataType = "String", defaultValue = "superadmin"),
-            @ApiImplicitParam(name = "password", value = "密码", paramType = "query",
-                    required = true, dataType = "String", defaultValue = "superadmin")})
+    @Parameters({
+            @Parameter(name = "username", description = "用户名",
+                    required = true,  example = "superadmin"),
+            @Parameter(name = "password", description = "密码",
+                    required = true, example = "superadmin")})
     @ApiResponses(value = {
-            @ApiResponse(code = ErrorU.CODE_301.C, message = ErrorU.CODE_301.M),
-            @ApiResponse(code = ErrorU.CODE_302.C, message = ErrorU.CODE_302.M),
-            @ApiResponse(code = ErrorU.CODE_303.C, message = ErrorU.CODE_303.M),
-            @ApiResponse(code = ErrorU.CODE_304.C, message = ErrorU.CODE_304.M),
+            @ApiResponse(responseCode = ErrorU.CODE_301.C, description = ErrorU.CODE_301.M),
+            @ApiResponse(responseCode = ErrorU.CODE_302.C, description = ErrorU.CODE_302.M),
+            @ApiResponse(responseCode = ErrorU.CODE_303.C, description = ErrorU.CODE_303.M),
+            @ApiResponse(responseCode = ErrorU.CODE_304.C, description = ErrorU.CODE_304.M),
     })
     public CommonApiResponse<SystemUserDto> adminLogin(
             @RequestParam(required = false) String username,
@@ -53,7 +58,7 @@ public class AdminLoginController extends MyBaseController {
     }
 
 
-    @ApiOperation(value = "退出登录", notes = "系统管理员退出登录")
+    @Operation(summary = "退出登录", description = "系统管理员退出登录")
     @RequestMapping(value = "/logout", method = {RequestMethod.POST})
     public CommonApiResponse<String> logout() {
         return getSuccessfulApiResponse(loginService.adminLogout());

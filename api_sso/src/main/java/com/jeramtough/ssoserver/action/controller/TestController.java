@@ -1,7 +1,7 @@
 package com.jeramtough.ssoserver.action.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,25 +12,25 @@ import org.springframework.web.bind.annotation.RestController;
  * by @author JeramTough
  * </pre>
  */
-@Api(tags = {"Test测试接口"})
+@Tag(name = "Test测试接口")
 @RestController
 @RequestMapping("/test")
 public class TestController {
 
 
-    @ApiOperation(value = "登录成功否", notes = "刷新令牌登录成功否")
+    @Operation(summary = "登录成功否", description = "刷新令牌登录成功否")
     @RequestMapping(value = "/testLogined", method = RequestMethod.GET)
     public String test() {
         return "test";
     }
 
-    @ApiOperation(value = "测试登录成功否2", notes = "测试登录成功否")
+    @Operation(summary = "测试登录成功否2", description = "测试登录成功否")
     @RequestMapping(value = "/testLogined2", method = RequestMethod.GET)
     public String test2() {
         return "test2";
     }
 
-    @ApiOperation(value = "测试登录成功否3", notes = "测试登录成功否")
+    @Operation(summary = "测试登录成功否3", description = "测试登录成功否")
     @RequestMapping(value = "/testLogined3", method = RequestMethod.GET)
     public String test3() {
         return "test3";

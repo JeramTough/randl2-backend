@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @Import({com.jeramtough.jtweb.springconfig.JtSpringConfig.class,
         com.jeramtough.jtweb.springconfig.JsonConfig.class,
-        com.jeramtough.jtweb.springconfig.JtSwaggerConfig.class,
       })
 //@EnableJtweb
 public class WebConfig {

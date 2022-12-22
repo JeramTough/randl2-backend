@@ -1,6 +1,7 @@
 package com.jeramtough.randl2.common.model.params.verificationcode;
 
 import com.jeramtough.randl2.common.model.error.ErrorU;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 

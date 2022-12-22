@@ -10,7 +10,10 @@ import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.model.dto.RandlOperationLogDto;
 import com.jeramtough.randl2.common.model.params.optlog.ConditionOptionLogParams;
 import com.jeramtough.randl2.service.randl.RandlOperationLogService;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,7 +31,7 @@ import java.util.List;
  * @since 2021-02-22
  */
 @IgnoreOptLog
-@Api(tags = {"操作日志接口"})
+@Tag(name = "操作日志接口")
 @RestController
 @RequestMapping("/randlOperationLog")
 public class RandlOperationLogController extends MyBaseController {
@@ -43,39 +46,36 @@ public class RandlOperationLogController extends MyBaseController {
 
 
     @RegApi
-    @ApiOperation(value = "删除", notes = "删除操作日志")
+    @Operation(summary = "删除", description = "删除操作日志")
     @RequestMapping(value = "/remove", method = {RequestMethod.POST, RequestMethod.GET})
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "fid", value = "ID", paramType = "query",
-                    required = true, defaultValue = "1")})
-    @ApiResponses(value = {
-    })
+    @Parameters({
+            @Parameter(name = "fid", description = "ID",
+                    required = true, example = "1")})
     public CommonApiResponse<String> deleteApi(@RequestParam("fid") Long fid) {
         return getSuccessfulApiResponse(randlOperationLogService.removeOneById(fid));
     }
 
 
     @RegApi
-    @ApiOperation(value = "查询一个", notes = "查询一个操作日志")
+    @Operation(summary = "查询一个", description = "查询一个操作日志")
     @RequestMapping(value = "/one", method = {RequestMethod.GET})
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "fid", value = "ID", paramType = "query",
-                    required = true, defaultValue = "1")})
-    @ApiResponses(value = {
-    })
+    @Parameters({
+            @Parameter(name = "fid", description = "ID",
+                    required = true, example = "1")})
+    
     public CommonApiResponse<RandlOperationLogDto> getOne(Long fid) {
         return getSuccessfulApiResponse(randlOperationLogService.getBaseDtoById(fid));
     }
 
     @RegApi
-    @ApiOperation(value = "查询全部", notes = "查询全部操作日志")
+    @Operation(summary = "查询全部", description = "查询全部操作日志")
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
     public CommonApiResponse<List<RandlOperationLogDto>> getAllApi() {
         return getSuccessfulApiResponse(randlOperationLogService.getAllBaseDto());
     }
 
     @RegApi
-    @ApiOperation(value = "分页查询", notes = "分页查询操作日志列表")
+    @Operation(summary = "分页查询", description = "分页查询操作日志列表")
     @RequestMapping(value = "/page", method = {RequestMethod.GET})
     public CommonApiResponse<PageDto<RandlOperationLogDto>> page(
             QueryByPageParams queryByPageParams) {
@@ -84,8 +84,7 @@ public class RandlOperationLogController extends MyBaseController {
     }
 
     @RegApi
-    @ApiOperation(value = "条件分页查询", notes = "根据关键字等条件查询操作日志")
-    @ApiResponses(value = {})
+    @Operation(summary = "条件分页查询", description = "根据关键字等条件查询操作日志")
     @RequestMapping(value = "/condition", method = {RequestMethod.GET})
     public CommonApiResponse<PageDto<RandlOperationLogDto>> getRandlUserByCondition(
             QueryByPageParams queryByPageParams, ConditionOptionLogParams params) {

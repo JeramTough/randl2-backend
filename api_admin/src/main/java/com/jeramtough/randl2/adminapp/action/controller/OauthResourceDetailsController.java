@@ -8,7 +8,10 @@ import com.jeramtough.randl2.common.model.dto.OauthResourceDetailsDto;
 import com.jeramtough.randl2.common.model.params.oauth.AddOauthResourceDetailsParams;
 import com.jeramtough.randl2.common.model.params.oauth.UpdateOauthResourceDetailsParams;
 import com.jeramtough.randl2.service.oauth.OauthResourceDetailsService;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +25,7 @@ import java.util.List;
  * @author JeramTough
  * @since 2021-02-02
  */
-@Api(tags = {"Oauth2资源服务接口"})
+@Tag(name = "Oauth2资源服务接口")
 @RestController
 @RequestMapping("/oauthResourceDetails")
 public class OauthResourceDetailsController extends MyBaseController {
@@ -36,50 +39,46 @@ public class OauthResourceDetailsController extends MyBaseController {
     }
 
     @RegApi
-    @ApiOperation(value = "查询全部", notes = "查询全部系统接口")
+    @Operation(summary = "查询全部", description = "查询全部系统接口")
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
     public CommonApiResponse<List<OauthResourceDetailsDto>> getAll() {
         return getSuccessfulApiResponse(oauthResourceDetailsService.getAllBaseDto());
     }
 
     @RegApi
-    @ApiOperation(value = "根据AppId查询一个", notes = "根据AppId查询一个")
+    @Operation(summary = "根据AppId查询一个", description = "根据AppId查询一个")
     @RequestMapping(value = "/oneByAppId", method = {RequestMethod.GET})
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "appId", value = "AppId", paramType = "query",
-                    required = true, defaultValue = "1")})
-    @ApiResponses(value = {
-    })
+    @Parameters({
+            @Parameter(name = "appId", description = "AppId",
+                    required = true, example = "1")})
+    
     public CommonApiResponse<OauthResourceDetailsDto> getOneByAppId(Long appId) {
         return getSuccessfulApiResponse(oauthResourceDetailsService.getOneByAppId(appId));
     }
 
     @RegApi
-    @ApiOperation(value = "新增", notes = "新增")
+    @Operation(summary = "新增", description = "新增")
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
-    @ApiResponses(value = {
-    })
+    
     public CommonApiResponse<String> add(@RequestBody AddOauthResourceDetailsParams params) {
         return getSuccessfulApiResponse(oauthResourceDetailsService.add(params));
     }
 
     @RegApi
-    @ApiOperation(value = "更新", notes = "更新")
+    @Operation(summary = "更新", description = "更新")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
-    @ApiResponses(value = {
-    })
+    
     public CommonApiResponse<String> update(@RequestBody UpdateOauthResourceDetailsParams params) {
         return getSuccessfulApiResponse(oauthResourceDetailsService.update(params));
     }
 
     @RegApi
-    @ApiOperation(value = "删除", notes = "删除")
+    @Operation(summary = "删除", description = "删除")
     @RequestMapping(value = "/remove", method = {RequestMethod.POST, RequestMethod.GET})
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "fid", value = "ID", paramType = "query",
-                    required = true, defaultValue = "1")})
-    @ApiResponses(value = {
-    })
+    @Parameters({
+            @Parameter(name = "fid", description = "ID",
+                    required = true, example = "1")})
+    
     public CommonApiResponse<String> removeOneById(@RequestParam("fid") Long fid) {
         return getSuccessfulApiResponse(oauthResourceDetailsService.removeById(fid));
     }

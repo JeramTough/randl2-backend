@@ -2,6 +2,7 @@ package com.jeramtough.randl2.common.model.params.role;
 
 import com.jeramtough.jtweb.component.validation.constraints.NotBlankButNull;
 import com.jeramtough.randl2.common.model.error.ErrorU;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
