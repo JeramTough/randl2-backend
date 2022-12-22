@@ -46,7 +46,7 @@ public class SystemUserServiceImpl extends BaseServiceImpl implements SystemUser
 
     @Override
     public SystemUserDto getSystemUserDto(SystemUser systemUser) {
-        Long appId = appSetting.getDefaultAdminAppId();
+        Long appId = appSetting.getDefaultAppId();
         return getSystemUserDto(systemUser, appId);
     }
 

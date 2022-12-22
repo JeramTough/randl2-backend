@@ -89,7 +89,7 @@ public class SuperAdmin {
                     superAdminRole = new RandlRole();
                     superAdminRole.setCreateTime(new Date());
                     superAdminRole.setAlias(ROLE_ALIAS_NAME);
-                    superAdminRole.setAppId(appSetting.getDefaultAdminAppId());
+                    superAdminRole.setAppId(appSetting.getDefaultAppId());
                     superAdminRole.setFid(ROLE_ID);
                     superAdminRole.setName(ROLE_NAME);
                     superAdminRole.setDescription(ROLE_DESCRIPTION);

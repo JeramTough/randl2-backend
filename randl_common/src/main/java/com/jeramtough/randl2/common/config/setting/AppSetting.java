@@ -78,7 +78,7 @@ public class AppSetting {
     }
 
 
-    public Long getDefaultAdminAppId() {
+    public Long getDefaultAppId() {
         return Long.parseLong(admin.get("defaultAppId"));
     }
 

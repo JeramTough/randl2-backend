@@ -1,7 +1,6 @@
 package com.jeramtough.randl2.common.action.controller;
 
-import com.jeramtough.jtweb.action.controller.BaseSwaggerController;
-import com.jeramtough.randl2.common.component.apiinfo.core.ApiInfoRecorder;
+import com.jeramtough.jtweb.action.controller.JtBaseController;
 
 /**
  * <pre>
@@ -9,11 +8,9 @@ import com.jeramtough.randl2.common.component.apiinfo.core.ApiInfoRecorder;
  * by @author JeramTough
  * </pre>
  */
-public abstract class MyBaseController extends BaseSwaggerController {
-
+public abstract class MyBaseController extends JtBaseController {
 
     public MyBaseController() {
-        ApiInfoRecorder.getInstance().registerApiInfo(this.getClass());
     }
 
 }

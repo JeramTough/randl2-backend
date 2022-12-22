@@ -93,7 +93,7 @@ public class RandlApiController extends MyBaseController {
             @ApiImplicitParam(name = "appId", value = "Randl应用Id", paramType = "query",
                     required = true, defaultValue = "1")})
     public CommonApiResponse<List<RandlApiDto>> getAllByAppId(Long appId) {
-        return getSuccessfulApiResponse(randlApiService.getAllByAppId(appId));
+        return getSuccessfulApiResponse(randlApiService.getListByAppId(appId));
     }
 
     @RegApi

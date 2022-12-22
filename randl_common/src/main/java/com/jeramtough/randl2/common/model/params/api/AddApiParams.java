@@ -4,9 +4,8 @@ import com.jeramtough.jtweb.component.validation.constraints.NotBlankButNull;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.validator.constraints.Length;
-
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * <pre>
@@ -33,6 +32,16 @@ public class AddApiParams {
     @NotNull(payload = ErrorU.CODE_1.class)
     @ApiModelProperty(value = "属于哪个app的接口")
     private Long appId;
+
+    private String groupName;
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
 
     public String getPath() {
         return path;

@@ -13,7 +13,6 @@ import com.jeramtough.randl2.common.model.entity.RandlUser;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.login.UserCredentials;
 import com.jeramtough.randl2.service.randl.RandlRoleService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -88,7 +87,7 @@ public class AdminUserLoginer implements UserLoginer {
 
         //获取用户角色信息
         List<RandlRole> randlRoleList = randlRoleService.getRoleListByAppIdAndUid
-                (appSetting.getDefaultAdminAppId(), randlUser.getUid());
+                (appSetting.getDefaultAppId(), randlUser.getUid());
 
         SystemUser systemUser = BeanUtil.copyProperties(randlUser, SystemUser.class);
         systemUser.setRoles(randlRoleList);

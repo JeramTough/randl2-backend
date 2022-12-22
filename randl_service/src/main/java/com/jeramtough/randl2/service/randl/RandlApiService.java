@@ -1,5 +1,6 @@
 package com.jeramtough.randl2.service.randl;
 
+import com.jeramtough.jtweb.component.apiinfo.bean.ApiInfo;
 import com.jeramtough.randl2.common.model.dto.RandlApiDto;
 import com.jeramtough.randl2.common.model.entity.RandlApi;
 import com.jeramtough.randl2.common.model.params.api.AddApiParams;
@@ -7,6 +8,7 @@ import com.jeramtough.randl2.common.model.params.api.UpdateApiParams;
 import com.jeramtough.randl2.service.base.MyBaseService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -17,6 +19,9 @@ import java.util.List;
  * @since 2020-01-26
  */
 public interface RandlApiService extends MyBaseService<RandlApi, RandlApiDto> {
+
+
+    String registerRandlApi(List<ApiInfo> apiInfoList,Long appId);
 
     String addApi(AddApiParams params);
 
@@ -30,5 +35,8 @@ public interface RandlApiService extends MyBaseService<RandlApi, RandlApiDto> {
 
     List<RandlApiDto> getApiListByKeyword(String keyword);
 
-    List<RandlApiDto> getAllByAppId(Long appId);
+    List<RandlApiDto> getListByAppId(Long appId);
+
+    Map<String, RandlApiDto> getPathKeyRandlApiMapByAppId(Long appId);
+
 }
