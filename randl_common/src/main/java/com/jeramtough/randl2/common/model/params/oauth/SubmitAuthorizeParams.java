@@ -1,8 +1,6 @@
 package com.jeramtough.randl2.common.model.params.oauth;
 
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModelProperty;
-
 import jakarta.validation.constraints.NotNull;
 
 /**
@@ -14,15 +12,15 @@ import jakarta.validation.constraints.NotNull;
 public class SubmitAuthorizeParams {
 
     @NotNull(payload = ErrorU.CODE_1.class)
-    @ApiModelProperty(value = "临时ClientId", example = "aaac139e605b4a1b8b5f91f780607825")
+    @Schema(description = "临时ClientId", example = "aaac139e605b4a1b8b5f91f780607825")
     private String tempClientId;
 
     @NotNull(payload = ErrorU.CODE_1.class)
-    @ApiModelProperty(value = "是否授权", example = "false")
+    @Schema(description = "是否授权", example = "false")
     private Boolean isApproved;
 
     @NotNull(payload = ErrorU.CODE_1.class)
-    @ApiModelProperty(value = "用户确定授予的ScopeId")
+    @Schema(description = "用户确定授予的ScopeId")
     private String scopeIds;
 
 

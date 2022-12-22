@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.common.model.params.oauth;
 
-import io.swagger.annotations.ApiModelProperty;
+
 
 import java.io.Serializable;
 
@@ -15,19 +15,19 @@ public class OauthAuthorizeResult4ImplicitGrant implements Serializable {
 
     private static final long serialVersionUID = -3275451913462043145L;
 
-    @ApiModelProperty(value = "授权重定向uri")
+    @Schema(description = "授权重定向uri")
     private String redirectUri;
 
-    @ApiModelProperty(value = "是否授权")
+    @Schema(description = "是否授权")
     private Boolean isApproved;
 
-    @ApiModelProperty(value = "隐式模式token")
+    @Schema(description = "隐式模式token")
     private String accessToken;
 
-    @ApiModelProperty(value = "令牌类型")
+    @Schema(description = "令牌类型")
     private String tokenType;
 
-    @ApiModelProperty(value = "令牌到期时间")
+    @Schema(description = "令牌到期时间")
     private Long expiresIn;
 
     private String scope;

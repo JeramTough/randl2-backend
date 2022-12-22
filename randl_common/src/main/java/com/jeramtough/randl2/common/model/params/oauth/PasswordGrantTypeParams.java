@@ -2,15 +2,12 @@ package com.jeramtough.randl2.common.model.params.oauth;
 
 import com.jeramtough.jtweb.component.validation.constraints.NotBlankButNull;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModelProperty;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.stereotype.Component;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * <pre>
@@ -38,14 +35,14 @@ public class PasswordGrantTypeParams {
 
     @NotBlankButNull(payload = ErrorU.CODE_2.class)
     @Pattern(regexp = "^[0-9]{6}$", payload = ErrorU.CODE_4.class, message = "6位长度正整数")
-    @ApiModelProperty(value = "验证码", example = "108764")
+    @Schema(description = "验证码", example = "108764")
     private String verificationCode;
 
     @NotBlankButNull(payload = ErrorU.CODE_2.class)
     @Pattern(
             regexp = "(^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$)|(^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$)",
             payload = ErrorU.CODE_4.class, message = "例子:15289678164或1154@qq.com 或者 15289678169")
-    @ApiModelProperty(value = "以手机号码或邮箱地址", example = "15289678163")
+    @Schema(description = "以手机号码或邮箱地址", example = "15289678163")
     private String phoneOrEmail;
 
     @Autowired

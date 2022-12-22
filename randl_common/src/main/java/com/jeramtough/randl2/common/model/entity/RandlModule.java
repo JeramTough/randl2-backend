@@ -2,9 +2,10 @@ package com.jeramtough.randl2.common.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.util.Date;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
+import java.util.Date;
 
 /**
  * <p>
@@ -14,7 +15,7 @@ import io.swagger.annotations.ApiModel;
  * @author JeramTough
  * @since 2020-10-02
  */
-@ApiModel(value="RandlModule对象", description="")
+@Schema(description="RandlModule对象")
 public class RandlModule implements Serializable {
 
     private static final long serialVersionUID=1L;

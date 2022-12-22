@@ -3,8 +3,7 @@ package com.jeramtough.randl2.common.model.dto;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -18,35 +17,35 @@ import java.util.Date;
  * @author JeramTough
  * @since 2020-10-02
  */
-@ApiModel(value="RandlApi对象", description="")
+@Schema(description="RandlApi对象")
 public class RandlApiDto implements Serializable{
 
     private static final long serialVersionUID=1L;
 
-    @ApiModelProperty(value = "主键")
+    @Schema(description = "主键")
     @TableId(value = "fid", type = IdType.AUTO)
     private Long fid;
 
-    @ApiModelProperty(value = "url路径值")
+    @Schema(description = "url路径值")
     private String path;
 
-    @ApiModelProperty(value = "描述")
+    @Schema(description = "描述")
     private String description;
 
-    @ApiModelProperty(value = "别名")
+    @Schema(description = "别名")
     private String alias;
 
-    @ApiModelProperty(value = "属于哪个app的接口")
+    @Schema(description = "属于哪个app的接口")
     private Long appId;
 
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(value = "创建时间")
+    @Schema(description = "创建时间")
     private Date createTime;
 
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(value = "更新时间")
+    @Schema(description = "更新时间")
     private Date updateTime;
 
 

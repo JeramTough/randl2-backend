@@ -1,9 +1,7 @@
 package com.jeramtough.randl2.common.model.params.module;
 
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 
 /**
@@ -12,14 +10,14 @@ import jakarta.validation.constraints.NotNull;
  * by @author WeiBoWen
  * </pre>
  */
-@ApiModel(value="查询RandlModule树形列表参数", description="")
+@Schema(description="查询RandlModule树形列表参数")
 public class TreeModuleParams {
 
-    @ApiModelProperty(value = "AppId",example = "1",required = true)
+    @Schema(description = "AppId",example = "1",required = true)
     @NotNull(payload = ErrorU.CODE_1.class)
     private Long appId;
 
-    @ApiModelProperty(value = "模块Id,设置则从这个module开始")
+    @Schema(description = "模块Id,设置则从这个module开始")
     private Long moduleId;
 
     public Long getAppId() {

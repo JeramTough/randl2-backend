@@ -1,12 +1,9 @@
 package com.jeramtough.randl2.common.model.params.oauth;
 
-import com.jeramtough.randl2.common.model.entity.OauthResourceDetails;
-import com.jeramtough.randl2.common.model.entity.OauthScopeDetails;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,7 +15,7 @@ import java.util.List;
  * @author JeramTough
  * @since 2021-02-02
  */
-@ApiModel(value = "OauthResourceDetails对象", description = "")
+@Schema(description = "OauthResourceDetails对象")
 public class AddOauthResourceDetailsParams implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -26,7 +23,7 @@ public class AddOauthResourceDetailsParams implements Serializable {
     @NotNull(payload = ErrorU.CODE_1.class)
     private Long appId;
 
-    @ApiModelProperty(value = "是否是用户资源，用户资源需要用户授权访问")
+    @Schema(description = "是否是用户资源，用户资源需要用户授权访问")
     private Integer isUserResource;
 
     private List<AddOauthScopeDetailsParams> scopeDetailsList;

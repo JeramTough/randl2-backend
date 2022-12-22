@@ -1,9 +1,10 @@
 package com.jeramtough.randl2.common.model.dto;
 
-import java.sql.Blob;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.sql.Blob;
+
 
 /**
  * <p>
@@ -13,7 +14,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author JeramTough
  * @since 2020-11-27
  */
-@ApiModel(value="OauthCode对象", description="")
+@Schema(description="OauthCode对象")
 public class OauthCodeDto implements Serializable{
 
     private static final long serialVersionUID=1L;

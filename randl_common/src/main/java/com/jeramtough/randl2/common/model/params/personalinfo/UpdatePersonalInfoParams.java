@@ -1,12 +1,11 @@
 package com.jeramtough.randl2.common.model.params.personalinfo;
 
 import com.alibaba.fastjson2.annotation.JSONField;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * <p>
@@ -16,7 +15,7 @@ import java.util.Date;
  * @author JeramTough
  * @since 2020-01-26
  */
-@ApiModel(value = "更新PersonalInfo对象参数", description = "")
+@Schema(description = "更新PersonalInfo对象参数")
 public class UpdatePersonalInfoParams implements Serializable {
 
     private Long fid;

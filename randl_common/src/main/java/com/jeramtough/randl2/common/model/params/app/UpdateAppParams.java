@@ -3,13 +3,11 @@ package com.jeramtough.randl2.common.model.params.app;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
-import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * <p>
@@ -19,27 +17,27 @@ import java.util.Date;
  * @author JeramTough
  * @since 2020-10-02
  */
-@ApiModel(value="更新RandlApp对象", description="")
+@Schema(description="更新RandlApp对象")
 public class UpdateAppParams implements Serializable{
 
     private static final long serialVersionUID=1L;
 
    @NotNull(payload = ErrorU.CODE_1.class)
-    @ApiModelProperty(value = "主键")
+    @Schema(description = "主键")
     @TableId(value = "fid", type = IdType.AUTO)
     private Long fid;
 
-    @ApiModelProperty(value = "客户端中文名称")
+    @Schema(description = "客户端中文名称")
     private String appName;
 
-    @ApiModelProperty(value = "客户端代码")
+    @Schema(description = "客户端代码")
     private String appCode;
 
-    @ApiModelProperty(value = "客户端描述")
+    @Schema(description = "客户端描述")
     @Length(max = 255,payload = ErrorU.CODE_7.class,message = "最长255个字符")
     private String description;
 
-    @ApiModelProperty(value = "是否可用")
+    @Schema(description = "是否可用")
     private Integer isAble;
 
 

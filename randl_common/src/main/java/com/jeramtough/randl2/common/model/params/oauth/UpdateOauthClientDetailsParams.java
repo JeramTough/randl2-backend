@@ -1,18 +1,10 @@
 package com.jeramtough.randl2.common.model.params.oauth;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.jeramtough.randl2.common.model.dto.OauthResourceDetailsDto;
-import com.jeramtough.randl2.common.model.dto.OauthScopeDetailsDto;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -22,7 +14,7 @@ import java.util.Map;
  * @author JeramTough
  * @since 2021-02-02
  */
-@ApiModel(value = "OauthClientDetails对象", description = "")
+@Schema(description = "OauthClientDetails对象")
 public class UpdateOauthClientDetailsParams implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,7 +30,7 @@ public class UpdateOauthClientDetailsParams implements Serializable {
 
     private String clientSecret;
 
-    @ApiModelProperty(value = "所拥有的资源Ids")
+    @Schema(description = "所拥有的资源Ids")
     private String resourceIds;
 
     private String authorizedGrantTypes;

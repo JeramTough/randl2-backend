@@ -3,8 +3,7 @@ package com.jeramtough.randl2.common.model.dto;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -18,48 +17,48 @@ import java.util.Date;
  * @author JeramTough
  * @since 2021-02-22
  */
-@ApiModel(value="RandlOperationLog对象", description="")
+@Schema(description="RandlOperationLog对象")
 public class RandlOperationLogDto implements Serializable{
 
     private static final long serialVersionUID=1L;
 
-    @ApiModelProperty(value = "主键")
+    @Schema(description = "主键")
     @TableId(value = "fid", type = IdType.AUTO)
     private Long fid;
 
-    @ApiModelProperty(value = "操作机ip地址")
+    @Schema(description = "操作机ip地址")
     private String clientIp;
 
-    @ApiModelProperty(value = "管理员id")
+    @Schema(description = "管理员id")
     private Long adminId;
 
-    @ApiModelProperty(value = "管理员名字")
+    @Schema(description = "管理员名字")
     private String adminName;
 
-    @ApiModelProperty(value = "接口描述")
+    @Schema(description = "接口描述")
     private String apiDescription;
 
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(value = "日志记录创建时间")
+    @Schema(description = "日志记录创建时间")
     private Date createTime;
 
-    @ApiModelProperty(value = "API模块")
+    @Schema(description = "API模块")
     private String apiModule;
 
-    @ApiModelProperty(value = "执行是否完成，0:未完成，1:完成")
+    @Schema(description = "执行是否完成，0:未完成，1:完成")
     private Boolean result;
 
-    @ApiModelProperty(value = "请求url")
+    @Schema(description = "请求url")
     private String requestUrl;
 
-    @ApiModelProperty(value = "java方法")
+    @Schema(description = "java方法")
     private String javaMethod;
 
-    @ApiModelProperty(value = "请求参数")
+    @Schema(description = "请求参数")
     private String requestArgs;
 
-    @ApiModelProperty(value = "相应内容")
+    @Schema(description = "相应内容")
     private String responseBody;
 
 

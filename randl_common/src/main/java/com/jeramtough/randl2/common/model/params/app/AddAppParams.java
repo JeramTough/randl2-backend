@@ -1,15 +1,11 @@
 package com.jeramtough.randl2.common.model.params.app;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
-import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * <p>
@@ -19,18 +15,18 @@ import java.util.Date;
  * @author JeramTough
  * @since 2020-10-02
  */
-@ApiModel(value="添加RandlApp对象", description="")
+@Schema(description="添加RandlApp对象")
 public class AddAppParams implements Serializable{
 
     private static final long serialVersionUID=1L;
 
    @NotNull(payload = ErrorU.CODE_1.class)
-    @ApiModelProperty(value = "客户端中文名称")
+    @Schema(description = "客户端中文名称")
     private String appName;
 
 
    @NotNull(payload = ErrorU.CODE_1.class)
-    @ApiModelProperty(value = "客户端描述")
+    @Schema(description = "客户端描述")
    @Length(max = 255,payload = ErrorU.CODE_7.class,message = "最长255个字符")
     private String description;
 

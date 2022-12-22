@@ -1,9 +1,8 @@
 package com.jeramtough.randl2.common.model.params.user;
 
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModelProperty;
-
 import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 
 /**
@@ -14,12 +13,12 @@ import java.util.List;
  */
 public class SetUserRoleMapParams {
 
-    @ApiModelProperty(value = "用户Id")
+    @Schema(description = "用户Id")
     @NotNull(payload = ErrorU.CODE_1.class)
     private Long uid;
 
 
-    @ApiModelProperty(value = "角色的Id")
+    @Schema(description = "角色的Id")
     private List<Long> roleIds;
 
 

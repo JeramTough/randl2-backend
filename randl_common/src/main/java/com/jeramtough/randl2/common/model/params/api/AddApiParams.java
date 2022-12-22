@@ -2,8 +2,7 @@ package com.jeramtough.randl2.common.model.params.api;
 
 import com.jeramtough.jtweb.component.validation.constraints.NotBlankButNull;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
@@ -13,24 +12,24 @@ import org.hibernate.validator.constraints.Length;
  * by @author JeramTough
  * </pre>
  */
-@ApiModel("添加API接口信息参数")
+@Schema(description = "添加API接口信息参数")
 public class AddApiParams {
 
-    @ApiModelProperty(value = "路径", example = "/test/getSomething", required = true)
+    @Schema(description = "路径", example = "/test/getSomething", required = true)
     @NotNull(payload = ErrorU.CODE_1.class)
     private String path;
 
-    @ApiModelProperty(value = "接口描述", example = "do something", required = false)
+    @Schema(description = "接口描述", example = "do something", required = false)
     @Length(max = 255,payload = ErrorU.CODE_7.class,message = "最长255个字符")
     @NotBlankButNull(payload = ErrorU.CODE_2.class,isSetNullAuto = true)
     private String description;
 
     @NotNull(payload = ErrorU.CODE_1.class)
-    @ApiModelProperty(value = "接口别名", example = "BM", required = true)
+    @Schema(description = "接口别名", example = "BM", required = true)
     private String alias;
 
     @NotNull(payload = ErrorU.CODE_1.class)
-    @ApiModelProperty(value = "属于哪个app的接口")
+    @Schema(description = "属于哪个app的接口")
     private Long appId;
 
     private String groupName;

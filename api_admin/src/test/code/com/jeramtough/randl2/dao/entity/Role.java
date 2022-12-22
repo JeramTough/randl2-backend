@@ -3,8 +3,8 @@ package com.jeramtough.randl2.common.model.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 
 /**
  * <p>
@@ -14,7 +14,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author JeramTough
  * @since 2020-01-26
  */
-@ApiModel(value="Role对象", description="")
+@Schema(description="Role对象")
 public class Role implements Serializable {
 
     private static final long serialVersionUID=1L;

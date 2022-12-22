@@ -1,11 +1,9 @@
 package com.jeramtough.randl2.common.model.params.registereduser;
 
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.validator.constraints.Range;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Range;
 
 /**
  * <pre>
@@ -13,16 +11,16 @@ import jakarta.validation.constraints.NotNull;
  * by @author JeramTough
  * </pre>
  */
-@ApiModel("确定注册或重置用户参数")
+@Schema(description = "确定注册或重置用户参数")
 public class DoRegisterOrResetParams {
 
    @NotNull(payload = ErrorU.CODE_1.class)
-    @ApiModelProperty(value = "事务ID", example = "aaaaaaaaa")
+    @Schema(description = "事务ID", example = "aaaaaaaaa")
     private String transactionId;
 
    @NotNull(payload = ErrorU.CODE_1.class)
    @Range(min = 1, max = 2, payload = ErrorU.CODE_7.class, message = "手机号码，2:邮箱地址")
-    @ApiModelProperty(value = "注册方式，1:手机号码，2:邮箱地址", example = "1")
+    @Schema(description = "注册方式，1:手机号码，2:邮箱地址", example = "1")
     private Integer way;
 
 

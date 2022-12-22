@@ -2,47 +2,47 @@ package com.jeramtough.randl2.common.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author JeramTough
  * @since 2021-02-12
  */
-@ApiModel(value="OauthScopeDetails对象", description="")
+@Schema(description = "OauthScopeDetails对象")
 public class OauthScopeDetails implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
-  /**
-   * 自增ID
-   */
+    /**
+     * 自增ID
+     */
     @TableId(value = "fid", type = IdType.AUTO)
     private Long fid;
 
-  /**
-   * 属于的Oauth资源Id
-   */
+    /**
+     * 属于的Oauth资源Id
+     */
     private Long resourceId;
 
-  /**
-   * 有效域表达式
-   */
+    /**
+     * 有效域表达式
+     */
     private String scopeExpression;
 
-  /**
-   * 描述
-   */
+    /**
+     * 描述
+     */
     private String description;
 
-  /**
-   * 是否需要请求用户批准
-   */
+    /**
+     * 是否需要请求用户批准
+     */
     private Boolean isRequired;
 
 
@@ -90,11 +90,11 @@ public class OauthScopeDetails implements Serializable {
     @Override
     public String toString() {
         return "OauthScopeDetails{" +
-        "fid=" + fid +
-        ", resourceId=" + resourceId +
-        ", scopeExpression=" + scopeExpression +
-        ", description=" + description +
-        ", isRequired=" + isRequired +
-        "}";
+                "fid=" + fid +
+                ", resourceId=" + resourceId +
+                ", scopeExpression=" + scopeExpression +
+                ", description=" + description +
+                ", isRequired=" + isRequired +
+                "}";
     }
 }

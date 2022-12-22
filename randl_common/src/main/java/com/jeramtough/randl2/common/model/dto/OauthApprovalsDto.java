@@ -3,7 +3,7 @@ package com.jeramtough.randl2.common.model.dto;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -17,7 +17,7 @@ import java.util.Date;
  * @author JeramTough
  * @since 2021-02-02
  */
-@ApiModel(value = "OauthApprovals对象", description = "")
+@Schema(description = "OauthApprovals对象")
 public class OauthApprovalsDto implements Serializable {
 
     private static final long serialVersionUID = 1L;

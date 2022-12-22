@@ -1,6 +1,6 @@
 package com.jeramtough.randl2.common.model.params.oauth;
 
-import io.swagger.annotations.ApiModelProperty;
+
 
 import java.io.Serializable;
 
@@ -15,13 +15,13 @@ public class OauthAuthorizeResult4AuthorizationCodeGrant implements Serializable
 
     private static final long serialVersionUID = 5308548402600578526L;
 
-    @ApiModelProperty(value = "授权重定向uri")
+    @Schema(description = "授权重定向uri")
     private String redirectUri;
 
-    @ApiModelProperty(value = "是否授权")
+    @Schema(description = "是否授权")
     private Boolean isApproved;
 
-    @ApiModelProperty(value = "授权码模式code")
+    @Schema(description = "授权码模式code")
     private String code;
 
     private String state;

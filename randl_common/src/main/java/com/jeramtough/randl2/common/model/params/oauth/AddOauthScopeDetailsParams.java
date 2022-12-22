@@ -1,13 +1,10 @@
 package com.jeramtough.randl2.common.model.params.oauth;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.jeramtough.jtweb.component.validation.constraints.NotBlankButNull;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+
 import java.io.Serializable;
 
 /**
@@ -18,24 +15,24 @@ import java.io.Serializable;
  * @author JeramTough
  * @since 2021-02-12
  */
-@ApiModel(value = "OauthScopeDetails对象", description = "")
+@Schema(description = "OauthScopeDetails对象")
 public class AddOauthScopeDetailsParams implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "属于的Oauth资源Id")
+    @Schema(description = "属于的Oauth资源Id")
     @NotNull(payload = ErrorU.CODE_1.class)
     private Long resourceId;
 
     @NotNull(payload = ErrorU.CODE_1.class)
-    @ApiModelProperty(value = "有效域表达式")
+    @Schema(description = "有效域表达式")
     private String scopeExpression;
 
-    @ApiModelProperty(value = "描述")
+    @Schema(description = "描述")
     @NotBlankButNull(payload = ErrorU.CODE_1.class)
     private String description;
 
-    @ApiModelProperty(value = "是否需要请求用户批准")
+    @Schema(description = "是否需要请求用户批准")
     @NotNull(payload = ErrorU.CODE_1.class)
     private Boolean isRequired;
 

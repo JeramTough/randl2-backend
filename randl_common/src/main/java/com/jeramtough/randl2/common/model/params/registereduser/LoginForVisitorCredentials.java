@@ -1,9 +1,7 @@
 package com.jeramtough.randl2.common.model.params.registereduser;
 
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiParam;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 
 /**
@@ -12,15 +10,15 @@ import jakarta.validation.constraints.NotNull;
  * by @author JeramTough
  * </pre>
  */
-@ApiModel("游客登录参数")
+@Schema(description = "游客登录参数")
 public class LoginForVisitorCredentials {
 
    @NotNull(payload = ErrorU.CODE_1.class)
-    @ApiParam(value = "游客身份账号", required = true)
+    @Schema(description = "游客身份账号", required = true)
     private String credential;
 
    @NotNull(payload = ErrorU.CODE_1.class)
-    @ApiParam(value = "游客身份密码", required = true)
+    @Schema(description = "游客身份密码", required = true)
     private String password;
 
 

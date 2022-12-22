@@ -1,8 +1,7 @@
 package com.jeramtough.randl2.common.model.params.api;
 
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 
 /**
@@ -11,24 +10,24 @@ import jakarta.validation.constraints.NotNull;
  * by @author JeramTough
  * </pre>
  */
-@ApiModel("更新API接口信息参数")
+@Schema(description = "更新API接口信息参数")
 public class UpdateApiParams {
 
-    @ApiModelProperty(value = "接口Id", example = "1", required = true)
+    @Schema(description = "接口Id", example = "1", required = true)
    @NotNull(payload = ErrorU.CODE_1.class)
     private Long fid;
 
-    @ApiModelProperty(value = "路径", example = "/test/getSomething", required = false)
+    @Schema(description = "路径", example = "/test/getSomething", required = false)
     private String path;
 
-    @ApiModelProperty(value = "接口描述", example = "do something", required = false)
+    @Schema(description = "接口描述", example = "do something", required = false)
     private String description;
 
-    @ApiModelProperty(value = "接口别名", example = "BM", required = false)
+    @Schema(description = "接口别名", example = "BM", required = false)
     private String alias;
 
     @NotNull(payload = ErrorU.CODE_1.class)
-    @ApiModelProperty(value = "属于哪个app的接口")
+    @Schema(description = "属于哪个app的接口")
     private Long appId;
 
     private String groupName;

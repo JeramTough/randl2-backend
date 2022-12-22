@@ -3,8 +3,7 @@ package com.jeramtough.randl2.common.model.dto;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -18,30 +17,30 @@ import java.util.Date;
  * @author JeramTough
  * @since 2020-10-02
  */
-@ApiModel(value = "RandlRole对象", description = "")
+@Schema(description = "RandlRole对象")
 public class RandlRoleDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "主键id")
+    @Schema(description = "主键id")
     @TableId(value = "fid", type = IdType.AUTO)
     private Long fid;
 
-    @ApiModelProperty(value = "中文名")
+    @Schema(description = "中文名")
     private String name;
 
-    @ApiModelProperty(value = "描述")
+    @Schema(description = "描述")
     private String description;
 
-    @ApiModelProperty(value = "所属app的id")
+    @Schema(description = "所属app的id")
     private Long appId;
 
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(value = "创建时间")
+    @Schema(description = "创建时间")
     private Date createTime;
 
-    @ApiModelProperty(value = "英文别名(不可重复值)")
+    @Schema(description = "英文别名(不可重复值)")
     private String alias;
 
 

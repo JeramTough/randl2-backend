@@ -2,10 +2,10 @@ package com.jeramtough.randl2.common.model.params.personalinfo;
 
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -17,7 +17,7 @@ import java.time.LocalDate;
  * @author JeramTough
  * @since 2020-01-26
  */
-@ApiModel(value = "更新PersonalInfo对象参数", description = "")
+@Schema(description = "更新PersonalInfo对象参数")
 public class AddPersonalInfoParams implements Serializable {
 
     @NotNull(payload = ErrorU.CODE_1.class)

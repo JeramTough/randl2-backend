@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.util.Date;
 import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 
 /**
  * <p>
@@ -15,7 +15,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author JeramTough
  * @since 2020-01-26
  */
-@ApiModel(value="RegisteredUser对象", description="")
+@Schema(description="RegisteredUser对象")
 public class RegisteredUser implements Serializable {
 
     private static final long serialVersionUID=1L;

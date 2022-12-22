@@ -3,8 +3,7 @@ package com.jeramtough.randl2.common.model.dto;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -19,7 +18,7 @@ import java.util.List;
  * @author JeramTough
  * @since 2021-02-02
  */
-@ApiModel(value="OauthResourceDetails对象", description="")
+@Schema(description="OauthResourceDetails对象")
 public class OauthResourceDetailsDto implements Serializable{
 
     private static final long serialVersionUID=1L;
@@ -33,21 +32,21 @@ public class OauthResourceDetailsDto implements Serializable{
 
     private String checkTokenUrl;
 
-    @ApiModelProperty(value = "客户端中文名称")
+    @Schema(description = "客户端中文名称")
     private String appName;
 
-    @ApiModelProperty(value = "客户端描述")
+    @Schema(description = "客户端描述")
     private String description;
 
-    @ApiModelProperty(value = "是否可用")
+    @Schema(description = "是否可用")
     private Integer isAble;
 
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(value = "创建时间")
+    @Schema(description = "创建时间")
     private Date createTime;
 
-    @ApiModelProperty(value = "0=后台服务端，1=Web前端，2=安卓苹果端，3=小程序端")
+    @Schema(description = "0=后台服务端，1=Web前端，2=安卓苹果端，3=小程序端")
     private Integer type;
 
     private List<OauthScopeDetailsDto> scopeDetailsList;

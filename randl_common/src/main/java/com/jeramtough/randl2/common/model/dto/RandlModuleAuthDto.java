@@ -1,7 +1,6 @@
 package com.jeramtough.randl2.common.model.dto;
 
 import com.alibaba.fastjson2.annotation.JSONField;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -14,41 +13,41 @@ import java.util.Date;
  */
 public class RandlModuleAuthDto {
 
-    @ApiModelProperty(value = "唯一id")
+    @Schema(description = "唯一id")
     private Long mid;
 
-    @ApiModelProperty(value = "模块中文名")
+    @Schema(description = "模块中文名")
     private String name;
 
-    @ApiModelProperty(value = "模块描述")
+    @Schema(description = "模块描述")
     private String description;
 
-    @ApiModelProperty(value = "模块路径")
+    @Schema(description = "模块路径")
     private String path;
 
-    @ApiModelProperty(value = "层级")
+    @Schema(description = "层级")
     private Integer level;
 
-    @ApiModelProperty(value = "排序")
+    @Schema(description = "排序")
     private Integer moduleOrder;
 
-    @ApiModelProperty(value = "模块图标 默认为斜杠")
+    @Schema(description = "模块图标 默认为斜杠")
     private String icon;
 
-    @ApiModelProperty(value = "上级模块Id")
+    @Schema(description = "上级模块Id")
     private Long parentModuleId;
 
-    @ApiModelProperty(value = "模块是否被管理员禁用")
+    @Schema(description = "模块是否被管理员禁用")
     private Integer isAble;
 
 
-    @ApiModelProperty(value = "模块是否被授权")
+    @Schema(description = "模块是否被授权")
     private Integer isAuth;
 
-    @ApiModelProperty(value = "子模块是否有被授权")
+    @Schema(description = "子模块是否有被授权")
     private Integer hasChildAuth;
 
-    @ApiModelProperty(value = "子模块是否有被管理员禁用")
+    @Schema(description = "子模块是否有被管理员禁用")
     private Integer hasChildAble;
 
     private Long appId;

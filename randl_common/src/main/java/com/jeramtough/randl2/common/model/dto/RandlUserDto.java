@@ -3,8 +3,7 @@ package com.jeramtough.randl2.common.model.dto;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -19,42 +18,42 @@ import java.util.List;
  * @author JeramTough
  * @since 2020-10-03
  */
-@ApiModel(value="RandlUser对象", description="")
+@Schema(description="RandlUser对象")
 public class RandlUserDto implements Serializable{
 
     private static final long serialVersionUID=1L;
 
-    @ApiModelProperty(value = "用户id主键")
+    @Schema(description = "用户id主键")
     @TableId(value = "uid", type = IdType.AUTO)
     private Long uid;
 
-    @ApiModelProperty(value = "系统账号")
+    @Schema(description = "系统账号")
     private String account;
 
-    @ApiModelProperty(value = "手机号码")
+    @Schema(description = "手机号码")
     private String phoneNumber;
 
-    @ApiModelProperty(value = "邮箱地址")
+    @Schema(description = "邮箱地址")
     private String emailAddress;
 
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(value = "注册时间")
+    @Schema(description = "注册时间")
     private Date registrationTime;
 
-    @ApiModelProperty(value = "注册ip")
+    @Schema(description = "注册ip")
     private String registrationIp;
 
-    @ApiModelProperty(value = "注册地址")
+    @Schema(description = "注册地址")
     private String registrationAddress;
 
-    @ApiModelProperty(value = "账号状态 0:禁用 | 1:启用 | 2:标记删除")
+    @Schema(description = "账号状态 0:禁用 | 1:启用 | 2:标记删除")
     private Integer accountStatus;
 
-    @ApiModelProperty(value = "头像id")
+    @Schema(description = "头像id")
     private Long surfaceImageId;
 
-    @ApiModelProperty(value = "用户来源渠道 0:管理员添加 | 1:用户注册 | 2:数据库直接添加")
+    @Schema(description = "用户来源渠道 0:管理员添加 | 1:用户注册 | 2:数据库直接添加")
     private Integer channel;
 
     private List<Long> roleIds;

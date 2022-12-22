@@ -1,9 +1,7 @@
 package com.jeramtough.randl2.common.model.params.registereduser;
 
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
@@ -13,22 +11,22 @@ import jakarta.validation.constraints.Pattern;
  * by @author JeramTough
  * </pre>
  */
-@ApiModel("重置密码参数")
+@Schema(description = "重置密码参数")
 public class ResetPasswordParams {
 
 
    @NotNull(payload = ErrorU.CODE_1.class)
-    @ApiModelProperty(value = "旧密码", example = "12345678")
+    @Schema(description = "旧密码", example = "12345678")
     private String oldPassword;
 
     @NotNull(message = "{'code':667,'placeholders':['校验失败','密码']}")
-    @ApiModelProperty(value = "新密码", example = "12345678")
+    @Schema(description = "新密码", example = "12345678")
     @Pattern(regexp = "^\\S{8,16}$",payload = ErrorU.CODE_8.class,
             message = "新密码长度范围在8-16位；只允许非空白任意字符")
     private String newPassword;
 
     @NotNull(message = "{'code':667,'placeholders':['','重复密码']}")
-    @ApiModelProperty(value = "重复新密码", example = "12345678")
+    @Schema(description = "重复新密码", example = "12345678")
     private String repeatedNewPassword;
 
 

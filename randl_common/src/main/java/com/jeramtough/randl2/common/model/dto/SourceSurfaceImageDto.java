@@ -2,9 +2,10 @@ package com.jeramtough.randl2.common.model.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
 
 /**
  * <p>
@@ -14,7 +15,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author JeramTough
  * @since 2020-10-02
  */
-@ApiModel(value="SourceSurfaceImage对象", description="")
+@Schema(description="SourceSurfaceImage对象")
 public class SourceSurfaceImageDto implements Serializable{
 
     private static final long serialVersionUID=1L;
@@ -22,10 +23,10 @@ public class SourceSurfaceImageDto implements Serializable{
     @TableId(value = "fid", type = IdType.AUTO)
     private Long fid;
 
-    @ApiModelProperty(value = "可以是url或者base64格式图片")
+    @Schema(description = "可以是url或者base64格式图片")
     private String surfaceImage;
 
-    @ApiModelProperty(value = "0:base64 || 1:url")
+    @Schema(description = "0:base64 || 1:url")
     private Integer type;
 
 

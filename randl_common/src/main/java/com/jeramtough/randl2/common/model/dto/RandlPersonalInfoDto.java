@@ -1,10 +1,11 @@
 package com.jeramtough.randl2.common.model.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
+import java.time.LocalDate;
 
 /**
  * <p>
@@ -14,7 +15,7 @@ import io.swagger.annotations.ApiModel;
  * @author JeramTough
  * @since 2020-10-02
  */
-@ApiModel(value="RandlPersonalInfo对象", description="")
+@Schema(description="RandlPersonalInfo对象")
 public class RandlPersonalInfoDto implements Serializable{
 
     private static final long serialVersionUID=1L;

@@ -1,8 +1,6 @@
 package com.jeramtough.randl2.common.model.params.surfaceimage;
 
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModelProperty;
-
 import jakarta.validation.constraints.NotNull;
 
 /**
@@ -14,7 +12,7 @@ import jakarta.validation.constraints.NotNull;
 public class UploadSurfaceImageParams {
 
    @NotNull(payload = ErrorU.CODE_1.class)
-    @ApiModelProperty(value = "图片base64格式的编码值", example = "0", required = true)
+    @Schema(description = "图片base64格式的编码值", example = "0", required = true)
     private String surfaceImage;
 
     public String getSurfaceImage() {

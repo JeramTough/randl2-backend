@@ -3,11 +3,11 @@ package com.jeramtough.randl2.common.model.dto;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.util.Date;
-import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -17,50 +17,50 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @author JeramTough
  * @since 2020-10-02
  */
-@ApiModel(value="RandlModule对象", description="")
+@Schema(description="RandlModule对象")
 public class RandlModuleDto implements Serializable{
 
     private static final long serialVersionUID=1L;
 
-    @ApiModelProperty(value = "主键")
+    @Schema(description = "主键")
     @TableId(value = "fid", type = IdType.AUTO)
     private Long fid;
 
-    @ApiModelProperty(value = "菜单中文名")
+    @Schema(description = "菜单中文名")
     private String name;
 
-    @ApiModelProperty(value = "菜单描述")
+    @Schema(description = "菜单描述")
     private String description;
 
-    @ApiModelProperty(value = "菜单路径")
+    @Schema(description = "菜单路径")
     private String path;
 
-    @ApiModelProperty(value = "层级")
+    @Schema(description = "层级")
     private Integer level;
 
-    @ApiModelProperty(value = "排序")
+    @Schema(description = "排序")
     private Integer moduleOrder;
 
-    @ApiModelProperty(value = "菜单图标 默认为斜杠")
+    @Schema(description = "菜单图标 默认为斜杠")
     private String icon;
 
-    @ApiModelProperty(value = "上级菜单Id")
+    @Schema(description = "上级菜单Id")
     private Long parentId;
 
-    @ApiModelProperty(value = "是否可用")
+    @Schema(description = "是否可用")
     private Integer isAble;
 
-    @ApiModelProperty(value = "AppId")
+    @Schema(description = "AppId")
     private Long appId;
 
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(value = "创建时间")
+    @Schema(description = "创建时间")
     private Date createTime;
 
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(value = "创建时间(格式化后)")
+    @Schema(description = "创建时间(格式化后)")
     private String myCreateTime;
 
 

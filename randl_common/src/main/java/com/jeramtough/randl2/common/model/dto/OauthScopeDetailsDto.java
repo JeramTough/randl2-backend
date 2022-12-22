@@ -2,9 +2,10 @@ package com.jeramtough.randl2.common.model.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
 
 /**
  * <p>
@@ -14,25 +15,25 @@ import io.swagger.annotations.ApiModelProperty;
  * @author JeramTough
  * @since 2021-02-12
  */
-@ApiModel(value="OauthScopeDetails对象", description="")
+@Schema(description="OauthScopeDetails对象")
 public class OauthScopeDetailsDto implements Serializable{
 
     private static final long serialVersionUID=1L;
 
-    @ApiModelProperty(value = "自增ID")
+    @Schema(description = "自增ID")
     @TableId(value = "fid", type = IdType.AUTO)
     private Long fid;
 
-    @ApiModelProperty(value = "属于的Oauth资源Id")
+    @Schema(description = "属于的Oauth资源Id")
     private Long resourceId;
 
-    @ApiModelProperty(value = "有效域表达式")
+    @Schema(description = "有效域表达式")
     private String scopeExpression;
 
-    @ApiModelProperty(value = "描述")
+    @Schema(description = "描述")
     private String description;
 
-    @ApiModelProperty(value = "是否需要请求用户批准")
+    @Schema(description = "是否需要请求用户批准")
     private Boolean isRequired;
 
 

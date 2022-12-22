@@ -1,9 +1,8 @@
 package com.jeramtough.randl2.common.model.params.module;
 
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModelProperty;
-
 import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 
 /**
@@ -14,15 +13,15 @@ import java.util.List;
  */
 public class SetModuleApiMapParams {
 
-    @ApiModelProperty(value = "模块Id")
+    @Schema(description = "模块Id")
     @NotNull(payload = ErrorU.CODE_1.class)
     private Long moduleId;
 
-    @ApiModelProperty(value = "应用Id")
+    @Schema(description = "应用Id")
     @NotNull(payload = ErrorU.CODE_1.class)
     private Long appId;
 
-    @ApiModelProperty(value = "API的Id")
+    @Schema(description = "API的Id")
     private List<Long> apiIds;
 
 

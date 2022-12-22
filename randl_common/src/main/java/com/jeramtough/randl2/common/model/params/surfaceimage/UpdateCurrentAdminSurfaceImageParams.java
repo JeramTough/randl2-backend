@@ -1,10 +1,9 @@
 package com.jeramtough.randl2.common.model.params.surfaceimage;
 
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+
 import java.io.Serializable;
 
 /**
@@ -14,13 +13,13 @@ import java.io.Serializable;
  * </pre>
  */
 
-@ApiModel("更新管理员用户头像参数")
+@Schema(description = "更新管理员用户头像参数")
 
 public class UpdateCurrentAdminSurfaceImageParams implements Serializable {
 
 
    @NotNull(payload = ErrorU.CODE_1.class)
-    @ApiModelProperty(value = "图片base64格式的编码值", example = "0", required = true)
+    @Schema(description = "图片base64格式的编码值", example = "0", required = true)
     private String surfaceImage;
 
 

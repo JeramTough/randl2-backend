@@ -1,9 +1,7 @@
 package com.jeramtough.randl2.common.model.params.registereduser;
 
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiParam;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
@@ -13,17 +11,17 @@ import jakarta.validation.constraints.Pattern;
  * by @author JeramTough
  * </pre>
  */
-@ApiModel("通过账号密码登录参数")
+@Schema(description = "通过账号密码登录参数")
 public class LoginByPasswordCredentials {
 
    @NotNull(payload = ErrorU.CODE_1.class)
-    @ApiParam(value = "账号、手机号、邮箱地址", required = true)
+    @Schema(description = "账号、手机号、邮箱地址", required = true)
     private String credential;
 
    @NotNull(payload = ErrorU.CODE_1.class)
    @Pattern(regexp = "^\\S{8,16}$",payload = ErrorU.CODE_8.class,
            message = "密码长度范围在8-16位；只允许非空白任意字符")
-    @ApiParam(value = "密码", required = true)
+    @Schema(description = "密码", required = true)
     private String password;
 
 
