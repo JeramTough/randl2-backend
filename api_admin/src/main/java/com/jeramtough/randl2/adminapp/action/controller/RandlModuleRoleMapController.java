@@ -1,11 +1,12 @@
 package com.jeramtough.randl2.adminapp.action.controller;
 
 
+import com.jeramtough.jtweb.component.apiinfo.annotation.RegApi;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
-import com.jeramtough.randl2.service.randl.RandlModuleRoleMapService;
 import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.model.dto.RandlModuleAuthDto;
 import com.jeramtough.randl2.common.model.params.module.SetModuleRoleMapParams;
+import com.jeramtough.randl2.service.randl.RandlModuleRoleMapService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -37,6 +38,7 @@ public class RandlModuleRoleMapController extends MyBaseController {
         this.randlModuleRoleMapService = randlModuleRoleMapService;
     }
 
+    @RegApi
     @ApiOperation(value = "查询角色与模块映射(1)", notes = "查询角色与模块映射授权关系根据应用Id和角色Id")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "appId", value = "应用Id", required = true, defaultValue = "1"),
@@ -50,6 +52,7 @@ public class RandlModuleRoleMapController extends MyBaseController {
                 randlModuleRoleMapService.getRandlModuleAuthDtosByAppIdAndRoleId(appId, roleId));
     }
 
+    @RegApi
     @ApiOperation(value = "查询角色与模块映射-树形结构(1)", notes = "查询角色与模块映射授权关系的树形结构根据应用Id和角色Id")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "appId", value = "应用Id", required = true, defaultValue = "1"),
@@ -64,6 +67,7 @@ public class RandlModuleRoleMapController extends MyBaseController {
     }
 
 
+    @RegApi
     @ApiOperation(value = "设置映射关系", notes = "设置模块与角色的映射关系")
     @RequestMapping(value = "/setMap", method = {RequestMethod.POST})
     public CommonApiResponse<String> setMap(@RequestBody SetModuleRoleMapParams params) {

@@ -2,7 +2,6 @@ package com.jeramtough.randl2.common.config.db;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.mapping.VendorDatabaseIdProvider;
@@ -19,7 +18,7 @@ import java.util.Properties;
  * </pre>
  */
 @Configuration
-@MapperScan("com.jeramtough.randl2.common.mapper.*")
+@MapperScan("com.jeramtough.randl2.common.mapper")
 public class MyBatisConfig {
 
 

@@ -1,17 +1,17 @@
 package com.jeramtough.randl2.adminapp.action.controller;
 
 
+import com.jeramtough.jtweb.component.apiinfo.annotation.RegApi;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.jtweb.model.dto.PageDto;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.randl2.common.action.controller.MyBaseController;
-
 import com.jeramtough.randl2.common.model.dto.RandlUserDto;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.user.ConditionUserParams;
 import com.jeramtough.randl2.common.model.params.user.RegisterRandlUserParams;
-import com.jeramtough.randl2.service.randl.RandlUserService;
 import com.jeramtough.randl2.common.model.params.user.UpdateRandlUserParams;
+import com.jeramtough.randl2.service.randl.RandlUserService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +38,7 @@ public class RandlUserController extends MyBaseController {
         this.randlUserService = randlUserService;
     }
 
-
+    @RegApi
     @ApiOperation(value = "增加", notes = "添加一个Randl用户")
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
     @ApiResponses(value = {
@@ -49,12 +49,14 @@ public class RandlUserController extends MyBaseController {
         return getSuccessfulApiResponse(randlUserService.add(params));
     }
 
+    @RegApi
     @ApiOperation(value = "查询全部", notes = "得到全部Randl用户信息")
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
     public CommonApiResponse<List<RandlUserDto>> getAllRandlUser() {
         return getSuccessfulApiResponse(randlUserService.getAllBaseDto());
     }
 
+    @RegApi
     @ApiOperation(value = "分页查询", notes = "分页查询Randl用户信息")
     @RequestMapping(value = "/page", method = {RequestMethod.GET})
     public CommonApiResponse<PageDto<RandlUserDto>> getRandlUserByPage(
@@ -63,6 +65,7 @@ public class RandlUserController extends MyBaseController {
                 randlUserService.getBaseDtoListByPage(queryByPageParams));
     }
 
+    @RegApi
     @ApiOperation(value = "查询一个", notes = "得到一个Randl用户信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "uid", value = "Randl用户Id", paramType = "query",
@@ -73,6 +76,7 @@ public class RandlUserController extends MyBaseController {
         return getSuccessfulApiResponse(randlUserService.getBaseDtoById(uid));
     }
 
+    @RegApi
     @ApiOperation(value = "条件查询", notes = "根据关键字等条件查询得到一个Randl用户信息")
     @ApiResponses(value = {})
     @RequestMapping(value = "/condition", method = {RequestMethod.GET})
@@ -81,7 +85,7 @@ public class RandlUserController extends MyBaseController {
         return getSuccessfulApiResponse(randlUserService.pageByCondition(queryByPageParams,params));
     }
 
-
+    @RegApi
     @ApiOperation(value = "移除", notes = "移除Randl用户")
     @RequestMapping(value = "/remove", method = {RequestMethod.POST})
     @ApiImplicitParams({
@@ -91,7 +95,7 @@ public class RandlUserController extends MyBaseController {
         return getSuccessfulApiResponse(randlUserService.removeRandUserById(uid));
     }
 
-
+    @RegApi
     @ApiOperation(value = "更新", notes = "更新系统管理员账号信息")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     @ApiResponses(value = {

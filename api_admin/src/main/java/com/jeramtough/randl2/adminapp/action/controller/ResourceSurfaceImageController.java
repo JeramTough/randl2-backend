@@ -1,14 +1,14 @@
 package com.jeramtough.randl2.adminapp.action.controller;
 
 
+import com.jeramtough.jtweb.component.apiinfo.annotation.RegApi;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.randl2.common.action.controller.MyBaseController;
-
+import com.jeramtough.randl2.common.model.dto.SourceSurfaceImageDto;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.surfaceimage.UpdateCurrentAdminSurfaceImageParams;
 import com.jeramtough.randl2.common.model.params.surfaceimage.UpdateSurfaceImageParams;
 import com.jeramtough.randl2.common.model.params.surfaceimage.UploadSurfaceImageParams;
-import com.jeramtough.randl2.common.model.dto.SourceSurfaceImageDto;
 import com.jeramtough.randl2.service.resource.ResourceSurfaceImageService;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +34,7 @@ public class ResourceSurfaceImageController extends MyBaseController {
         this.surfaceImageService = surfaceImageService;
     }
 
+    @RegApi
     @ApiOperation(value = "上传|更新", notes = "上传或者更新当前登录用户的头像")
     @RequestMapping(value = "/uploadAndUpdate", method = RequestMethod.POST,
             headers = {"content-type=multipart/form-data"}, consumes = {"multipart/*"})
@@ -52,6 +53,7 @@ public class ResourceSurfaceImageController extends MyBaseController {
     }
 
 
+    @RegApi
     @ApiOperation(value = "更新管理员", notes = "更新当前登录管理员账户的头像")
     @RequestMapping(value = "/updateCurrentAdmin", method = RequestMethod.POST)
     @ApiResponses(value = {
@@ -64,7 +66,7 @@ public class ResourceSurfaceImageController extends MyBaseController {
     }
 
 
-
+    @RegApi
     @ApiOperation(value = "更新普通用户", notes = "更新普通用户的头像")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ApiResponses(value = {
@@ -75,7 +77,7 @@ public class ResourceSurfaceImageController extends MyBaseController {
                 surfaceImageService.updateSurfaceImageByBase64(params));
     }
 
-
+    @RegApi
     @ApiOperation(value = "上传", notes = "上传base64格式的头像图片")
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ApiResponses(value = {
@@ -86,6 +88,7 @@ public class ResourceSurfaceImageController extends MyBaseController {
                 surfaceImageService.uploadSurfaceImageByBase64(params));
     }
 
+    @RegApi
     @ApiOperation(value = "获取1", notes = "根据uid得到用户base64头像")
     @RequestMapping(value = "/obtainByUid", method = RequestMethod.GET)
     @ApiImplicitParams({
@@ -96,6 +99,7 @@ public class ResourceSurfaceImageController extends MyBaseController {
         return getSuccessfulApiResponse(surfaceImageService.getUpdateSurfaceImageByUid(uid));
     }
 
+    @RegApi
     @ApiOperation(value = "获取2", notes = "根据图片ID得到用户base64头像")
     @RequestMapping(value = "/obtainById", method = RequestMethod.GET)
     @ApiImplicitParams({

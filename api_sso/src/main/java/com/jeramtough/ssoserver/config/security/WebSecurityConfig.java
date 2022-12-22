@@ -15,11 +15,11 @@
  */
 package com.jeramtough.ssoserver.config.security;
 
+import com.jeramtough.randl2.common.config.security.BaseWebSecurityConfig;
 import com.jeramtough.ssoserver.action.filter.Oauth2ClientCredentialsTokenFilter;
 import com.jeramtough.ssoserver.action.filter.SsoCredentialsTokenFilter;
 import com.jeramtough.ssoserver.component.attestation.provider.ClientDaoAuthenticationProvider;
 import com.jeramtough.ssoserver.component.attestation.provider.SsoAuthenticationProvider;
-import com.jeramtough.randl2.common.config.security.BaseWebSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -228,7 +228,6 @@ public class WebSecurityConfig extends BaseWebSecurityConfig {
     }*/
 
     @Bean("authenticationManager")
-    @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         AuthenticationManagerBuilder builder = new AuthenticationManagerBuilder(new ObjectPostProcessor<Object>() {
             @Override

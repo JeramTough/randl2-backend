@@ -1,15 +1,11 @@
 package com.jeramtough.randl2.adminapp.action.controller;
 
 
+import com.jeramtough.jtweb.component.apiinfo.annotation.RegApi;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.randl2.common.action.controller.MyBaseController;
-import com.jeramtough.randl2.common.model.dto.OauthClientDetailsDto;
 import com.jeramtough.randl2.common.model.dto.OauthResourceDetailsDto;
-import com.jeramtough.randl2.common.model.dto.RandlApiDto;
-import com.jeramtough.randl2.common.model.entity.OauthResourceDetails;
-import com.jeramtough.randl2.common.model.params.oauth.AddOauthClientDetailsParams;
 import com.jeramtough.randl2.common.model.params.oauth.AddOauthResourceDetailsParams;
-import com.jeramtough.randl2.common.model.params.oauth.UpdateOauthClientDetailsParams;
 import com.jeramtough.randl2.common.model.params.oauth.UpdateOauthResourceDetailsParams;
 import com.jeramtough.randl2.service.oauth.OauthResourceDetailsService;
 import io.swagger.annotations.*;
@@ -39,12 +35,14 @@ public class OauthResourceDetailsController extends MyBaseController {
         this.oauthResourceDetailsService = oauthResourceDetailsService;
     }
 
+    @RegApi
     @ApiOperation(value = "查询全部", notes = "查询全部系统接口")
     @RequestMapping(value = "/all", method = {RequestMethod.GET})
     public CommonApiResponse<List<OauthResourceDetailsDto>> getAll() {
         return getSuccessfulApiResponse(oauthResourceDetailsService.getAllBaseDto());
     }
 
+    @RegApi
     @ApiOperation(value = "根据AppId查询一个", notes = "根据AppId查询一个")
     @RequestMapping(value = "/oneByAppId", method = {RequestMethod.GET})
     @ApiImplicitParams({
@@ -56,6 +54,7 @@ public class OauthResourceDetailsController extends MyBaseController {
         return getSuccessfulApiResponse(oauthResourceDetailsService.getOneByAppId(appId));
     }
 
+    @RegApi
     @ApiOperation(value = "新增", notes = "新增")
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
     @ApiResponses(value = {
@@ -64,6 +63,7 @@ public class OauthResourceDetailsController extends MyBaseController {
         return getSuccessfulApiResponse(oauthResourceDetailsService.add(params));
     }
 
+    @RegApi
     @ApiOperation(value = "更新", notes = "更新")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     @ApiResponses(value = {
@@ -72,6 +72,7 @@ public class OauthResourceDetailsController extends MyBaseController {
         return getSuccessfulApiResponse(oauthResourceDetailsService.update(params));
     }
 
+    @RegApi
     @ApiOperation(value = "删除", notes = "删除")
     @RequestMapping(value = "/remove", method = {RequestMethod.POST, RequestMethod.GET})
     @ApiImplicitParams({

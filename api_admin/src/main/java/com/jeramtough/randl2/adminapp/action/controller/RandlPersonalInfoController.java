@@ -1,14 +1,14 @@
 package com.jeramtough.randl2.adminapp.action.controller;
 
 
+import com.jeramtough.jtweb.component.apiinfo.annotation.RegApi;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
 import com.jeramtough.jtweb.model.dto.PageDto;
 import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.randl2.common.action.controller.MyBaseController;
-
+import com.jeramtough.randl2.common.model.dto.RandlPersonalInfoDto;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.personalinfo.UpdatePersonalInfoParams;
-import com.jeramtough.randl2.common.model.dto.RandlPersonalInfoDto;
 import com.jeramtough.randl2.service.randl.RandlPersonalInfoService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +40,7 @@ public class RandlPersonalInfoController extends MyBaseController {
         this.randlPersonalInfoService = randlPersonalInfoService;
     }
 
+    @RegApi
     @ApiOperation(value = "查询一个", notes = "查询一个普通用户个人信息")
     @RequestMapping(value = "/oneByUid", method = {RequestMethod.GET})
     @ApiImplicitParams({
@@ -51,7 +52,7 @@ public class RandlPersonalInfoController extends MyBaseController {
         return getSuccessfulApiResponse(randlPersonalInfoService.getPersonalInfoByUid(uid));
     }
 
-
+    @RegApi
     @ApiOperation(value = "更新", notes = "更新普通用户个人信息")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     @ApiResponses(value = {
@@ -62,6 +63,7 @@ public class RandlPersonalInfoController extends MyBaseController {
         return getSuccessfulApiResponse(randlPersonalInfoService.updatePersonalInfo(params));
     }
 
+    @RegApi
     @ApiOperation(value = "分页查询", notes = "分页查询Randl用户个人信息")
     @RequestMapping(value = "/page", method = {RequestMethod.GET})
     public CommonApiResponse<PageDto<Map<String, Object>>> getRandlUserByPage(

@@ -1,7 +1,6 @@
 package com.jeramtough.randl2.adminapp.action.controller;
 
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
-
 import com.jeramtough.jtweb.component.optlog.annotation.IgnoreOptLog;
 import com.jeramtough.randl2.adminapp.service.LoginService;
 import com.jeramtough.randl2.common.action.controller.MyBaseController;
@@ -10,10 +9,7 @@ import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.login.UserCredentials;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <pre>
@@ -36,6 +32,7 @@ public class AdminLoginController extends MyBaseController {
     @IgnoreOptLog(isIgnoreMethod = false,isIgnoreArgs = true,isIgnoreResponse = true)
     @ApiOperation(value = "登录", notes = "系统管理员登录")
     @RequestMapping(value = "/login", method = {RequestMethod.POST})
+    @PutMapping
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名", paramType = "query",
                     required = true, dataType = "String", defaultValue = "superadmin"),

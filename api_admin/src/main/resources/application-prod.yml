@@ -48,7 +48,7 @@ app:
       defaultAppId: 1
       defaultRoleId: 1
     user:
-      defaultAppId: 2
+      defaultAppId: 1
       defaultRoleId: 2
     path:
       chunzhen-file-path: /mnt/randl2_data_dir/chunzhen/qqwry.dat

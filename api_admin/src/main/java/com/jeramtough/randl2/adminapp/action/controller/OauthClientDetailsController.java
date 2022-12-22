@@ -1,24 +1,16 @@
 package com.jeramtough.randl2.adminapp.action.controller;
 
 
+import com.jeramtough.jtweb.component.apiinfo.annotation.RegApi;
 import com.jeramtough.jtweb.component.apiresponse.bean.CommonApiResponse;
-import com.jeramtough.jtweb.model.dto.PageDto;
-import com.jeramtough.jtweb.model.params.QueryByPageParams;
 import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.model.dto.OauthClientDetailsDto;
-import com.jeramtough.randl2.common.model.dto.RandlAppDto;
-import com.jeramtough.randl2.common.model.entity.OauthClientDetails;
-import com.jeramtough.randl2.common.model.params.app.AddAppParams;
-import com.jeramtough.randl2.common.model.params.app.ConditionAppParams;
-import com.jeramtough.randl2.common.model.params.app.UpdateAppParams;
 import com.jeramtough.randl2.common.model.params.oauth.AddOauthClientDetailsParams;
 import com.jeramtough.randl2.common.model.params.oauth.UpdateOauthClientDetailsParams;
 import com.jeramtough.randl2.service.oauth.OauthClientDetailsService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * <p>
@@ -41,6 +33,7 @@ public class OauthClientDetailsController extends MyBaseController {
         this.oauthClientDetailsService = oauthClientDetailsService;
     }
 
+    @RegApi
     @ApiOperation(value = "新增", notes = "新增")
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
     @ApiResponses(value = {
@@ -49,6 +42,7 @@ public class OauthClientDetailsController extends MyBaseController {
         return getSuccessfulApiResponse(oauthClientDetailsService.add(params));
     }
 
+    @RegApi
     @ApiOperation(value = "删除", notes = "删除")
     @RequestMapping(value = "/remove", method = {RequestMethod.POST, RequestMethod.GET})
     @ApiImplicitParams({
@@ -60,12 +54,14 @@ public class OauthClientDetailsController extends MyBaseController {
         return getSuccessfulApiResponse(oauthClientDetailsService.removeOneById(fid));
     }
 
+    @RegApi
     @ApiOperation(value = "更新", notes = "更新")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     public CommonApiResponse<String> update(@RequestBody UpdateOauthClientDetailsParams params) {
         return getSuccessfulApiResponse(oauthClientDetailsService.updateByParams(params));
     }
 
+    @RegApi
     @ApiOperation(value = "查询一个", notes = "查询一个")
     @RequestMapping(value = "/one", method = {RequestMethod.GET})
     @ApiImplicitParams({
@@ -77,6 +73,7 @@ public class OauthClientDetailsController extends MyBaseController {
         return getSuccessfulApiResponse(oauthClientDetailsService.getBaseDtoById(fid));
     }
 
+    @RegApi
     @ApiOperation(value = "根据AppId查询一个", notes = "根据AppId查询一个")
     @RequestMapping(value = "/oneByAppId", method = {RequestMethod.GET})
     @ApiImplicitParams({

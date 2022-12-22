@@ -2,15 +2,20 @@ package com.jeramtough.randl2.adminapp.config.security;
 
 import com.jeramtough.randl2.adminapp.action.filter.DynamicSecurityFilter;
 import com.jeramtough.randl2.common.component.attestation.userdetail.SuperAdmin;
+import com.jeramtough.randl2.common.component.auth.DatabaseAuthorizationManager;
 import com.jeramtough.randl2.common.mapper.RandlModuleMapper;
 import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
-import jakarta.servlet.http.HttpServletRequest;
+import com.jeramtough.randl2.service.details.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authorization.AuthorizationManager;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -65,19 +70,21 @@ public class WebSecurityConfig {
     private final RandlModuleMapper randlModuleMapper;
     private final RandlRoleMapper randlRoleMapper;
 
-    private final AuthorizationManager<HttpServletRequest> authorizationManager;
+    private final PasswordEncoder passwordEncoder;
 
+    private final MyUserDetailsService myUserDetailsService;
 
     @Autowired
     public WebSecurityConfig(
             SuperAdmin superAdmin,
             RandlModuleMapper randlModuleMapper,
             RandlRoleMapper randlRoleMapper,
-            AuthorizationManager<HttpServletRequest> authorizationManager) {
+            PasswordEncoder passwordEncoder, MyUserDetailsService myUserDetailsService) {
         this.superAdmin = superAdmin;
         this.randlModuleMapper = randlModuleMapper;
         this.randlRoleMapper = randlRoleMapper;
-        this.authorizationManager = authorizationManager;
+        this.passwordEncoder = passwordEncoder;
+        this.myUserDetailsService = myUserDetailsService;
     }
 
 
@@ -85,7 +92,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         DynamicSecurityFilter dynamicSecurityFilter =
-                new DynamicSecurityFilter(authorizationManager);
+                new DynamicSecurityFilter(new DatabaseAuthorizationManager());
         //添加动态授权过滤器
         http.addFilterBefore(dynamicSecurityFilter,
                 UsernamePasswordAuthenticationFilter.class);
@@ -196,5 +203,28 @@ public class WebSecurityConfig {
                 .and()
                 .csrf().disable();
     }*/
+
+    @Bean("authenticationManager")
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        AuthenticationManagerBuilder builder = new AuthenticationManagerBuilder(
+                new ObjectPostProcessor<Object>() {
+                    @Override
+                    public <O> O postProcess(O object) {
+                        return object;
+                    }
+                });
+
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(myUserDetailsService);
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
+
+        //添加三个令牌校验算法
+        /*builder.authenticationProvider(clientDaoAuthenticationProvider);
+        builder.authenticationProvider(ssoAuthenticationProvider);*/
+        builder.authenticationProvider(daoAuthenticationProvider);
+
+        AuthenticationManager authenticationManager = builder.build();
+        return authenticationManager;
+    }
 
 }
