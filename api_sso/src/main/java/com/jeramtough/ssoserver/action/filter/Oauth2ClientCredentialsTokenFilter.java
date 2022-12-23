@@ -1,25 +1,21 @@
 package com.jeramtough.ssoserver.action.filter;
 
-import java.io.IOException;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
 import com.jeramtough.randl2.common.action.filter.BaseCredentialsTokenFilter;
-import com.jeramtough.ssoserver.component.attestation.token.ClientSecretAuthenticationToken;
 import com.jeramtough.randl2.common.model.constant.OAuth2Constants;
-import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.model.params.oauth.OauthTokenParams;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import com.jeramtough.ssoserver.component.attestation.token.ClientSecretAuthenticationToken;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+
+import java.io.IOException;
 
 /**
  * <pre>

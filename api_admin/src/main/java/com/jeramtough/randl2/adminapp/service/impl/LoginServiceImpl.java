@@ -35,15 +35,15 @@ public class LoginServiceImpl extends BaseServiceImpl implements LoginService, W
     }
 
     @Override
-    public SystemUserDto adminLogin(String username, String password) {
+    public void adminLogin(String username, String password) {
         UserCredentials userCredentials = new UserCredentials();
         userCredentials.setPassword(password);
         userCredentials.setUsername(username);
-        return this.adminLogin(userCredentials);
+        this.adminLogin(userCredentials);
     }
 
     @Override
-    public SystemUserDto adminLogin(UserCredentials userCredentials) {
+    public void adminLogin(UserCredentials userCredentials) {
         BeanValidator.verifyParams(userCredentials);
 
         UserLoginer userLoginer = super.getWC().getBean(AdminUserLoginer.class);
@@ -59,14 +59,21 @@ public class LoginServiceImpl extends BaseServiceImpl implements LoginService, W
         getLogger().verbose("登录成功，登录参数%s", userCredentials.toString());
 
         UserHolder.afterLogin(systemUser);
-
-        SystemUserDto systemUserDto = systemUserService.getSystemUserDto(systemUser);
-        return systemUserDto;
     }
 
     @Override
-    public String adminLogout() {
+    public String adminLogoutSuccessful() {
         return "退出登陆成功！";
+    }
+
+    @Override
+    public String unlogged() {
+        return "未登录！";
+    }
+
+    @Override
+    public String denied() {
+        return "未授权不被允许！";
     }
 
     @Override

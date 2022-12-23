@@ -7,6 +7,7 @@ import com.jeramtough.randl2.adminapp.component.attestation.provider.AdminDaoAut
 import com.jeramtough.randl2.adminapp.service.LoginService;
 import com.jeramtough.randl2.service.user.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,47 +30,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private static final String[] OPENED_API_URLS = {
-//            "/access/login",
-//            "/access/logout",
-            "/registeredUser/verify/**",
-            "/registeredUser/register",
-            "/registeredUser/reset",
-            "/registeredUser/login/**",
-            "/verificationCode/**",
-//            "/test/**",
-    };
-
-    private static final String[] SWAGGER_URLS = {
-            "/swagger-resources",
-            "/v2/api-docs",
-            "/v2/api-docs-ext",
-            "/v3/api-docs",
-            "/v3/api-docs/**",
-            "/v3/api-docs-ext",
-            "/doc.html",
-            "/webjars",
-            "/swagger-ui.html",
-            "/swagger-resources/**",
-            "/images/**",
-            "/webjars/**",
-            "/configuration/ui",
-            "/configuration/security",
-            "/api-docs-ext",
-            "/api-docs",
-            "/swagger-resources/configuration/ui/**",
-            "/swagger-resources/configuration/security"
-    };
-
-    private static final String[] ONLY_SUPER_ADMIN_API_URLS = {
-            "/adminUser/add",
-            "/adminUser/all",
-            "/adminUser/page",
-            "/adminUser/byKeyword",
-            "/adminUser/remove",
-    };
-
-
+    private final ApplicationContext applicationContext;
     private final PasswordEncoder passwordEncoder;
 
     private final MyUserDetailsService myUserDetailsService;
@@ -77,8 +38,10 @@ public class WebSecurityConfig {
 
     @Autowired
     public WebSecurityConfig(
-            PasswordEncoder passwordEncoder, MyUserDetailsService myUserDetailsService,
+            ApplicationContext applicationContext, PasswordEncoder passwordEncoder,
+            MyUserDetailsService myUserDetailsService,
             LoginService loginService) {
+        this.applicationContext = applicationContext;
         this.passwordEncoder = passwordEncoder;
         this.myUserDetailsService = myUserDetailsService;
         this.loginService = loginService;
@@ -97,7 +60,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests
                         //所有的请求都使用自定义认证方式
-                        .anyRequest().access(new MyAuthorizationManager())
+                        .anyRequest().access(new MyAuthorizationManager(applicationContext))
                 )
                 .logout(logoutConfigurer -> {
                     logoutConfigurer.clearAuthentication(true);
@@ -108,9 +71,16 @@ public class WebSecurityConfig {
                                     AdminLoginController.LOGOUT_SUCCESSFUL_URI);
                 })
                 .formLogin((form) -> form
-                        .loginPage("/unlogged.html")
+                        .loginPage(AdminLoginController.BASE_URI +
+                                AdminLoginController.UNLOGGED_URI)
                         .permitAll()
                 )
+                .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> {
+                    httpSecurityExceptionHandlingConfigurer.accessDeniedPage(
+                            AdminLoginController.BASE_URI +
+                                    AdminLoginController.DENIED_URI
+                    );
+                })
                 .cors()
                 .and()
                 //设置session策略

@@ -6,7 +6,6 @@ import com.jeramtough.randl2.adminapp.service.LoginService;
 import com.jeramtough.randl2.common.action.controller.MyBaseController;
 import com.jeramtough.randl2.common.model.dto.SystemUserDto;
 import com.jeramtough.randl2.common.model.error.ErrorU;
-import com.jeramtough.randl2.common.model.params.login.UserCredentials;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -14,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -31,6 +31,9 @@ public class AdminLoginController extends MyBaseController {
 
     public static final String LOGOUT_URI = "/logout";
     public static final String LOGOUT_SUCCESSFUL_URI = "/logoutSuccessful";
+
+    public static final String UNLOGGED_URI = "/unlogged";
+    public static final String DENIED_URI = "/denied";
 
     private final LoginService loginService;
 
@@ -58,22 +61,37 @@ public class AdminLoginController extends MyBaseController {
     public CommonApiResponse<SystemUserDto> adminLogin(
             @RequestParam(required = false) String username,
             @RequestParam(required = false) String password) {
-        UserCredentials userCredentials = new UserCredentials(username,
-                password);
+        //主要登录逻辑在AdminLoginFilter
         return getSuccessfulApiResponse(loginService.adminLoginSuccessful());
     }
 
     @Operation(summary = "退出登录", description = "系统管理员退出登录")
     @RequestMapping(value = LOGOUT_URI, method = {RequestMethod.POST})
     public void logout() {
-        //主要逻辑在LogoutFilter过滤器里
+        //主要逻辑在LogoutFilter过滤器里，由Security框架管理
     }
 
     @Operation(summary = "退出登录成功", description = "系统管理员退出登录成功")
     @RequestMapping(value = LOGOUT_SUCCESSFUL_URI,
             method = {RequestMethod.POST, RequestMethod.GET})
     public CommonApiResponse<String> logoutSuccessful() {
-        return getSuccessfulApiResponse(loginService.adminLogout());
+        return getSuccessfulApiResponse(loginService.adminLogoutSuccessful());
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @Operation(summary = "未登录", description = "系统管理员未登录")
+    @RequestMapping(value = UNLOGGED_URI,
+            method = {RequestMethod.POST, RequestMethod.GET})
+    public CommonApiResponse<String> unlogged() {
+        return getSuccessfulApiResponse(loginService.unlogged());
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @Operation(summary = "未授权", description = "未授权")
+    @RequestMapping(value = DENIED_URI,
+            method = {RequestMethod.POST, RequestMethod.GET})
+    public CommonApiResponse<String> denied() {
+        return getSuccessfulApiResponse(loginService.denied());
     }
 
 }
