@@ -35,6 +35,14 @@ public class LoginServiceImpl extends BaseServiceImpl implements LoginService, W
     }
 
     @Override
+    public SystemUserDto adminLogin(String username, String password) {
+        UserCredentials userCredentials = new UserCredentials();
+        userCredentials.setPassword(password);
+        userCredentials.setUsername(username);
+        return this.adminLogin(userCredentials);
+    }
+
+    @Override
     public SystemUserDto adminLogin(UserCredentials userCredentials) {
         BeanValidator.verifyParams(userCredentials);
 
@@ -50,7 +58,6 @@ public class LoginServiceImpl extends BaseServiceImpl implements LoginService, W
         }
         getLogger().verbose("登录成功，登录参数%s", userCredentials.toString());
 
-        //到了这里，用户必须是登录成功了的
         UserHolder.afterLogin(systemUser);
 
         SystemUserDto systemUserDto = systemUserService.getSystemUserDto(systemUser);
@@ -59,8 +66,14 @@ public class LoginServiceImpl extends BaseServiceImpl implements LoginService, W
 
     @Override
     public String adminLogout() {
-        UserHolder.clear();
         return "退出登陆成功！";
+    }
+
+    @Override
+    public SystemUserDto adminLoginSuccessful() {
+        SystemUser systemUser = UserHolder.getSystemUser();
+        SystemUserDto systemUserDto = systemUserService.getSystemUserDto(systemUser);
+        return systemUserDto;
     }
 
 }

@@ -85,6 +85,12 @@ public class UserHolder {
         securityContext.setAuthentication(token);
     }
 
+    public static UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationToken() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) securityContext.getAuthentication();
+        return token;
+    }
+
     /**
      * 最好还是别用，让用户退出系统重新登录的好
      */

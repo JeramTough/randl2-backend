@@ -1,20 +1,20 @@
 package com.jeramtough.randl2.adminapp.config.security;
 
-import com.jeramtough.randl2.adminapp.action.filter.DynamicSecurityFilter;
-import com.jeramtough.randl2.common.component.attestation.userdetail.SuperAdmin;
-import com.jeramtough.randl2.common.component.auth.DatabaseAuthorizationManager;
-import com.jeramtough.randl2.common.mapper.RandlModuleMapper;
-import com.jeramtough.randl2.common.mapper.RandlRoleMapper;
-import com.jeramtough.randl2.service.details.MyUserDetailsService;
+import com.jeramtough.randl2.adminapp.action.controller.AdminLoginController;
+import com.jeramtough.randl2.adminapp.action.filter.AdminLoginFilter;
+import com.jeramtough.randl2.adminapp.component.attestation.am.MyAuthorizationManager;
+import com.jeramtough.randl2.adminapp.component.attestation.provider.AdminDaoAuthenticationProvider;
+import com.jeramtough.randl2.adminapp.service.LoginService;
+import com.jeramtough.randl2.service.user.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -30,8 +30,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     private static final String[] OPENED_API_URLS = {
-            "/access/login",
-            "/access/logout",
+//            "/access/login",
+//            "/access/logout",
             "/registeredUser/verify/**",
             "/registeredUser/register",
             "/registeredUser/reset",
@@ -69,49 +69,55 @@ public class WebSecurityConfig {
             "/adminUser/remove",
     };
 
-    private final SuperAdmin superAdmin;
-    private final RandlModuleMapper randlModuleMapper;
-    private final RandlRoleMapper randlRoleMapper;
 
     private final PasswordEncoder passwordEncoder;
 
     private final MyUserDetailsService myUserDetailsService;
+    private final LoginService loginService;
 
     @Autowired
     public WebSecurityConfig(
-            SuperAdmin superAdmin,
-            RandlModuleMapper randlModuleMapper,
-            RandlRoleMapper randlRoleMapper,
-            PasswordEncoder passwordEncoder, MyUserDetailsService myUserDetailsService) {
-        this.superAdmin = superAdmin;
-        this.randlModuleMapper = randlModuleMapper;
-        this.randlRoleMapper = randlRoleMapper;
+            PasswordEncoder passwordEncoder, MyUserDetailsService myUserDetailsService,
+            LoginService loginService) {
         this.passwordEncoder = passwordEncoder;
         this.myUserDetailsService = myUserDetailsService;
+        this.loginService = loginService;
     }
 
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        DynamicSecurityFilter dynamicSecurityFilter =
-                new DynamicSecurityFilter(new DatabaseAuthorizationManager());
-        //添加动态授权过滤器
-        http.addFilterBefore(dynamicSecurityFilter,
+        //添加添加自定义管理员登录过滤器
+        AdminLoginFilter adminLoginFilter = new AdminLoginFilter(authenticationManagerBean());
+        http.addFilterAt(adminLoginFilter,
                 UsernamePasswordAuthenticationFilter.class);
+
 
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers(OPENED_API_URLS).permitAll()
-                        .requestMatchers(SWAGGER_URLS).permitAll()
-                        .anyRequest().authenticated()
+                        //所有的请求都使用自定义认证方式
+                        .anyRequest().access(new MyAuthorizationManager())
                 )
+                .logout(logoutConfigurer -> {
+                    logoutConfigurer.clearAuthentication(true);
+                    logoutConfigurer.logoutUrl(AdminLoginController.BASE_URI +
+                            AdminLoginController.LOGOUT_URI);
+                    logoutConfigurer.logoutSuccessUrl(
+                            AdminLoginController.BASE_URI +
+                                    AdminLoginController.LOGOUT_SUCCESSFUL_URI);
+                })
                 .formLogin((form) -> form
                         .loginPage("/unlogged.html")
                         .permitAll()
                 )
                 .cors()
                 .and()
+                //设置session策略
+                .sessionManagement(sessionManagementConfigurer -> {
+                    sessionManagementConfigurer.sessionCreationPolicy(
+                            SessionCreationPolicy.IF_REQUIRED);
+                })
                 .csrf().disable();
 
         return http.build();
@@ -217,14 +223,16 @@ public class WebSecurityConfig {
                     }
                 });
 
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(myUserDetailsService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
+        //管理员登录校验算法
+        AdminDaoAuthenticationProvider adminDaoAuthenticationProvider =
+                new AdminDaoAuthenticationProvider(passwordEncoder, myUserDetailsService,
+                        loginService);
 
         //添加三个令牌校验算法
         /*builder.authenticationProvider(clientDaoAuthenticationProvider);
         builder.authenticationProvider(ssoAuthenticationProvider);*/
-        builder.authenticationProvider(daoAuthenticationProvider);
+
+        builder.authenticationProvider(adminDaoAuthenticationProvider);
 
         AuthenticationManager authenticationManager = builder.build();
         return authenticationManager;

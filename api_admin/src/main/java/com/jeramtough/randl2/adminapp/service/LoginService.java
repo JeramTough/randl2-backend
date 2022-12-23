@@ -11,9 +11,14 @@ import com.jeramtough.randl2.common.model.params.login.UserCredentials;
  */
 public interface LoginService  {
 
+    SystemUserDto adminLogin(String username,String password);
     SystemUserDto adminLogin(UserCredentials userCredentials);
 
     String adminLogout();
 
 
+    /**
+     * 到了这里，其实已经在过滤器登录成功了
+     */
+    SystemUserDto adminLoginSuccessful();
 }

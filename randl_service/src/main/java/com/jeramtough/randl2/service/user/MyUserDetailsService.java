@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.service.details;
+package com.jeramtough.randl2.service.user;
 
 import com.jeramtough.randl2.common.component.attestation.userdetail.MyUserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

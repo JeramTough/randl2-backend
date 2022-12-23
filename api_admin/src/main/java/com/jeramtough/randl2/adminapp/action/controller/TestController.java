@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController extends MyBaseController {
 
     @Operation(summary = "test1", description = "test1")
-    @RequestMapping(value = "/test1", method = {RequestMethod.POST})
+    @RequestMapping(value = "/test1", method = {RequestMethod.POST,RequestMethod.GET})
     public CommonApiResponse<String> adminLogin(String a, HttpServletResponse response) {
         return getSuccessfulApiResponse("test1");
     }

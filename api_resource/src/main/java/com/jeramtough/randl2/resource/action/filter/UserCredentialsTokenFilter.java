@@ -3,17 +3,17 @@ package com.jeramtough.randl2.resource.action.filter;
 import com.jeramtough.randl2.common.action.filter.BaseUrlMatchingFilter;
 import com.jeramtough.randl2.common.component.attestation.clientdetail.MyClientDetails;
 import com.jeramtough.randl2.common.component.attestation.userdetail.MyUserDetails;
-import com.jeramtough.randl2.service.details.MyUserDetailsService;
 import com.jeramtough.randl2.service.oauth.OauthClientDetailsService;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-
+import com.jeramtough.randl2.service.user.MyUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+
 import java.io.IOException;
 
 /**

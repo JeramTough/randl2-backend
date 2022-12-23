@@ -9,7 +9,7 @@ import com.jeramtough.randl2.common.config.setting.AppSetting;
 import com.jeramtough.randl2.common.model.entity.RandlRole;
 import com.jeramtough.randl2.common.model.error.ErrorU;
 import com.jeramtough.randl2.common.util.JwtTokenUtil;
-import com.jeramtough.randl2.service.details.MyUserDetailsService;
+import com.jeramtough.randl2.service.user.MyUserDetailsService;
 import com.jeramtough.ssoserver.component.attestation.token.JwtAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;

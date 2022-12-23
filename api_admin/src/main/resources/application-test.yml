@@ -55,3 +55,9 @@ app:
       tencent-location:
         url: https://apis.map.qq.com/ws/geocoder/v1/
         key: JIIBZ-4RKWF-5OXJO-JEF44-SM3CJ-FHB3I
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: DEBUG

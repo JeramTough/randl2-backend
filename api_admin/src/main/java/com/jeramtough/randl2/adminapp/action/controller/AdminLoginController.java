@@ -24,23 +24,29 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @Tag(name = "管理端登录接口")
-@RequestMapping("/access")
+@RequestMapping(AdminLoginController.BASE_URI)
 public class AdminLoginController extends MyBaseController {
 
+    public static final String BASE_URI = "/access";
+
+    public static final String LOGOUT_URI = "/logout";
+    public static final String LOGOUT_SUCCESSFUL_URI = "/logoutSuccessful";
+
     private final LoginService loginService;
+
 
     @Autowired
     public AdminLoginController(LoginService loginService) {
         this.loginService = loginService;
     }
 
-    @IgnoreOptLog(isIgnoreMethod = false,isIgnoreArgs = true,isIgnoreResponse = true)
+    @IgnoreOptLog(isIgnoreMethod = false, isIgnoreArgs = true, isIgnoreResponse = true)
     @Operation(summary = "登录", description = "系统管理员登录")
     @RequestMapping(value = "/login", method = {RequestMethod.POST})
     @PutMapping
     @Parameters({
             @Parameter(name = "username", description = "用户名",
-                    required = true,  example = "superadmin"),
+                    required = true, example = "superadmin"),
             @Parameter(name = "password", description = "密码",
                     required = true, example = "superadmin")})
     @ApiResponses(value = {
@@ -54,13 +60,19 @@ public class AdminLoginController extends MyBaseController {
             @RequestParam(required = false) String password) {
         UserCredentials userCredentials = new UserCredentials(username,
                 password);
-        return getSuccessfulApiResponse(loginService.adminLogin(userCredentials));
+        return getSuccessfulApiResponse(loginService.adminLoginSuccessful());
     }
 
-
     @Operation(summary = "退出登录", description = "系统管理员退出登录")
-    @RequestMapping(value = "/logout", method = {RequestMethod.POST})
-    public CommonApiResponse<String> logout() {
+    @RequestMapping(value = LOGOUT_URI, method = {RequestMethod.POST})
+    public void logout() {
+        //主要逻辑在LogoutFilter过滤器里
+    }
+
+    @Operation(summary = "退出登录成功", description = "系统管理员退出登录成功")
+    @RequestMapping(value = LOGOUT_SUCCESSFUL_URI,
+            method = {RequestMethod.POST, RequestMethod.GET})
+    public CommonApiResponse<String> logoutSuccessful() {
         return getSuccessfulApiResponse(loginService.adminLogout());
     }
 

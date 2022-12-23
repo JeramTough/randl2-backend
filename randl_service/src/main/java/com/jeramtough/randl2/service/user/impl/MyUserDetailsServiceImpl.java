@@ -1,4 +1,4 @@
-package com.jeramtough.randl2.service.details.impl;
+package com.jeramtough.randl2.service.user.impl;
 
 import com.jeramtough.jtweb.component.apiresponse.exception.ApiResponseException;
 import com.jeramtough.jtweb.component.validation.BeanValidator;
@@ -13,9 +13,9 @@ import com.jeramtough.randl2.component.login.user.AccountUserLoginer;
 import com.jeramtough.randl2.component.login.user.AppAccountUserLoginer;
 import com.jeramtough.randl2.component.login.user.UidUserLoginer;
 import com.jeramtough.randl2.component.login.user.UserLoginer;
-import com.jeramtough.randl2.service.details.MyUserDetailsService;
 import com.jeramtough.randl2.service.randl.RandlRoleService;
 import com.jeramtough.randl2.service.randl.RandlUserService;
+import com.jeramtough.randl2.service.user.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
